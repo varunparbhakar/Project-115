@@ -6,23 +6,11 @@ class GameObject { //Abstract
 
     }
 
-    getCenteredPosX() {
-        //TODO
-    }
-
-    getCenteredPosY() {
-        //TODO
-    }
-
     update() {
          this.draw();
     }
 
     draw() {
         this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posX, this.posY);
-    }
-
-    update() {
-        
     }
 }

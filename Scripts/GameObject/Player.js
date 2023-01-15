@@ -1,5 +1,6 @@
 // const posX = 0;
 // const posY = 0;
+const pixDimensions = 200;
 const walkingSpeed = 300;
 const runningSpeed = 600;
 
@@ -8,11 +9,12 @@ class Player extends GameObject {
         super(posX, posY,
             "Assets/Images/Characters/Heroes/Test Image.png",
             0, 0,
-            200, 200,
+            pixDimensions, pixDimensions,
             1, 1,
             1, false, false, 0);
         this.speed = 100;
         this.angle = 0;
+        this.bb = new BoundingBox(posX, posY, 200, 200)
     };
 
     update() {
@@ -46,6 +48,9 @@ class Player extends GameObject {
             // this.printCoordinates()
         }
 
+        this.updateBB()
+        this.checkCollisions()
+
     }
     printCoordinates() {
         console.log("Player Position: x = " + this.posX + " y =" + this.posY)
@@ -65,8 +70,8 @@ class Player extends GameObject {
     //TODO No animations possible, only rotates
     draw() {
         var tempCanvas = document.createElement("canvas")
-        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2)
-        tempCanvas.height = tempCanvas.width //Offscreen canvas square that fits old asset
+        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
+        tempCanvas.height = tempCanvas.width
         var tempCtx = tempCanvas.getContext("2d")
         // console.log("this w&h:" + this.width + ", " + this.height)
         // console.log("tempCanvas w&h:" + tempCanvas.width + ", " + tempCanvas.height)
@@ -89,6 +94,17 @@ class Player extends GameObject {
 
         GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
                                               this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
+    }
+
+    updateBB() {
+        this.bb.x = this.posX - (pixDimensions / 2)
+        this.bb.y = this.posX - (pixDimensions / 2)
+    }
+
+    checkCollisions() {
+        for () {
+            
+        }
     }
 
 }
