@@ -1,19 +1,24 @@
 // const posX = 0;
 // const posY = 0;
-const walkingSpeed = 300;
-const runningSpeed = 600;
+const PLAYER_WALKING_SPEED = 300;
+const PLAYER_RUNNING_SPEED = 600;
+const PLAYER_IMAGE_WIDTH = 200;
+const PLAYER_IMAGE_HEIGHT = 200;
+const PLAYER_RADIUS = 100;
 
 class Player extends GameObject {
     constructor(posX, posY) {
+
         super(posX, posY,
             "Assets/Images/Characters/Heroes/Test Image.png",
             0, 0,
-            200, 200,
+            PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
             1, 1,
             1, false, false, 0);
         this.speed = 100;
         this.angle = 0;
-        this.bb = new BoundingBox(posX, posY, 200, 200)
+        this.bb = new BoundingBox(posX, posY, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT)
+        this.bc = new BoundingCircle(posX, posY, PLAYER_RADIUS)
     };
 
     update() {
@@ -102,6 +107,7 @@ class Player extends GameObject {
 
     checkCollisions() {
         this.bb.updateSides();
+
         GAME_ENGINE.entities.forEach((entity) => {
             if (entity instanceof Brick) {
                 this.bb.collide(entity.bb);

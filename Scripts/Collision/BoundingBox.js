@@ -21,7 +21,7 @@ class BoundingBox {
      */
     updateSides() {
         this.left = this.x;
-        this.top = this.x;
+        this.top = this.y;
         this.right = this.left + this.width;
         this.bottom = this.top + this.height;
     }
