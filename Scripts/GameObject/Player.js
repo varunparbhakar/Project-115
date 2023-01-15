@@ -1,6 +1,5 @@
 // const posX = 0;
 // const posY = 0;
-const pixDimensions = 200;
 const walkingSpeed = 300;
 const runningSpeed = 600;
 
@@ -9,7 +8,7 @@ class Player extends GameObject {
         super(posX, posY,
             "Assets/Images/Characters/Heroes/Test Image.png",
             0, 0,
-            pixDimensions, pixDimensions,
+            200, 200,
             1, 1,
             1, false, false, 0);
         this.speed = 100;
@@ -97,14 +96,17 @@ class Player extends GameObject {
     }
 
     updateBB() {
-        this.bb.x = this.posX - (pixDimensions / 2)
-        this.bb.y = this.posX - (pixDimensions / 2)
+        this.bb.x = this.posX - (200 / 2)
+        this.bb.y = this.posX - (200 / 2)
     }
 
     checkCollisions() {
-        for () {
-            
-        }
+        this.bb.updateSides();
+        GAME_ENGINE.entities.forEach((entity) => {
+            if (entity instanceof Brick) {
+                this.bb.collide(entity.bb);
+            }
+        })
     }
 
 }

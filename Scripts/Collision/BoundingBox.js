@@ -20,8 +20,8 @@ class BoundingBox {
      * Owner of BB collision must call this before collide()
      */
     updateSides() {
-        this.left = x;
-        this.top = y;
+        this.left = this.x;
+        this.top = this.x;
         this.right = this.left + this.width;
         this.bottom = this.top + this.height;
     }
