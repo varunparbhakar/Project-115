@@ -62,6 +62,7 @@ class Player extends GameObject {
         return (Math.atan2(dy, dx));
     }
 
+    //TODO No animations possible, only rotates
     draw() {
         var tempCanvas = document.createElement("canvas")
         tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2)
