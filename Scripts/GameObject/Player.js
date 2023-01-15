@@ -26,33 +26,33 @@ class Player extends GameObject {
         this.angle = this.mouseRotationHandler();
 
         //TODO Sprint stamina
-        //Sprint //TODO Bug sticky keys like
-        if (GAME_ENGINE.keys["Shift"]) {
-            this.speed = runningSpeed;
+        //Sprint
+        if (GAME_ENGINE.key_run) {
+            this.speed = PLAYER_RUNNING_SPEED
         } else {
-            this.speed = walkingSpeed;
+            this.speed = PLAYER_WALKING_SPEED
         }
 
         //TODO Velocity based movement
         //WASD Move //TODO Strafing is faster than single key
-        if (GAME_ENGINE.keys["w"] || GAME_ENGINE.keys["W"]) {
+        if (GAME_ENGINE.key_up) {
             this.posY -= this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
         }
-        if (GAME_ENGINE.keys["s"] || GAME_ENGINE.keys["S"]) {
+        if (GAME_ENGINE.key_down) {
             this.posY += this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
         }
-        if (GAME_ENGINE.keys["a"] || GAME_ENGINE.keys["A"]) {
+        if (GAME_ENGINE.key_left) {
             this.posX -= this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
         }
-        if (GAME_ENGINE.keys["d"] || GAME_ENGINE.keys["D"]) {
+        if (GAME_ENGINE.key_right) {
             this.posX += this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
         }
 
-        this.updateBB()
+        this.updateCollision()
         this.checkCollisions()
 
     }
@@ -77,12 +77,7 @@ class Player extends GameObject {
         tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
         tempCanvas.height = tempCanvas.width
         var tempCtx = tempCanvas.getContext("2d")
-        // console.log("this w&h:" + this.width + ", " + this.height)
-        // console.log("tempCanvas w&h:" + tempCanvas.width + ", " + tempCanvas.height)
         var myOffset = tempCanvas.width/2 - this.width/2
-        // console.log("This is my myOffsetx: " + myOffsetx)
-        // console.log("This is my myOffsety: " + myOffsety)
-        // console.log(myOffsetx == myOffsety)
 
         if (GAME_ENGINE.options.debugging == true) {
             tempCtx.strokeStyle = "black"
@@ -90,7 +85,7 @@ class Player extends GameObject {
         }
 
         tempCtx.save();
-        tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid //TODO this only works for squares
+        tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
         tempCtx.rotate(this.angle + (Math.PI) / 2)
         tempCtx.translate (-(this.width / 2), -(this.height / 2));
         tempCtx.drawImage(this.asset, 0, 0);
@@ -98,11 +93,17 @@ class Player extends GameObject {
 
         GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
                                               this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
+
+        this.bb.drawBoundingBox()
+        this.bc.drawBoundingCircle()
     }
 
-    updateBB() {
-        this.bb.x = this.posX - (200 / 2)
-        this.bb.y = this.posX - (200 / 2)
+    updateCollision() {
+        this.bb.x = this.posX - (PLAYER_IMAGE_WIDTH / 2)
+        this.bb.y = this.posY - (PLAYER_IMAGE_HEIGHT / 2)
+
+        this.bc.x = this.posX
+        this.bc.y = this.posY
     }
 
     checkCollisions() {
@@ -110,7 +111,11 @@ class Player extends GameObject {
 
         GAME_ENGINE.entities.forEach((entity) => {
             if (entity instanceof Brick) {
+                entity.bb.updateSides();
                 this.bb.collide(entity.bb);
+            } else if (entity instanceof Zombie) {
+
+                this.bc.collide(entity.bc);
             }
         })
     }

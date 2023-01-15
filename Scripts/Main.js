@@ -3,6 +3,7 @@ const ASSET_MANAGER = new AssetManager();
 
 //Load Assets
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Test Image.png");
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Zombie.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Boss/Panzer_Soldat.png");
 
 ASSET_MANAGER.downloadAll(() => {

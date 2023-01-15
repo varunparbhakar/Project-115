@@ -1,10 +1,17 @@
 class BoundingCircle {
-    constructor(radius, x, y) {
+    constructor(x, y, radius) {
         Object.assign(this, {radius, x, y})
     }
 
     collide(oth) {
-        return Math.sqrt(this.x - oth.x * this.x - oth.x + this.y - oth.y * this.y - oth.y) < this.radius + oth.radius;
+        var dx = this.x - oth.x;
+        var dy = this.y - oth.y;
+        var distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < this.radius + oth.radius) {
+            console.log(("COLLIDED CIRCLE!"))
+            return true
+        }
+        return false
     }
     drawBoundingCircle() {
         GAME_ENGINE.ctx.save();

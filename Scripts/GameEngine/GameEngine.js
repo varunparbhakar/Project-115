@@ -13,7 +13,7 @@ class GameEngine {
         this.click = null;
         this.mouse = null;
         this.wheel = null;
-        this.keys = {};
+        // this.keys = {}; //TRASH
 
         // Options and the Details
         this.options = options || {
@@ -74,9 +74,50 @@ class GameEngine {
             this.rightclick = getXandY(e);
         });
 
-        this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
-        this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
-    };
+        // this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
+        // this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+
+        //Player input block; all player inputs go here...
+        this.ctx.canvas.addEventListener("keydown", (e) => {
+            switch (e.code) {
+                case "KeyA":
+                    this.key_left = true;
+                    break;
+                case "KeyS":
+                    this.key_down = true;
+                    break;
+                case "KeyD":
+                    this.key_right = true;
+                    break;
+                case "KeyW":
+                    this.key_up = true;
+                    break;
+                case "ShiftLeft":
+                    this.key_run = true;
+                    break;
+            }
+        }, false);
+
+        this.ctx.canvas.addEventListener("keyup", (e) => {
+            switch (e.code) {
+                case "KeyA":
+                    this.key_left = false;
+                    break;
+                case "KeyS":
+                    this.key_down = false;
+                    break;
+                case "KeyD":
+                    this.key_right = false;
+                    break;
+                case "KeyW":
+                    this.key_up = false;
+                    break;
+                case "ShiftLeft":
+                    this.key_run = false;
+                    break;
+            }
+        }, false);
+    }
 
     addEntity(entity) {
         this.entities.push(entity);

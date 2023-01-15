@@ -26,8 +26,8 @@ class Animator {
             this.spritesheet,
             this.xStart + (this.width * frame), this.yStart,
             this.width, this.height,
-            this.flippedX ? (posX * -1) - (this.scale * this.width) : posX - GAME_ENGINE.camera.posX,
-            this.flippedY ? (posY * -1) - (this.scale * this.height) : posY - GAME_ENGINE.camera.posY,
+            this.flippedX ? ((posX * -1) - (this.scale * this.width) + GAME_ENGINE.camera.posX) : (posX - GAME_ENGINE.camera.posX),
+            this.flippedY ? ((posY * -1) - (this.scale * this.height) + GAME_ENGINE.camera.posY) : (posY - GAME_ENGINE.camera.posY),
             this.width * this.scale, this.height * this.scale
         )
         ctx.restore();
