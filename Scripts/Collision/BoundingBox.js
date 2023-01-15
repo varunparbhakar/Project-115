@@ -29,7 +29,13 @@ class BoundingBox {
     drawBoundingBox() {
         GAME_ENGINE.ctx.save();
         GAME_ENGINE.ctx.strokeStyle = 'Red';
-        GAME_ENGINE.ctx.strokeRect(this.x - GAME_ENGINE.camera.posX, this.y - GAME_ENGINE.camera.posY, this.width, this.height);
+        GAME_ENGINE.ctx.strokeRect(
+            this.x - GAME_ENGINE.camera.posX,
+            this.y - GAME_ENGINE.camera.posY,
+            this.width,
+            this.height);
+
+
 
 
         // GAME_ENGINE.ctx.fillStyle = "white";

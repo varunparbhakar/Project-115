@@ -2,27 +2,35 @@
 // const posY = 0;
 const PLAYER_WALKING_SPEED = 300;
 const PLAYER_RUNNING_SPEED = 600;
-const PLAYER_IMAGE_WIDTH = 200;
-const PLAYER_IMAGE_HEIGHT = 200;
-const PLAYER_RADIUS = 100;
+const  PLAYER_IMAGE_SCALE = 1;
+const PLAYER_IMAGE_WIDTH = 318 * PLAYER_IMAGE_SCALE;
+const PLAYER_IMAGE_HEIGHT = 283 * PLAYER_IMAGE_SCALE;
+const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
+const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
 
 class Player extends GameObject {
     constructor(posX, posY) {
         super(posX, posY,
-            "Assets/Images/Characters/Heroes/Test Image.png",
+            "Assets/Images/Characters/Heroes/Player.png",
             0, 0,
             PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
             1, 1,
-            1, false, false, 0);
+            PLAYER_IMAGE_SCALE, false, false, 0);
         this.speed = 100;
         this.angle = 0;
-        this.bb = new BoundingBox(posX, posY, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT)
+        this.bb = new BoundingBox(
+            posX,
+            posY,
+            PLAYER_IMAGE_WIDTH,
+            PLAYER_IMAGE_HEIGHT)
+
         this.bc = new BoundingCircle(posX, posY, PLAYER_RADIUS)
     };
 
     update() {
         //Mouse
-        this.angle = this.mouseRotationHandler();
+        this.angle = this.mouseRotationHandler() + PLAYER_IMAGE_ROTATION_OFFSET;
+
 
         //TODO Sprint stamina
         //Sprint
@@ -65,7 +73,7 @@ class Player extends GameObject {
         if (GAME_ENGINE.mouse == null) return(0); //Catches exception start of Engine
         var dx = (GAME_ENGINE.getMouseWorldPosX()) - (this.posX); //282/2 Accounting for difference in center of thing.
         var dy = (GAME_ENGINE.getMouseWorldPosY()) - (this.posY);
-        this.printMouseCoordinates()
+        //this.printMouseCoordinates()
 
         return (Math.atan2(dy, dx));
     }
@@ -87,7 +95,7 @@ class Player extends GameObject {
         tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
         tempCtx.rotate(this.angle + (Math.PI) / 2)
         tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        tempCtx.drawImage(this.asset, 0, 0);
+        tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH , PLAYER_IMAGE_HEIGHT);
         tempCtx.restore();
 
         GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
@@ -98,8 +106,8 @@ class Player extends GameObject {
     }
 
     updateCollision() {
-        this.bb.x = this.posX - (PLAYER_IMAGE_WIDTH / 2)
-        this.bb.y = this.posY - (PLAYER_IMAGE_HEIGHT / 2)
+        this.bb.x = this.posX - (PLAYER_IMAGE_WIDTH/ 2)
+        this.bb.y = this.posY - (PLAYER_IMAGE_HEIGHT/ 2)
 
         this.bc.x = this.posX
         this.bc.y = this.posY

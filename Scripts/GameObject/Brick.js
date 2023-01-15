@@ -9,6 +9,7 @@ class Brick extends GameObject {
     }
 
     update() {
+        //Implement the rotation into panzer
         super.update();
     }
 
