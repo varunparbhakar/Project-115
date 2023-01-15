@@ -25,8 +25,7 @@ class GameObject { //Abstract
     }
 
     update() {
-        this.posX = GAME_ENGINE.getMouseWorldPosX();
-        this.posY = GAME_ENGINE.getMouseWorldPosY();
+        
     }
 
     // getCenterPosX() {

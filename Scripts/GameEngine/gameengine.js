@@ -118,12 +118,12 @@ class GameEngine {
 
     getMouseWorldPosX() {
         if (GAME_ENGINE.mouse == null) return(0);
-        return this.mouse.x - this.camera.posX + (this.ctx.canvas.width)
+        return this.mouse.x + this.camera.posX
     }
 
     getMouseWorldPosY() {
         if (GAME_ENGINE.mouse == null) return(0);
-        return this.mouse.y - this.camera.posY + (this.ctx.canvas.width)
+        return this.mouse.y + this.camera.posY
     }
 
 };

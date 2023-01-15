@@ -45,7 +45,7 @@ class Player extends GameObject {
         // }
 
         //Mouse
-        // this.angle = this.mouseRotationHandler();
+        this.angle = this.mouseRotationHandler();
 
         //WASD
         if (GAME_ENGINE.keys["w"] || GAME_ENGINE.keys["W"]) {
