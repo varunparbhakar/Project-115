@@ -19,6 +19,8 @@ class GameEngine {
         this.options = options || {
             debugging: false,
         };
+
+        this.camera = null; //Will be SceneManager
     };
 
     init(ctx) {
@@ -113,6 +115,16 @@ class GameEngine {
         this.update();
         this.draw();
     };
+
+    getMouseWorldPosX() {
+        if (GAME_ENGINE.mouse == null) return(0);
+        return this.mouse.x - this.camera.posX + (this.ctx.canvas.width)
+    }
+
+    getMouseWorldPosY() {
+        if (GAME_ENGINE.mouse == null) return(0);
+        return this.mouse.y - this.camera.posY + (this.ctx.canvas.width)
+    }
 
 };
 
