@@ -15,7 +15,7 @@ class SceneManager {
         this.player = new Player(0,0);
 
         //Level Loading //TODO manage level entities in xml or something
-        GAME_ENGINE.addEntity(new GameObject(0,0, "Assets/Images/Characters/Boss/Panzer_Soldat.png", 0, 0, 200, 200, 1, 1, 1,false, false, 0));
+        GAME_ENGINE.addEntity(new Brick(100, 100));
         GAME_ENGINE.addEntity(this.player);
     }
 
