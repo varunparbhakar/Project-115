@@ -8,7 +8,6 @@ const PLAYER_RADIUS = 100;
 
 class Player extends GameObject {
     constructor(posX, posY) {
-
         super(posX, posY,
             "Assets/Images/Characters/Heroes/Test Image.png",
             0, 0,
