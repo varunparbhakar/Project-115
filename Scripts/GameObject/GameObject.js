@@ -14,11 +14,9 @@ class GameObject { //Abstract
         //TODO
     }
 
-    // child implements
-    // update() {
-    //      //code
-    //      this.draw();
-    // }
+    update() {
+         this.draw();
+    }
 
     draw() {
         this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posX, this.posY);
@@ -27,15 +25,4 @@ class GameObject { //Abstract
     update() {
         
     }
-
-    // getCenterPosX() {
-    //     if (GAME_ENGINE.mouse == null) return(0); //Catches exception start of Engine
-    //     return this.posX + this.width
-    // }
-    //
-    // getCenterPosY() {
-    //     if (GAME_ENGINE.mouse == null) return(0); //Catches exception start of Engine
-    //     return this.posY + this.height
-    // }
-
 }

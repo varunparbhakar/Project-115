@@ -1,15 +1,5 @@
 // const posX = 0;
 // const posY = 0;
-const spriteSheetPath = "Assets/Images/Characters/Heroes/Test Image.png";
-const xStart = 0;
-const yStart = 0;
-const imageWidth = 200;
-const imageHeight = 200;
-const frameCount = 0;
-const frameDuration = 0;
-let imageScale = 0;
-let imageFlippedX = 0;
-let imageFlippedY = 0;
 const walkingSpeed = 300;
 const runningSpeed = 600;
 
@@ -26,49 +16,34 @@ class Player extends GameObject {
     };
 
     update() {
-
-        //Temp Clamp posXY
-        // console.log(GAME_ENGINE.ctx.canvas.width)
-        // console.log(GAME_ENGINE.ctx.canvas.height)
-
-        // if (this.posX >= GAME_ENGINE.ctx.canvas.width) {
-        //     this.posX = 0
-        // }
-        // if(this.posX <= 0) {
-        //     this.posX = GAME_ENGINE.ctx.canvas.width
-        // }
-        // if (this.posY >= GAME_ENGINE.ctx.canvas.height) {
-        //     this.posY = 0
-        // }
-        // if (this.posY <= 0) {
-        //     this.posY = 0
-        // }
-
         //Mouse
         this.angle = this.mouseRotationHandler();
 
-        //WASD
-        if (GAME_ENGINE.keys["w"] || GAME_ENGINE.keys["W"]) {
-            this.posY -= this.speed * GAME_ENGINE.clockTick;
-            this.printCoordinates()
-        }
-        if (GAME_ENGINE.keys["s"] || GAME_ENGINE.keys["S"]) {
-            this.posY += this.speed * GAME_ENGINE.clockTick;
-            this.printCoordinates()
-        }
-        if (GAME_ENGINE.keys["a"] || GAME_ENGINE.keys["A"]) {
-            this.posX -= this.speed * GAME_ENGINE.clockTick;
-            this.printCoordinates()
-        }
-        if (GAME_ENGINE.keys["d"] || GAME_ENGINE.keys["D"]) {
-            this.posX += this.speed * GAME_ENGINE.clockTick;
-            this.printCoordinates()
-        }
-        //Sprint
+        //TODO Sprint stamina
+        //Sprint //TODO Bug sticky keys like
         if (GAME_ENGINE.keys["Shift"]) {
             this.speed = runningSpeed;
         } else {
             this.speed = walkingSpeed;
+        }
+
+        //TODO Velocity based movement
+        //WASD Move //TODO Strafing is faster than single key
+        if (GAME_ENGINE.keys["w"] || GAME_ENGINE.keys["W"]) {
+            this.posY -= this.speed * GAME_ENGINE.clockTick;
+            // this.printCoordinates()
+        }
+        if (GAME_ENGINE.keys["s"] || GAME_ENGINE.keys["S"]) {
+            this.posY += this.speed * GAME_ENGINE.clockTick;
+            // this.printCoordinates()
+        }
+        if (GAME_ENGINE.keys["a"] || GAME_ENGINE.keys["A"]) {
+            this.posX -= this.speed * GAME_ENGINE.clockTick;
+            // this.printCoordinates()
+        }
+        if (GAME_ENGINE.keys["d"] || GAME_ENGINE.keys["D"]) {
+            this.posX += this.speed * GAME_ENGINE.clockTick;
+            // this.printCoordinates()
         }
 
     }

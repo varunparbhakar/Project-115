@@ -1,5 +1,5 @@
 /**
- * (WARNING) All World-based drawing to ctx must subtract by posX & posY.
+ * (WARNING) All World-based drawing to render canvas must subtract by this (GAME_ENGINE.camera) posX & posY.
  */
 class SceneManager {
     //TODO Round Manager
