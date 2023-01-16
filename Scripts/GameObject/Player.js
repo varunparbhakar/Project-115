@@ -98,6 +98,7 @@ class Player extends GameObject {
     printMouseCoordinates() {
         console.log("Mouse Position: x = " + GAME_ENGINE.getMouseWorldPosX() + " y =" + GAME_ENGINE.getMouseWorldPosY())
     }
+
     mouseRotationHandler() {
         if (GAME_ENGINE.mouse == null) return(0); //Catches exception start of Engine
         var dx = (GAME_ENGINE.getMouseWorldPosX()) - (this.posX); //282/2 Accounting for difference in center of thing.

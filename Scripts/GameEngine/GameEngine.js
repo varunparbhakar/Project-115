@@ -53,33 +53,34 @@ class GameEngine {
             this.mouse = getXandY(e);
         });
 
-        this.ctx.canvas.addEventListener("click", e => {
-            if (this.options.debugging) {
-                console.log("CLICK", getXandY(e));
-            }
-            this.click = getXandY(e);
-        });
-
-        this.ctx.canvas.addEventListener("wheel", e => {
-            if (this.options.debugging) {
-                console.log("WHEEL", getXandY(e), e.wheelDelta);
-            }
-            e.preventDefault(); // Prevent Scrolling
-            this.wheel = e;
-        });
-
-        this.ctx.canvas.addEventListener("contextmenu", e => {
-            if (this.options.debugging) {
-                console.log("RIGHT_CLICK", getXandY(e));
-            }
-            e.preventDefault(); // Prevent Context Menu
-            this.rightclick = getXandY(e);
-        });
+        // this.ctx.canvas.addEventListener("click", e => {
+        //     if (this.options.debugging) {
+        //         console.log("CLICK", getXandY(e));
+        //     }
+        //     this.click = getXandY(e);
+        // });
+        //
+        // this.ctx.canvas.addEventListener("wheel", e => {
+        //     if (this.options.debugging) {
+        //         console.log("WHEEL", getXandY(e), e.wheelDelta);
+        //     }
+        //     e.preventDefault(); // Prevent Scrolling
+        //     this.wheel = e;
+        // });
+        //
+        // this.ctx.canvas.addEventListener("contextmenu", e => {
+        //     if (this.options.debugging) {
+        //         console.log("RIGHT_CLICK", getXandY(e));
+        //     }
+        //     e.preventDefault(); // Prevent Context Menu
+        //     this.rightclick = getXandY(e);
+        // });
 
         // this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
         // this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
 
         //Player input block; all player inputs go here...
+        //Keys
         this.ctx.canvas.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
@@ -99,7 +100,6 @@ class GameEngine {
                     break;
             }
         }, false);
-
         this.ctx.canvas.addEventListener("keyup", (e) => {
             switch (e.code) {
                 case "KeyA":

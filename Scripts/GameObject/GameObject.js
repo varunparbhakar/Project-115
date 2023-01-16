@@ -3,7 +3,7 @@ class GameObject { //Abstract
         this.asset = ASSET_MANAGER.getAsset(spritesheetPath);
         this.animator = new Animator(this.asset, xStart, yStart, width, height, frameCount, frameDuration, scale, flippedX, flippedY)
         Object.assign(this, {posX, posY, angle, width, height});
-
+        this.removeFromWorld = false;
     }
 
     update() {
