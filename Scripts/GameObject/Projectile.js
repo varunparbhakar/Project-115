@@ -14,10 +14,11 @@ class Projectile extends GameObject {
 
         //Rotated Canvas Cache
         this.angle = angle
-        this.rotatedCanvas = document.createElement("canvas")
-        this.rotatedCtx = this.rotatedCanvas.getContext("2d")
-        this.animator.spritesheet = this.rotatedCanvas;
+        this.tempCanvas = document.createElement("canvas")
+        this.tempCTX = this.tempCanvas.getContext("2d")
+        this.animator.spritesheet = this.tempCanvas;
         this.onCreate()
+
     }
 
     update(){
@@ -49,10 +50,24 @@ class Projectile extends GameObject {
         this.movementVectorY = unity * this.speed * GAME_ENGINE.clockTick
 
         //Cache Rotated Canvas
-        this.rotatedCtx.translate(this.width / 2 + 0, this.height / 2 + 0) //Find mid (Squares ONLY) //TODO FIND OFFSET
-        this.rotatedCtx.rotate(this.angle + (Math.PI) / 2)
-        this.rotatedCtx.translate (-(this.width / 2), -(this.height / 2));
-        this.rotatedCtx.drawImage(this.asset, 0, 0, this.width, this.height);
-        this.rotatedCtx.restore();
+        // this.rotatedCtx.save()
+        // this.rotatedCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
+        // this.rotatedCanvas.height = this.rotatedCanvas.width
+        // var myOffsetX = this.rotatedCanvas.width/2 - this.width/2
+        // // var myOffsetY = this.rotatedCanvas.width/2 - this.height/2
+
+        //TODO Fix Rotate
+        // this.rotatedCtx.translate(this.width / 2 + myOffsetX, this.height / 2 + myOffsetX) //Find mid (Squares ONLY) //TODO FIND OFFSET
+        // this.rotatedCtx.rotate(this.angle + (Math.PI) / 2)
+        // this.rotatedCtx.translate (-(this.width / 2 + myOffsetX), -(this.height / 2 + myOffsetX));
+        // this.rotatedCtx.drawImage(this.asset, 0, 0 - 5);
+
+
+
+        // this.rotatedCtx.stroke.style = "red"
+        // this.rotatedCtx.strokeRect(0,0,this.width, this.height)
+
+        this.tempCTX.restore();
+
     }
 }

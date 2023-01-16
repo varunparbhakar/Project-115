@@ -57,4 +57,5 @@ class Gun {
     reload() {
         this.currentMagazineAmmo = this.totalAmmo - (this.magazineSize - this.currentMagazineAmmo);
     }
+
 }

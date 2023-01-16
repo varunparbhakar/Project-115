@@ -122,12 +122,11 @@ class GameEngine {
 
         //Mouse
         this.ctx.canvas.addEventListener("mousedown", (e) => {
-            // console.log("MOOOOOOOOOOOOOUSSSSSSSSSSE DOWN")
-            this.left_click = true;
-            this.single_click = true;
-            setTimeout(() => {
-                this.single_click = false;
-            }, 300);
+            if(e.button == 0) {
+                this.left_click = true;
+            } else if (e.button == 2) {
+                this.right_click = true;
+            }
         });
         this.ctx.canvas.addEventListener("mouseup", (e) => {
             // console.log("MOOOOOOOOOOOOOUSSSSSSSSSSE UUUUPPPPPPPPPPPPPPPPPPPP")

@@ -29,8 +29,8 @@ class Player extends GameObject {
         this.sprintRest = false;
         this.angle = 0;
 
-        this.gunInventory = [];
-        this.gun = new Gun();
+        this.gunInventory = [new Pistol()];
+        this.currentGun = this.gunInventory[0];
 
         this.bb = new BoundingBox(
             posX,
@@ -44,6 +44,7 @@ class Player extends GameObject {
         //Mouse
         this.angle = this.mouseRotationHandler() + PLAYER_IMAGE_ROTATION_OFFSET;
 
+        //this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         // console.log(this.sprintStamina + "\n" + this.sprintRest)
 
         //TODO Sprint stamina
@@ -79,14 +80,14 @@ class Player extends GameObject {
             this.posX += this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
         }
-        if(GAME_ENGINE.click) {
-            console.log("MOUSE CLICK DETECTED!!!")
-            console.log(GAME_ENGINE.click)
-            this.gun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
+        if(GAME_ENGINE.left_click) {
+            // console.log("MOUSE CLICK DETECTED!!!")
+            //console.log(GAME_ENGINE.click)
+            this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         }
 
         //Gun
-        this.gun.update()
+        this.currentGun.update()
 
         this.updateCollision()
         this.checkCollisions()
@@ -125,7 +126,7 @@ class Player extends GameObject {
         tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
         tempCtx.rotate(this.angle + -1.6 + (Math.PI) / 2)
         tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH , PLAYER_IMAGE_HEIGHT);
+        tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
         tempCtx.restore();
 
         GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
