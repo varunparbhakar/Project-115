@@ -1,6 +1,6 @@
 // const posX = 0;
 // const posY = 0;
-const PLAYER_IMAGE_SCALE = 0.5;
+const PLAYER_IMAGE_SCALE = 1;
 const PLAYER_IMAGE_WIDTH = 318 * PLAYER_IMAGE_SCALE;
 const PLAYER_IMAGE_HEIGHT = 283 * PLAYER_IMAGE_SCALE;
 const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
@@ -85,6 +85,11 @@ class Player extends GameObject {
             //console.log(GAME_ENGINE.click)
             this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         }
+        if (GAME_ENGINE.key_reload) {
+            this.currentGun.reload();
+            // console.log("TACITICAL RELOADING")
+            // this.printCoordinates()
+        }
 
         //Gun
         this.currentGun.update()
@@ -93,6 +98,7 @@ class Player extends GameObject {
         this.checkCollisions()
 
     }
+
     printCoordinates() {
         console.log("Player Position: x = " + this.posX + " y =" + this.posY)
     }
@@ -129,8 +135,8 @@ class Player extends GameObject {
         tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
         tempCtx.restore();
 
-        GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
-                                              this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
+        // GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
+        //                                       this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
 
         this.bb.drawBoundingBox()
         this.bc.drawBoundingCircle()

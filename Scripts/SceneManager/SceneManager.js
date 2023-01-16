@@ -13,7 +13,6 @@ class SceneManager {
 
         //Player
         this.player = new Player(0,0);
-
         //Level Loading //TODO manage level entities in xml or something
         //GAME_ENGINE.addEntity(new Brick(100, 100));
         // GAME_ENGINE.addEntity(new Zombie(-400, -400));

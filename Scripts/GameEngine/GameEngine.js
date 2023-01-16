@@ -11,7 +11,6 @@ class GameEngine {
 
         // Information on the input
         this.click = false;
-        this.left_click = false;
         this.mouse = null;
         this.wheel = null;
         // this.keys = {}; //TRASH
@@ -98,6 +97,9 @@ class GameEngine {
                 case "ShiftLeft":
                     this.key_run = true;
                     break;
+                case "KeyR":
+                    this.key_reload = true;
+                    break;
             }
         }, false);
         this.ctx.canvas.addEventListener("keyup", (e) => {
@@ -117,6 +119,9 @@ class GameEngine {
                 case "ShiftLeft":
                     this.key_run = false;
                     break;
+                case "KeyR":
+                    this.key_reload = false;
+                    break;
             }
         }, false);
 
@@ -129,16 +134,15 @@ class GameEngine {
             }
         });
         this.ctx.canvas.addEventListener("mouseup", (e) => {
-            // console.log("MOOOOOOOOOOOOOUSSSSSSSSSSE UUUUPPPPPPPPPPPPPPPPPPPP")
-            this.left_click = false;
+            if(e.button == 0) {
+                this.left_click = false;
+
+            } else if (e.button == 2) {
+                this.right_click = false;
+            }
         });
-        this.ctx.canvas.addEventListener("contextmenu", e => {
-            if (this.options.debugging) {
-                console.log("RIGHT_CLICK", getXandY(e));
-            }
-            if (this.options.prevent.contextMenu) {
-                e.preventDefault(); // Prevent Context Menu
-            }
+        this.ctx.canvas.addEventListener("contextmenu", e => { //Prevent Context Menu
+            e.preventDefault();
             this.rightclick = getXandY(e);
         });
     }

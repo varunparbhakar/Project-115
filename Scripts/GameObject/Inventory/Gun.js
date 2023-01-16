@@ -1,4 +1,4 @@
-
+//ABSTRACT
 class Gun {
     constructor() {
         this.magazineSize = 100;
@@ -8,15 +8,13 @@ class Gun {
         this.fireCooldown = 0.25;
         this.currentFireCooldown = 0;
 
+        this.damage = 100
+
         this.reloadTime = 10; //TODO Player use to cooldown before shooting again
         this.movementPenalty = 0; //TODO multiplication
 
         //PISTOL ATTRIBUTES
-        this.bulletImage = "Assets/Images/Items/Bullets/Bullet.png"
-        this.PISTOL_ANGLE_OFFSET = 0
-        this.PISTOL_IMAGE_SCALE = 0.4
-        this.PISTOL_IMAGE_WIDTH = 53 * this.PISTOL_IMAGE_SCALE
-        this.PISTOL_IMAGE_HEIGHT = 143 * this.PISTOL_IMAGE_SCALE
+
 
         //TODO spread/recoil
     }
@@ -24,7 +22,7 @@ class Gun {
 
     update() {
         this.fireRateHandler()
-        console.log(this.currentFireCooldown)
+        // console.log(this.currentFireCooldown)
     }
 
     fireRateHandler() {
@@ -34,28 +32,30 @@ class Gun {
     }
 
     shoot(posX, posY, angle) {
-        //Check Ammo
-        if (this.currentMagazineAmmo == 0) return  //no ammo
-        this.currentMagazineAmmo -= 1 //fire ammo
-
         //Check FireRate
         if (this.currentFireCooldown > 0) { //still in cooldown
             return;
         }
         this.currentFireCooldown = this.fireCooldown //add cooldown
 
-        //Spawn Bullet
-        let tempBullet = new Projectile(posX, posY,
-            this.bulletImage,
-            0, 0,
-            this.PISTOL_IMAGE_WIDTH, this.PISTOL_IMAGE_HEIGHT,
-            1,1,
-            1, angle, 500);
+        //Check Ammo
+        if (this.currentMagazineAmmo == 0) return  //no ammo
+        this.currentMagazineAmmo -= 1 //fire ammo
+
+        //Shoot
+        this.spawnBullet(posX, posY, angle)
+        console.log(this.currentMagazineAmmo)
+    }
+
+    spawnBullet(posX, posY, angle) {
+        // //Spawn Bullet
+        let tempBullet = new Bullet(posX, posY, angle, 100);
         GAME_ENGINE.addEntity(tempBullet)
     }
 
     reload() {
-        this.currentMagazineAmmo = this.totalAmmo - (this.magazineSize - this.currentMagazineAmmo);
+        this.totalAmmo = (this.magazineSize - this.currentMagazineAmmo);
+        this.currentMagazineAmmo = this.magazineSize;
     }
 
 }
