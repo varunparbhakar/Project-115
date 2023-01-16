@@ -1,7 +1,10 @@
-const ZOMBIE_IMAGE_SCALE = 1
+const ZOMBIE_IMAGE_SCALE = 0.4
 const ZOMBIE_IMAGE_WIDTH = 317 * ZOMBIE_IMAGE_SCALE
 const ZOMBIE_IMAGE_HEIGHT = 282 * ZOMBIE_IMAGE_SCALE
 const ZOMBIE_IMAGE_RADIUS = Math.max(ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT) / 2
+const ZOMBIE_ANGLE_OFFSET = -1.6;
+
+const ZOMBIE_SPEEDS = [PLAYER_WALKING_SPEED*0.25, PLAYER_WALKING_SPEED*0.95, PLAYER_RUNNING_SPEED*0.60, PLAYER_RUNNING_SPEED*0.8];
 
 
 class Zombie extends GameObject {
@@ -22,8 +25,10 @@ class Zombie extends GameObject {
 
     update() {
         super.update();
+
         this.updateCollision();
-        this.angle = this.rotateHandler();
+        this.angle = this.rotateHandler() + ZOMBIE_ANGLE_OFFSET;
+        this.movementHandler()
         //this.flipHandler()
     }
     flipHandler() {
@@ -44,28 +49,31 @@ class Zombie extends GameObject {
     }
 
     draw() {
-        // var tempCanvas = document.createElement("canvas")
-        // tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
-        // tempCanvas.height = tempCanvas.width
-        // var tempCtx = tempCanvas.getContext("2d")
-        // var myOffset = (tempCanvas.width/2) - (this.width/2)
-        //
-        // if (GAME_ENGINE.options.debugging == true) {
-        //     tempCtx.strokeStyle = "black"
-        //     tempCtx.strokeRect(0, 0, tempCanvas.height, tempCanvas.width)
-        // }
-        //
-        // tempCtx.save();
-        // tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
-        // tempCtx.rotate(this.angle + (Math.PI) / 2)
-        // tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        // tempCtx.drawImage(this.asset, 0, 0, ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT); //SCALE
-        // tempCtx.restore();
-        //
-        // GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
-        //     this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
-        super.draw()
+        var tempCanvas = document.createElement("canvas")
+        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
+        tempCanvas.height = tempCanvas.width
+        var tempCtx = tempCanvas.getContext("2d")
+        var myOffset = tempCanvas.width/2 - this.width/2
+
+        if (GAME_ENGINE.options.debugging == true) {
+            tempCtx.strokeStyle = "black"
+            tempCtx.strokeRect(0, 0, tempCanvas.height, tempCanvas.width)
+        }
+
+        tempCtx.save();
+        tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
+        tempCtx.rotate(this.angle + (Math.PI) / 2)
+        tempCtx.translate (-(this.width / 2), -(this.height / 2));
+        tempCtx.drawImage(this.asset, 0, 0, ZOMBIE_IMAGE_WIDTH , ZOMBIE_IMAGE_HEIGHT);
+        tempCtx.restore();
+
+        GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
+            this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
+
+        // super.draw()
+        //TODO DEBUG ONLY
         this.bc.drawBoundingCircle();
+        this.bb.drawBoundingBox();
     }
 
     // rotationHandler() {

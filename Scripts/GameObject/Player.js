@@ -1,12 +1,19 @@
 // const posX = 0;
 // const posY = 0;
-const PLAYER_WALKING_SPEED = 300;
-const PLAYER_RUNNING_SPEED = 600;
-const  PLAYER_IMAGE_SCALE = 1;
+const PLAYER_IMAGE_SCALE = 0.5;
 const PLAYER_IMAGE_WIDTH = 318 * PLAYER_IMAGE_SCALE;
 const PLAYER_IMAGE_HEIGHT = 283 * PLAYER_IMAGE_SCALE;
 const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
 const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
+
+const PLAYER_WALKING_SPEED = 400;
+const PLAYER_RUNNING_SPEED = 800;
+const PLAYER_STAMINA_MAX = 150;
+const PLAYER_STAMINA_RESTED_THRES = 100;
+const PLAYER_STAMINA_USAGE_PER_SEC = 25;
+const PLAYER_STAMINA_HEAL_PER_SEC = 30;
+
+
 
 class Player extends GameObject {
     constructor(posX, posY) {
@@ -31,6 +38,7 @@ class Player extends GameObject {
         //Mouse
         this.angle = this.mouseRotationHandler() + PLAYER_IMAGE_ROTATION_OFFSET;
 
+        // console.log(this.sprintStamina + "\n" + this.sprintRest)
 
         //TODO Sprint stamina
         //Sprint
