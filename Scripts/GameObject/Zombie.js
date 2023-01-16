@@ -14,13 +14,21 @@ class Zombie extends GameObject {
             ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT,
             1, 1,
             ZOMBIE_IMAGE_SCALE, false, false, 0);
+        this.speed = ZOMBIE_SPEEDS[0] //TODO add to constructor
+        this.hasSightOfPlayer = true; //TODO raycast check
+        this.hp = 100 ////TODO add to constructor
+
+        this.bb = new BoundingBox(posX, posY, ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT )
         this.bc = new BoundingCircle(posX, posY, ZOMBIE_IMAGE_RADIUS)
         this.angle = 0;
     }
 
     updateCollision() {
-        this.bc.x = this.posX + (ZOMBIE_IMAGE_WIDTH/2)
-        this.bc.y = this.posY + (ZOMBIE_IMAGE_HEIGHT/2)
+        this.bc.x = this.posX
+        this.bc.y = this.posY
+
+        this.bb.x = this.posX - (ZOMBIE_IMAGE_WIDTH/ 2)
+        this.bb.y = this.posY - (ZOMBIE_IMAGE_HEIGHT/ 2)
     }
 
     update() {
@@ -30,7 +38,33 @@ class Zombie extends GameObject {
         this.angle = this.rotateHandler() + ZOMBIE_ANGLE_OFFSET;
         this.movementHandler()
         //this.flipHandler()
+
     }
+
+    movementHandler() {
+        //if in sight of player: walk to player at this.speed
+        if (this.hasSightOfPlayer) {
+            //TODO, make a function that finds (Math.asin(dy, dx) so it doesn't do it twice
+            var tempAngle = this.rotateHandler();
+
+            var unitx = Math.cos(tempAngle);
+            var unity = Math.sin(tempAngle);
+
+            this.posX += unitx * this.speed * GAME_ENGINE.clockTick
+            this.posY += unity * this.speed * GAME_ENGINE.clockTick
+
+            // console.log("DX: " + dx + " DY: " + dy)
+            console.log("TempAngle: " + tempAngle)
+            console.log("UnitX: " + unitx + " UnitY: " + unity)
+            // console.log("POS X: " + this.posX + " POS Y: " + this.posY)
+
+        } else { //else nav mesh / pathfinding
+
+        }
+
+
+    }
+
     flipHandler() {
         if(this.posX + (ZOMBIE_IMAGE_WIDTH/2) * ZOMBIE_IMAGE_SCALE < GAME_ENGINE.camera.player.posX) {
             //face right
@@ -41,6 +75,7 @@ class Zombie extends GameObject {
         }
 
     }
+
     rotateHandler() {
         var dx = (GAME_ENGINE.camera.player.posX) - (this.posX); //282/2 Accounting for difference in center of thing.
         var dy = (GAME_ENGINE.camera.player.posY) - (this.posY);

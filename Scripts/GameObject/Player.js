@@ -23,14 +23,17 @@ class Player extends GameObject {
             PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
             1, 1,
             PLAYER_IMAGE_SCALE, false, false, 0);
-        this.speed = 100;
+
+        this.speed = PLAYER_WALKING_SPEED;
+        this.sprintStamina = PLAYER_STAMINA_MAX;
+        this.sprintRest = false;
         this.angle = 0;
+
         this.bb = new BoundingBox(
             posX,
             posY,
             PLAYER_IMAGE_WIDTH,
             PLAYER_IMAGE_HEIGHT)
-
         this.bc = new BoundingCircle(posX, posY, PLAYER_RADIUS)
     };
 
@@ -42,10 +45,17 @@ class Player extends GameObject {
 
         //TODO Sprint stamina
         //Sprint
-        if (GAME_ENGINE.key_run) {
-            this.speed = PLAYER_RUNNING_SPEED
+        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest) {
+            this.speed = PLAYER_RUNNING_SPEED;
+
+            this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
+            this.sprintRest = (this.sprintStamina <= 0);
         } else {
-            this.speed = PLAYER_WALKING_SPEED
+            this.speed = PLAYER_WALKING_SPEED;
+
+            if (this.sprintStamina < PLAYER_STAMINA_MAX)
+                this.sprintStamina += PLAYER_STAMINA_HEAL_PER_SEC * GAME_ENGINE.clockTick;
+            this.sprintRest = (this.sprintStamina < PLAYER_STAMINA_RESTED_THRES);
         }
 
         //TODO Velocity based movement
@@ -129,7 +139,6 @@ class Player extends GameObject {
                 entity.bb.updateSides();
                 this.bb.collide(entity.bb);
             } else if (entity instanceof Zombie) {
-
                 this.bc.collide(entity.bc);
             }
         })
