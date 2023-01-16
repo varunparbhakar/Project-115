@@ -4,7 +4,7 @@ const PLAYER_IMAGE_SCALE = 0.5;
 const PLAYER_IMAGE_WIDTH = 318 * PLAYER_IMAGE_SCALE;
 const PLAYER_IMAGE_HEIGHT = 283 * PLAYER_IMAGE_SCALE;
 const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
-const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
+const PLAYER_IMAGE_ROTATION_OFFSET = 0
 
 const PLAYER_WALKING_SPEED = 400;
 const PLAYER_RUNNING_SPEED = 800;
@@ -28,6 +28,9 @@ class Player extends GameObject {
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
         this.angle = 0;
+
+        this.gunInventory = [];
+        this.gun = new Gun();
 
         this.bb = new BoundingBox(
             posX,
@@ -76,6 +79,14 @@ class Player extends GameObject {
             this.posX += this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
         }
+        if(GAME_ENGINE.click) {
+            console.log("MOUSE CLICK DETECTED!!!")
+            console.log(GAME_ENGINE.click)
+            this.gun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
+        }
+
+        //Gun
+        this.gun.update()
 
         this.updateCollision()
         this.checkCollisions()
@@ -111,7 +122,7 @@ class Player extends GameObject {
 
         tempCtx.save();
         tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
-        tempCtx.rotate(this.angle + (Math.PI) / 2)
+        tempCtx.rotate(this.angle + -1.6 + (Math.PI) / 2)
         tempCtx.translate (-(this.width / 2), -(this.height / 2));
         tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH , PLAYER_IMAGE_HEIGHT);
         tempCtx.restore();

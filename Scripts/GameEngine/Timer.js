@@ -7,6 +7,10 @@ class Timer {
         this.lastTimestamp = 0;
     };
 
+    getGameTime() {
+        return this.gameTime;
+    }
+
     tick() {
         const current = Date.now();
         const delta = (current - this.lastTimestamp) / 1000;

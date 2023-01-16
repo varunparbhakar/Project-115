@@ -35,7 +35,7 @@ class Zombie extends GameObject {
         super.update();
 
         this.updateCollision();
-        this.angle = this.rotateHandler() + ZOMBIE_ANGLE_OFFSET;
+        this.angle = this.rotateHandler();
         this.movementHandler()
         //this.flipHandler()
 
@@ -54,8 +54,8 @@ class Zombie extends GameObject {
             this.posY += unity * this.speed * GAME_ENGINE.clockTick
 
             // console.log("DX: " + dx + " DY: " + dy)
-            console.log("TempAngle: " + tempAngle)
-            console.log("UnitX: " + unitx + " UnitY: " + unity)
+            // console.log("TempAngle: " + tempAngle)
+            // console.log("UnitX: " + unitx + " UnitY: " + unity)
             // console.log("POS X: " + this.posX + " POS Y: " + this.posY)
 
         } else { //else nav mesh / pathfinding
@@ -97,7 +97,7 @@ class Zombie extends GameObject {
 
         tempCtx.save();
         tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
-        tempCtx.rotate(this.angle + (Math.PI) / 2)
+        tempCtx.rotate(this.angle + ZOMBIE_ANGLE_OFFSET + (Math.PI) / 2)
         tempCtx.translate (-(this.width / 2), -(this.height / 2));
         tempCtx.drawImage(this.asset, 0, 0, ZOMBIE_IMAGE_WIDTH , ZOMBIE_IMAGE_HEIGHT);
         tempCtx.restore();

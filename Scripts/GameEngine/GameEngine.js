@@ -10,10 +10,12 @@ class GameEngine {
         this.entities = [];
 
         // Information on the input
-        this.click = null;
+        this.click = false;
+        this.left_click = false;
         this.mouse = null;
         this.wheel = null;
         // this.keys = {}; //TRASH
+        this.single_click = false;
 
         // Options and the Details
         this.options = options || {
@@ -117,7 +119,31 @@ class GameEngine {
                     break;
             }
         }, false);
+
+        //Mouse
+        this.ctx.canvas.addEventListener("mousedown", (e) => {
+            // console.log("MOOOOOOOOOOOOOUSSSSSSSSSSE DOWN")
+            this.left_click = true;
+            this.single_click = true;
+            setTimeout(() => {
+                this.single_click = false;
+            }, 300);
+        });
+        this.ctx.canvas.addEventListener("mouseup", (e) => {
+            // console.log("MOOOOOOOOOOOOOUSSSSSSSSSSE UUUUPPPPPPPPPPPPPPPPPPPP")
+            this.left_click = false;
+        });
+        this.ctx.canvas.addEventListener("contextmenu", e => {
+            if (this.options.debugging) {
+                console.log("RIGHT_CLICK", getXandY(e));
+            }
+            if (this.options.prevent.contextMenu) {
+                e.preventDefault(); // Prevent Context Menu
+            }
+            this.rightclick = getXandY(e);
+        });
     }
+
 
     addEntity(entity) {
         this.entities.push(entity);
