@@ -65,7 +65,7 @@ class Projectile extends GameObject {
         //     this.posY - (this.tempCanvas.height/2) - GAME_ENGINE.camera.posY);
 
         // this.bb.drawBoundingBox()
-        // this.bc.drawBoundingCircle()
+
         //CODE FROM PLAYER
 
 

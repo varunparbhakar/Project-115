@@ -4,7 +4,7 @@ const PLAYER_IMAGE_SCALE = 1;
 const PLAYER_IMAGE_WIDTH = 318 * PLAYER_IMAGE_SCALE;
 const PLAYER_IMAGE_HEIGHT = 283 * PLAYER_IMAGE_SCALE;
 const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
-const PLAYER_IMAGE_ROTATION_OFFSET = 0
+const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
 
 const PLAYER_WALKING_SPEED = 400;
 const PLAYER_RUNNING_SPEED = 800;
@@ -18,7 +18,7 @@ const PLAYER_STAMINA_HEAL_PER_SEC = 30;
 class Player extends GameObject {
     constructor(posX, posY) {
         super(posX, posY,
-            "Assets/Images/Characters/Heroes/Player.png",
+            "Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png",
             0, 0,
             PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
             1, 1,
@@ -117,24 +117,24 @@ class Player extends GameObject {
 
     //TODO No animations possible, only rotates
     draw() {
-        var tempCanvas = document.createElement("canvas")
-        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
-        tempCanvas.height = tempCanvas.width
-        var tempCtx = tempCanvas.getContext("2d")
-        var myOffset = tempCanvas.width/2 - this.width/2
-
-        if (GAME_ENGINE.options.debugging == true) {
-            tempCtx.strokeStyle = "black"
-            tempCtx.strokeRect(0, 0, tempCanvas.height, tempCanvas.width)
-        }
-
-        tempCtx.save();
-        tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
-        tempCtx.rotate(this.angle + -1.6 + (Math.PI) / 2)
-        tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
-        tempCtx.restore();
-
+        // var tempCanvas = document.createElement("canvas")
+        // tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
+        // tempCanvas.height = tempCanvas.width
+        // var tempCtx = tempCanvas.getContext("2d")
+        // var myOffset = tempCanvas.width/2 - this.width/2
+        //
+        // if (GAME_ENGINE.options.debugging == true) {
+        //     tempCtx.strokeStyle = "black"
+        //     tempCtx.strokeRect(0, 0, tempCanvas.height, tempCanvas.width)
+        // }
+        //
+        // tempCtx.save();
+        // tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
+        // tempCtx.rotate(this.angle + -1.6 + (Math.PI) / 2)
+        // tempCtx.translate (-(this.width / 2), -(this.height / 2));
+        // tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
+        // tempCtx.restore();
+        //
         // GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
         //                                       this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
 

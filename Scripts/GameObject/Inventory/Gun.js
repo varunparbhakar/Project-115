@@ -5,7 +5,7 @@ class Gun {
         this.totalAmmo = 300;
         this.currentMagazineAmmo = this.magazineSize;
 
-        this.fireCooldown = 0.25;
+        this.maxFireCooldown = 0.25;
         this.currentFireCooldown = 0;
 
         this.damage = 100
@@ -36,7 +36,7 @@ class Gun {
         if (this.currentFireCooldown > 0) { //still in cooldown
             return;
         }
-        this.currentFireCooldown = this.fireCooldown //add cooldown
+        this.currentFireCooldown = this.maxFireCooldown //add cooldown
 
         //Check Ammo
         if (this.currentMagazineAmmo == 0) return  //no ammo
