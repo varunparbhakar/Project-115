@@ -14,6 +14,7 @@ class Projectile extends GameObject {
         this.onCreate()
 
         this.bc = new BoundingCircle(this.posX, this.posY, this.width / 2)
+        this.bb = new BoundingBox(this.posX, this.posY, this.width, this.height)
 
     }
 

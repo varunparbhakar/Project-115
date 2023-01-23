@@ -19,7 +19,7 @@ class Pistol extends Gun {
     }
 
     spawnBullet(posX, posY, angle) {
-        let tempBullet = new Bullet(posX, posY, angle, this.damage);
+        let tempBullet = new Bullet(posX, posY, angle, M1911_damage, 900);
         GAME_ENGINE.addEntity(tempBullet)
     }
 

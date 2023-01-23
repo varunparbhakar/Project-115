@@ -107,7 +107,7 @@ class Zombie extends GameObject {
 
         // super.draw()
         //TODO DEBUG ONLY
-        this.bc.drawBoundingCircle();
+        this.bc.drawBoundingCircle("red");
         this.bb.drawBoundingBox();
     }
 

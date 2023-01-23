@@ -8,8 +8,6 @@ class Gun {
         this.maxFireCooldown = 0.25;
         this.currentFireCooldown = 0;
 
-        this.damage = 100
-
         this.reloadTime = 10; //TODO Player use to cooldown before shooting again
         this.movementPenalty = 0; //TODO multiplication
 
@@ -44,13 +42,13 @@ class Gun {
 
         //Shoot
         this.spawnBullet(posX, posY, angle)
-        console.log(this.currentMagazineAmmo)
+        //console.log(this.currentMagazineAmmo)
     }
 
     spawnBullet(posX, posY, angle) {
         // //Spawn Bullet
-        let tempBullet = new Bullet(posX, posY, angle, 100);
-        GAME_ENGINE.addEntity(tempBullet)
+        // let tempBullet = new Bullet(posX, posY, angle, 20);
+        // GAME_ENGINE.addEntity(tempBullet)
     }
 
     reload() {

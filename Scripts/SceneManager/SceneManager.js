@@ -20,7 +20,7 @@ class SceneManager {
         // GAME_ENGINE.addEntity(new Zombie(-60, -450));
         // GAME_ENGINE.addEntity(new Zombie(-10, -475));
         // GAME_ENGINE.addEntity(new Zombie(30, -500));
-        // GAME_ENGINE.addEntity(new Zombie(40, -520));
+        //  GAME_ENGINE.addEntity(new Zombie(40, -520));
         GAME_ENGINE.addEntity(this.player)
         // GAME_ENGINE.addEntity(new Bullet(0,0, 0, 100))
         // GAME_ENGINE.addEntity(new Bullet(10,10, 45, 100))

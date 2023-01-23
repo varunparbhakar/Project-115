@@ -1,6 +1,6 @@
 // const posX = 0;
 // const posY = 0;
-const PLAYER_IMAGE_SCALE = 0.8;
+const PLAYER_IMAGE_SCALE = 1;
 const PLAYER_IMAGE_WIDTH = 400 * PLAYER_IMAGE_SCALE;
 const PLAYER_IMAGE_HEIGHT = 400 * PLAYER_IMAGE_SCALE;
 const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
@@ -15,6 +15,11 @@ const PLAYER_STAMINA_HEAL_PER_SEC = 30;
 
 const PLAYER_BB_DIMENSION = 100;
 const PLAYER_BC_RADIUS = 75;
+const PLAYER_VULNERABLE_RADIUS_SCALE = 1.5;
+
+const PLAYER_HP_MAX = 100;
+const PLAYER_HEAL_POINTS = 100;
+const PLAYER_HEAL_COOLDOWN = 5;
 
 
 
@@ -38,12 +43,13 @@ class Player extends GameObject {
         this.gunInventory = [new Pistol()];
         this.currentGun = this.gunInventory[0];
 
-        this.bb = new BoundingBox(
+        this.playerCollion_World_R = new BoundingBox(
             posX,
             posY,
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
-        this.bc = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)
+        this.playerCollision_Vulnerable_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE * PLAYER_VULNERABLE_RADIUS_SCALE)
+        this.playerCollision_Zombies_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)
     };
 
     update() {
@@ -70,6 +76,9 @@ class Player extends GameObject {
 
         //TODO Velocity based movement
         //WASD Move //TODO Strafing is faster than single key
+        if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
+            this.animator = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+        }
         if (GAME_ENGINE.key_up) {
             this.posY -= this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
@@ -145,27 +154,31 @@ class Player extends GameObject {
         //                                       this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
         this.animator.drawFrame(this.posX, this.posY, this.angle + PLAYER_IMAGE_ROTATION_OFFSET)
 
-        this.bb.drawBoundingBox()
-        this.bc.drawBoundingCircle()
+        this.playerCollion_World_R.drawBoundingBox()
+        this.playerCollision_Zombies_C.drawBoundingCircle("Red")
+        this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
     }
 
     updateCollision() {
-        this.bb.x = this.posX - (this.bb.width/ 2)
-        this.bb.y = this.posY - (this.bb.height/ 2)
+        this.playerCollion_World_R.x = this.posX - (this.playerCollion_World_R.width/ 2)
+        this.playerCollion_World_R.y = this.posY - (this.playerCollion_World_R.height/ 2)
 
-        this.bc.x = this.posX
-        this.bc.y = this.posY
+        this.playerCollision_Vulnerable_C.x = this.posX
+        this.playerCollision_Vulnerable_C.y = this.posY
+
+        this.playerCollision_Zombies_C.x = this.posX
+        this.playerCollision_Zombies_C.y = this.posY
     }
 
     checkCollisions() {
-        this.bb.updateSides();
+        this.playerCollion_World_R.updateSides();
 
         GAME_ENGINE.entities.forEach((entity) => {
             if (entity instanceof Brick) {
                 entity.bb.updateSides();
-                this.bb.collide(entity.bb);
+                this.playerCollion_World_R.collide(entity.bb);
             } else if (entity instanceof Zombie) {
-                this.bc.collide(entity.bc);
+                this.playerCollision_Zombies_C.collide(entity.bc);
             }
         })
     }

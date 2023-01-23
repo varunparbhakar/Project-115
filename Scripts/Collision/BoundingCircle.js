@@ -13,10 +13,10 @@ class BoundingCircle {
         }
         return false
     }
-    drawBoundingCircle() {
+    drawBoundingCircle(color) {
         GAME_ENGINE.ctx.save();
         GAME_ENGINE.ctx.beginPath();
-        GAME_ENGINE.ctx.strokeStyle = 'Red';
+        GAME_ENGINE.ctx.strokeStyle = color;
         GAME_ENGINE.ctx.arc(this.x - GAME_ENGINE.camera.posX,
             this.y - GAME_ENGINE.camera.posY,
             this.radius,
