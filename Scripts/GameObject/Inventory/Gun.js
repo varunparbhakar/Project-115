@@ -22,7 +22,7 @@ class Gun {
 
     update() {
         this.fireRateHandler()
-        // console.log(this.currentFireCooldown)
+        console.log(this.currentFireCooldown)
     }
 
     fireRateHandler() {

@@ -6,7 +6,6 @@ class Pistol extends Gun {
         this.currentMagazineAmmo = this.magazineSize;
 
         this.fireCooldown = 0.25;
-        this.currentFireCooldown = 4;
 
         this.reloadTime = 10; //TODO Player use to cooldown before shooting again
         this.movementPenalty = 0; //TODO multiplication

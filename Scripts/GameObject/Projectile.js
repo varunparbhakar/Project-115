@@ -13,10 +13,13 @@ class Projectile extends GameObject {
         this.animator.spritesheet = this.tempCanvas;
         this.onCreate()
 
+        this.bc = new BoundingCircle(this.posX, this.posY, this.width / 2)
+
     }
 
     update(){
         this.automaticDespawnHandler()
+        this.updateCollision()
         this.movementHandler()
     }
 
@@ -30,13 +33,19 @@ class Projectile extends GameObject {
     draw() {
         //super.draw()
 
-
-        this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posX, this.posY );
+        this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posX - this.width/2, this.posY - this.height/2);
+        //TODO DEBUG REMOVE ME
+        this.bc.drawBoundingCircle()
     }
 
     movementHandler() {
         this.posX += this.movementVectorX
         this.posY += this.movementVectorY
+    }
+
+    updateCollision() {
+        this.bc.x = this.posX
+        this.bc.y = this.posY
     }
 
     onCreate() {

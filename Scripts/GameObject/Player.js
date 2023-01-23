@@ -1,8 +1,8 @@
 // const posX = 0;
 // const posY = 0;
-const PLAYER_IMAGE_SCALE = 1;
-const PLAYER_IMAGE_WIDTH = 318 * PLAYER_IMAGE_SCALE;
-const PLAYER_IMAGE_HEIGHT = 283 * PLAYER_IMAGE_SCALE;
+const PLAYER_IMAGE_SCALE = 0.8;
+const PLAYER_IMAGE_WIDTH = 400 * PLAYER_IMAGE_SCALE;
+const PLAYER_IMAGE_HEIGHT = 400 * PLAYER_IMAGE_SCALE;
 const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
 const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
 
@@ -12,6 +12,9 @@ const PLAYER_STAMINA_MAX = 150;
 const PLAYER_STAMINA_RESTED_THRES = 100;
 const PLAYER_STAMINA_USAGE_PER_SEC = 25;
 const PLAYER_STAMINA_HEAL_PER_SEC = 30;
+
+const PLAYER_BB_DIMENSION = 100;
+const PLAYER_BC_RADIUS = 75;
 
 
 
@@ -24,6 +27,9 @@ class Player extends GameObject {
             1, 1,
             PLAYER_IMAGE_SCALE, false, false, 0);
 
+        //TODO better animator construction
+        this.animator = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+
         this.speed = PLAYER_WALKING_SPEED;
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
@@ -35,14 +41,14 @@ class Player extends GameObject {
         this.bb = new BoundingBox(
             posX,
             posY,
-            PLAYER_IMAGE_WIDTH,
-            PLAYER_IMAGE_HEIGHT)
-        this.bc = new BoundingCircle(posX, posY, PLAYER_RADIUS)
+            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
+            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
+        this.bc = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)
     };
 
     update() {
         //Mouse
-        this.angle = this.mouseRotationHandler() + PLAYER_IMAGE_ROTATION_OFFSET;
+        this.angle = this.mouseRotationHandler() ;
 
         //this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         // console.log(this.sprintStamina + "\n" + this.sprintRest)
@@ -96,7 +102,7 @@ class Player extends GameObject {
 
         this.updateCollision()
         this.checkCollisions()
-
+        
     }
 
     printCoordinates() {
@@ -137,14 +143,15 @@ class Player extends GameObject {
         //
         // GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
         //                                       this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
+        this.animator.drawFrame(this.posX, this.posY, this.angle + PLAYER_IMAGE_ROTATION_OFFSET)
 
         this.bb.drawBoundingBox()
         this.bc.drawBoundingCircle()
     }
 
     updateCollision() {
-        this.bb.x = this.posX - (PLAYER_IMAGE_WIDTH/ 2)
-        this.bb.y = this.posY - (PLAYER_IMAGE_HEIGHT/ 2)
+        this.bb.x = this.posX - (this.bb.width/ 2)
+        this.bb.y = this.posY - (this.bb.height/ 2)
 
         this.bc.x = this.posX
         this.bc.y = this.posY

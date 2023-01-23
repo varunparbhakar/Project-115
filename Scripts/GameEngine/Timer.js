@@ -14,6 +14,7 @@ class Timer {
     tick() {
         const current = Date.now();
         const delta = (current - this.lastTimestamp) / 1000;
+        console.log("FPS: " + delta)
         this.lastTimestamp = current;
 
         const gameDelta = Math.min(delta, this.maxStep);
