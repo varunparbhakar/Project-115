@@ -23,7 +23,9 @@ class Zombie extends GameObject {
 
         //TODO better constructor
         this.state = 0
-        this.animator = new AnimatorRotate(this.asset, 0,0, ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT,10,0.14, ZOMBIE_IMAGE_SCALE)
+        this.animation_Walking = new AnimatorRotate(this.asset, 0,0, ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT,17,0.14, ZOMBIE_IMAGE_SCALE)
+        this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.15,1)
+        this.animator = this.animation_Walking
 
         this.speed = ZOMBIE_SPEEDS[0] //TODO add to constructor
 
@@ -63,10 +65,10 @@ class Zombie extends GameObject {
     changeAnimation(state) {
         switch (state) {
             case (0) :
-                this.animator = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,10,0.14,1)
+                this.animator = this.animation_Walking
                 break;
             case(1):
-                this.animator = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.15,1)
+                this.animator = this.animation_Attacking
                 break;
 
 
