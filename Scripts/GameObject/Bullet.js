@@ -18,6 +18,10 @@ class Bullet extends Projectile {
             "Assets/Images/Items/Bullets/Bullet.png",
             0, 0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT, 1, 1,
             1, angle, BULLET_SPEED, BULLET_DESPAWN_TIME);
+
+        this.damage = damage
+        this.BULLET_SPEED = bulletspeed
+
     }
     update() {
         super.update();
@@ -35,7 +39,6 @@ class Bullet extends Projectile {
             }
         })
     }
-
 
 
 }

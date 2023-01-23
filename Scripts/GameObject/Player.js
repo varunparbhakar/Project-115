@@ -34,6 +34,10 @@ class Player extends GameObject {
 
         //TODO better animator construction
         this.animator = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+        //TODO adding animation list
+
+        this.alive = true
+        this.heal_currentCooldown = 0;
 
         this.speed = PLAYER_WALKING_SPEED;
         this.sprintStamina = PLAYER_STAMINA_MAX;
@@ -109,6 +113,9 @@ class Player extends GameObject {
         //Gun
         this.currentGun.update()
 
+        //Heal
+        this.healHandler()
+
         this.updateCollision()
         this.checkCollisions()
         
@@ -181,6 +188,25 @@ class Player extends GameObject {
                 this.playerCollision_Zombies_C.collide(entity.bc);
             }
         })
+    }
+
+    takeDamage(damage) {
+        this.hp -= damage
+        if (this.hp <= 0) {
+            this.alive = false
+        }
+
+        //reset heal cooldown
+        this.heal_currentCooldown = this.PLAYER_HEAL_COOLDOWN;
+    }
+
+    healHandler() {
+        if (this.heal_currentCooldown <= 0) {
+            if (this.hp <= PLAYER_HP_MAX)
+                this.hp += PLAYER_HEAL_POINTS * GAME_ENGINE.clockTick;
+        } else {
+            this.heal_currentCooldown -= GAME_ENGINE.clockTick;
+        }
     }
 
 }

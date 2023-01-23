@@ -24,6 +24,10 @@ class Projectile extends GameObject {
         this.movementHandler()
     }
 
+    checkCollisions() {
+        //ABSTRACT
+    }
+
     automaticDespawnHandler() {
         this.despawnTime -= GAME_ENGINE.clockTick
         if (this.despawnTime <= 0) {
@@ -37,14 +41,18 @@ class Projectile extends GameObject {
         this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posX - this.width/2, this.posY - this.height/2);
         //TODO DEBUG REMOVE ME
         this.bc.drawBoundingCircle()
+        this.bb.drawBoundingBox()
     }
 
     movementHandler() {
-        this.posX += this.movementVectorX
-        this.posY += this.movementVectorY
+        this.posX += this.movementVectorX * GAME_ENGINE.clockTick
+        this.posY += this.movementVectorY * GAME_ENGINE.clockTick
     }
 
     updateCollision() {
+        this.bb.x = this.posX - (this.bb.width/ 2)
+        this.bb.y = this.posY - (this.bb.height/ 2)
+
         this.bc.x = this.posX
         this.bc.y = this.posY
     }
@@ -53,9 +61,10 @@ class Projectile extends GameObject {
         //Finds Movement Vectors
         var unitx = Math.cos(this.angle);
         var unity = Math.sin(this.angle);
-        this.movementVectorX = (unitx * this.speed) * GAME_ENGINE.clockTick
-        this.movementVectorY = (unity * this.speed) * GAME_ENGINE.clockTick
-        console.log(this.movementVectorX + ", " + this.movementVectorY)
+        this.movementVectorX = (unitx * this.speed)
+        this.movementVectorY = (unity * this.speed)
+        // console.log(unitx + ", " + unity)
+        // console.log(this.movementVectorX + ", " + this.movementVectorY)
 
         //CODE FROM PLAYER
         this.tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset

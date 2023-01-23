@@ -1,6 +1,6 @@
 //ABSTRACT
 class Gun {
-    constructor() {
+    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty) {
         this.magazineSize = 100;
         this.totalAmmo = 300;
         this.currentMagazineAmmo = this.magazineSize;
@@ -9,7 +9,7 @@ class Gun {
         this.currentFireCooldown = 0;
 
         this.reloadTime = 10; //TODO Player use to cooldown before shooting again
-        this.movementPenalty = 0; //TODO multiplication
+        this.movementScale = 0; //TODO multiplication
 
         //PISTOL ATTRIBUTES
 
@@ -20,7 +20,7 @@ class Gun {
 
     update() {
         this.fireRateHandler()
-        console.log(this.currentFireCooldown)
+        // console.log(this.currentFireCooldown) //DEBUG
     }
 
     fireRateHandler() {
