@@ -46,8 +46,14 @@ class AnimatorRotate {
         return Math.floor(this.elaspedTime / this.frameDuration);
     };
 
+    animationDuration() {
+        this.totalTime;
+    }
+
     isDone() {
         return (this.elaspedTime >= this.totalTime);
     }
+
+
 
 }

@@ -116,15 +116,20 @@ class Player extends GameObject {
         if(GAME_ENGINE.left_click) {
             // console.log("MOUSE CLICK DETECTED!!!")
             //console.log(GAME_ENGINE.click)
-            this.left_clickCooldown = PLAYER_LEFT_CLICK_COOLDOWN
 
-            this.changeAnimation(1)
+            this.animationRuntime = PLAYER_LEFT_CLICK_COOLDOWN
+            console.log("CHANGED to SHOOTING" + this.animationRuntime + " " + PLAYER_LEFT_CLICK_COOLDOWN)
+            this.animationPlayer(1)
+
             this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         }
         if (GAME_ENGINE.key_reload) {
             this.animationRuntime = this.animator.animationDuration();
             this.animationPlayer(2)
             this.currentGun.reload();
+
+            // force the animation to switch to reolad
+
             // console.log("TACITICAL RELOADING")
             // this.printCoordinates()
         }
@@ -134,6 +139,11 @@ class Player extends GameObject {
         //Gun
         this.currentGun.update()
 
+        if(this.animator.isDone()){
+            this.changeAnimation(0)
+        }
+        this.animationRuntime -= GAME_ENGINE.clockTick
+
         //Heal
         this.healHandler()
 
@@ -142,11 +152,19 @@ class Player extends GameObject {
 
     }
 
-    leftClickChecker() {
-        if (this.left_clickCooldown > 0) {
-            this.left_clickCooldown -= GAME_ENGINE.clockTick
-        } else {
-            this.changeAnimation(0)
+    animationPlayer(state) {
+        // console.log(this.animator + " " + this.animator.isDone())
+        console.log(this.animationRuntime)
+        if (this.animationRuntime > 0) {
+            this.animationRuntime -= GAME_ENGINE.clockTick
+
+        }
+        // else if(state === 0 && this.animator.isDone()) {
+        //     this.changeAnimation(0)
+        //
+        // }
+        else {
+            this.changeAnimation(1)
         }
     }
 
