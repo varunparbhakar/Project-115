@@ -10,7 +10,8 @@ class BoundingBox {
             this.left < oth.right &&
             this.top < oth.bottom &&
             this.bottom > oth.top) {
-            console.log("COLLIDED!")
+            // console.log("COLLIDED!")
+            
             return true;
         }
         return false;

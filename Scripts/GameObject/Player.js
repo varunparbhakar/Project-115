@@ -209,8 +209,14 @@ class Player extends GameObject {
     }
 
     updateCollision() {
-        this.playerCollion_World_R.x = this.posX - (this.playerCollion_World_R.width/ 2)
-        this.playerCollion_World_R.y = this.posY - (this.playerCollion_World_R.height/ 2)
+        this.last_collision_World_R = this.playerCollion_World_R
+
+        this.playerCollion_World_R = new BoundingBox(
+            this.posX - (this.playerCollion_World_R.width/ 2),
+            this.posY - (this.playerCollion_World_R.height/ 2),
+            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
+            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
+
 
         this.playerCollision_Vulnerable_C.x = this.posX
         this.playerCollision_Vulnerable_C.y = this.posY
@@ -225,11 +231,34 @@ class Player extends GameObject {
         GAME_ENGINE.entities.forEach((entity) => {
             if (entity instanceof Brick) {
                 entity.bb.updateSides();
-                this.playerCollion_World_R.collide(entity.bb);
+                if(this.playerCollion_World_R.collide(entity.bb)) {
+
+                    if (this.last_collision_World_R.bottom <= entity.bb.top) { //was above last
+                        console.log("from top")
+                        this.posY -= entity.bb.top - this.playerCollion_World_R.bottom + (this.playerCollion_World_R.height/ 2)
+
+                    } else 
+                    if (this.last_collision_World_R.left >= entity.bb.right) { //from right
+                        console.log("from right " +  this.last_collision_World_R.left + " " + entity.bb.right)
+                        this.posX += this.playerCollion_World_R.left - entity.bb.right + (this.playerCollion_World_R.width/ 2)
+
+                    } else if (this.last_collision_World_R.right <= entity.bb.left) { //from left
+                        console.log("from left")
+                        this.posX -= entity.bb.left - this.playerCollion_World_R.right + (this.playerCollion_World_R.width/ 2)
+
+                    } 
+                    else { //was below last
+                        console.log("from bottom")
+                        this.posY += this.playerCollion_World_R.top - entity.bb.bottom + (this.playerCollion_World_R.height/ 2)
+                    }
+
+                }
             } else if (entity instanceof Zombie) {
-                this.playerCollision_Zombies_C.collide(entity.bc);
+                if(this.playerCollision_Zombies_C.collide(entity.bc)) {
+                    
+                }
             }
-        })
+        });
     }
 
     takeDamage(damage) {
