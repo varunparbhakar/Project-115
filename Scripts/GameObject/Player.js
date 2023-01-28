@@ -29,7 +29,7 @@ const PLAYER_RELOAD_COOLDOWN = 5
 class Player extends GameObject {
     constructor(posX, posY) {
         super(posX, posY,
-            "Assets/Images/Characters/Heroes/idle_spritesheet.png",
+            "Assets/Images/Characters/Heroes/Animations/Idle/Pistol/idle.png",
             // "Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png",
             0, 0,
             PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
@@ -37,14 +37,16 @@ class Player extends GameObject {
             PLAYER_IMAGE_SCALE, false, false, 0);
 
         //TODO better animator construction
-        this.regularAnimation  = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
-        this.shootingAnimation= new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+        this.idleAnimation  = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+        this.movingAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,3, 0.1,PLAYER_IMAGE_SCALE)
+        this.shootingAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Shooting/Pistol/Player_Shooting.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,3, 0.1,PLAYER_IMAGE_SCALE)
         this.reloadAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
+        
         this.left_clickCooldown = 0
         this.reloadAnimationCooldownITR = 0
 
         this.animationRuntime = 0
-        this.animator = this.regularAnimation
+        this.animator = this.idleAnimation
         //TODO adding animation list
 
         this.alive = true
@@ -93,8 +95,7 @@ class Player extends GameObject {
         //WASD Move //TODO Strafing is faster than single key
 
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
-            console.log("CHANGED to WALKING")
-            this.changeAnimation(0)
+            this.changeAnimation(1)
         }
 
         if (GAME_ENGINE.key_up) {
@@ -114,27 +115,16 @@ class Player extends GameObject {
             // this.printCoordinates()
         }
         if(GAME_ENGINE.left_click) {
-            // console.log("MOUSE CLICK DETECTED!!!")
-            //console.log(GAME_ENGINE.click)
-
-            this.animationRuntime = PLAYER_LEFT_CLICK_COOLDOWN
-            console.log("CHANGED to SHOOTING" + this.animationRuntime + " " + PLAYER_LEFT_CLICK_COOLDOWN)
-            this.animationPlayer(1)
+            this.changeAnimation(2)
 
             this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         }
         if (GAME_ENGINE.key_reload) {
-            this.animationRuntime = this.animator.animationDuration();
-            this.animationPlayer(2)
+            this.changeAnimation(3)
+
             this.currentGun.reload();
-
-            // force the animation to switch to reolad
-
-            // console.log("TACITICAL RELOADING")
-            // this.printCoordinates()
         }
 
-        // this.animationPlayer(0)
 
         //Gun
         this.currentGun.update()
@@ -142,6 +132,7 @@ class Player extends GameObject {
         if(this.animator.isDone()){
             this.changeAnimation(0)
         }
+
         this.animationRuntime -= GAME_ENGINE.clockTick
 
         //Heal
@@ -152,32 +143,23 @@ class Player extends GameObject {
 
     }
 
-    animationPlayer(state) {
-        // console.log(this.animator + " " + this.animator.isDone())
-        console.log(this.animationRuntime)
-        if (this.animationRuntime > 0) {
-            this.animationRuntime -= GAME_ENGINE.clockTick
-
-        }
-        // else if(state === 0 && this.animator.isDone()) {
-        //     this.changeAnimation(0)
-        //
-        // }
-        else {
-            this.changeAnimation(1)
-        }
-    }
 
     changeAnimation(state) {
         switch (state) {
             case (0) :
-                this.animator = this.regularAnimation
+                this.animator = this.idleAnimation
                 break;
             case(1):
-                this.animator = this.shootingAnimation
+                this.animator = this.movingAnimation
+                this.animator.finishedAnimation = false
                 break;
             case(2):
+                this.animator = this.shootingAnimation
+                this.animator.finishedAnimation = false
+                break;
+            case(3):
                 this.animator = this.reloadAnimation
+                this.animator.finishedAnimation = false
         }
     }
 

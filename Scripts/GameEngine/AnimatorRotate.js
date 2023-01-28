@@ -7,6 +7,7 @@ class AnimatorRotate {
             frameCount = 1;
         }
 
+        this.finishedAnimation = false
         this.elaspedTime = 0;
         this.totalTime = frameCount * frameDuration;
     };
@@ -16,6 +17,7 @@ class AnimatorRotate {
         // Spritesheet shit
         this.elaspedTime += GAME_ENGINE.clockTick
         if(this.elaspedTime > this.totalTime) {
+            this.finishedAnimation = true
             this.elaspedTime = 0;
         }
         const frame = this.currentFrame();
@@ -46,12 +48,9 @@ class AnimatorRotate {
         return Math.floor(this.elaspedTime / this.frameDuration);
     };
 
-    animationDuration() {
-        this.totalTime;
-    }
-
     isDone() {
-        return (this.elaspedTime >= this.totalTime);
+        return this.finishedAnimation
+        // return (this.elaspedTime >= this.totalTime);
     }
 
 
