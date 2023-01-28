@@ -235,21 +235,20 @@ class Player extends GameObject {
 
                     if (this.last_collision_World_R.bottom <= entity.bb.top) { //was above last
                         console.log("from top")
-                        this.posY -= entity.bb.top - this.playerCollion_World_R.bottom + (this.playerCollion_World_R.height/ 2)
+                        this.posY -= entity.bb.top - this.playerCollion_World_R.bottom + (this.playerCollion_World_R.height/ 2) + (this.speed * GAME_ENGINE.clockTick)
+                        // this.posY -= this.playerCollion_World_R.bottom - entity.bb.top
 
-                    } else 
-                    if (this.last_collision_World_R.left >= entity.bb.right) { //from right
-                        console.log("from right " +  this.last_collision_World_R.left + " " + entity.bb.right)
-                        this.posX += this.playerCollion_World_R.left - entity.bb.right + (this.playerCollion_World_R.width/ 2)
+                    } else if (this.last_collision_World_R.left >= entity.bb.right) { //from right
+                        console.log("from right ")
+                        this.posX += this.playerCollion_World_R.left - entity.bb.right + (this.playerCollion_World_R.width/ 2) - (this.speed * GAME_ENGINE.clockTick)
 
                     } else if (this.last_collision_World_R.right <= entity.bb.left) { //from left
                         console.log("from left")
-                        this.posX -= entity.bb.left - this.playerCollion_World_R.right + (this.playerCollion_World_R.width/ 2)
+                        this.posX -= entity.bb.left - this.playerCollion_World_R.right + (this.playerCollion_World_R.width/ 2) + (this.speed * GAME_ENGINE.clockTick)
 
-                    } 
-                    else { //was below last
+                    } else { //was below last
                         console.log("from bottom")
-                        this.posY += this.playerCollion_World_R.top - entity.bb.bottom + (this.playerCollion_World_R.height/ 2)
+                        this.posY += this.playerCollion_World_R.top - entity.bb.bottom + (this.playerCollion_World_R.height/ 2) - (this.speed * GAME_ENGINE.clockTick)
                     }
 
                 }
