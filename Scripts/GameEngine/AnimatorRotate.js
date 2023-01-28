@@ -12,6 +12,7 @@ class AnimatorRotate {
     };
 
     drawFrame(object_posX, object_posY, angle) {
+        //TODO Store the
         // Spritesheet shit
         this.elaspedTime += GAME_ENGINE.clockTick
         if(this.elaspedTime > this.totalTime) {

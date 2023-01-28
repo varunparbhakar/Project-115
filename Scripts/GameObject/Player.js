@@ -21,7 +21,8 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 2;
 
-const PLAYER_LEFT_CLICK_COOLDOWN = .01;
+const PLAYER_LEFT_CLICK_COOLDOWN = 1;
+const PLAYER_RELOAD_COOLDOWN = 5
 
 
 
@@ -36,11 +37,13 @@ class Player extends GameObject {
             PLAYER_IMAGE_SCALE, false, false, 0);
 
         //TODO better animator construction
-        this.shootingAnimation = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
-        this.regularAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
-        
+        this.regularAnimation  = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+        this.shootingAnimation= new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+        this.reloadAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
         this.left_clickCooldown = 0
+        this.reloadAnimationCooldownITR = 0
 
+        this.animationRuntime = 0
         this.animator = this.regularAnimation
         //TODO adding animation list
 
@@ -61,7 +64,7 @@ class Player extends GameObject {
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
         this.playerCollision_Vulnerable_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE * PLAYER_VULNERABLE_RADIUS_SCALE)
-        this.playerCollision_Zombies_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)        
+        this.playerCollision_Zombies_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)
     };
 
     update() {
@@ -88,9 +91,12 @@ class Player extends GameObject {
 
         //TODO Velocity based movement
         //WASD Move //TODO Strafing is faster than single key
+
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
-            this.animator = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
+            console.log("CHANGED to WALKING")
+            this.changeAnimation(0)
         }
+
         if (GAME_ENGINE.key_up) {
             this.posY -= this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
@@ -116,12 +122,14 @@ class Player extends GameObject {
             this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         }
         if (GAME_ENGINE.key_reload) {
+            this.animationRuntime = this.animator.animationDuration();
+            this.animationPlayer(2)
             this.currentGun.reload();
             // console.log("TACITICAL RELOADING")
             // this.printCoordinates()
         }
 
-        this.leftClickChecker()
+        // this.animationPlayer(0)
 
         //Gun
         this.currentGun.update()
@@ -131,7 +139,7 @@ class Player extends GameObject {
 
         this.updateCollision()
         this.checkCollisions()
-        
+
     }
 
     leftClickChecker() {
@@ -150,6 +158,8 @@ class Player extends GameObject {
             case(1):
                 this.animator = this.shootingAnimation
                 break;
+            case(2):
+                this.animator = this.reloadAnimation
         }
     }
 

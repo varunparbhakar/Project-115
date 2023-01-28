@@ -10,6 +10,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/moving/p
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Shooting/Pistol/Player_Shooting.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/idle_spritesheet.png")
 
 ASSET_MANAGER.downloadAll(() => {
