@@ -11,6 +11,9 @@ ASSET_MANAGER.queueDownload("Assets/Images/Items/Bullets/Bullet.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
 
+//Loading Map
+ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/Map1.png")
+
 //Loading Pistol
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/Pistol/idle.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png");

@@ -160,7 +160,12 @@ class GameEngine {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
         // Draw latest things first
-        for (let i = this.entities.length - 1; i >= 0; i--) {
+        // for (let i = this.entities.length - 1; i >= 0; i--) {
+        //     this.entities[i].draw(this.ctx, this);
+        // }
+
+        //Draw latest things last
+        for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw(this.ctx, this);
         }
     };

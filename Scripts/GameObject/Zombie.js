@@ -50,8 +50,7 @@ class Zombie extends GameObject {
     }
 
     update() {
-        super.update();
-
+        this.draw()
         this.updateCollision();
         this.angle = this.rotateHandler();
         this.movementHandler()

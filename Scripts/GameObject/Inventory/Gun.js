@@ -57,17 +57,20 @@ class Gun {
     }
 
     getSpreadAngle(angle) {
-        return angle + this.currentRecoil * (Math.random() * - 1)
+        return angle + this.currentRecoil * (Math.random() * 2 - 1)
     }
 
     reload() {
-        if (this.currentMagazineAmmo === this.magazineSize) {
+        if (this.currentMagazineAmmo === this.magazineSize || this.totalAmmo <= 0) {
             return false
         }
-        this.totalAmmo = (this.magazineSize - this.currentMagazineAmmo);
-        this.currentMagazineAmmo = this.magazineSize;
+        this.currentReloadTime = this.reloadTime
         this.currentRecoil = 0
         this.currentFireCooldown = 0
+
+        this.currentMagazineAmmo = Math.min(this.magazineSize, this.totalAmmo);
+        this.totalAmmo -= (this .magazineSize - this.currentMagazineAmmo);
+        if (this.totalAmmo < 0) this.totalAmmo = 0
         return true
     }
 

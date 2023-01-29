@@ -1,5 +1,3 @@
-// const posX = 0;
-// const posY = 0;
 const PLAYER_IMAGE_SCALE = 1;
 const PLAYER_IMAGE_WIDTH = 400 * PLAYER_IMAGE_SCALE;
 const PLAYER_IMAGE_HEIGHT = 400 * PLAYER_IMAGE_SCALE;
@@ -34,7 +32,7 @@ class Player extends GameObject {
             0, 0,
             PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
             1, 1,
-            PLAYER_IMAGE_SCALE, false, false, 0);
+            PLAYER_IMAGE_SCALE);
 
         //Animations
         //setupAnimation
@@ -46,6 +44,7 @@ class Player extends GameObject {
         this.reloadAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
         this.meleeAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/knifing/Pistol/MeleeAttack.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
         this.animationRuntime = 0
+        this.state = 0
 
 
         this.animator = this.idleAnimation //TODO create a map {Key: GUN_ENUM, Value: List[Animation]}
@@ -89,7 +88,7 @@ class Player extends GameObject {
 
         //TODO Sprint stamina
         //Sprint
-        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest) {
+        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== 3) {
             this.speed = PLAYER_RUNNING_SPEED;
 
             this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
@@ -106,7 +105,9 @@ class Player extends GameObject {
         //WASD Move //TODO Strafing is faster than single key
 
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
-            this.changeAnimation(1)
+            if (this.state !== 3 && this.state !== 2) { //not while reloading or shooting
+                this.changeAnimation(1)
+            }
         }
 
         if (GAME_ENGINE.key_up) {
@@ -144,6 +145,7 @@ class Player extends GameObject {
         this.currentGun.update()
 
         if(this.animator.isDone()){
+            this.state = 0
             this.changeAnimation(0)
         }
 
@@ -161,17 +163,21 @@ class Player extends GameObject {
     changeAnimation(state, totalTime=null) {
         switch (state) {
             case (ANIMATION_Idle) :
+                this.state = 0
                 this.animator = this.animationMatrix[GUN_Pistol][ANIMATION_Idle]
                 break;
             case(1):
+                this.state = 1
                 this.animator = this.movingAnimation
                 this.animator.finishedAnimation = false
                 break;
             case(2):
+                this.state = 2
                 this.animator = this.shootingAnimation
                 this.animator.finishedAnimation = false
                 break;
             case(3):
+                this.state = 3
                 this.animator = this.reloadAnimation
                 this.animator.finishedAnimation = false
         }
@@ -251,7 +257,7 @@ class Player extends GameObject {
         this.playerCollion_World_R.updateSides();
 
         GAME_ENGINE.entities.forEach((entity) => {
-            if (entity instanceof Brick) {
+            if (entity instanceof MapBB) {
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
                 if(this.playerCollion_World_R.collide(entity.bb)) {

@@ -13,8 +13,7 @@ class AnimatorRotate {
     }
 
     drawFrame(object_posX, object_posY, angle) {
-        //TODO Store the
-        // Spritesheet shit
+        //Spritesheet scroll
         this.elaspedTime += GAME_ENGINE.clockTick
         if(this.elaspedTime > this.totalTime) {
             this.finishedAnimation = true
@@ -23,7 +22,8 @@ class AnimatorRotate {
         const frame = this.currentFrame();
 
         var tempCanvas = document.createElement("canvas")
-        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width/this.scale, this.height/this.scale), 2) * 2) //Offscreen canvas square that fits old asset
+        //Offscreen canvas square that fits old asset
+        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width*this.scale, this.height*this.scale), 2) * 2)
         tempCanvas.height = tempCanvas.width
         var tempCtx = tempCanvas.getContext("2d")
 
@@ -33,15 +33,33 @@ class AnimatorRotate {
         tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
         tempCtx.rotate(angle  + (Math.PI) / 2)
         tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        tempCtx.drawImage(this.spritesheet, this.xStart + (this.width/this.scale * frame), this.yStart, //TODO Spritesheet doesn't scroll with scale != 1
-                                this.width, this.height,
-                                    this.scale, this.scale,
-            this.width * this.scale, this.height * this.scale);
+        tempCtx.drawImage(
+            this.spritesheet, this.xStart + (this.width/this.scale * frame), this.yStart,
+            this.width, this.height,
+            1, 1,
+            this.width * this.scale, this.height * this.scale
+        );
+        tempCtx.restore();
+
+        tempCtx.save();
+        tempCtx.strokeStyle = "gray"
+        tempCtx.strokeRect(0,0, tempCanvas.width, tempCanvas.height)
         tempCtx.restore();
 
         //Aligning the image with the Canvas
-        GAME_ENGINE.ctx.drawImage(tempCanvas, object_posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
-            object_posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
+        // GAME_ENGINE.ctx.drawImage(
+        //     tempCanvas, //what to draw
+        //     0, 0, //starting at
+        //     tempCanvas.width, tempCanvas.height, //how big
+        //     object_posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX, //where X
+        //     object_posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY, //where Y
+        //     1, 1
+        // );
+        GAME_ENGINE.ctx.drawImage(
+            tempCanvas, //what to draw
+            object_posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX, //where X
+            object_posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY, //where Y
+        );
     };
 
     currentFrame() {

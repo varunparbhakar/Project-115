@@ -37,7 +37,7 @@ class Projectile extends GameObject {
     draw() {
         //super.draw()
 
-        this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posX - this.width/2, this.posY - this.height/2);
+        this.animator.drawFrame(this.posX - this.width/2, this.posY - this.height/2);
         //TODO DEBUG REMOVE ME
         this.bc.drawBoundingCircle()
         this.bb.drawBoundingBox()

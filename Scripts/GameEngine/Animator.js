@@ -1,5 +1,5 @@
 class Animator {
-    constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale, flippedX, flippedY) {
+    constructor(spritesheet, xStart, yStart, width, height, frameCount=1, frameDuration=1, scale=1, flippedX=false, flippedY=false) {
         Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale, flippedX, flippedY});
 
         if (this.frameCount < 2) {//Static Image
@@ -11,26 +11,26 @@ class Animator {
         this.totalTime = frameCount * frameDuration;
     };
 
-    drawFrame(tick, ctx, posX, posY) {
-        this.elaspedTime += tick
+    drawFrame(posX, posY) {
+        this.elaspedTime += GAME_ENGINE.clockTick
         if(this.elaspedTime > this.totalTime) {
             this.elaspedTime = 0;
         }
 
         const frame = this.currentFrame();
 
-        ctx.save();
+        GAME_ENGINE.ctx.save();
         //TODO Centered Scaling?
-        ctx.scale(this.flippedX ? -1 : 1, this.flippedY ? -1 : 1);
-        ctx.drawImage(
-            this.spritesheet,
-            this.xStart + (this.width * frame), this.yStart,
-            this.width, this.height,
-            this.flippedX ? ((posX * -1) - (this.scale * this.width) + GAME_ENGINE.camera.posX) : (posX - GAME_ENGINE.camera.posX),
-            this.flippedY ? ((posY * -1) - (this.scale * this.height) + GAME_ENGINE.camera.posY) : (posY - GAME_ENGINE.camera.posY),
-            this.width * this.scale, this.height * this.scale
+        GAME_ENGINE.ctx.scale(this.flippedX ? -1 : 1, this.flippedY ? -1 : 1);
+        GAME_ENGINE.ctx.drawImage(
+            this.spritesheet, //what
+            this.xStart + (this.width * frame), this.yStart, //starting at
+            this.width, this.height, //how big
+            this.flippedX ? ((posX * -1) - (this.scale * this.width) + GAME_ENGINE.camera.posX) : (posX - GAME_ENGINE.camera.posX), //where X
+            this.flippedY ? ((posY * -1) - (this.scale * this.height) + GAME_ENGINE.camera.posY) : (posY - GAME_ENGINE.camera.posY), //where Y
+            this.width * this.scale, this.height * this.scale //scale
         )
-        ctx.restore();
+        GAME_ENGINE.ctx.restore();
     };
 
     currentFrame() {

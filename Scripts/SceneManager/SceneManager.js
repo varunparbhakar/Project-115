@@ -36,11 +36,15 @@ class SceneManager {
             case "title":
                 break;
             case "level1":
-                this.player = new Player(0,0);
-                GAME_ENGINE.addEntity(this.player)
-
                 //World
+                this.map = new Map(0,0, "level1")
+                //Player
+                this.player = new Player(this.map.playerSpawnX,this.map.playerSpawnY);
 
+                //Add
+                GAME_ENGINE.addEntity(this.map)
+                GAME_ENGINE.addEntity(this.player)
+                GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX, this.map.playerSpawnY))
 
                 break;
         }
