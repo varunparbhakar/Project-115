@@ -10,7 +10,7 @@ class AnimatorRotate {
         this.finishedAnimation = false
         this.elaspedTime = 0;
         this.totalTime = frameCount * frameDuration;
-    };
+    }
 
     drawFrame(object_posX, object_posY, angle) {
         //TODO Store the
@@ -53,6 +53,10 @@ class AnimatorRotate {
         // return (this.elaspedTime >= this.totalTime);
     }
 
-
+    changeAnimationSpeed(totalTime) {
+        this.elaspedTime = 0;
+        this.totalTime = totalTime
+        this.frameDuration = totalTime / this.frameCount
+    }
 
 }

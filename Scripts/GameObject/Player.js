@@ -126,14 +126,17 @@ class Player extends GameObject {
             // this.printCoordinates()
         }
         if(GAME_ENGINE.left_click) {
-            this.changeAnimation(2)
-
-            this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
+            if (this.currentGun.shoot(this.posX, this.posY, this.angle)) {
+                this.changeAnimation(2)
+            }
         }
         if (GAME_ENGINE.key_reload) {
             if (this.currentGun.reload()) {
                 this.changeAnimation(3, this.currentGun.reloadTime)
             }
+        }
+        if (GAME_ENGINE.key_knife) {
+            this.changeAnimation(2)
         }
 
 
@@ -148,7 +151,7 @@ class Player extends GameObject {
 
         //Heal
         this.healHandler()
-
+        this.saveLastBB()
         this.updateCollision()
         this.checkCollisions()
 
@@ -171,6 +174,9 @@ class Player extends GameObject {
             case(3):
                 this.animator = this.reloadAnimation
                 this.animator.finishedAnimation = false
+        }
+        if (totalTime != null) {
+            this.animator.changeAnimationSpeed(totalTime)
         }
     }
 
@@ -214,20 +220,25 @@ class Player extends GameObject {
         //                                       this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
         this.animator.drawFrame(this.posX, this.posY, this.angle + PLAYER_IMAGE_ROTATION_OFFSET)
 
+        //TODO remove debug
         this.playerCollion_World_R.drawBoundingBox()
         this.playerCollision_Zombies_C.drawBoundingCircle("Red")
         this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
     }
 
-    updateCollision() {
+    saveLastBB() {
         this.last_collision_World_R = this.playerCollion_World_R
-
         this.playerCollion_World_R = new BoundingBox(
             this.posX - (this.playerCollion_World_R.width/ 2),
             this.posY - (this.playerCollion_World_R.height/ 2),
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
+    }
 
+    updateCollision() {
+        this.playerCollion_World_R.x = this.posX - (this.playerCollion_World_R.width/ 2)
+        this.playerCollion_World_R.y = this.posY - (this.playerCollion_World_R.width/ 2)
+        this.playerCollion_World_R.updateSides()
 
         this.playerCollision_Vulnerable_C.x = this.posX
         this.playerCollision_Vulnerable_C.y = this.posY
@@ -241,27 +252,26 @@ class Player extends GameObject {
 
         GAME_ENGINE.entities.forEach((entity) => {
             if (entity instanceof Brick) {
-                entity.bb.updateSides();
+                // this.playerCollion_World_R.updateSides()
+                // entity.bb.updateSides();
                 if(this.playerCollion_World_R.collide(entity.bb)) {
-
                     if (this.last_collision_World_R.bottom <= entity.bb.top) { //was above last
                         console.log("from top")
-                        this.posY -= entity.bb.top - this.playerCollion_World_R.bottom + (this.playerCollion_World_R.height/ 2) + (this.speed * GAME_ENGINE.clockTick)
+                        this.posY -= this.playerCollion_World_R.bottom - entity.bb.top
                         // this.posY -= this.playerCollion_World_R.bottom - entity.bb.top
 
                     } else if (this.last_collision_World_R.left >= entity.bb.right) { //from right
                         console.log("from right ")
-                        this.posX += this.playerCollion_World_R.left - entity.bb.right + (this.playerCollion_World_R.width/ 2) - (this.speed * GAME_ENGINE.clockTick)
+                        this.posX += entity.bb.right - this.playerCollion_World_R.left
 
                     } else if (this.last_collision_World_R.right <= entity.bb.left) { //from left
                         console.log("from left")
-                        this.posX -= entity.bb.left - this.playerCollion_World_R.right + (this.playerCollion_World_R.width/ 2) + (this.speed * GAME_ENGINE.clockTick)
+                        this.posX -= this.playerCollion_World_R.right - entity.bb.left
 
-                    } else { //was below last
+                    } else if (this.last_collision_World_R.top >= entity.bb.bottom) { //was below last
                         console.log("from bottom")
-                        this.posY += this.playerCollion_World_R.top - entity.bb.bottom + (this.playerCollion_World_R.height/ 2) - (this.speed * GAME_ENGINE.clockTick)
+                        this.posY += entity.bb.bottom - this.playerCollion_World_R.top
                     }
-
                 }
             } else if (entity instanceof Zombie) {
                 if(this.playerCollision_Zombies_C.collide(entity.bc)) {

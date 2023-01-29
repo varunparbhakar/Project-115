@@ -5,44 +5,47 @@ const GUN_AR = 2
 const GUN_Shotgun = 3
 
 class Gun {
-    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty) {
-        this.magazineSize = 100;
-        this.totalAmmo = 300;
+    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed) {
+        Object.assign(this, {damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed})
         this.currentMagazineAmmo = this.magazineSize;
-
-        this.maxFireCooldown = 0.25;
         this.currentFireCooldown = 0;
-
-        this.reloadTime = 10; //TODO Player use to cooldown before shooting again
-        this.movementScale = 0; //TODO multiplication
-
-        //PISTOL ATTRIBUTES
-
-
-        //TODO spread/recoil
+        this.currentReloadTime = 0
+        this.currentRecoil = 0
     }
-
 
     update() {
-        this.fireRateHandler()
-        // console.log(this.currentFireCooldown) //DEBUG
-    }
-
-    fireRateHandler() {
+        //fire rate cooldown
         if (this.currentFireCooldown > 0) {
             this.currentFireCooldown -= GAME_ENGINE.clockTick
+        }
+
+        //recoil cooldown
+        if (this.currentRecoil > 0) {
+            this.currentRecoil -= this.recoilDecreaseRate * GAME_ENGINE.clockTick
+        }
+
+        //reload cooldown
+        if (this.currentReloadTime > 0) {
+            this.currentReloadTime -= GAME_ENGINE.clockTick
         }
     }
 
     shoot(posX, posY, angle) {
+        // console.log("FIRE COOLDOWN: " + this.currentFireCooldown)
+        // console.log("Reload COOLDOWN: " + this.currentFireCooldown)
+        // console.log("FIRE COOLDOWN: " + this.currentFireCooldown)
         //Check FireRate
         if (this.currentFireCooldown > 0) { //still in cooldown
-            return;
+            return false;
         }
-        this.currentFireCooldown = this.maxFireCooldown //add cooldown
+        //check reload
+        if (this.currentReloadTime > 0) {
+            return false;
+        }
+        this.currentFireCooldown = this.maxFireCooldown //set cooldown
 
         //Check Ammo
-        if (this.currentMagazineAmmo == 0) return  //no ammo
+        if (this.currentMagazineAmmo === 0) return false //no ammo
         this.currentMagazineAmmo -= 1 //fire ammo
 
         //Shoot
@@ -53,15 +56,19 @@ class Gun {
         return true
     }
 
-    spawnBullet(posX, posY, angle) {
-        // //Spawn Bullet
-        // let tempBullet = new Bullet(posX, posY, angle, 20);
-        // GAME_ENGINE.addEntity(tempBullet)
+    getSpreadAngle(angle) {
+        return angle + this.currentRecoil * (Math.random() * - 1)
     }
 
     reload() {
+        if (this.currentMagazineAmmo === this.magazineSize) {
+            return false
+        }
         this.totalAmmo = (this.magazineSize - this.currentMagazineAmmo);
         this.currentMagazineAmmo = this.magazineSize;
+        this.currentRecoil = 0
+        this.currentFireCooldown = 0
+        return true
     }
 
 }

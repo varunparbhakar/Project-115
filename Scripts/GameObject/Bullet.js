@@ -8,25 +8,23 @@ const BULLET_ANGLE_OFFSET = 0
 const BULLET_IMAGE_SCALE = 0.2
 const BULLET_IMAGE_WIDTH = 150 * BULLET_IMAGE_SCALE
 const BULLET_IMAGE_HEIGHT = 150 * BULLET_IMAGE_SCALE
-let BULLET_SPEED = 100
 const BULLET_DESPAWN_TIME = 10
 
 class Bullet extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed) {
-        BULLET_SPEED = bulletspeed
-        super(posX, posY,
-            "Assets/Images/Items/Bullets/Bullet.png",
-            0, 0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT, 1, 1,
-            1, angle, BULLET_SPEED, BULLET_DESPAWN_TIME);
+        console.log("CONSTRUCTUR BULLET: " + posX + " " +  posY)
+        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
+
+        console.log(posX, posY)
+        console.log(this.posX, this.posY)
 
         this.damage = damage
-        this.BULLET_SPEED = bulletspeed
 
     }
+
     update() {
         super.update();
         this.checkCollisions()
-
     }
 
     checkCollisions() {
@@ -34,6 +32,11 @@ class Bullet extends Projectile {
             if (entity instanceof Zombie) {
                 if(this.bc.collide(entity.bc)) {
                     entity.takeDamage(this.damage)
+                    this.removeFromWorld = true
+                }
+            }
+            if (entity instanceof Brick) {
+                if(this.bb.collide(entity.bb)) {
                     this.removeFromWorld = true
                 }
             }

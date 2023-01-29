@@ -5,6 +5,7 @@ const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Player.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Zombie_PNG.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Boss/Panzer_Soldat.png");
+ASSET_MANAGER.queueDownload("Assets/Images/Map/Blocks/Bricks.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/Bullets/Bullet.png");
 
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png");

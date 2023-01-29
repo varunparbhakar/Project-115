@@ -4,8 +4,8 @@ class BoundingBox {
     };
 
     collide(oth) {
-        this.drawBoundingBox();
-        oth.drawBoundingBox();
+        this.updateSides()
+        oth.updateSides()
         if (this.right > oth.left &&
             this.left < oth.right &&
             this.top < oth.bottom &&

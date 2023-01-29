@@ -11,25 +11,7 @@ class SceneManager {
         this.posX = 0;
         this.posY = 0;
 
-        //Player
-        this.player = new Player(0,0);
-        //Level Loading //TODO manage level entities in xml or something
-        GAME_ENGINE.addEntity(new Brick(100, 100));
-        
-        // GAME_ENGINE.addEntity(new Zombie(-400, -400));
-
-        // GAME_ENGINE.addEntity(new Zombie(-500, -425));
-        // GAME_ENGINE.addEntity(new Zombie(-60, -450));
-        // GAME_ENGINE.addEntity(new Zombie(-10, -475));
-        // GAME_ENGINE.addEntity(new Zombie(30, -500));
-        //  GAME_ENGINE.addEntity(new Zombie(40, -520));
-        GAME_ENGINE.addEntity(this.player)
-        // GAME_ENGINE.addEntity(new Bullet(0,0, 0, 100))
-        // GAME_ENGINE.addEntity(new Bullet(10,10, 45, 100))
-        // GAME_ENGINE.addEntity(new Bullet(20,20, 90, 100))
-
-
-        //GAME_ENGINE.addEntity(this.player);
+        this.changeLevel("level1") //TODO TITLE
     }
 
     /**
@@ -42,6 +24,70 @@ class SceneManager {
     }
 
     draw() {
+
+    }
+
+    /**
+     *
+     */
+    changeLevel(level) {
+        this.clearLevel()
+        switch (level) {
+            case "title":
+                break;
+            case "level1":
+                this.player = new Player(0,0);
+                GAME_ENGINE.addEntity(this.player)
+
+                //World
+
+
+                break;
+        }
+    }
+
+    clearLevel() {
+        GAME_ENGINE.entities.forEach((entity) => {
+            if (entity == this) {
+                entity.removeFromWorld = true
+            }
+        })
+    }
+}
+
+class RoundManager {
+    constructor() {
+        this.maxZombies = 24
+    }
+
+    /**
+     * Begin calculator
+     */
+    start() {
+        this.curr_Round = 1
+        this.curr_ZombiesSpawnDelay = 1
+        this.curr_ZombiesLeft = 66
+        this.curr_ZombiesSpawned = 0
+        this.curr_ZombiesHealth = 150
+        this.curr_RoundsUntilNextDog = randomInt(3) + 5
+    }
+
+    /**
+     * When all zombies die
+     */
+    roundEnd() {
+        this.curr_RoundsUntilNextDog--
+        // floor = //TODO
+    }
+
+    startDogRound() {
+        this.curr_RoundsUntilNextDog = randomInt(3) + 4
+    }
+
+    /**
+     * Zombie call on death
+     */
+    reportKill() {
 
     }
 }
