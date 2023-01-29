@@ -36,29 +36,40 @@ class Player extends GameObject {
             1, 1,
             PLAYER_IMAGE_SCALE, false, false, 0);
 
-        //TODO better animator construction
+        //Animations
+        //setupAnimation
+        var loadAnimation = new LoadAnimations();
+        this.animationMatrix = loadAnimation.getAnimations()
         this.idleAnimation  = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
         this.movingAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,3, 0.1,PLAYER_IMAGE_SCALE)
         this.shootingAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Shooting/Pistol/Player_Shooting.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,3, 0.1,PLAYER_IMAGE_SCALE)
         this.reloadAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
-        
-        this.left_clickCooldown = 0
-        this.reloadAnimationCooldownITR = 0
-
+        this.meleeAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/knifing/Pistol/MeleeAttack.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
         this.animationRuntime = 0
-        this.animator = this.idleAnimation
+
+
+        this.animator = this.idleAnimation //TODO create a map {Key: GUN_ENUM, Value: List[Animation]}
+        this.ANIMATION_CurrentGun = GUN_Pistol
+
+
+
+
+
+        this.gunInventory = [new Pistol()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.currentGun = this.gunInventory[0];
+
+        this.angle = 0;
+
         //TODO adding animation list
-
         this.alive = true
-        this.heal_currentCooldown = 0;
 
+        this.heal_currentCooldown = 0;
         this.speed = PLAYER_WALKING_SPEED;
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
-        this.angle = 0;
 
-        this.gunInventory = [new Pistol()];
-        this.currentGun = this.gunInventory[0];
+        this.left_clickCooldown = 0
+        this.reloadAnimationCooldownITR = 0
 
         this.playerCollion_World_R = new BoundingBox(
             posX,
@@ -120,9 +131,9 @@ class Player extends GameObject {
             this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         }
         if (GAME_ENGINE.key_reload) {
-            this.changeAnimation(3)
-
-            this.currentGun.reload();
+            if (this.currentGun.reload()) {
+                this.changeAnimation(3, this.currentGun.reloadTime)
+            }
         }
 
 
@@ -144,10 +155,10 @@ class Player extends GameObject {
     }
 
 
-    changeAnimation(state) {
+    changeAnimation(state, totalTime=null) {
         switch (state) {
-            case (0) :
-                this.animator = this.idleAnimation
+            case (ANIMATION_Idle) :
+                this.animator = this.animationMatrix[GUN_Pistol][ANIMATION_Idle]
                 break;
             case(1):
                 this.animator = this.movingAnimation
@@ -258,6 +269,7 @@ class Player extends GameObject {
                 }
             }
         });
+        this.updateCollision()
     }
 
     takeDamage(damage) {

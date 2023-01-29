@@ -1,4 +1,9 @@
 //ABSTRACT
+const GUN_Pistol = 0
+const GUN_Knife = 1
+const GUN_AR = 2
+const GUN_Shotgun = 3
+
 class Gun {
     constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty) {
         this.magazineSize = 100;
@@ -41,8 +46,11 @@ class Gun {
         this.currentMagazineAmmo -= 1 //fire ammo
 
         //Shoot
-        this.spawnBullet(posX, posY, angle)
-        //console.log(this.currentMagazineAmmo)
+        let tempBullet = new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed)
+        GAME_ENGINE.addEntity(tempBullet)
+
+        this.currentRecoil += this.recoilIncreasePerClick;
+        return true
     }
 
     spawnBullet(posX, posY, angle) {

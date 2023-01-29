@@ -29,6 +29,9 @@ class GameEngine {
         this.startInput();
         this.timer = new Timer();
     };
+    getEntityList() {
+        return this.entities
+    }
 
     start() {
         this.running = true;

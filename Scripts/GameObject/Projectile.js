@@ -4,7 +4,6 @@ class Projectile extends GameObject {
         super(posX, posY, spritesheetPath, xStart, yStart, width, height, frameCount, frameDuration, scale, false, false, angle)
         this.speed = speed
         this.despawnTime = despawnTime
-        console.log( width, height)
 
         //Rotated Canvas Cache
         this.angle = angle
