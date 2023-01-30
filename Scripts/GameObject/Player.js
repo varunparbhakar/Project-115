@@ -285,12 +285,16 @@ class Player extends GameObject {
     }
 
     takeDamage(damage) {
+        //dmg
         this.hp -= damage
+        //death?
         if (this.hp <= 0) {
             this.alive = false
             this.removeFromWorld = true
         }
 
+        //screenshake
+        GAME_ENGINE.camera.startShake(0.5, 15)
         //reset heal cooldown
         this.heal_currentCooldown = PLAYER_HEAL_COOLDOWN;
     }
