@@ -27,9 +27,9 @@ class BoundingBox {
         this.bottom = this.top + this.height;
     }
 
-    drawBoundingBox() {
+    drawBoundingBox(color="red") {
         GAME_ENGINE.ctx.save();
-        GAME_ENGINE.ctx.strokeStyle = 'Red';
+        GAME_ENGINE.ctx.strokeStyle = color;
         GAME_ENGINE.ctx.strokeRect(
             this.x - GAME_ENGINE.camera.posX,
             this.y - GAME_ENGINE.camera.posY,
@@ -42,5 +42,9 @@ class BoundingBox {
         // GAME_ENGINE.ctx.fillStyle = "white";
         // GAME_ENGINE.ctx.fillRect(this.x - GAME_ENGINE.camera.x, this.y - GAME_ENGINE.camera.y, this.width, this.height);
         GAME_ENGINE.ctx.restore();
+    }
+
+    getCenteredPos() {
+        return [this.x + (this.width/2), this.y + (this.height/2)]
     }
 }

@@ -103,6 +103,9 @@ class GameEngine {
                 case "KeyR":
                     this.key_reload = true;
                     break;
+                case "KeyF":
+                    this.key_use = true;
+                    break;
             }
         }, false);
         this.ctx.canvas.addEventListener("keyup", (e) => {
@@ -124,6 +127,9 @@ class GameEngine {
                     break;
                 case "KeyR":
                     this.key_reload = false;
+                    break;
+                case "KeyF":
+                    this.key_use = false;
                     break;
             }
         }, false);

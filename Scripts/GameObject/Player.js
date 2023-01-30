@@ -105,14 +105,14 @@ class Player extends GameObject {
         }
 
         //TODO Velocity based movement
-        //WASD Move //TODO Strafing is faster than single key
 
+        //WASD Move
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
             if (this.state !== 3 && this.state !== 2) { //not while reloading or shooting
                 this.changeAnimation(1)
             }
         }
-
+        //TODO fix diagonal being faster
         if (GAME_ENGINE.key_up) {
             this.posY -= this.speed * GAME_ENGINE.clockTick;
             // this.printCoordinates()
@@ -131,7 +131,7 @@ class Player extends GameObject {
         }
         if(GAME_ENGINE.left_click) {
             if (this.currentGun.shoot(this.posX, this.posY, this.angle)) {
-                this.changeAnimation(2)
+                this.changeAnimation(2, this.currentGun.maxFireCooldown)
             }
         }
         if (GAME_ENGINE.key_reload) {
@@ -142,6 +142,7 @@ class Player extends GameObject {
         if (GAME_ENGINE.key_knife) {
             this.changeAnimation(2)
         }
+        //key_use is embedded in places that needs it to avoid always checking on update
 
 
         //Gun
@@ -205,7 +206,6 @@ class Player extends GameObject {
         return (Math.atan2(dy, dx));
     }
 
-    //TODO No animations possible, only rotates
     draw() {
         // var tempCanvas = document.createElement("canvas")
         // tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
@@ -260,25 +260,22 @@ class Player extends GameObject {
         this.player_Collision_World_BB.updateSides();
 
         GAME_ENGINE.entities.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB || entity instanceof Barrier) {
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
-                if(this.player_Collision_World_BB.collide(entity.bb)) {
-                    if (this.last_collision_World_R.bottom <= entity.bb.top) { //was above last
-                        this.posY -= this.player_Collision_World_BB.bottom - entity.bb.top
-                    } else if (this.last_collision_World_R.left >= entity.bb.right) { //from right
-                        this.posX += entity.bb.right - this.player_Collision_World_BB.left
-                    } else if (this.last_collision_World_R.right <= entity.bb.left) { //from left
-                        this.posX -= this.player_Collision_World_BB.right - entity.bb.left
-                    } else if (this.last_collision_World_R.top >= entity.bb.bottom) { //was below last
-                        this.posY += entity.bb.bottom - this.player_Collision_World_BB.top
-                    }
-                }
-            } else if (entity instanceof Zombie) {
+                this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
+            } else
+            if (entity instanceof Zombie) {
                 // let intersectionDepth = this.playerCollision_Zombies_C.collide(entity.bc_Attack)
                 // if (intersectionDepth < -95) {
                 //
                 // }
+            } else
+            //Barrier repair
+            if (entity instanceof Barrier) {
+                if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
+                    entity.repair()
+                }
             }
         });
         this.updateCollision()
@@ -306,6 +303,21 @@ class Player extends GameObject {
             this.hp = PLAYER_HP_MAX
         } else { //heal on cooldown
             this.heal_currentCooldown -= GAME_ENGINE.clockTick;
+        }
+    }
+
+    checkBBandPushOut(thisBB, thisBBLast, othBB) {
+        if(thisBB.collide(othBB)) {
+            if (thisBBLast.bottom <= othBB.top) { //was above last
+                this.posY -= thisBB.bottom - othBB.top
+            } else if (thisBBLast.left >= othBB.right) { //from right
+                this.posX += othBB.right - thisBB.left
+            } else if (thisBBLast.right <= othBB.left) { //from left
+                this.posX -= thisBB.right - othBB.left
+            } else if (thisBBLast.top >= othBB.bottom) { //was below last
+                this.posY += othBB.bottom - thisBB.top
+            }
+            this.updateCollision()
         }
     }
 

@@ -1,4 +1,4 @@
-class Animator {
+class Animator { //TODO add priority
     constructor(spritesheet, xStart, yStart, width, height, frameCount=1, frameDuration=1, scale=1, flippedX=false, flippedY=false) {
         Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale, flippedX, flippedY});
 

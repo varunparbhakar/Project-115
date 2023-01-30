@@ -66,7 +66,7 @@ class Projectile extends GameObject {
         // console.log(this.movementVectorX + ", " + this.movementVectorY)
 
         //CODE FROM PLAYER
-        this.tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
+        this.tempCanvas.width = Math.sqrt(Math.pow(Math.max(BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT), 2) * 2) //Offscreen canvas square that fits old asset
         this.tempCanvas.height = this.tempCanvas.width
         // var myOffset = this.tempCanvas.width/2 - this.width/2
         this.xAllign = 1 * BULLET_IMAGE_SCALE

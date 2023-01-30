@@ -13,6 +13,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Attacki
 
 //Loading Map
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/Map1.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Map/barrierLow.png")
 
 //Loading Pistol
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/Pistol/idle.png")

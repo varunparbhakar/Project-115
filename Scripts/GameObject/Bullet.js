@@ -37,7 +37,7 @@ class Bullet extends Projectile {
                 }
             }
             if (entity instanceof MapBB) {
-                if(this.bb.collide(entity.bb)) {
+                if(this.bb.collide(entity.bb) && !entity.projectilePasses) {
                     this.removeFromWorld = true
                 }
             }
