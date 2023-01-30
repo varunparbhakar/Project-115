@@ -13,7 +13,7 @@ const ZOMBIES_BB_DIMENSION = 100
 const ZOMBIES_BC_MOVEMENT_RADIUS = 70
 const ZOMBIES_BC_ATTACK_RADIUS = 150
 
-const ZOMBIES_PATHING_NODE_LEEWAY = 3
+const ZOMBIES_PATHING_NODE_LEEWAY = 5
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")

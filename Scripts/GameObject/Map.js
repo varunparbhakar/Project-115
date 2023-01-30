@@ -180,7 +180,7 @@ class Barrier {
         //Stats
         this.hp = BARRIER_MAX_HP
 
-        this.animator = new Animator("Assets/Images/Map/barrierLow.png", 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 1, 1)
+        // this.animator = new Animator("Assets/Images/Map/barrierLow.png", 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS)
     }
 
     update() {
@@ -188,7 +188,7 @@ class Barrier {
     }
 
     draw() {
-        // this.animator.drawFrame(this.bb.posX, this.bb.posY)
+        // this.animator.drawFrame(this.bb.posX, this.bb.posY) //TODO crashes when this is on
         this.bb.drawBoundingBox("red")
         this.bb_interact.drawBoundingBox("green")
     }
@@ -201,7 +201,7 @@ class Barrier {
         if (this.hp < 0) { //clamp
             this.hp = 0
         }
-        // console.log(this.hp)
+        console.log(this.hp)
     }
 
     /**
@@ -212,7 +212,7 @@ class Barrier {
         if (this.hp > BARRIER_MAX_HP) { //clamp
             this.hp = BARRIER_MAX_HP
         }
-        // console.log(this.hp)
+        console.log(this.hp)
     }
 }
 
