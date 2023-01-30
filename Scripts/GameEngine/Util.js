@@ -61,3 +61,14 @@ const getDistance = (p1, p2) => {
 const getDegreesToRadians = (deg) => {
     return deg * Math.PI / 180
 };
+
+const getUnitVector = (thisPosX, thisPosY, othPosX, othPosY) => {
+    //get angle
+    var dx = (othPosX) - (thisPosX);
+    var dy = (othPosY) - (thisPosY);
+    var angle = Math.atan2(dy, dx)
+    //to unit vector
+    var unitX = Math.cos(angle);
+    var unitY = Math.sin(angle);
+    return [Math.cos(angle), Math.sin(angle)]
+}

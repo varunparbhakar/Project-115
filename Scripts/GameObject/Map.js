@@ -30,6 +30,7 @@ class Map {
                 GAME_ENGINE.addEntity(new MapBB(842, 684, 11, 192, this))
                 GAME_ENGINE.addEntity(new MapBB(843, 468, 10, 162, this))
 
+                //for objects
                 GAME_ENGINE.addEntity(new MapBB(607, 598, 63, 63, this)) //table
                 GAME_ENGINE.addEntity(new MapBB(405, 468, 63, 54, this)) //bed
                 //slanted bench

@@ -30,12 +30,13 @@ class Bullet extends Projectile {
     checkCollisions() {
         GAME_ENGINE.entities.forEach((entity) => {
             if (entity instanceof Zombie) {
-                if(this.bc.collide(entity.bc)) {
+                let intersectionDepth = this.bc.collide(entity.bc_Movement)
+                if (intersectionDepth < 0) {
                     entity.takeDamage(this.damage)
                     this.removeFromWorld = true
                 }
             }
-            if (entity instanceof Brick) {
+            if (entity instanceof MapBB) {
                 if(this.bb.collide(entity.bb)) {
                     this.removeFromWorld = true
                 }

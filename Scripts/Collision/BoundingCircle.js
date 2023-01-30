@@ -3,15 +3,25 @@ class BoundingCircle {
         Object.assign(this, {radius, x, y})
     }
 
+    /**
+     * If return < 0, collision! You can push it
+     * @param oth
+     * @returns {number}
+     */
     collide(oth) {
         var dx = this.x - oth.x;
         var dy = this.y - oth.y;
-        var distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < this.radius + oth.radius) {
+        var distance = Math.sqrt((dx * dx) + (dy * dy)); //pythag thm
+        var intersectionDepth = distance - (this.radius + oth.radius)
+        if (intersectionDepth < 0) {
             console.log(("COLLIDED CIRCLE!"))
-            return true
         }
-        return false
+        return intersectionDepth
+        // if (distance < this.radius + oth.radius) {
+        //     console.log(("COLLIDED CIRCLE!"))
+        //     return true
+        // }
+        // return false
     }
     drawBoundingCircle(color) {
         GAME_ENGINE.ctx.save();

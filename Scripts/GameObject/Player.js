@@ -280,7 +280,8 @@ class Player extends GameObject {
                     }
                 }
             } else if (entity instanceof Zombie) {
-                if(this.playerCollision_Zombies_C.collide(entity.bc)) {
+                let intersectionDepth = this.playerCollision_Zombies_C.collide(entity.bc_Movement)
+                if (intersectionDepth < 0) {
                     
                 }
             }
@@ -292,6 +293,7 @@ class Player extends GameObject {
         this.hp -= damage
         if (this.hp <= 0) {
             this.alive = false
+            this.removeFromWorld = true
         }
 
         //reset heal cooldown
