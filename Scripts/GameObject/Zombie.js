@@ -6,11 +6,10 @@ const ZOMBIE_ANGLE_OFFSET = -1.6;
 
 const ZOMBIE_SPEEDS = [PLAYER_WALKING_SPEED*0.25, PLAYER_WALKING_SPEED*0.95, PLAYER_RUNNING_SPEED*0.60, PLAYER_RUNNING_SPEED*0.8];
 
-const ZOMBIE_ATTACK_WINDUP = 0.25
 const ZOMBIE_ATTACK_DAMAGE = 50
 const ZOMBIE_ATTACK_COOLDOWN = 0.5
 
-const ZOMBIES_BB_DIMENSION = 200
+const ZOMBIES_BB_DIMENSION = 100
 const ZOMBIES_BC_MOVEMENT_RADIUS = 70
 const ZOMBIES_BC_ATTACK_RADIUS = 150
 
@@ -33,12 +32,11 @@ class Zombie extends GameObject {
 
         this.speed = ZOMBIE_SPEEDS[0] //TODO add to constructor
 
-        this.attack_canAttack = true
         this.attack_currentCooldown = 0
         this.attack_isSwinging = 0
 
         this.hasSightOfPlayer = true; //TODO raycast check
-        this.hp = 100 ////TODO add to constructor
+        this.hp = 100
 
         this.bb = new BoundingBox(posX+ZOMBIES_BB_DIMENSION, posY+ZOMBIES_BB_DIMENSION, ZOMBIES_BB_DIMENSION, ZOMBIES_BB_DIMENSION)
         this.bc_Movement = new BoundingCircle(posX,posY,ZOMBIES_BC_MOVEMENT_RADIUS)
@@ -47,8 +45,8 @@ class Zombie extends GameObject {
     }
 
     saveLastBB() {
-        this.lastbb_Movement = this.bb_Movement
-        this.bb_Movement = new BoundingBox(
+        this.lastbb = this.bb
+        this.bb = new BoundingBox(
             this.posX - (ZOMBIE_IMAGE_WIDTH/ 2),
             this.posY - (ZOMBIE_IMAGE_HEIGHT/ 2),
             this.bb.width,
@@ -103,14 +101,14 @@ class Zombie extends GameObject {
         }
     }
 
-    attackHanlder() {
-        if (!this.attack_canAttack) {
-            this.attack_currentCooldown -= GAME_ENGINE.clockTick
-        }
-        if (!this.attack_canAttack && this.attack_currentCooldown <= 0) {
-            this.attack_canAttack = true
-        }
-    }
+    // attackHanlder() {
+    //     if (!this.attack_canAttack) {
+    //         this.attack_currentCooldown -= GAME_ENGINE.clockTick
+    //     }
+    //     if (!this.attack_canAttack && this.attack_currentCooldown <= 0) {
+    //         this.attack_canAttack = true
+    //     }
+    // }
 
     checkCollisions() {
         GAME_ENGINE.entities.forEach((entity) => {
@@ -125,22 +123,18 @@ class Zombie extends GameObject {
                 } else {
                     this.state = 0 //normal
                     this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
-                    this.changeAnimation(0, ZOMBIE_ATTACK_COOLDOWN)
+                    this.changeAnimation(0)
                 }
                 //Attack Hurt
-                intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
-                if (intersectionDepth < 0) {
-                    if (this.attack_canAttack) {
-                        this.attack_canAttack = false;
-                        if (this.attack_currentCooldown <= 0) {
-                            entity.takeDamage(ZOMBIE_ATTACK_DAMAGE)
-                            this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
-                            console.log("attacked player for " + ZOMBIE_ATTACK_DAMAGE)
-                        }
+                if (intersectionDepth < -50) { //if px inside player, hit //TODO raycast check
+                    if (this.attack_currentCooldown <= 0) {
+                        entity.takeDamage(ZOMBIE_ATTACK_DAMAGE)
+                        this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
+                        console.log("attacked player for " + ZOMBIE_ATTACK_DAMAGE) //TODO remove debug
                     }
                 }
                 //Movement
-                intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Zombies_C)
+                intersectionDepth = this.bc_Movement.collide(entity.playerCollision_Zombies_C)
                 if (intersectionDepth < 0) {
                     let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
                     this.posX += unitV[0] * intersectionDepth / 10
@@ -150,17 +144,13 @@ class Zombie extends GameObject {
             //With World
             if (entity instanceof MapBB) {
                 if(this.bb.collide(entity.bb)) {
-                    if (this.lastbb_Movement.bottom <= entity.bb.top) { //was above last
-                        console.log("from top")
+                    if (this.lastbb.bottom <= entity.bb.top) { //was above last
                         this.posY -= this.bb.bottom - entity.bb.top
-                    } else if (this.lastbb_Movement.left >= entity.bb.right) { //from right
-                        console.log("from right ")
+                    } else if (this.lastbb.left >= entity.bb.right) { //from right
                         this.posX += entity.bb.right - this.bb.left
-                    } else if (this.lastbb_Movement.right <= entity.bb.left) { //from left
-                        console.log("from left")
+                    } else if (this.lastbb.right <= entity.bb.left) { //from left
                         this.posX -= this.bb.right - entity.bb.left
-                    } else if (this.lastbb_Movement.top >= entity.bb.bottom) { //was below last
-                        console.log("from bottom")
+                    } else if (this.lastbb.top >= entity.bb.bottom) { //was below last
                         this.posY += entity.bb.bottom - this.bb.top
                     }
                     this.updateCollision()
@@ -246,7 +236,8 @@ class Zombie extends GameObject {
         // super.draw()
         this.animator.drawFrame(this.posX,this.posY,this.angle + ZOMBIE_ANGLE_OFFSET)
         //TODO DEBUG ONLY
-        this.bc_Movement.drawBoundingCircle("red");
+        this.bc_Movement.drawBoundingCircle("blue");
+        this.bc_Attack.drawBoundingCircle("red");
         this.bb.drawBoundingBox();
     }
 

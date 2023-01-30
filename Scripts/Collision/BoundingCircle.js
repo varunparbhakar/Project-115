@@ -14,7 +14,7 @@ class BoundingCircle {
         var distance = Math.sqrt((dx * dx) + (dy * dy)); //pythag thm
         var intersectionDepth = distance - (this.radius + oth.radius)
         if (intersectionDepth < 0) {
-            console.log(("COLLIDED CIRCLE!"))
+            // console.log(("COLLIDED CIRCLE!"))
         }
         return intersectionDepth
         // if (distance < this.radius + oth.radius) {

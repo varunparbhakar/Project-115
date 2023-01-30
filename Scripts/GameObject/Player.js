@@ -17,7 +17,7 @@ const PLAYER_VULNERABLE_RADIUS_SCALE = 1.5;
 
 const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
-const PLAYER_HEAL_COOLDOWN = 2;
+const PLAYER_HEAL_COOLDOWN = 5;
 
 const PLAYER_LEFT_CLICK_COOLDOWN = 1;
 const PLAYER_RELOAD_COOLDOWN = 5
@@ -60,9 +60,12 @@ class Player extends GameObject {
         this.angle = 0;
 
         //TODO adding animation list
-        this.alive = true
 
+        //HP
+        this.alive = true
+        this.hp = PLAYER_HP_MAX
         this.heal_currentCooldown = 0;
+        //Speed, Sprint, Stamina
         this.speed = PLAYER_WALKING_SPEED;
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
@@ -80,13 +83,13 @@ class Player extends GameObject {
     };
 
     update() {
+        // console.log(this.hp)
         //Mouse
         this.angle = this.mouseRotationHandler() ;
 
         //this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         // console.log(this.sprintStamina + "\n" + this.sprintRest)
 
-        //TODO Sprint stamina
         //Sprint
         if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== 3) {
             this.speed = PLAYER_RUNNING_SPEED;
@@ -262,20 +265,12 @@ class Player extends GameObject {
                 // entity.bb.updateSides();
                 if(this.player_Collision_World_BB.collide(entity.bb)) {
                     if (this.last_collision_World_R.bottom <= entity.bb.top) { //was above last
-                        console.log("from top")
                         this.posY -= this.player_Collision_World_BB.bottom - entity.bb.top
-                        // this.posY -= this.playerCollion_World_R.bottom - entity.bb.top
-
                     } else if (this.last_collision_World_R.left >= entity.bb.right) { //from right
-                        console.log("from right ")
                         this.posX += entity.bb.right - this.player_Collision_World_BB.left
-
                     } else if (this.last_collision_World_R.right <= entity.bb.left) { //from left
-                        console.log("from left")
                         this.posX -= this.player_Collision_World_BB.right - entity.bb.left
-
                     } else if (this.last_collision_World_R.top >= entity.bb.bottom) { //was below last
-                        console.log("from bottom")
                         this.posY += entity.bb.bottom - this.player_Collision_World_BB.top
                     }
                 }
@@ -297,14 +292,15 @@ class Player extends GameObject {
         }
 
         //reset heal cooldown
-        this.heal_currentCooldown = this.PLAYER_HEAL_COOLDOWN;
+        this.heal_currentCooldown = PLAYER_HEAL_COOLDOWN;
     }
 
     healHandler() {
-        if (this.heal_currentCooldown <= 0) {
-            if (this.hp <= PLAYER_HP_MAX)
-                this.hp += PLAYER_HEAL_POINTS * GAME_ENGINE.clockTick;
-        } else {
+        if (this.heal_currentCooldown <= 0) { //can heal
+            if (this.hp < PLAYER_HP_MAX) //less than max hp
+                this.hp += PLAYER_HEAL_POINTS * GAME_ENGINE.clockTick; //heal
+            this.hp = PLAYER_HP_MAX
+        } else { //heal on cooldown
             this.heal_currentCooldown -= GAME_ENGINE.clockTick;
         }
     }
