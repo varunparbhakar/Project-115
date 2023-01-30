@@ -45,6 +45,8 @@ class SceneManager {
                 GAME_ENGINE.addEntity(this.map)
                 GAME_ENGINE.addEntity(this.player)
                 GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX, this.map.playerSpawnY))
+                GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX, this.map.playerSpawnY))
+                GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX, this.map.playerSpawnY))
 
                 break;
         }

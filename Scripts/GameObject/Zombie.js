@@ -183,7 +183,7 @@ class Zombie extends GameObject {
         // super.draw()
         this.animator.drawFrame(this.posX,this.posY,this.angle + ZOMBIE_ANGLE_OFFSET)
         //TODO DEBUG ONLY
-        this.bc.drawBoundingCircle("red");
+        this.bc_Movement.drawBoundingCircle("red");
         this.bb.drawBoundingBox();
     }
 

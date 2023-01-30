@@ -70,7 +70,7 @@ class Player extends GameObject {
         this.left_clickCooldown = 0
         this.reloadAnimationCooldownITR = 0
 
-        this.playerCollion_World_R = new BoundingBox(
+        this.player_Collision_World_BB = new BoundingBox(
             posX,
             posY,
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
@@ -227,24 +227,24 @@ class Player extends GameObject {
         this.animator.drawFrame(this.posX, this.posY, this.angle + PLAYER_IMAGE_ROTATION_OFFSET)
 
         //TODO remove debug
-        this.playerCollion_World_R.drawBoundingBox()
+        this.player_Collision_World_BB.drawBoundingBox()
         this.playerCollision_Zombies_C.drawBoundingCircle("Red")
         this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
     }
 
     saveLastBB() {
-        this.last_collision_World_R = this.playerCollion_World_R
-        this.playerCollion_World_R = new BoundingBox(
-            this.posX - (this.playerCollion_World_R.width/ 2),
-            this.posY - (this.playerCollion_World_R.height/ 2),
+        this.last_collision_World_R = this.player_Collision_World_BB
+        this.player_Collision_World_BB = new BoundingBox(
+            this.posX - (this.player_Collision_World_BB.width/ 2),
+            this.posY - (this.player_Collision_World_BB.height/ 2),
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
     }
 
     updateCollision() {
-        this.playerCollion_World_R.x = this.posX - (this.playerCollion_World_R.width/ 2)
-        this.playerCollion_World_R.y = this.posY - (this.playerCollion_World_R.width/ 2)
-        this.playerCollion_World_R.updateSides()
+        this.player_Collision_World_BB.x = this.posX - (this.player_Collision_World_BB.width/ 2)
+        this.player_Collision_World_BB.y = this.posY - (this.player_Collision_World_BB.width/ 2)
+        this.player_Collision_World_BB.updateSides()
 
         this.playerCollision_Vulnerable_C.x = this.posX
         this.playerCollision_Vulnerable_C.y = this.posY
@@ -254,29 +254,29 @@ class Player extends GameObject {
     }
 
     checkCollisions() {
-        this.playerCollion_World_R.updateSides();
+        this.player_Collision_World_BB.updateSides();
 
         GAME_ENGINE.entities.forEach((entity) => {
             if (entity instanceof MapBB) {
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
-                if(this.playerCollion_World_R.collide(entity.bb)) {
+                if(this.player_Collision_World_BB.collide(entity.bb)) {
                     if (this.last_collision_World_R.bottom <= entity.bb.top) { //was above last
                         console.log("from top")
-                        this.posY -= this.playerCollion_World_R.bottom - entity.bb.top
+                        this.posY -= this.player_Collision_World_BB.bottom - entity.bb.top
                         // this.posY -= this.playerCollion_World_R.bottom - entity.bb.top
 
                     } else if (this.last_collision_World_R.left >= entity.bb.right) { //from right
                         console.log("from right ")
-                        this.posX += entity.bb.right - this.playerCollion_World_R.left
+                        this.posX += entity.bb.right - this.player_Collision_World_BB.left
 
                     } else if (this.last_collision_World_R.right <= entity.bb.left) { //from left
                         console.log("from left")
-                        this.posX -= this.playerCollion_World_R.right - entity.bb.left
+                        this.posX -= this.player_Collision_World_BB.right - entity.bb.left
 
                     } else if (this.last_collision_World_R.top >= entity.bb.bottom) { //was below last
                         console.log("from bottom")
-                        this.posY += entity.bb.bottom - this.playerCollion_World_R.top
+                        this.posY += entity.bb.bottom - this.player_Collision_World_BB.top
                     }
                 }
             } else if (entity instanceof Zombie) {
