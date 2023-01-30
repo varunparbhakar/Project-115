@@ -133,12 +133,14 @@ class Zombie extends GameObject {
                         console.log("attacked player for " + ZOMBIE_ATTACK_DAMAGE) //TODO remove debug
                     }
                 }
-                //Movement
+                //Movement Zombie
                 intersectionDepth = this.bc_Movement.collide(entity.playerCollision_Zombies_C)
                 if (intersectionDepth < 0) {
                     let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
                     this.posX += unitV[0] * intersectionDepth / 10
                     this.posY += unitV[1] * intersectionDepth / 10
+                    entity.posX -= unitV[0] * intersectionDepth / 10
+                    entity.posY -= unitV[1] * intersectionDepth / 10
                 }
             }
             //With World

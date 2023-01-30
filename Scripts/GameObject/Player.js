@@ -275,10 +275,10 @@ class Player extends GameObject {
                     }
                 }
             } else if (entity instanceof Zombie) {
-                let intersectionDepth = this.playerCollision_Zombies_C.collide(entity.bc_Movement)
-                if (intersectionDepth < 0) {
-                    
-                }
+                // let intersectionDepth = this.playerCollision_Zombies_C.collide(entity.bc_Attack)
+                // if (intersectionDepth < -95) {
+                //
+                // }
             }
         });
         this.updateCollision()
