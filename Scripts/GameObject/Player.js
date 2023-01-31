@@ -240,8 +240,8 @@ class Player extends GameObject {
         this.player_Collision_World_BB = new BoundingBox(
             this.posX - (this.player_Collision_World_BB.width/ 2),
             this.posY - (this.player_Collision_World_BB.height/ 2),
-            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
-            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
+            PLAYER_BB_DIMENSION,
+            PLAYER_BB_DIMENSION)
     }
 
     updateCollision() {
@@ -264,13 +264,13 @@ class Player extends GameObject {
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
-            } else
+            }
             if (entity instanceof Zombie) {
                 // let intersectionDepth = this.playerCollision_Zombies_C.collide(entity.bc_Attack)
                 // if (intersectionDepth < -95) {
                 //
                 // }
-            } else
+            }
             //Barrier repair
             if (entity instanceof Barrier) {
                 if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {

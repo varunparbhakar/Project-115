@@ -73,6 +73,7 @@ class Zombie extends GameObject {
         //BB
         this.bb.x = this.posX - (ZOMBIES_BB_DIMENSION/ 2)
         this.bb.y = this.posY - (ZOMBIES_BB_DIMENSION/ 2)
+        this.bb.updateSides()
     }
 
     update() {
@@ -148,11 +149,11 @@ class Zombie extends GameObject {
                     entity.posX -= unitV[0] * intersectionDepth / 10
                     entity.posY -= unitV[1] * intersectionDepth / 10
                 }
-            } else
+            }
             //With World
             if (entity instanceof MapBB) {
                 this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
-            } else
+            }
             // With Barrier
             if (entity instanceof Barrier) {
                 if (entity.hp > 0) { //barrier alive, stop and attack
@@ -160,10 +161,9 @@ class Zombie extends GameObject {
                         entity.takeDamage()
                         //TODO swing at barrier
                     }
-                    //TODO Make it collide, some reason not working
                     this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
                 }
-            } else
+            }
             //With Other Zombies
             if (entity instanceof Zombie && entity != this) {
                 var intersectionDepth = this.bc_Movement.collide(entity.bc_Movement)
@@ -175,7 +175,6 @@ class Zombie extends GameObject {
                     this.updateCollision()
                 }
             }
-
         })
     }
 

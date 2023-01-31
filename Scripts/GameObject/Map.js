@@ -44,11 +44,11 @@ class Map {
                 // tempSpawner = new SpawnerBarrier(624)
                 GAME_ENGINE.addEntity(tempBarrier)
 
-                ////////////ROOM2////////////
-
                 //TEST
                 GAME_ENGINE.addEntity(new Zombie(this.playerSpawnX, this.playerSpawnY - 600, 2, tempBarrier))
                 GAME_ENGINE.addEntity(new Zombie(this.playerSpawnX, this.playerSpawnY - 2000, 0, tempBarrier))
+
+                ////////////ROOM2////////////
 
                 break;
         }
