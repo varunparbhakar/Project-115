@@ -72,3 +72,7 @@ const getUnitVector = (thisPosX, thisPosY, othPosX, othPosY) => {
     var unitY = Math.sin(angle);
     return [Math.cos(angle), Math.sin(angle)]
 }
+
+const pythagThm = (a,b) => {
+    return Math.sqrt((a*a) + (b*b))
+}

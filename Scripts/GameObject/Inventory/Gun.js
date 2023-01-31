@@ -90,7 +90,7 @@ class Pistol extends Gun {
             1, //movement penalty
             0.15, //increase per fire
             0.5, //recoil decrease rate
-            2000, //bullets speed
+            2000, //bullets speedTerminal
             0.1,5
         );
     }
