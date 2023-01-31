@@ -49,17 +49,8 @@ class SceneManager {
             case "title":
                 break;
             case "level1":
-                //World
                 this.map = new Map(0,0, "level1")
-                GAME_ENGINE.addEntity(this.map)
-                //Player
-                this.player = new Player(this.map.playerSpawnX,this.map.playerSpawnY);
-                GAME_ENGINE.addEntity(this.player)
-                // GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX + 700, this.map.playerSpawnY))
-                // GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX + 700, this.map.playerSpawnY))
-                // GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX + 700, this.map.playerSpawnY))
-                // GAME_ENGINE.addEntity(new Zombie(594 * this.map.scale, 400 * this.map.scale))
-
+                this.player = this.map.player
                 break;
         }
     }

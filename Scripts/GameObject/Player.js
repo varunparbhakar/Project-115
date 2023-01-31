@@ -111,7 +111,7 @@ class Player extends GameObject {
         }
         let speedTerminal = PLAYER_WALKING_SPEED
         // Sprint
-        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== 3) {
+        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== 3 && (GAME_ENGINE.key_down || GAME_ENGINE.key_up || GAME_ENGINE.key_left || GAME_ENGINE.key_right)) {
             speedTerminal = PLAYER_RUNNING_SPEED;
             this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
             this.sprintRest = (this.sprintStamina <= 0);

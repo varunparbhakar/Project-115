@@ -12,7 +12,7 @@ class GameEngine {
         this.ent_Projectiles = []
         this.ent_Player = null
         this.ent_Zombies = []
-        this.ent_Foreground = null
+        this.ent_MapForeground = []
         this.ent_HUD = []
         this.ent_OnlyUpdate = [] // won't draw
 
@@ -169,7 +169,7 @@ class GameEngine {
     1 this.ent_Projectiles = []
     2 this.ent_Zombies = []
     this.ent_Player = null
-    this.ent_Foreground = null
+    this.ent_MapForeground = null
     this.ent_HUD = []
      */
     addEntity(entity) {
@@ -179,8 +179,10 @@ class GameEngine {
             this.ent_Zombies.push(entity)
         } else if (entity instanceof MapBB || entity instanceof Barrier || entity instanceof Door) {
             this.ent_MapObjects.push(entity)
-        } else if (entity instanceof Map) {
+        } else if (entity instanceof MapLayer_Background) {
             this.ent_MapBackground = entity
+        } else if (entity instanceof MapLayer_Foreground) {
+            this.ent_MapForeground.push(entity)
         } else if (entity instanceof Player) {
             this.ent_Player = entity
         } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager) {
@@ -200,7 +202,7 @@ class GameEngine {
         this.draw1(this.ent_Projectiles)
         this.draw1(this.ent_Player)
         this.draw1(this.ent_Zombies)
-        this.draw1(this.ent_Foreground)
+        this.draw1(this.ent_MapForeground)
         this.draw1(this.ent_HUD)
     }
 
@@ -222,7 +224,7 @@ class GameEngine {
         this.update1(this.ent_Projectiles)
         this.update1(this.ent_Player)
         this.update1(this.ent_Zombies)
-        this.update1(this.ent_Foreground)
+        this.update1(this.ent_MapForeground)
         this.update1(this.ent_HUD)
         this.update1(this.ent_OnlyUpdate)
     }
@@ -257,6 +259,9 @@ class GameEngine {
         if (entity instanceof Player) {
             this.ent_Player = null
         }
+        if (entity instanceof MapLayer_Background) {
+            this.ent_MapBackground = null
+        }
     }
 
     clearWorld(clearSceneManager=false) {
@@ -265,7 +270,7 @@ class GameEngine {
         this.clearWorld(this.ent_Projectiles)
         this.clearWorld(this.ent_Player)
         this.clearWorld(this.ent_Zombies)
-        this.clearWorld(this.ent_Foreground)
+        this.clearWorld(this.ent_MapForeground)
         this.clearWorld(this.ent_HUD)
         this.clearWorld(this.ent_OnlyUpdate)
     }

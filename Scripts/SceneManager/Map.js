@@ -24,9 +24,16 @@ class Map {
         this.scale = 3.75
         this.playerSpawnX = 500 * this.scale
         this.playerSpawnY = 600 * this.scale
-        let imagePath = "Assets/Images/Map/Levels/Map1.png"
-        let asset = ASSET_MANAGER.getAsset(imagePath)
-        this.animator = new Animator(asset, 0, 0, asset.width, asset.height, 1, 1, this.scale)
+        //MapLayers
+        let imagePath_back = "Assets/Images/Map/Levels/Map1.png"
+        let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
+        GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
+        let imagePath_shadow = "Assets/Images/Map/Levels/Map1_shadow.png"
+        let asset_shadow = ASSET_MANAGER.getAsset(imagePath_shadow)
+        GAME_ENGINE.addEntity(new MapLayer_Foreground(new Animator(asset_shadow, 0, 0, asset_shadow.width, asset_shadow.height, 1, 1, this.scale)))
+        let imagePath_roof = "Assets/Images/Map/Levels/Map1_roof.png"
+        let asset_roof = ASSET_MANAGER.getAsset(imagePath_roof)
+        GAME_ENGINE.addEntity(new MapLayer_Foreground(new Animator(asset_roof, 0, 0, asset_roof.width, asset_roof.height, 1, 1, this.scale)))
         ////////////SPAWN ROOM////////////
         //MapBB Walls
         GAME_ENGINE.addEntity(new MapBB(394, 459, 202, 13, this))
@@ -90,10 +97,20 @@ class Map {
         let door2W = new Door(843, 626, 10, 60, 0, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
         GAME_ENGINE.addEntity(door2W)
 
+        ////////////PLayer///////////
+        this.player = new Player(this.playerSpawnX,this.playerSpawnY);
+        GAME_ENGINE.addEntity(this.player)
+
         ////////////ROUND MANAGER////////////
         this.roundManager = new RoundManager(room1Spawners)
         GAME_ENGINE.addEntity(this.roundManager)
         this.roundManager.start()
+    }
+}
+
+class MapLayer {
+    constructor(animator) {
+        this.animator = animator
     }
 
     update() {
@@ -103,6 +120,14 @@ class Map {
     draw() {
         this.animator.drawFrame(0,0)
     }
+}
+
+class MapLayer_Background extends MapLayer {
+    constructor(animator) { super(animator)}
+}
+
+class MapLayer_Foreground extends MapLayer {
+    constructor(animator) { super(animator) }
 }
 
 class MapBB {
