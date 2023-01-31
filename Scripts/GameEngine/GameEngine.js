@@ -6,8 +6,15 @@ class GameEngine {
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
         this.ctx = null;
 
-        // Everything that will be updated and drawn each frame
-        this.entities = [];
+        // Everything that will be updated and drawn each frame (bottom is last to render)
+        this.ent_MapBackground = null
+        this.ent_MapObjects = []
+        this.ent_Projectiles = []
+        this.ent_Player = null
+        this.ent_Zombies = []
+        this.ent_Foreground = null
+        this.ent_HUD = []
+        this.ent_OnlyUpdate = [] // won't draw
 
         // Information on the input
         this.click = false;
@@ -156,43 +163,124 @@ class GameEngine {
         });
     }
 
-
+    /*
+    this.ent_MapBackground = null
+    3 this.ent_MapObjects = []
+    1 this.ent_Projectiles = []
+    2 this.ent_Zombies = []
+    this.ent_Player = null
+    this.ent_Foreground = null
+    this.ent_HUD = []
+     */
     addEntity(entity) {
-        this.entities.push(entity);
-    };
+        if (entity instanceof Projectile) {
+            this.ent_Projectiles.push(entity)
+        } else if (entity instanceof Zombie) {
+            this.ent_Zombies.push(entity)
+        } else if (entity instanceof MapBB || entity instanceof Barrier || entity instanceof Door) {
+            this.ent_MapObjects.push(entity)
+        } else if (entity instanceof Map) {
+            this.ent_MapBackground = entity
+        } else if (entity instanceof Player) {
+            this.ent_Player = entity
+        } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager) {
+            this.ent_OnlyUpdate.push(entity)
+        } else {
+            console.log(entity.constructor.name + " was added wrong!")
+            this.ent_OnlyUpdate.push(entity)
+        }
+    }
 
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        // this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        // Draw latest things first
-        // for (let i = this.entities.length - 1; i >= 0; i--) {
-        //     this.entities[i].draw(this.ctx, this);
-        // }
+        this.draw1(this.ent_MapBackground)
+        this.draw1(this.ent_MapObjects)
+        this.draw1(this.ent_Projectiles)
+        this.draw1(this.ent_Player)
+        this.draw1(this.ent_Zombies)
+        this.draw1(this.ent_Foreground)
+        this.draw1(this.ent_HUD)
+    }
 
-        //Draw latest things last
-        for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw(this.ctx, this);
+    draw1(entities) {
+        if (!Array.isArray(entities)) { //Singular
+            if (entities == null) return
+            entities.draw(this.ctx, this)
+        } else {
+            // Draw latest things first
+            for (let i = entities.length - 1; i >= 0; i--) {
+                entities[i].draw(this.ctx, this);
+            }
         }
-    };
+    }
 
     update() {
-        let entitiesCount = this.entities.length;
+        this.update1(this.ent_MapBackground)
+        this.update1(this.ent_MapObjects)
+        this.update1(this.ent_Projectiles)
+        this.update1(this.ent_Player)
+        this.update1(this.ent_Zombies)
+        this.update1(this.ent_Foreground)
+        this.update1(this.ent_HUD)
+        this.update1(this.ent_OnlyUpdate)
+    }
 
-        for (let i = 0; i < entitiesCount; i++) {
-            let entity = this.entities[i];
-
-            if (!entity.removeFromWorld) {
-                entity.update();
+    update1(entities) {
+        if (!Array.isArray(entities)) { //Singular
+            if (entities == null) return
+            if (!entities.removeFromWorld) {
+                entities.update();
             }
-        }
+            if (entities.removeFromWorld) {
+                this.setNull(entities)
+            }
+        } else { //list
+            let entitiesCount = entities.length;
+            for (let i = 0; i < entitiesCount; i++) {
+                let entity = entities[i];
+                if (!entity.removeFromWorld) {
+                    entity.update();
+                }
+            }
 
-        for (let i = this.entities.length - 1; i >= 0; --i) {
-            if (this.entities[i].removeFromWorld) {
-                this.entities.splice(i, 1);
+            for (let i = entities.length - 1; i >= 0; --i) {
+                if (entities[i].removeFromWorld) {
+                    entities.splice(i, 1);
+                }
             }
         }
     };
+
+    setNull(entity) { //because 'entities' above as only a reference
+        if (entity instanceof Player) {
+            this.ent_Player = null
+        }
+    }
+
+    clearWorld(clearSceneManager=false) {
+        this.clearWorld(this.ent_MapBackground)
+        this.clearWorld(this.ent_MapObjects)
+        this.clearWorld(this.ent_Projectiles)
+        this.clearWorld(this.ent_Player)
+        this.clearWorld(this.ent_Zombies)
+        this.clearWorld(this.ent_Foreground)
+        this.clearWorld(this.ent_HUD)
+        this.clearWorld(this.ent_OnlyUpdate)
+    }
+
+    clearWorld(clearSceneManager, entities) {
+        if (!Array.isArray(entities)) {//Singular
+            if (entities == null) return
+            entities.removeFromWorld = true
+        } else { //list
+            for (let i = 0; i < entities.length; i++) {
+                if (entities[0] instanceof SceneManager && !clearSceneManager) return
+                entities.removeFromWorld[i] = true
+            }
+        }
+    }
 
     loop() {
         this.clockTick = this.timer.tick();

@@ -122,42 +122,42 @@ class Zombie extends GameObject {
     // }
 
     checkCollisions() {
-        GAME_ENGINE.entities.forEach((entity) => {
-            //WITH PLAYER
-            if (entity instanceof Player) {
-                //Swing
-                let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
-                if (intersectionDepth < 0) {
-                    this.changeAnimation(1) //swing
-                    this.attack_currentCooldown -= GAME_ENGINE.clockTick
-                } else {
+        //Player
+        if (GAME_ENGINE.ent_Player != null) {
+            let entity = GAME_ENGINE.ent_Player
+            //Swing
+            let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
+            if (intersectionDepth < 0) {
+                this.changeAnimation(1) //swing
+                this.attack_currentCooldown -= GAME_ENGINE.clockTick
+            } else {
+                this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
+                this.changeAnimation(0) //normal
+            }
+            //Attack Hurt
+            if (intersectionDepth < -50) { //if px inside player, hit //TODO raycast check
+                if (this.attack_currentCooldown <= 0) {
+                    entity.takeDamage(ZOMBIE_ATTACK_DAMAGE)
                     this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
-                    this.changeAnimation(0) //normal
-                }
-                //Attack Hurt
-                if (intersectionDepth < -50) { //if px inside player, hit //TODO raycast check
-                    if (this.attack_currentCooldown <= 0) {
-                        entity.takeDamage(ZOMBIE_ATTACK_DAMAGE)
-                        this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
-                        console.log("attacked player for " + ZOMBIE_ATTACK_DAMAGE) //TODO remove debug
-                    }
-                }
-                //Movement Zombie
-                intersectionDepth = this.bc_Movement.collide(entity.playerCollision_Zombies_C)
-                if (intersectionDepth < 0) {
-                    let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
-                    this.posX += unitV[0] * intersectionDepth / 10
-                    this.posY += unitV[1] * intersectionDepth / 10
-                    entity.posX -= unitV[0] * intersectionDepth / 10
-                    entity.posY -= unitV[1] * intersectionDepth / 10
+                    console.log("attacked player for " + ZOMBIE_ATTACK_DAMAGE) //TODO remove debug
                 }
             }
-            //With World
+            //Movement Zombie
+            intersectionDepth = this.bc_Movement.collide(entity.playerCollision_Zombies_C)
+            if (intersectionDepth < 0) {
+                let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
+                this.posX += unitV[0] * intersectionDepth / 10
+                this.posY += unitV[1] * intersectionDepth / 10
+                entity.posX -= unitV[0] * intersectionDepth / 10
+                entity.posY -= unitV[1] * intersectionDepth / 10
+            }
+        }
+        //MapObjects
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof MapBB) {
                 this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
             }
-            // With Barrier
-            if (entity instanceof Barrier) {
+            if (entity instanceof Barrier) { // With Barrier
                 if (entity.hp > 0) { //barrier alive, stop and attack
                     if (this.isPathingToBarrier && this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
                         entity.takeDamage()
@@ -167,7 +167,9 @@ class Zombie extends GameObject {
                 }
                 this.updateCollision()
             }
-            //With Other Zombies
+        })
+        //Zombies
+        GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie && entity != this) {
                 var intersectionDepth = this.bc_Movement.collide(entity.bc_Movement)
                 let intersectionDepthThreshold =  this.isPathingToBarrier ? -50 : 0 //Allows zombies to clump at window and get in

@@ -44,15 +44,14 @@ class SceneManager {
      *
      */
     changeLevel(level) {
-        this.clearLevel()
+        GAME_ENGINE.clearWorld()
         switch (level) {
             case "title":
                 break;
             case "level1":
                 //World
-                this.map = new Map(0,0)
+                this.map = new Map(0,0, "level1")
                 GAME_ENGINE.addEntity(this.map)
-                this.map.loadLevel("level1")
                 //Player
                 this.player = new Player(this.map.playerSpawnX,this.map.playerSpawnY);
                 GAME_ENGINE.addEntity(this.player)
@@ -63,14 +62,6 @@ class SceneManager {
 
                 break;
         }
-    }
-
-    clearLevel() {
-        GAME_ENGINE.entities.forEach((entity) => {
-            if (entity == this) {
-                entity.removeFromWorld = true
-            }
-        })
     }
 
     startShake(length, intensity) {

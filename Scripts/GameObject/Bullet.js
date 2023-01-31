@@ -28,7 +28,8 @@ class Bullet extends Projectile {
     }
 
     checkCollisions() {
-        GAME_ENGINE.entities.forEach((entity) => {
+        //Zombies
+        GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie) {
                 let intersectionDepth = this.bc.collide(entity.bc_Movement)
                 if (intersectionDepth < 0) {
@@ -36,6 +37,8 @@ class Bullet extends Projectile {
                     this.removeFromWorld = true
                 }
             }
+        })
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof MapBB) {
                 if(this.bb.collide(entity.bb) && !entity.projectilePasses) {
                     this.removeFromWorld = true

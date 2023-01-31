@@ -285,41 +285,41 @@ class Player extends GameObject {
     checkCollisions() {
         this.player_Collision_World_BB.updateSides();
 
-        GAME_ENGINE.entities.forEach((entity) => {
+        //MapObjects
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof MapBB) {
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
             } else
-            if (entity instanceof Zombie) {
-                // let intersectionDepth = this.playerCollision_Zombies_C.collide(entity.bc_Attack)
-                // if (intersectionDepth < -95) {
-                //
-                // }
-            } else
-            //Barrier repair
-            if (entity instanceof Barrier) {
+            if (entity instanceof Barrier) { //Barrier repair
                 //movement
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 //interact
                 if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
                     entity.repair()
-                }
-            } else
-            if (entity instanceof Door) {
-                //movement
-                if (entity.isLocked == true) {
-                    this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
-                }
-                //interact
-                if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
-                    if (this.money >= entity.cost) { //check money and buy
-                        this.money -= entity.cost
-                        entity.buy()
+                } else
+                if (entity instanceof Door) {
+                    //movement
+                    if (entity.isLocked == true) {
+                        this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
+                    }
+                    //interact
+                    if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
+                        if (this.money >= entity.cost) { //check money and buy
+                            this.money -= entity.cost
+                            entity.buy()
+                        }
                     }
                 }
             }
-        });
+        })
+        // //Zombies
+        // GAME_ENGINE.ent_MapObjects.forEach(() => {
+        //     if (entity instanceof Zombie) {
+        //
+        //     }
+        // })
         this.updateCollision()
     }
 
