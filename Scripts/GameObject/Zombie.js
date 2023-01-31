@@ -13,13 +13,13 @@ const ZOMBIES_BB_DIMENSION = 100
 const ZOMBIES_BC_MOVEMENT_RADIUS = 70
 const ZOMBIES_BC_ATTACK_RADIUS = 150
 
-const ZOMBIES_PATHING_NODE_LEEWAY = 5
+const ZOMBIES_PATHING_NODE_LEEWAY = 20
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
 
 class Zombie extends GameObject {
-    constructor(posX, posY, speed=0, pairedBarrier=null) {
+    constructor(posX, posY, speed=0, hp=150, pairedBarrier=null) {
         super(posX, posY, "Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png", //TODO better constructor
             0, 0,
             ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT,
@@ -35,8 +35,9 @@ class Zombie extends GameObject {
 
 
         //barrier
-        this.isPathingToBarrier = true //is zombie pathing to a barrier, ie just spawned?
         this.pairedBarrier = pairedBarrier //reference to Barrier to path to
+        this.isPathingToBarrier = this.pairedBarrier != null ? true : false //is zombie pathing to a barrier, ie just spawned?
+
 
         this.attack_currentCooldown = 0
         this.attack_isSwinging = 0
@@ -106,6 +107,7 @@ class Zombie extends GameObject {
     takeDamage(damage) {
         this.hp -= damage
         if (this.hp <= 0) {
+            GAME_ENGINE.camera.map.roundManager.reportKill()
             this.removeFromWorld = true
         }
     }
@@ -163,14 +165,16 @@ class Zombie extends GameObject {
                     }
                     this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
                 }
+                this.updateCollision()
             }
             //With Other Zombies
             if (entity instanceof Zombie && entity != this) {
                 var intersectionDepth = this.bc_Movement.collide(entity.bc_Movement)
-                if (intersectionDepth < 0) {
+                let intersectionDepthThreshold =  this.isPathingToBarrier ? -50 : 0 //Allows zombies to clump at window and get in
+                if (intersectionDepth < intersectionDepthThreshold) {
                     let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
-                    this.posX += unitV[0] * intersectionDepth
-                    this.posY += unitV[1] * intersectionDepth
+                    this.posX += unitV[0] * intersectionDepth / 10
+                    this.posY += unitV[1] * intersectionDepth / 10
 
                     this.updateCollision()
                 }
@@ -222,7 +226,7 @@ class Zombie extends GameObject {
         } else if (this.hasSightOfPlayer) { //look at player
             dx = (GAME_ENGINE.camera.player.posX) - (this.posX); //282/2 Accounting for difference in center of thing.
             dy = (GAME_ENGINE.camera.player.posY) - (this.posY);
-        } else { //TODO Look at movement dir
+        } else { //TODO Look at movement dir or Pathing next pos
 
         }
 

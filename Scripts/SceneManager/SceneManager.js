@@ -13,6 +13,7 @@ class SceneManager {
         this.shake_current = 0
         this.shake_intensity = 0
 
+        //Map
         this.changeLevel("level1") //TODO TITLE
     }
 
@@ -21,8 +22,8 @@ class SceneManager {
      */
     update() {
         //Moved Up and Left by (GAME_ENGINE.ctx.canvas.[width/height] / 2) for centering
-        this.posX = ((this.player.posX + GAME_ENGINE.getMouseWorldPosX()) / 2) - (GAME_ENGINE.ctx.canvas.width / 2);
-        this.posY = ((this.player.posY + GAME_ENGINE.getMouseWorldPosY()) / 2) - (GAME_ENGINE.ctx.canvas.height / 2);
+        this.posX = ((this.player.posX + GAME_ENGINE.getMouseWorldPosX()) / 2) - (GAME_ENGINE.ctx.canvas.width / 2)
+        this.posY = ((this.player.posY + GAME_ENGINE.getMouseWorldPosY()) / 2) - (GAME_ENGINE.ctx.canvas.height / 2)
         //shakeHandler
         if (this.shake_current > 0) {
             this.posX += ((Math.random() * 2) - 1) * this.shake_intensity * (this.shake_current/this.shake_max)
@@ -49,12 +50,11 @@ class SceneManager {
                 break;
             case "level1":
                 //World
-                this.map = new Map(0,0, "level1")
+                this.map = new Map(0,0)
+                GAME_ENGINE.addEntity(this.map)
+                this.map.loadLevel("level1")
                 //Player
                 this.player = new Player(this.map.playerSpawnX,this.map.playerSpawnY);
-
-                //Add
-                GAME_ENGINE.addEntity(this.map)
                 GAME_ENGINE.addEntity(this.player)
                 // GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX + 700, this.map.playerSpawnY))
                 // GAME_ENGINE.addEntity(new Zombie(this.map.playerSpawnX + 700, this.map.playerSpawnY))
@@ -78,43 +78,4 @@ class SceneManager {
         this.shake_max += length
         this.shake_intensity += intensity
     }
-}
-
-class RoundManager {
-    constructor() {
-        this.maxZombies = 24
-    }
-
-    /**
-     * Begin calculator
-     */
-    start() {
-        this.curr_Round = 1
-        this.curr_ZombiesSpawnDelay = 1
-        this.curr_ZombiesLeft = 66
-        this.curr_ZombiesSpawned = 0
-        this.curr_ZombiesHealth = 150
-        this.curr_RoundsUntilNextDog = randomInt(3) + 5
-    }
-
-    /**
-     * When all zombies die
-     */
-    roundEnd() {
-        this.curr_RoundsUntilNextDog--
-        // floor = //TODO
-    }
-
-    startDogRound() {
-        this.curr_RoundsUntilNextDog = randomInt(3) + 4
-    }
-
-    /**
-     * Zombie call on death
-     */
-    reportKill() {
-
-    }
-
-
 }

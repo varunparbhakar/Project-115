@@ -19,7 +19,7 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
-const PLAYER_LEFT_CLICK_COOLDOWN = 1;
+const PLAYER_LEFT_CLICK_COOLDOWN = 1
 const PLAYER_RELOAD_COOLDOWN = 5
 
 
@@ -46,20 +46,16 @@ class Player extends GameObject {
         this.animationRuntime = 0
         this.state = 0
 
-
         this.animator = this.idleAnimation //TODO create a map {Key: GUN_ENUM, Value: List[Animation]}
         this.ANIMATION_CurrentGun = GUN_Pistol
-
-
-
-
-
-        this.gunInventory = [new Pistol()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
-        this.currentGun = this.gunInventory[0];
 
         this.angle = 0;
 
         //TODO adding animation list
+
+        //Gus
+        this.gunInventory = [new Pistol()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.currentGun = this.gunInventory[0];
 
         //HP
         this.alive = true
@@ -69,6 +65,8 @@ class Player extends GameObject {
         this.speed = PLAYER_WALKING_SPEED;
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
+        //Money
+        this.money = 500
 
         this.left_clickCooldown = 0
         this.reloadAnimationCooldownITR = 0
@@ -113,22 +111,23 @@ class Player extends GameObject {
             }
         }
         //TODO fix diagonal being faster
+        let movementVector = [0,0]
         if (GAME_ENGINE.key_up) {
-            this.posY -= this.speed * GAME_ENGINE.clockTick;
-            // this.printCoordinates()
+            movementVector[1]--
         }
         if (GAME_ENGINE.key_down) {
-            this.posY += this.speed * GAME_ENGINE.clockTick;
-            // this.printCoordinates()
+            movementVector[1]++
         }
         if (GAME_ENGINE.key_left) {
-            this.posX -= this.speed * GAME_ENGINE.clockTick;
-            // this.printCoordinates()
+            movementVector[0]--
         }
         if (GAME_ENGINE.key_right) {
-            this.posX += this.speed * GAME_ENGINE.clockTick;
-            // this.printCoordinates()
+            movementVector[0]++
         }
+        getUnitVector(0,0, movementVector[0], movementVector[1])
+        this.posX += movementVector[0] * this.speed * GAME_ENGINE.clockTick;
+        this.posY += movementVector[1] * this.speed * GAME_ENGINE.clockTick;
+
         if(GAME_ENGINE.left_click) {
             if (this.currentGun.shoot(this.posX, this.posY, this.angle)) {
                 this.changeAnimation(2, this.currentGun.maxFireCooldown)
@@ -260,21 +259,37 @@ class Player extends GameObject {
         this.player_Collision_World_BB.updateSides();
 
         GAME_ENGINE.entities.forEach((entity) => {
-            if (entity instanceof MapBB || entity instanceof Barrier) {
+            if (entity instanceof MapBB) {
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
-            }
+            } else
             if (entity instanceof Zombie) {
                 // let intersectionDepth = this.playerCollision_Zombies_C.collide(entity.bc_Attack)
                 // if (intersectionDepth < -95) {
                 //
                 // }
-            }
+            } else
             //Barrier repair
             if (entity instanceof Barrier) {
+                //movement
+                this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
+                //interact
                 if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
                     entity.repair()
+                }
+            } else
+            if (entity instanceof Door) {
+                //movement
+                if (entity.isLocked == true) {
+                    this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
+                }
+                //interact
+                if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
+                    if (this.money >= entity.cost) { //check money and buy
+                        this.money -= entity.cost
+                        entity.buy()
+                    }
                 }
             }
         });

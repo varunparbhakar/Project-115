@@ -12,11 +12,11 @@ const BULLET_DESPAWN_TIME = 10
 
 class Bullet extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed) {
-        console.log("CONSTRUCTUR BULLET: " + posX + " " +  posY)
+        // console.log("CONSTRUCTUR BULLET: " + posX + " " +  posY)
         super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
 
-        console.log(posX, posY)
-        console.log(this.posX, this.posY)
+        // console.log(posX, posY)
+        // console.log(this.posX, this.posY)
 
         this.damage = damage
 
