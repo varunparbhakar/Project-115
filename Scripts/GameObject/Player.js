@@ -146,10 +146,10 @@ class Player extends GameObject {
             this.speedVector[1] = -speedTerminal
         }
         //close to zero
-        if (Math.abs(this.speedVector[0]) < 0.1) {
+        if (Math.abs(this.speedVector[0]) < 20) {
             this.speedVector[0] = 0
         }
-        if (Math.abs(this.speedVector[1]) < 0.1) {
+        if (Math.abs(this.speedVector[1]) < 20) {
             this.speedVector[1] = 0
         }
         this.posX += this.speedVector[0] * GAME_ENGINE.clockTick;
@@ -352,16 +352,16 @@ class Player extends GameObject {
         if(thisBB.collide(othBB)) {
             if (thisBBLast.bottom <= othBB.top) { //was above last
                 this.posY -= thisBB.bottom - othBB.top
-                this.speedVector[1] = 0
+                this.speedVector[1] = 0.0
             } else if (thisBBLast.left >= othBB.right) { //from right
                 this.posX += othBB.right - thisBB.left
-                this.speedVector[0] = 0
+                this.speedVector[0] = 0.0
             } else if (thisBBLast.right <= othBB.left) { //from left
                 this.posX -= thisBB.right - othBB.left
-                this.speedVector[0] = 0
+                this.speedVector[0] = 0.0
             } else if (thisBBLast.top >= othBB.bottom) { //was below last
                 this.posY += othBB.bottom - thisBB.top
-                this.speedVector[1] = 0
+                this.speedVector[1] = 0.0
             }
             this.updateCollision()
         }

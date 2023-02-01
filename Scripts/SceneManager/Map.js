@@ -469,6 +469,7 @@ class RoundManager {
     }
 
     update() {
+        if (this.curr_Round == 0) return
         //Spawn Zombie
         if (this.inRound) { //If in round, decrease spawning cooldown
             this.curr_ZombiesSpawnDelay -= GAME_ENGINE.clockTick
