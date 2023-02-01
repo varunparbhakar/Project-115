@@ -14,7 +14,7 @@ class GameEngine {
         this.ent_Zombies = []
         this.ent_MapForeground = []
         this.ent_HUD = []
-        this.ent_OnlyUpdate = [] // won't draw
+        this.ent_Etc = [] // won't draw
 
         // Information on the input
         this.click = false;
@@ -185,11 +185,11 @@ class GameEngine {
             this.ent_MapForeground.push(entity)
         } else if (entity instanceof Player) {
             this.ent_Player = entity
-        } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager) {
-            this.ent_OnlyUpdate.push(entity)
+        } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
+            this.ent_Etc.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
-            this.ent_OnlyUpdate.push(entity)
+            this.ent_Etc.push(entity)
         }
     }
 
@@ -204,6 +204,7 @@ class GameEngine {
         this.draw1(this.ent_Zombies)
         this.draw1(this.ent_MapForeground)
         this.draw1(this.ent_HUD)
+        this.draw1(this.ent_Etc)
     }
 
     draw1(entities) {
@@ -226,7 +227,7 @@ class GameEngine {
         this.update1(this.ent_Zombies)
         this.update1(this.ent_MapForeground)
         this.update1(this.ent_HUD)
-        this.update1(this.ent_OnlyUpdate)
+        this.update1(this.ent_Etc)
     }
 
     update1(entities) {
@@ -272,7 +273,7 @@ class GameEngine {
         this.clearWorld(this.ent_Zombies)
         this.clearWorld(this.ent_MapForeground)
         this.clearWorld(this.ent_HUD)
-        this.clearWorld(this.ent_OnlyUpdate)
+        this.clearWorld(this.ent_Etc)
     }
 
     clearWorld(clearSceneManager, entities) {

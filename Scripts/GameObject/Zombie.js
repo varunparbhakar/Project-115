@@ -8,12 +8,16 @@ const ZOMBIE_SPEEDS = [PLAYER_WALKING_SPEED*0.25, PLAYER_WALKING_SPEED*0.95, PLA
 
 const ZOMBIE_ATTACK_DAMAGE = 50
 const ZOMBIE_ATTACK_COOLDOWN = 0.5
+const ZOMBIE_ATTACK_THRESHOLD = 50 //the depth of Zombies Attack BC colliding with Player's Hurt BC
 
-const ZOMBIES_BB_DIMENSION = 100
-const ZOMBIES_BC_MOVEMENT_RADIUS = 70
-const ZOMBIES_BC_ATTACK_RADIUS = 150
+const ZOMBIE_BB_DIMENSION = 25
+const ZOMBIE_BC_MOVEMENT_RADIUS = 70
+const ZOMBIE_BC_ATTACK_RADIUS = 150
 
-const ZOMBIES_PATHING_NODE_LEEWAY = 20
+const ZOMBIE_PATHING_NODE_LEEWAY = 50
+const ZOMBIE_PATHING_GIVEUP_COOLDOWN = 1
+
+const ZOMBIE_RAYCAST_COOLDOWN = 0.5 //1
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
@@ -34,22 +38,30 @@ class Zombie extends GameObject {
 
 
 
-        //barrier
-        this.pairedBarrier = pairedBarrier //reference to Barrier to path to
-        this.isPathingToBarrier = this.pairedBarrier != null ? true : false //is zombie pathing to a barrier, ie just spawned?
+        //movement
+        this.pairedBarrier = pairedBarrier
+        /**
+         * 0: player sighted
+         * 1: A* pathing
+         * 2: barrier pathing
+         * 3: unknown (default, will raycast. failed=1, success=0)
+         * @type {null}
+         */
+        this.movementState = this.pairedBarrier != null ? 2 : 3 //reference to Barrier to path to
+        this.aStar = new AStar()
+        this.raycastCooldown = ZOMBIE_RAYCAST_COOLDOWN
+        this.pathingGiveUpCooldown = ZOMBIE_PATHING_GIVEUP_COOLDOWN
 
 
         this.attack_currentCooldown = 0
-        this.attack_isSwinging = 0
-
-        this.hasSightOfPlayer = true; //TODO raycast check
+        // this.attack_isSwinging = 0
 
         this.hp = 100
         this.speed = ZOMBIE_SPEEDS[speed]
 
-        this.bb = new BoundingBox(posX+ZOMBIES_BB_DIMENSION, posY+ZOMBIES_BB_DIMENSION, ZOMBIES_BB_DIMENSION, ZOMBIES_BB_DIMENSION)
-        this.bc_Movement = new BoundingCircle(posX,posY,ZOMBIES_BC_MOVEMENT_RADIUS)
-        this.bc_Attack = new BoundingCircle(posX,posY,ZOMBIES_BC_ATTACK_RADIUS)
+        this.bb = new BoundingBox(posX+ZOMBIE_BB_DIMENSION, posY+ZOMBIE_BB_DIMENSION, ZOMBIE_BB_DIMENSION, ZOMBIE_BB_DIMENSION)
+        this.bc_Movement = new BoundingCircle(posX,posY,ZOMBIE_BC_MOVEMENT_RADIUS)
+        this.bc_Attack = new BoundingCircle(posX,posY,ZOMBIE_BC_ATTACK_RADIUS)
         this.angle = 0;
     }
 
@@ -71,9 +83,9 @@ class Zombie extends GameObject {
         this.bc_Attack.x = this.posX
         this.bc_Attack.y = this.posY
 
-        //BB
-        this.bb.x = this.posX - (ZOMBIES_BB_DIMENSION/ 2)
-        this.bb.y = this.posY - (ZOMBIES_BB_DIMENSION/ 2)
+        //bb
+        this.bb.x = this.posX - (ZOMBIE_BB_DIMENSION/ 2)
+        this.bb.y = this.posY - (ZOMBIE_BB_DIMENSION/ 2)
         this.bb.updateSides()
     }
 
@@ -84,8 +96,6 @@ class Zombie extends GameObject {
         this.saveLastBB()
         this.updateCollision();
         this.checkCollisions()
-
-        this.draw()
     }
 
     changeAnimation(state, totalTime=null) {
@@ -112,16 +122,20 @@ class Zombie extends GameObject {
         }
     }
 
-    // attackHanlder() {
-    //     if (!this.attack_canAttack) {
-    //         this.attack_currentCooldown -= GAME_ENGINE.clockTick
-    //     }
-    //     if (!this.attack_canAttack && this.attack_currentCooldown <= 0) {
-    //         this.attack_canAttack = true
-    //     }
-    // }
-
-    checkCollisions() {
+    checkCollisions() { //ORDER MATTERS
+        //Zombies
+        GAME_ENGINE.ent_Zombies.forEach((entity) => {
+            if (entity instanceof Zombie && entity != this) {
+                var intersectionDepth = this.bc_Movement.collide(entity.bc_Movement)
+                let intersectionDepthThreshold =  this.movementState === 2 ? -50 : 0 //Allows zombies to clump at window and get in
+                if (intersectionDepth < intersectionDepthThreshold) {
+                    let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
+                    this.posX += unitV[0] * intersectionDepth / 10
+                    this.posY += unitV[1] * intersectionDepth / 10
+                    this.updateCollision()
+                }
+            }
+        })
         //Player
         if (GAME_ENGINE.ent_Player != null) {
             let entity = GAME_ENGINE.ent_Player
@@ -135,7 +149,7 @@ class Zombie extends GameObject {
                 this.changeAnimation(0) //normal
             }
             //Attack Hurt
-            if (intersectionDepth < -50) { //if px inside player, hit //TODO raycast check
+            if (intersectionDepth < -ZOMBIE_ATTACK_THRESHOLD) { //if px inside player, hit //TODO raycast check
                 if (this.attack_currentCooldown <= 0) {
                     entity.takeDamage(ZOMBIE_ATTACK_DAMAGE)
                     this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
@@ -150,6 +164,7 @@ class Zombie extends GameObject {
                 this.posY += unitV[1] * intersectionDepth / 10
                 entity.posX -= unitV[0] * intersectionDepth / 10
                 entity.posY -= unitV[1] * intersectionDepth / 10
+                this.updateCollision()
             }
         }
         //MapObjects
@@ -159,27 +174,13 @@ class Zombie extends GameObject {
             }
             if (entity instanceof Barrier) { // With Barrier
                 if (entity.hp > 0) { //barrier alive, stop and attack
-                    if (this.isPathingToBarrier && this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
+                    if (this.movementState === 2 && this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
                         entity.takeDamage()
                         //TODO swing at barrier
                     }
                     this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
                 }
                 this.updateCollision()
-            }
-        })
-        //Zombies
-        GAME_ENGINE.ent_Zombies.forEach((entity) => {
-            if (entity instanceof Zombie && entity != this) {
-                var intersectionDepth = this.bc_Movement.collide(entity.bc_Movement)
-                let intersectionDepthThreshold =  this.isPathingToBarrier ? -50 : 0 //Allows zombies to clump at window and get in
-                if (intersectionDepth < intersectionDepthThreshold) {
-                    let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
-                    this.posX += unitV[0] * intersectionDepth / 10
-                    this.posY += unitV[1] * intersectionDepth / 10
-
-                    this.updateCollision()
-                }
             }
         })
     }
@@ -192,26 +193,43 @@ class Zombie extends GameObject {
         this.posY += unity * this.speed * GAME_ENGINE.clockTick
 
         //Check if done with barrier pathing
-        if (this.isPathingToBarrier) {
+        if (this.movementState === 2) {
             //check if pos is within margin of error of barrier arrival point
-            let checkX = Math.abs(this.posX - this.pairedBarrier.zombieArrivalPoint[0]) < ZOMBIES_PATHING_NODE_LEEWAY
-            let checkY =  Math.abs(this.posY - this.pairedBarrier.zombieArrivalPoint[1]) < ZOMBIES_PATHING_NODE_LEEWAY
+            let checkX = Math.abs(this.posX - this.pairedBarrier.zombieArrivalPoint[0]) < ZOMBIE_PATHING_NODE_LEEWAY
+            let checkY =  Math.abs(this.posY - this.pairedBarrier.zombieArrivalPoint[1]) < ZOMBIE_PATHING_NODE_LEEWAY
             if (checkX && checkY) {
-                this.isPathingToBarrier = false
+                this.movementState = 0
+                GAME_ENGINE.addEntity(new RaycastZombies(this)) //check if sight of player
+            }
+        }
+
+        //check if in sight of player
+        if (this.movementState === 0 || this.movementState === 1) {
+            if (this.raycastCooldown <= 0) {
+                this.raycastCooldown = ZOMBIE_RAYCAST_COOLDOWN
+                GAME_ENGINE.addEntity(new RaycastZombies(this)) // if success, will change movementState = 0
+                console.log("checking sightline")
+            } else {
+                this.raycastCooldown -= GAME_ENGINE.clockTick
+            }
+        }
+
+        //check if arrived at A* path
+        if (this.movementState === 1) {
+            let dest = this.aStar.pathList[this.aStar.pathList.length - 1]
+            if (dest != null && Math.abs(this.posX - dest[0]) < ZOMBIE_PATHING_NODE_LEEWAY && Math.abs(this.posY - dest[1]) < ZOMBIE_PATHING_NODE_LEEWAY)  {
+                this.pathingGiveUpCooldown = ZOMBIE_PATHING_GIVEUP_COOLDOWN
+                this.aStar.pathList.pop()
+            }
+            //give up current
+            if (this.pathingGiveUpCooldown <= 0) {
+                this.pathingGiveUpCooldown = ZOMBIE_PATHING_GIVEUP_COOLDOWN
+                this.aStar.pathList = []
+            } else {
+                this.pathingGiveUpCooldown -= GAME_ENGINE.clockTick
             }
         }
     }
-
-    // flipHandler() {
-    //     if(this.posX + (ZOMBIE_IMAGE_WIDTH/2) * ZOMBIE_IMAGE_SCALE < GAME_ENGINE.camera.player.posX) {
-    //         //face right
-    //         this.animator.flippedX = false;
-    //     } else{
-    //         //face left
-    //         this.animator.flippedX = true;
-    //     }
-    //
-    // }
 
     /**
      * This is the method that gives you where the Zombie is looking and walking to next.
@@ -221,48 +239,52 @@ class Zombie extends GameObject {
     rotateHandler() {
         let dx
         let dy
-        if (this.isPathingToBarrier && this.pairedBarrier != null) { //look at barrier
-            let arrivalPoint = this.pairedBarrier.zombieArrivalPoint //[x,y]
-            dx = (arrivalPoint[0]) - (this.posX); //282/2 Accounting for difference in center of thing.
-            dy = (arrivalPoint[1]) - (this.posY);
-        } else if (this.hasSightOfPlayer) { //look at player
-            dx = (GAME_ENGINE.camera.player.posX) - (this.posX); //282/2 Accounting for difference in center of thing.
-            dy = (GAME_ENGINE.camera.player.posY) - (this.posY);
-        } else { //TODO Look at movement dir or Pathing next pos
-
+        switch (this.movementState){
+            case 0: //direct to player
+                dx = (GAME_ENGINE.camera.player.posX) - (this.posX); //282/2 Accounting for difference in center of thing.
+                dy = (GAME_ENGINE.camera.player.posY) - (this.posY);
+                break
+            case 1: //A* next path
+                if (this.aStar.pathList.length <= 0) {
+                    this.aStar.createPathList(this.posX, this.posY, GAME_ENGINE.camera.player.posX, GAME_ENGINE.camera.player.posY)
+                }
+                let dest = this.aStar.pathList[this.aStar.pathList.length - 1]
+                if (dest == null) {
+                    dx = (GAME_ENGINE.camera.player.posX) - (this.posX);
+                    dy = (GAME_ENGINE.camera.player.posY) - (this.posY);
+                    this.movementState = 0
+                    console.log("pathing failed")
+                    break
+                }
+                dx = (dest[0]) - (this.posX); //282/2 Accounting for difference in center of thing.
+                dy = (dest[1]) - (this.posY);
+                break
+            case 2: //barrier
+                let arrivalPoint = this.pairedBarrier.zombieArrivalPoint //[x,y]
+                dx = (arrivalPoint[0]) - (this.posX); //282/2 Accounting for difference in center of thing.
+                dy = (arrivalPoint[1]) - (this.posY);
+                break
+            case 3: //find if there is sightline
+                GAME_ENGINE.addEntity(new RaycastZombies(this)) //will make it movementState = 0 or 1
+                break
         }
 
         return (Math.atan2(dy, dx));
     }
 
     draw() {
-        // var tempCanvas = document.createElement("canvas")
-        // tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
-        // tempCanvas.height = tempCanvas.width
-        // var tempCtx = tempCanvas.getContext("2d")
-        // var myOffset = tempCanvas.width/2 - this.width/2
-        //
-        // if (GAME_ENGINE.options.debugging == true) {
-        //     tempCtx.strokeStyle = "black"
-        //     tempCtx.strokeRect(0, 0, tempCanvas.height, tempCanvas.width)
-        // }
-        //
-        // tempCtx.save();
-        // tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
-        // tempCtx.rotate(this.angle + ZOMBIE_ANGLE_OFFSET + (Math.PI) / 2)
-        // tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        // tempCtx.drawImage(this.asset, 0, 0, ZOMBIE_IMAGE_WIDTH , ZOMBIE_IMAGE_HEIGHT);
-        // tempCtx.restore();
-        //
-        // GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
-        //     this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
-
-        // super.draw()
         this.animator.drawFrame(this.posX,this.posY,this.angle + ZOMBIE_ANGLE_OFFSET)
         //TODO DEBUG ONLY
         this.bc_Movement.drawBoundingCircle("blue");
         this.bc_Attack.drawBoundingCircle("red");
         this.bb.drawBoundingBox();
+
+        //TODO debug remove
+        for (let i = 0; i < this.aStar.pathList.length; i++) {
+            let point = this.aStar.pathList[i]
+            let tempBB = new BoundingBox(point[0], point[1], 5 , 5)
+            tempBB.drawBoundingBox()
+        }
     }
 
     checkBBandPushOut(thisBB, thisBBLast, othBB) {
@@ -287,4 +309,58 @@ class Zombie extends GameObject {
     //     return (Math.atan2(dy, dx));
     // }
 
+}
+
+class RaycastZombies {
+    constructor(pairedZombie) {
+        Object.assign(this, {pairedZombie})
+        this.size = 10
+        this.posX = pairedZombie.posX
+        this.posY = pairedZombie.posY
+        this.bb = new BoundingBox(this.posX - (this.size/2), this.posY - (this.size/2), this.size, this.size)
+        this.bb.updateSides()
+    }
+
+    update() {
+        //get rotation
+        if (GAME_ENGINE.ent_Player == null) {
+            this.removeFromWorld = true
+            return
+        }
+        let dx = GAME_ENGINE.ent_Player.posX - this.posX
+        let dy = GAME_ENGINE.ent_Player.posY - this.posY
+        let angle = Math.atan2(dy, dx)
+
+        //move (dont deltatime)
+        var unitx = Math.cos(angle);
+        var unity = Math.sin(angle);
+        this.posX += unitx * this.size
+        this.posY += unity * this.size
+
+        //update collision
+        this.bb.x = this.posX - (this.size/2)
+        this.bb.y = this.posY - (this.size/2)
+        this.bb.updateSides()
+
+        //check sightline
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+            if (this.bb.collide(entity.bb)) {
+                console.log("No sightline, switching to pathing.")
+                this.pairedZombie.movementState = 1
+                this.removeFromWorld = true
+            }
+        })
+        if (this.bb.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
+            console.log("has sightline, switching to straight run.")
+            this.pairedZombie.aStar.pathList = []
+            this.pairedZombie.movementState = 0
+            this.removeFromWorld = true
+        }
+    }
+
+    draw() {
+        //NOTHING
+        //TODO remove debug
+        // this.bb.drawBoundingBox("yellow")
+    }
 }
