@@ -8,7 +8,7 @@ const ZOMBIE_SPEEDS = [PLAYER_WALKING_SPEED*0.25, PLAYER_WALKING_SPEED*0.95, PLA
 
 const ZOMBIE_ATTACK_DAMAGE = 50
 const ZOMBIE_ATTACK_COOLDOWN = 0.5
-const ZOMBIE_ATTACK_THRESHOLD = 50 //the depth of Zombies Attack BC colliding with Player's Hurt BC
+const ZOMBIE_ATTACK_THRESHOLD = 100 //the depth of Zombies Attack BC colliding with Player's Hurt BC
 
 const ZOMBIE_BB_DIMENSION = 25
 const ZOMBIE_BC_MOVEMENT_RADIUS = 70
@@ -33,7 +33,7 @@ class Zombie extends GameObject {
         //TODO better constructor
         this.state = 0
         this.animation_Walking = new AnimatorRotate(this.asset, 0,0, ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT,17,0.14, ZOMBIE_IMAGE_SCALE)
-        this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.15,1)
+        this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.1,1)
         this.animator = this.animation_Walking
 
 
