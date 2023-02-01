@@ -8,7 +8,7 @@ ASTAR_GRID_SIZE = [75, 50, 50]
  * A BB with dimensions of ASTAR_GRID_SIZE-ASTAR_BB_SIZE is used to check if path is possible
  * @type {number}
  */
-ASTAR_BB_SIZE = [50, 50, 50]
+ASTAR_BB_SIZE = [70, 50, 50]
 /**
  * Amount of iterations before giving up
  * @type {number}
