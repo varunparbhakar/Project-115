@@ -105,7 +105,7 @@ class Player extends GameObject {
 
         //WASD Move
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
-            if (this.state !== ANIMATION_Reloading && this.state !== ANIMATION_Shooting) { //not while reloading or shooting
+            if (this.state !== ANIMATION_Reloading && this.state !== ANIMATION_Shooting && this.state !== ANIMATION_Melee) { //not while reloading or shooting
                 this.changeAnimation(ANIMATION_Walking)
             }
         }
