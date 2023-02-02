@@ -21,11 +21,6 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
-const PLAYER_LEFT_CLICK_COOLDOWN = 1
-const PLAYER_RELOAD_COOLDOWN = 5
-
-
-
 class Player extends GameObject {
     constructor(posX, posY) {
         super(posX, posY,
@@ -64,7 +59,7 @@ class Player extends GameObject {
         this.hp = PLAYER_HP_MAX
         this.heal_currentCooldown = 0;
         //Speed, Sprint, Stamina
-        this.speedVector = [0,0]
+        this.speed = PLAYER_WALKING_SPEED;
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
         //Money
@@ -90,70 +85,45 @@ class Player extends GameObject {
         //this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
         // console.log(this.sprintStamina + "\n" + this.sprintRest)
 
+        //Sprint
+        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== 3) {
+            this.speed = PLAYER_RUNNING_SPEED;
+
+            this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
+            this.sprintRest = (this.sprintStamina <= 0);
+        } else {
+            this.speed = PLAYER_WALKING_SPEED;
+
+            if (this.sprintStamina < PLAYER_STAMINA_MAX)
+                this.sprintStamina += PLAYER_STAMINA_HEAL_PER_SEC * GAME_ENGINE.clockTick;
+            this.sprintRest = (this.sprintStamina < PLAYER_STAMINA_RESTED_THRES);
+        }
+
+        //TODO Velocity based movement
+
         //WASD Move
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
             if (this.state !== 3 && this.state !== 2) { //not while reloading or shooting
                 this.changeAnimation(1)
             }
         }
-        let accelVector = [0,0]
+        //TODO fix diagonal being faster
+        let movementVector = [0,0]
         if (GAME_ENGINE.key_up) {
-            accelVector[1]--
+            movementVector[1]--
         }
         if (GAME_ENGINE.key_down) {
-            accelVector[1]++
+            movementVector[1]++
         }
         if (GAME_ENGINE.key_left) {
-            accelVector[0]--
+            movementVector[0]--
         }
         if (GAME_ENGINE.key_right) {
-            accelVector[0]++
+            movementVector[0]++
         }
-        let speedTerminal = PLAYER_WALKING_SPEED
-        // Sprint
-        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== 3 && (GAME_ENGINE.key_down || GAME_ENGINE.key_up || GAME_ENGINE.key_left || GAME_ENGINE.key_right)) {
-            speedTerminal = PLAYER_RUNNING_SPEED;
-            this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
-            this.sprintRest = (this.sprintStamina <= 0);
-        } else {
-            if (this.sprintStamina < PLAYER_STAMINA_MAX)
-                this.sprintStamina += PLAYER_STAMINA_HEAL_PER_SEC * GAME_ENGINE.clockTick;
-            this.sprintRest = (this.sprintStamina < PLAYER_STAMINA_RESTED_THRES);
-        }
-        // accelVector = getUnitVector(0,0, accelVector[0], accelVector[1])
-        this.speedVector[0] += (accelVector[0] * PLAYER_ACCEL * GAME_ENGINE.clockTick)
-        this.speedVector[1] += (accelVector[1] * PLAYER_ACCEL * GAME_ENGINE.clockTick)
-        //Friction
-        if (this.speedVector[0] > 0) {
-            this.speedVector[0] -= PLAYER_FRICTION * GAME_ENGINE.clockTick
-        } else if (this.speedVector[0] < 0) {
-            this.speedVector[0] += PLAYER_FRICTION * GAME_ENGINE.clockTick
-        }
-        if (this.speedVector[1] > 0) {
-            this.speedVector[1] -= PLAYER_FRICTION * GAME_ENGINE.clockTick
-        } else if (this.speedVector[1] < 0) {
-            this.speedVector[1] += PLAYER_FRICTION * GAME_ENGINE.clockTick
-        }
-        // terminal speed clamp
-        if (this.speedVector[0] > speedTerminal) {
-            this.speedVector[0] = speedTerminal
-        } else if (this.speedVector[0] < -speedTerminal) {
-            this.speedVector[0] = -speedTerminal
-        }
-        if (this.speedVector[1] > speedTerminal) {
-            this.speedVector[1] = speedTerminal
-        } else if (this.speedVector[1] < -speedTerminal) {
-            this.speedVector[1] = -speedTerminal
-        }
-        //close to zero
-        if (Math.abs(this.speedVector[0]) < 20) {
-            this.speedVector[0] = 0
-        }
-        if (Math.abs(this.speedVector[1]) < 20) {
-            this.speedVector[1] = 0
-        }
-        this.posX += this.speedVector[0] * GAME_ENGINE.clockTick;
-        this.posY += this.speedVector[1] * GAME_ENGINE.clockTick;
+        getUnitVector(0,0, movementVector[0], movementVector[1])
+        this.posX += movementVector[0] * this.speed * GAME_ENGINE.clockTick;
+        this.posY += movementVector[1] * this.speed * GAME_ENGINE.clockTick;
 
         if(GAME_ENGINE.left_click) {
             if (this.currentGun.shoot(this.posX, this.posY, this.angle)) {
@@ -352,16 +322,12 @@ class Player extends GameObject {
         if(thisBB.collide(othBB)) {
             if (thisBBLast.bottom <= othBB.top) { //was above last
                 this.posY -= thisBB.bottom - othBB.top
-                this.speedVector[1] = 0.0
             } else if (thisBBLast.left >= othBB.right) { //from right
                 this.posX += othBB.right - thisBB.left
-                this.speedVector[0] = 0.0
             } else if (thisBBLast.right <= othBB.left) { //from left
                 this.posX -= thisBB.right - othBB.left
-                this.speedVector[0] = 0.0
             } else if (thisBBLast.top >= othBB.bottom) { //was below last
                 this.posY += othBB.bottom - thisBB.top
-                this.speedVector[1] = 0.0
             }
             this.updateCollision()
         }
