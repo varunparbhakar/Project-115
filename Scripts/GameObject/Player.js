@@ -21,9 +21,9 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
-const PLAYER_KNIFE_COOLDOWN = 1;
+const PLAYER_KNIFE_COOLDOWN = 0.75;
 const PLAYER_KNIFE_DISTANCE = 125;
-const PLAYER_KNIFE_RADIUS = 100;
+const PLAYER_KNIFE_RADIUS = 75;
 const PLAYER_KNIFE_DMG = 150;
 
 class Player extends GameObject {
@@ -124,7 +124,7 @@ class Player extends GameObject {
         if (GAME_ENGINE.key_right) {
             movementVector[0]++
         }
-        getUnitVector(0,0, movementVector[0], movementVector[1])
+        // getUnitVector(0,0, movementVector[0], movementVector[1])
         this.posX += movementVector[0] * this.speed * GAME_ENGINE.clockTick;
         this.posY += movementVector[1] * this.speed * GAME_ENGINE.clockTick;
 

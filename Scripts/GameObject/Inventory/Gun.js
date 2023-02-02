@@ -72,11 +72,12 @@ class Gun {
 
         //Shoot
         this.shoot1(posX, posY, angle)
+        console.log(this.currentMagazineAmmo, "/", this.totalAmmo)
 
         return true
     }
 
-    //super calls this for children to diverge from
+    //super calls this for children to inherit from
     shoot1(posX, posY, angle) {
         let tempBullet = new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed)
         GAME_ENGINE.addEntity(tempBullet)
@@ -89,17 +90,31 @@ class Gun {
     }
 
     reload() {
+        //full or no ammo, then return
         if (this.currentMagazineAmmo === this.magazineSize || this.totalAmmo <= 0) {
             return false
         }
+
+        //otherwise, reset stats
         this.currentReloadTime = this.reloadTime
         this.currentRecoil = 0
         this.currentFireCooldown = 0
 
-        this.currentMagazineAmmo = Math.min(this.magazineSize, this.totalAmmo);
-        this.totalAmmo -= (this .magazineSize - this.currentMagazineAmmo);
-        if (this.totalAmmo < 0) this.totalAmmo = 0
+        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.totalAmmo)
+        this.currentMagazineAmmo += withdraw
+        this.totalAmmo -= withdraw
+        // if (this.totalAmmo < 0) this.totalAmmo = 0
         return true
+    }
+
+    /**
+     * Resets stats on weapon switch //TODO Player or Gun has switch delay
+     */
+    equip() {
+        this.currentReloadTime = this.reloadTime
+        this.currentRecoil = 0
+        this.currentFireCooldown = 0
+
     }
 }
 
