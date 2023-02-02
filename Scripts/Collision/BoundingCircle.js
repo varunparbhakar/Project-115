@@ -23,7 +23,7 @@ class BoundingCircle {
         // }
         // return false
     }
-    drawBoundingCircle(color) {
+    drawBoundingCircle(color="red") {
         GAME_ENGINE.ctx.save();
         GAME_ENGINE.ctx.beginPath();
         GAME_ENGINE.ctx.strokeStyle = color;

@@ -6,8 +6,8 @@ const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
 
 const PLAYER_WALKING_SPEED = 400;
 const PLAYER_RUNNING_SPEED = 700;
-const PLAYER_ACCEL = 10000;
-const PLAYER_FRICTION = 5000;
+// const PLAYER_ACCEL = 10000;
+// const PLAYER_FRICTION = 5000;
 const PLAYER_STAMINA_MAX = 150;
 const PLAYER_STAMINA_RESTED_THRES = 100;
 const PLAYER_STAMINA_USAGE_PER_SEC = 25;
@@ -21,6 +21,11 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
+const PLAYER_KNIFE_COOLDOWN = 0.6;
+const PLAYER_KNIFE_DISTANCE = 100;
+const PLAYER_KNIFE_RADIUS = 50;
+const PLAYER_KNIFE_DMG = 150;
+
 class Player extends GameObject {
     constructor(posX, posY) {
         super(posX, posY,
@@ -33,14 +38,9 @@ class Player extends GameObject {
 
         //Animations
         //setupAnimation
-        var loadAnimation = new LoadAnimations();
-        this.animationMatrix = loadAnimation.getAnimations()
-        this.idleAnimation  = new AnimatorRotate(this.asset,0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
-        this.movingAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,3, 0.1,PLAYER_IMAGE_SCALE)
-        this.shootingAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Shooting/Pistol/Player_Shooting.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,3, 0.1,PLAYER_IMAGE_SCALE)
-        this.reloadAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
-        this.meleeAnimation = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/knifing/Pistol/MeleeAttack.png"),0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,15,0.04,PLAYER_IMAGE_SCALE)
-        this.animationRuntime = 0
+        var ld = new LoadAnimations();
+        this.animationMatrix = ld.getAnimations()
+        console.log(this.animationMatrix.length)
         this.state = 0
 
         this.animator = this.idleAnimation //TODO create a map {Key: GUN_ENUM, Value: List[Animation]}
@@ -52,7 +52,7 @@ class Player extends GameObject {
 
         //Guns
         this.gunInventory = [new Gun_Pistol_M1911()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
-        this.currentGun = this.gunInventory[0];
+        this.currentGunIndex = 0;
 
         //HP
         this.alive = true
@@ -75,6 +75,8 @@ class Player extends GameObject {
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
         this.playerCollision_Vulnerable_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE * PLAYER_VULNERABLE_RADIUS_SCALE)
         this.playerCollision_Zombies_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)
+
+        this.debugBC = new BoundingCircle(0,0,0)
     };
 
     update() {
@@ -126,23 +128,26 @@ class Player extends GameObject {
         this.posY += movementVector[1] * this.speed * GAME_ENGINE.clockTick;
 
         if(GAME_ENGINE.left_click) {
-            if (this.currentGun.shoot(this.posX, this.posY, this.angle)) {
-                this.changeAnimation(2, this.currentGun.maxFireCooldown)
+            if (this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)) {
+                this.changeAnimation(ANIMATION_Shooting, this.gunInventory[this.currentGunIndex].maxFireCooldown)
             }
         }
         if (GAME_ENGINE.key_reload) {
-            if (this.currentGun.reload()) {
-                this.changeAnimation(3, this.currentGun.reloadTime)
+            if (this.gunInventory[this.currentGunIndex].reload()) {
+                this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].reloadTime)
             }
         }
-        if (GAME_ENGINE.key_knife) {
-            this.changeAnimation(2)
+        if (GAME_ENGINE.right_click) {
+            this.knife()
+            if (this.state !== ANIMATION_Melee) {
+                this.changeAnimation(ANIMATION_Melee, PLAYER_KNIFE_COOLDOWN)
+            }
         }
         //key_use is embedded in places that needs it to avoid always checking on update
 
 
         //Gun
-        this.currentGun.update()
+        this.gunInventory[this.currentGunIndex].update()
 
         if(this.animator.isDone()){
             this.state = 0
@@ -180,6 +185,13 @@ class Player extends GameObject {
                 this.state = 3
                 this.animator = this.reloadAnimation
                 this.animator.finishedAnimation = false
+                break;
+            case(ANIMATION_Melee) : //melee
+                this.state = ANIMATION_Melee
+                // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Melee]
+                this.animator = this.animationMatrix[0][ANIMATION_Melee]
+                this.animator.finishedAnimation = false
+                break
         }
         if (totalTime != null) {
             this.animator.changeAnimationSpeed(totalTime)
@@ -209,6 +221,7 @@ class Player extends GameObject {
         this.player_Collision_World_BB.drawBoundingBox()
         this.playerCollision_Zombies_C.drawBoundingCircle("Red")
         this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
+        this.debugBC.drawBoundingCircle("yellow")
     }
 
     saveLastBB() {
@@ -262,7 +275,6 @@ class Player extends GameObject {
                     }
                 }
             }
-
         })
     }
 
@@ -306,4 +318,19 @@ class Player extends GameObject {
         }
     }
 
+    knife() {
+        let unitV = getUnitVector(this.posX, this.posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
+        let pos = [this.posX + (unitV[0] * PLAYER_KNIFE_DISTANCE), this.posY + (unitV[1] * PLAYER_KNIFE_DISTANCE)]
+        this.debugBC = new BoundingCircle(pos[0], pos[1], PLAYER_KNIFE_RADIUS)
+        let knifeBC = this.debugBC
+        let hasKnifed = false
+        GAME_ENGINE.ent_Zombies.forEach((entity) => {
+            if (entity instanceof Zombie && !hasKnifed) {
+                if (knifeBC.collide(entity.bc_Movement) < 0) {
+                    entity.takeDamage(PLAYER_KNIFE_DMG)
+                    hasKnifed = true
+                }
+            }
+        })
+    }
 }

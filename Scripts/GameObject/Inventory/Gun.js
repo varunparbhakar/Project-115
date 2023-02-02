@@ -139,7 +139,9 @@ class Gun_Pistol_M1911 extends Gun {
             0.15, //increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
-            0.1,5
+            0.1,5,
+            GUN_Pistol //animation type
+
         );
     }
 }
