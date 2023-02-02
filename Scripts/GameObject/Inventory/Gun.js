@@ -5,8 +5,19 @@ const GUN_AR = 2
 const GUN_Shotgun = 3
 
 class Gun {
-    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, screenShakeLength=0.1, screenShakeIntensity=10) {
-        Object.assign(this, {damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, screenShakeLength, screenShakeIntensity})
+    constructor(damage,
+                magazineSize,
+                totalAmmo,
+                maxFireCooldown,
+                reloadTime,
+                movementPenalty,
+                recoilIncreasePerClick,
+                recoilDecreaseRate,
+                bulletSpeed,
+                screenShakeLength=0.1,
+                screenShakeIntensity=10,
+                animationType=GUN_Pistol) {
+        Object.assign(this, {damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, screenShakeLength, screenShakeIntensity, animationType})
         this.currentMagazineAmmo = this.magazineSize;
         this.currentFireCooldown = 0
         this.currentReloadTime = 0
@@ -49,11 +60,17 @@ class Gun {
         this.currentMagazineAmmo -= 1 //fire ammo
 
         //Shoot
+        this.shoot1(posX, posY, angle)
+
+        return true
+    }
+
+    //super calls this for children to diverge from
+    shoot1(posX, posY, angle) {
         let tempBullet = new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed)
         GAME_ENGINE.addEntity(tempBullet)
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         this.currentRecoil += this.recoilIncreasePerClick;
-        return true
     }
 
     getSpreadAngle(angle) {
@@ -109,13 +126,9 @@ class AnimatorGun {
             ANIMATORGUN_SCALE, ANIMATORGUN_SCALE)
     }
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////
-PISTOL_BULLET_IMAGE = "Assets/Images/Items/Bullets/Bullet.png"
-PISTOL_ANGLE_OFFSET = 0
-PISTOL_BULLET_IMAGE_SCALE = 0.4
-PISTOL_BULLET_IMAGE_WIDTH = 53 * this.PISTOL_BULLET_IMAGE_SCALE
-PISTOL_BULLET_IMAGE_HEIGHT = 143 * this.PISTOL_BULLET_IMAGE_SCALE
-class Gun_M1911 extends Gun {
+//******************* M1911 ********************************
+
+class Gun_Pistol_M1911 extends Gun {
     constructor() {
         super(20, //dmg
             7, //mag size
@@ -130,3 +143,88 @@ class Gun_M1911 extends Gun {
         );
     }
 }
+class Gun_AR_M16 extends Gun {
+    constructor() {
+        super(20, //dmg
+            30, //mag size
+            120, //total ammo
+            0.15, //fire cooldown
+            1, //reload time
+            1, //movement penalty
+            0.15, //increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,5
+        );
+    }
+}
+class Gun_SHOTGUN extends Gun {
+    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread, shotgunSpreadShots, screenShakeLength=0.1, screenShakeIntensity=10) {
+        super (
+            damage,
+            magazineSize,
+            totalAmmo,
+            maxFireCooldown,
+            reloadTime,
+            movementPenalty,
+            recoilIncreasePerClick,
+            recoilDecreaseRate,
+            bulletSpeed,
+            screenShakeLength=0.1,
+            screenShakeIntensity=10
+        )
+        Object.assign(this, {shotgunSpread, shotgunSpreadShots})
+        this.shotgunSpread = 0.4
+        this.shotgunSpreadShots = 5; //The number of bullets being spawned at shooting
+    }
+
+    shoot1(posX, posY, angle) {
+        for (let i = 0; i < this.shotgunSpreadShots; i++) {
+            GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+        }
+    }
+
+    getSpreadAngle(angle) {
+        return angle + ((this.shotgunSpread + this.currentRecoil) * (Math.random() * 2 - 1))
+    }
+}
+
+class Gun_SNIPER extends Gun {
+    constructor() {
+        super(20, //dmg
+            30, //mag size
+            120, //total ammo
+            0.15, //fire cooldown
+            1, //reload time
+            1, //movement penalty
+            0.15, //increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,5
+        );
+    }
+    update(){
+        //Needs to pierce zombies
+    }
+
+}
+
+
+//GUN
+    //PaP dmg increase
+    //Burst fire
+//Pistol
+    //same as gun
+//MG, SMG, LMG
+    //same as gun
+    //Burst fire
+//Shotguns
+    //multiple bullets at once
+//Sniper, Slow fire
+    //piercing bullets that stop after passing multiple zombies
+//Launchers
+    //projectile explosions
+    //Raygun is one too
+    //flamethrower
+        //explosive stays on the ground
+//Monkey?

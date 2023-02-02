@@ -46,6 +46,4 @@ class Bullet extends Projectile {
             }
         })
     }
-
-
 }

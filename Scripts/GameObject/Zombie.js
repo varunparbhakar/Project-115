@@ -101,10 +101,12 @@ class Zombie extends GameObject {
     changeAnimation(state, totalTime=null) {
         switch (state) {
             case (0) :
+                this.state = 0
                 this.animator = this.animation_Walking
                 this.animator.finishedAnimation = false
                 break;
             case(1):
+                this.state = 1
                 this.animator = this.animation_Attacking
                 this.animator.finishedAnimation = false
                 break;
@@ -146,7 +148,10 @@ class Zombie extends GameObject {
                 this.attack_currentCooldown -= GAME_ENGINE.clockTick
             } else {
                 this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
-                this.changeAnimation(0) //normal
+                if (this.animator.isDone()) {
+                    this.changeAnimation(0) //normal
+                }
+
             }
             //Attack Hurt
             if (intersectionDepth < -ZOMBIE_ATTACK_THRESHOLD) { //if px inside player, hit //TODO raycast check
@@ -176,7 +181,7 @@ class Zombie extends GameObject {
                 if (entity.hp > 0) { //barrier alive, stop and attack
                     if (this.movementState === 2 && this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
                         entity.takeDamage()
-                        //TODO swing at barrier
+                        this.changeAnimation(1) //swing
                     }
                     this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
                 }

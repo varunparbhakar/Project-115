@@ -50,8 +50,8 @@ class Player extends GameObject {
 
         //TODO adding animation list
 
-        //Gus
-        this.gunInventory = [new Gun_M1911()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        //Guns
+        this.gunInventory = [new Gun_Pistol_M1911()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
         this.currentGun = this.gunInventory[0];
 
         //HP
@@ -203,26 +203,6 @@ class Player extends GameObject {
     }
 
     draw() {
-        // var tempCanvas = document.createElement("canvas")
-        // tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
-        // tempCanvas.height = tempCanvas.width
-        // var tempCtx = tempCanvas.getContext("2d")
-        // var myOffset = tempCanvas.width/2 - this.width/2
-        //
-        // if (GAME_ENGINE.options.debugging == true) {
-        //     tempCtx.strokeStyle = "black"
-        //     tempCtx.strokeRect(0, 0, tempCanvas.height, tempCanvas.width)
-        // }
-        //
-        // tempCtx.save();
-        // tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
-        // tempCtx.rotate(this.angle + -1.6 + (Math.PI) / 2)
-        // tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        // tempCtx.drawImage(this.asset, 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT);
-        // tempCtx.restore();
-        //
-        // GAME_ENGINE.ctx.drawImage(tempCanvas, this.posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX,
-        //                                       this.posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY);
         this.animator.drawFrame(this.posX, this.posY, this.angle + PLAYER_IMAGE_ROTATION_OFFSET)
 
         //TODO remove debug
@@ -284,13 +264,6 @@ class Player extends GameObject {
             }
 
         })
-        // //Zombies
-        // GAME_ENGINE.ent_MapObjects.forEach(() => {
-        //     if (entity instanceof Zombie) {
-        //
-        //     }
-        // })
-        // this.updateCollision()
     }
 
     takeDamage(damage) {

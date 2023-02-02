@@ -14,7 +14,10 @@ class Map {
     loadLevel(level) {
         switch (level) {
             case "level1" :
-                    this.level1()
+                this.level1()
+                break;
+            case "level2" :
+                this.level2()
                 break;
         }
     }
@@ -104,6 +107,20 @@ class Map {
         this.roundManager = new RoundManager(room1Spawners)
         GAME_ENGINE.addEntity(this.roundManager)
         this.roundManager.start()
+    }
+
+    level2() {
+        this.scale = 2.5
+        this.playerSpawnX = 500 * this.scale
+        this.playerSpawnY = 600 * this.scale
+        //MapLayers
+        let imagePath_back = "Assets/Images/Map/Levels/Map2.png"
+        let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
+        GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
+
+        ////////////PLayer///////////
+        this.player = new Player(this.playerSpawnX,this.playerSpawnY);
+        GAME_ENGINE.addEntity(this.player)
     }
 }
 
@@ -243,11 +260,13 @@ class Barrier {
                 break
         }
 
-
         //Stats
         this.hp = BARRIER_MAX_HP
 
-        // this.animator = new Animator("Assets/Images/Map/barrierLow.png", 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS)
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/barrierLow.png")
+        this.scale = map.scale
+
+        // this.animator = new Animator(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 1, 1, this.scale)
     }
 
     update() {
@@ -255,7 +274,16 @@ class Barrier {
     }
 
     draw() {
-        // this.animator.drawFrame(this.bb.posX, this.bb.posY) //TODO crashes when this is on
+        // this.animator.drawFrame(this.bb.x, this.bb.y) //TODO crashes when this is on
+        GAME_ENGINE.ctx.save();
+        GAME_ENGINE.ctx.drawImage(
+            this.asset,
+            Math.ceil(5 - this.hp) * BARRIER_IMAGE_DIMENSIONS, 0,
+            BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS,
+            this.bb.x - GAME_ENGINE.camera.posX, this.bb.y - GAME_ENGINE.camera.posY,
+            this.scale * BARRIER_IMAGE_DIMENSIONS, this.scale * BARRIER_IMAGE_DIMENSIONS
+        )
+        GAME_ENGINE.ctx.restore();
         this.bb.drawBoundingBox("red")
         this.bb_interact.drawBoundingBox("green")
     }
@@ -479,7 +507,8 @@ class RoundManager {
     }
 
     update() {
-        if (this.curr_Round == 0) return
+        if (this.curr_Round === 0) return
+        if (this.listOfEnabledSpawns.length === 0) return
         //Spawn Zombie
         if (this.inRound) { //If in round, decrease spawning cooldown
             this.curr_ZombiesSpawnDelay -= GAME_ENGINE.clockTick
