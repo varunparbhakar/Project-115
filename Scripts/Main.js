@@ -24,7 +24,8 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Shooting
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/knifing/Pistol/MeleeAttack.png")
 
-
+//Load Guns/Items
+ASSET_MANAGER.queueDownload("Assets/Images/Items/guns.png")
 
 
 ASSET_MANAGER.downloadAll(() => {

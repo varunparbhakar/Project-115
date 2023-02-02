@@ -12,7 +12,6 @@ class Map {
     }
 
     loadLevel(level) {
-        //CREATE LEVEL
         switch (level) {
             case "level1" :
                     this.level1()

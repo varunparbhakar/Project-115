@@ -8,7 +8,7 @@ class Gun {
     constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, screenShakeLength=0.1, screenShakeIntensity=10) {
         Object.assign(this, {damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, screenShakeLength, screenShakeIntensity})
         this.currentMagazineAmmo = this.magazineSize;
-        this.currentFireCooldown = 0;
+        this.currentFireCooldown = 0
         this.currentReloadTime = 0
         this.currentRecoil = 0
     }
@@ -74,13 +74,48 @@ class Gun {
         return true
     }
 }
+
+//TODO implement with guns
+ANIMATORGUN_IMG_PATH = "Assets/Images/Items/guns.png"
+ANIMATORGUN_SCALE = 1
+/**
+ * Animator for the gun's hud element
+ */
+class AnimatorGun {
+    /**
+     * Provide
+     * @param xStart
+     * @param yStart
+     * @param width
+     * @param height
+     */
+    constructor(xStart, yStart, width, height) {
+        Object.assign(this, {xStart, yStart, width, height})
+        //pin to bottom left corner
+        this.screenX = GAME_ENGINE.ctx.canvas.width - width
+        this.screenY = GAME_ENGINE.ctx.canvas.width - height
+        this.asset = ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH)
+    }
+
+    update () {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.drawImage(this.asset,
+            this.xStart, this.yStart,
+            this.width, this.height,
+            1, 1,
+            ANIMATORGUN_SCALE, ANIMATORGUN_SCALE)
+    }
+}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 PISTOL_BULLET_IMAGE = "Assets/Images/Items/Bullets/Bullet.png"
 PISTOL_ANGLE_OFFSET = 0
 PISTOL_BULLET_IMAGE_SCALE = 0.4
 PISTOL_BULLET_IMAGE_WIDTH = 53 * this.PISTOL_BULLET_IMAGE_SCALE
 PISTOL_BULLET_IMAGE_HEIGHT = 143 * this.PISTOL_BULLET_IMAGE_SCALE
-class Pistol extends Gun {
+class Gun_M1911 extends Gun {
     constructor() {
         super(20, //dmg
             7, //mag size
@@ -89,7 +124,7 @@ class Pistol extends Gun {
             1, //reload time
             1, //movement penalty
             0.15, //increase per fire
-            0.5, //recoil decrease rate
+            0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1,5
         );

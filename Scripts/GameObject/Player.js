@@ -56,7 +56,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Gus
-        this.gunInventory = [new Pistol()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.gunInventory = [new Gun_M1911()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
         this.currentGun = this.gunInventory[0];
 
         //HP
@@ -320,7 +320,7 @@ class Player extends GameObject {
         //
         //     }
         // })
-        this.updateCollision()
+        // this.updateCollision()
     }
 
     takeDamage(damage) {
