@@ -364,6 +364,8 @@ class SpawnerBarrier {
     }
 }
 
+//https://project-lazarus.fandom.com/wiki/Rounds they be using real formulas
+const ROUND_COUNT = [6,8,13,18,24,27,28,28,29,33,34,36,39,41,44,47,50,53,56,60,63]
 class RoundManager {
     constructor(listOfEnabledSpawns) {
         /**
@@ -383,12 +385,12 @@ class RoundManager {
          * Rate to spawn zombie this round (sec). Will decrease next round
          * @type {number}
          */
-        this.thisRound_ZombiesSpawnDelay = 2.5 //2.5
+        this.thisRound_ZombiesSpawnDelay = 2 //2
         /**
          * The amount of zombies this round. Will increase in next round
          * @type {number}
          */
-        this.thisRound_ZombiesThisRound = 6 //6
+        this.thisRound_ZombiesThisRound = ROUND_COUNT[0] //6
         this.inRound = false
         this.curr_ZombiesSpawned = 0
     }
@@ -400,8 +402,9 @@ class RoundManager {
         this.curr_Round = 1
 
         this.curr_ZombiesLeft = this.thisRound_ZombiesThisRound
-        this.curr_ZombiesHealth = 150
+        this.curr_ZombiesHealth = 50 + (100*this.curr_Round) //150
 
+        // this.thisRound_ZombiesSpawnDelay = Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1)
         this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
         this.curr_betweenRoundDelay = this.thisRound_betweenRoundDelay
 
@@ -410,6 +413,8 @@ class RoundManager {
         this.inRound = true
 
         console.log("ROUND 1")
+        console.log("Z count: " + this.curr_ZombiesLeft)
+        console.log("Z hp: " + this.curr_ZombiesHealth)
     }
 
     /**
@@ -426,18 +431,24 @@ class RoundManager {
 
         //TODO accuracy
         this.thisRound_ZombiesThisRound += 6
-        this.curr_ZombiesLeft = this.thisRound_ZombiesThisRound
-        this.curr_ZombiesHealth += 100
+        this.curr_ZombiesLeft = this.curr_Round < 20 ?
+            ROUND_COUNT[this.curr_Round - 1] :
+            Math.ceil(Math.min([0.09 * (this.curr_Round * this.curr_Round) - 0.0029 * this.curr_Round + 23.958]))
+        this.curr_ZombiesHealth = this.curr_Round < 10 ?
+            50 + (100*this.curr_Round) :
+            950 * Math.pow(1.1, this.curr_Round-9)
 
-        this.thisRound_ZombiesSpawnDelay *= 0.9
+        this.thisRound_ZombiesSpawnDelay = Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1)
         this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
-        this.thisRound_betweenRoundDelay *= 0.9
+        this.thisRound_betweenRoundDelay = Math.max(this.thisRound_betweenRoundDelay * 0.9, 5)
         this.curr_betweenRoundDelay = this.thisRound_betweenRoundDelay
 
         this.curr_roundsUntilNextDog--
 
         this.inRound = true
         console.log("ROUND " + this.curr_Round)
+        console.log("Z count: " + this.curr_ZombiesLeft)
+        console.log("Z hp: " + this.curr_ZombiesHealth)
     }
 
     startDogRound() {
