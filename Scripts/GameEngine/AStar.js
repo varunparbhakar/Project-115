@@ -30,9 +30,8 @@ class AStar {
             let grid_size = ASTAR_GRID_SIZE[i]
             let bb_size = ASTAR_BB_SIZE[i]
             let iterations = ASTAR_ITERATIONS[i]
-            // let pos_offset = ASTAR_ITERATION_OFFSET[i]
             //Start Node
-            let start_node = new ASNode(null, [thisPosX - grid_size/2, thisPosY - grid_size/2])
+            let start_node = new ASNode(null, [thisPosX - grid_size/2, thisPosY - grid_size/2]) //TODO make grid based? floor() it
             start_node.g = 0
             start_node.h = 0
             start_node.f = 0
