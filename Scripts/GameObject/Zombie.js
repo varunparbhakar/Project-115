@@ -143,6 +143,7 @@ class Zombie extends GameObject {
             let entity = GAME_ENGINE.ent_Player
             //Swing
             let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
+
             if (intersectionDepth < 0) {
                 this.changeAnimation(1) //swing
                 this.attack_currentCooldown -= GAME_ENGINE.clockTick

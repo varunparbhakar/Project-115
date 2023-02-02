@@ -17,7 +17,18 @@ class Gun {
                 screenShakeLength=0.1,
                 screenShakeIntensity=10,
                 animationType=GUN_Pistol) {
-        Object.assign(this, {damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, screenShakeLength, screenShakeIntensity, animationType})
+        Object.assign(this, {damage,
+            magazineSize,
+            totalAmmo,
+            maxFireCooldown,
+            reloadTime,
+            movementPenalty,
+            recoilIncreasePerClick,
+            recoilDecreaseRate,
+            bulletSpeed,
+            screenShakeLength,
+            screenShakeIntensity,
+            animationType})
         this.currentMagazineAmmo = this.magazineSize;
         this.currentFireCooldown = 0
         this.currentReloadTime = 0

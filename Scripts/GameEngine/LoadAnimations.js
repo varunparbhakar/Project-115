@@ -39,13 +39,7 @@ class LoadAnimations {
 
 
         this.guns = [this.pistol]
-        /*
-            0 : Idle
-            1 : walking
-            2 : melee
-            3 : shooting
-            4 : reloading
-         */
+
          return this.guns
     }
 

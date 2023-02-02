@@ -28,6 +28,8 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/knifing/
 //Load Guns/Items
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns.png")
 
+//Loading Knife
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/knifing/Knife_Attack.png")
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

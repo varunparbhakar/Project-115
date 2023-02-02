@@ -43,8 +43,8 @@ class Player extends GameObject {
         console.log(this.animationMatrix.length)
         this.state = 0
 
-        this.animator = this.idleAnimation //TODO create a map {Key: GUN_ENUM, Value: List[Animation]}
-        this.ANIMATION_CurrentGun = GUN_Pistol
+        this.animator = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Idle/Pistol/idle.png"),
+            0,0,PLAYER_IMAGE_WIDTH,PLAYER_IMAGE_HEIGHT,20,0.04,PLAYER_IMAGE_SCALE)
 
         this.angle = 0;
 
@@ -88,7 +88,7 @@ class Player extends GameObject {
         // console.log(this.sprintStamina + "\n" + this.sprintRest)
 
         //Sprint
-        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== 3) {
+        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== ANIMATION_Reloading) {
             this.speed = PLAYER_RUNNING_SPEED;
 
             this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
@@ -105,8 +105,8 @@ class Player extends GameObject {
 
         //WASD Move
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
-            if (this.state !== 3 && this.state !== 2) { //not while reloading or shooting
-                this.changeAnimation(1)
+            if (this.state !== ANIMATION_Reloading && this.state !== ANIMATION_Shooting) { //not while reloading or shooting
+                this.changeAnimation(ANIMATION_Walking)
             }
         }
         //TODO fix diagonal being faster
@@ -150,8 +150,8 @@ class Player extends GameObject {
         this.gunInventory[this.currentGunIndex].update()
 
         if(this.animator.isDone()){
-            this.state = 0
-            this.changeAnimation(0)
+            this.state = ANIMATION_Idle
+            this.changeAnimation(ANIMATION_Idle)
         }
 
         this.animationRuntime -= GAME_ENGINE.clockTick
@@ -168,22 +168,26 @@ class Player extends GameObject {
     changeAnimation(state, totalTime=null) {
         switch (state) {
             case (ANIMATION_Idle) :
-                this.state = 0
-                this.animator = this.animationMatrix[GUN_Pistol][ANIMATION_Idle]
+                this.state = ANIMATION_Idle
+                this.animator = this.animationMatrix[0][ANIMATION_Idle]
+                // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Idle]
                 break;
-            case(1):
-                this.state = 1
-                this.animator = this.movingAnimation
+            case(ANIMATION_Walking):
+                this.state = ANIMATION_Walking
+                // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Walking]
+                this.animator = this.animationMatrix[0][ANIMATION_Walking]
                 this.animator.finishedAnimation = false
                 break;
-            case(2):
-                this.state = 2
-                this.animator = this.shootingAnimation
+            case(ANIMATION_Shooting):
+                this.state = ANIMATION_Shooting
+                // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Shooting]
+                this.animator = this.animationMatrix[0][ANIMATION_Shooting]
                 this.animator.finishedAnimation = false
                 break;
-            case(3):
-                this.state = 3
-                this.animator = this.reloadAnimation
+            case(ANIMATION_Reloading):
+                this.state = ANIMATION_Reloading
+                // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Reloading]
+                this.animator = this.animationMatrix[0][ANIMATION_Reloading]
                 this.animator.finishedAnimation = false
                 break;
             case(ANIMATION_Melee) : //melee
