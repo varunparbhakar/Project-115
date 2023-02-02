@@ -21,7 +21,7 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
-const PLAYER_KNIFE_COOLDOWN = 0.75;
+const PLAYER_KNIFE_COOLDOWN = 0.9;
 const PLAYER_KNIFE_DISTANCE = 125;
 const PLAYER_KNIFE_RADIUS = 75;
 const PLAYER_KNIFE_DMG = 150;
@@ -62,8 +62,8 @@ class Player extends GameObject {
         this.speed = PLAYER_WALKING_SPEED;
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
-        //Money
-        this.money = 500
+        //Points
+        this.points = 500
         //Knife
         this.knifeCooldownUntilAttack = 0
         this.isKnifing = false
@@ -140,7 +140,7 @@ class Player extends GameObject {
         }
         if (GAME_ENGINE.right_click) {
             if (this.state !== ANIMATION_Melee) {
-                this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.3
+                this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.45
                 this.changeAnimation(ANIMATION_Melee, PLAYER_KNIFE_COOLDOWN)
                 this.isKnifing = true
             }
@@ -262,29 +262,26 @@ class Player extends GameObject {
 
         //MapObjects
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB) { //World collision
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
             } else
-            if (entity instanceof Barrier) { //Barrier repair
+            if (entity instanceof Barrier) { //Barrier
                 //movement
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 //interact
                 if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
-                    entity.repair()
+                    entity.use()
                 }
-            } else if (entity instanceof Door) {
+            } else if (entity instanceof Door) { //Door
                 //movement
                 if (entity.isLocked == true) {
                     this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 }
                 //interact
                 if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
-                    if (this.money >= entity.cost) { //check money and buy
-                        this.money -= entity.cost
-                        entity.buy()
-                    }
+                    entity.use()
                 }
             }
         })
@@ -338,10 +335,23 @@ class Player extends GameObject {
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie && !hasKnifed) {
                 if (knifeBC.collide(entity.bc_Movement) < 0) {
-                    entity.takeDamage(PLAYER_KNIFE_DMG)
+                    entity.takeDamage(PLAYER_KNIFE_DMG, ZOMBIE_DMG_KNIFE)
                     hasKnifed = true
                 }
             }
         })
+    }
+
+    earnPoints(points) {
+        this.points += points
+        console.log("+" + points, this.points)
+        //TODO 2x Points
+        //TODO points number hud
+    }
+
+    losePoints(points) {
+        this.points -= points
+        console.log("-" + points, this.points)
+        //TODO points number hud
     }
 }

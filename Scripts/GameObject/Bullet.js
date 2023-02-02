@@ -33,7 +33,7 @@ class Bullet extends Projectile {
             if (entity instanceof Zombie) {
                 let intersectionDepth = this.bc.collide(entity.bc_Movement)
                 if (intersectionDepth < 0) {
-                    entity.takeDamage(this.damage)
+                    entity.takeDamage(this.damage, ZOMBIE_DMG_SHOT)
                     this.removeFromWorld = true
                 }
             }

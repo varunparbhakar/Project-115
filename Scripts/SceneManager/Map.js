@@ -96,7 +96,7 @@ class Map {
         let spawner2S = new SpawnerBarrier(1036, 1169, barrier2S, false, this)
         let room2Spawners = [spawner2N, spawner2E, spawner2S]
         //Connecting Door
-        let door2W = new Door(843, 626, 10, 60, 0, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
+        let door2W = new Door(843, 626, 10, 60, 1000, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
         GAME_ENGINE.addEntity(door2W)
 
         ////////////PLayer///////////
@@ -199,7 +199,7 @@ const BARRIER_MAX_HP = 5 //in secs
 class Barrier {
     /**
      * facing means this is facing the player, the zombies come from behind ("N","E","S","W")
-     * has bb for collision, and bb_interact for hurt/repair
+     * has bb for collision, and bb_interact for hurt/use
      *
      * zombie arrival point [x,y] world coords for spawning
      */
@@ -302,7 +302,7 @@ class Barrier {
     /**
      * Call each frame in hurtbox to start repairing
      */
-    repair() {
+    use() {
         this.hp += GAME_ENGINE.clockTick
         if (this.hp > BARRIER_MAX_HP) { //clamp
             this.hp = BARRIER_MAX_HP
@@ -344,7 +344,7 @@ class Door {
         //Stats
         this.cost = cost
         this.listOfSpawners = listOfSpawners
-        this.isLocked = true
+        this.isLocked = true //TODO remove if not needed
         //TODO imagePath, render at center of bb (bb.getCentered - IMAGE_DIMENSION * Scale)
         let tempImg = ASSET_MANAGER.getAsset(imagePath)
         this.renderPosX = this.bb.getCenteredPos()[0] - tempImg.width / 2
@@ -368,10 +368,14 @@ class Door {
     /**
      * Player calls this and buys the door
      */
-    buy() {
-        GAME_ENGINE.camera.map.roundManager.addActiveSpawners(this.listOfSpawners)
-        this.isLocked = false
-        this.removeFromWorld = true //TODO remove if unnecessary
+    use() {
+        //check player's money
+        if (GAME_ENGINE.ent_Player.points >= this.cost) {
+            GAME_ENGINE.ent_Player.losePoints(this.cost)
+            GAME_ENGINE.camera.map.roundManager.addActiveSpawners(this.listOfSpawners)
+            this.isLocked = false //TODO remove if not needed
+            this.removeFromWorld = true
+        }
     }
 }
 

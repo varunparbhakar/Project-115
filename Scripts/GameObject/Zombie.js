@@ -19,9 +19,18 @@ const ZOMBIE_PATHING_GIVEUP_COOLDOWN = 0.5
 
 const ZOMBIE_RAYCAST_COOLDOWN = 0.25 //1
 
+//For player and bullet to call type of damage zombie received
+const ZOMBIE_DMG_SHOT = 0
+const ZOMBIE_DMG_KNIFE = 1
+const ZOMBIE_DMG_GRENADE = 2
+const ZOMBIE_DMG_NOPOINTS = 3 //Traps, etc.
+//https://callofduty.fandom.com/wiki/Points_(Zombies)#:~:text=Points%20are%20earned%20via%20damaging,damaging%20will%20not%20garner%20points.
+const ZOMBIE_POINTS_NONLETHAL = 10
+const ZOMBIE_POINTS_LETHAL = 70
+const ZOMBIE_POINTS_LETHAL_KNIFE = 100
+
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
-
 class Zombie extends GameObject {
     constructor(posX, posY, speed=0, hp=150, pairedBarrier=null) {
         super(posX, posY, "Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png", //TODO better constructor
@@ -113,16 +122,6 @@ class Zombie extends GameObject {
         }
         if (totalTime != null) {
             this.animator.changeAnimationSpeed(totalTime)
-        }
-    }
-
-    takeDamage(damage) {
-        console.log(damage, "from", this.hp)
-        this.hp -= damage
-
-        if (this.hp <= 0) {
-            GAME_ENGINE.camera.map.roundManager.reportKill()
-            this.removeFromWorld = true
         }
     }
 
@@ -310,12 +309,27 @@ class Zombie extends GameObject {
         }
     }
 
-    // rotationHandler() {
-    //     var dx = (GAME_ENGINE.camera.player.posX) - (this.posX); //282/2 Accounting for difference in center of thing.
-    //     var dy = (GAME_ENGINE.camera.player.posY) - (this.posY);
-    //
-    //     return (Math.atan2(dy, dx));
-    // }
+    takeDamage(damage, type=ZOMBIE_DMG_SHOT) {
+        console.log(damage, "from", this.hp)
+        this.hp -= damage
+
+        if (this.hp <= 0) { //if died
+            switch (type) {
+                case ZOMBIE_DMG_SHOT:
+                    GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_LETHAL)
+                    break
+                case ZOMBIE_DMG_KNIFE:
+                    GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_LETHAL_KNIFE)
+                    break
+                default:
+                    break
+            }
+            GAME_ENGINE.camera.map.roundManager.reportKill()
+            this.removeFromWorld = true
+        } else {
+            GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_NONLETHAL)
+        }
+    }
 
 }
 
