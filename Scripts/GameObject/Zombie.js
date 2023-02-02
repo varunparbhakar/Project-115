@@ -56,7 +56,7 @@ class Zombie extends GameObject {
         this.attack_currentCooldown = 0
         // this.attack_isSwinging = 0
 
-        this.hp = 100
+        this.hp = hp
         this.speed = ZOMBIE_SPEEDS[speed]
 
         this.bb = new BoundingBox(posX+ZOMBIE_BB_DIMENSION, posY+ZOMBIE_BB_DIMENSION, ZOMBIE_BB_DIMENSION, ZOMBIE_BB_DIMENSION)
@@ -117,7 +117,9 @@ class Zombie extends GameObject {
     }
 
     takeDamage(damage) {
+        console.log(damage, "from", this.hp)
         this.hp -= damage
+
         if (this.hp <= 0) {
             GAME_ENGINE.camera.map.roundManager.reportKill()
             this.removeFromWorld = true

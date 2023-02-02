@@ -73,7 +73,6 @@ class AStar {
                         resultingPath.push([curr.position[0] + grid_size/2, curr.position[1] + grid_size/2])
                         curr = curr.parent
                     }
-                    console.log(this.pathList)
                     this.pathList = resultingPath //.reverse()
                     return
                 }
