@@ -21,9 +21,9 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
-const PLAYER_KNIFE_COOLDOWN = 0.6;
-const PLAYER_KNIFE_DISTANCE = 100;
-const PLAYER_KNIFE_RADIUS = 50;
+const PLAYER_KNIFE_COOLDOWN = 1;
+const PLAYER_KNIFE_DISTANCE = 125;
+const PLAYER_KNIFE_RADIUS = 100;
 const PLAYER_KNIFE_DMG = 150;
 
 class Player extends GameObject {
@@ -64,6 +64,9 @@ class Player extends GameObject {
         this.sprintRest = false;
         //Money
         this.money = 500
+        //Knife
+        this.knifeCooldownUntilAttack = 0
+        this.isKnifing = false
 
         this.left_clickCooldown = 0
         this.reloadAnimationCooldownITR = 0
@@ -75,8 +78,6 @@ class Player extends GameObject {
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
         this.playerCollision_Vulnerable_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE * PLAYER_VULNERABLE_RADIUS_SCALE)
         this.playerCollision_Zombies_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)
-
-        this.debugBC = new BoundingCircle(0,0,0)
     };
 
     update() {
@@ -138,10 +139,18 @@ class Player extends GameObject {
             }
         }
         if (GAME_ENGINE.right_click) {
-            this.knife()
             if (this.state !== ANIMATION_Melee) {
+                this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.3
                 this.changeAnimation(ANIMATION_Melee, PLAYER_KNIFE_COOLDOWN)
+                this.isKnifing = true
             }
+        }
+        //Knifing
+        if (this.isKnifing && this.knifeCooldownUntilAttack <= 0) {
+            this.knife()
+            this.isKnifing = false
+        } else if (this.knifeCooldownUntilAttack > 0) {
+            this.knifeCooldownUntilAttack -= GAME_ENGINE.clockTick
         }
         //key_use is embedded in places that needs it to avoid always checking on update
 
@@ -225,7 +234,6 @@ class Player extends GameObject {
         this.player_Collision_World_BB.drawBoundingBox()
         this.playerCollision_Zombies_C.drawBoundingCircle("Red")
         this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
-        this.debugBC.drawBoundingCircle("yellow")
     }
 
     saveLastBB() {
@@ -325,8 +333,7 @@ class Player extends GameObject {
     knife() {
         let unitV = getUnitVector(this.posX, this.posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
         let pos = [this.posX + (unitV[0] * PLAYER_KNIFE_DISTANCE), this.posY + (unitV[1] * PLAYER_KNIFE_DISTANCE)]
-        this.debugBC = new BoundingCircle(pos[0], pos[1], PLAYER_KNIFE_RADIUS)
-        let knifeBC = this.debugBC
+        let knifeBC = new BoundingCircle(pos[0], pos[1], PLAYER_KNIFE_RADIUS)
         let hasKnifed = false
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie && !hasKnifed) {
