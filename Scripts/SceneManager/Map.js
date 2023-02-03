@@ -99,9 +99,13 @@ class WorldMap {
         let door2W = new Door(843, 626, 10, 60, 1000, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
         GAME_ENGINE.addEntity(door2W)
 
-        ////////////PLayer///////////
+        ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
         GAME_ENGINE.addEntity(this.player)
+
+        ////////////HUD///////////
+        this.hud = new HUD();
+        GAME_ENGINE.addEntity(this.hud)
 
         ////////////ROUND MANAGER////////////
         this.roundManager = new RoundManager(room1Spawners)

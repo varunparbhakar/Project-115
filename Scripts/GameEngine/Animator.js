@@ -25,7 +25,7 @@ class Animator { //TODO add priority
         GAME_ENGINE.ctx.drawImage(
             this.spritesheet, //what
             this.xStart + (this.width * frame), this.yStart, //starting at
-            this.width, this.height, //how big
+            this.width, this.height, //to
             this.flippedX ? ((posX * -1) - (this.scale * this.width) + GAME_ENGINE.camera.posX) : (posX - GAME_ENGINE.camera.posX), //where X
             this.flippedY ? ((posY * -1) - (this.scale * this.height) + GAME_ENGINE.camera.posY) : (posY - GAME_ENGINE.camera.posY), //where Y
             this.width * this.scale, this.height * this.scale //scale

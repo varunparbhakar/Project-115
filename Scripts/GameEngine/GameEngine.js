@@ -14,7 +14,7 @@ class GameEngine {
         this.ent_Zombies = []
         this.ent_MapForeground = []
         this.ent_HUD = []
-        this.ent_Etc = [] // won't draw
+        this.ent_Etc = []
 
         // Information on the input
         this.click = false;
@@ -116,6 +116,9 @@ class GameEngine {
                 case "KeyE":
                     this.key_grenade = true;
                     break;
+                case "KeyQ":
+                    this.key_switchGuns = true;
+                    break;
             }
         }, false);
         this.ctx.canvas.addEventListener("keyup", (e) => {
@@ -143,6 +146,9 @@ class GameEngine {
                     break;
                 case "KeyE":
                     this.key_grenade = false;
+                    break;
+                case "KeyQ":
+                    this.key_switchGuns = false;
                     break;
             }
         }, false);
@@ -193,6 +199,8 @@ class GameEngine {
             this.ent_Player = entity
         } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
             this.ent_Etc.push(entity)
+        } else if (entity instanceof HUD) {
+            this.ent_HUD.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
             this.ent_Etc.push(entity)

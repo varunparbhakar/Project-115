@@ -8,12 +8,12 @@ const GUN_Shotgun = 3
 class GunPNGCoords {
     constructor() {
         this.map = new Map([
-            //["Name", [xStart, yStart, width, height]]
-            ["M1911", [0, 0, 16, 12]],
-            ["Olympia", [108, 36, 53, 12]],
-            ["M16", [55, 104, 45, 16]],
-            ["L96A1", [300, 48, 59, 19]],
-            ["Ray Gun", [127, 0, 21, 14]],
+            //["Name", [xStart, yStart, width, height, isPaP]]
+            ["M1911", [0, 0, 16, 12, false]],
+            ["Olympia", [108, 36, 53, 12, false]],
+            ["M16", [55, 104, 45, 16, false]],
+            ["L96A1", [300, 48, 59, 19, false]],
+            ["Ray Gun", [127, 0, 21, 14, false]],
         ])
     }
 }
@@ -60,6 +60,7 @@ class Gun {
         this.yStart = spritesheetCoords[1]
         this.width = spritesheetCoords[2]
         this.height = spritesheetCoords[3]
+        this.isPaP = spritesheetCoords[4]
     }
 
     update() {
@@ -333,43 +334,6 @@ class Gun_T_Explode extends Gun {
     shoot1(posX, posY, angle) {
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, this.splashRadius))
-    }
-}
-
-//******************* HUD Element ********************************
-
-//TODO implement with guns
-ANIMATORGUN_IMG_PATH = "Assets/Images/Items/guns.png"
-ANIMATORGUN_SCALE = 1
-/**
- * Animator for the gun's hud element
- */
-class AnimatorGun {
-    /**
-     * Provide
-     * @param xStart
-     * @param yStart
-     * @param width
-     * @param height
-     */
-    constructor(xStart, yStart, width, height) {
-        Object.assign(this, {xStart, yStart, width, height})
-        //pin to bottom left corner
-        this.screenX = GAME_ENGINE.ctx.canvas.width - width
-        this.screenY = GAME_ENGINE.ctx.canvas.width - height
-        this.asset = ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH)
-    }
-
-    update () {
-
-    }
-
-    draw() {
-        GAME_ENGINE.ctx.drawImage(this.asset,
-            this.xStart, this.yStart,
-            this.width, this.height,
-            1, 1,
-            ANIMATORGUN_SCALE, ANIMATORGUN_SCALE)
     }
 }
 
