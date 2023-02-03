@@ -23,7 +23,18 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/Pis
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Shooting/Pistol/Player_Shooting.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png")
-ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/knifing/Pistol/MeleeAttack.png")
+
+//Loading AR
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/AR/Rilfe_IDLE.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/moving/AR/AR_Moving.png");
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Shooting/AR/AR_Shooting.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/AR/AR_Reload.png")
+
+//Loading Shotgun
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/Shotgun/Shotgun_IDLE.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/moving/Shotgun/Shotgun_Move.png");
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Shooting/Shotgun/Shotgun_Shooting.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/Shotgun/Shotgun_Reloading.png")
 
 //Load Guns/Items
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns.png")

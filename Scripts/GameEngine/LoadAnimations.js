@@ -27,18 +27,31 @@ class LoadAnimations {
         this.AR = [
             new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Idle/AR/Rilfe_IDLE.png"),
                 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 20, 0.04, PLAYER_IMAGE_SCALE),
-            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/pistol/pistolSpriteSheet.png"),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/AR/AR_Moving.png"),
                 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 3, 0.1, PLAYER_IMAGE_SCALE),
-            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/knifing/Pistol/MeleeAttack.png"),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/knifing/Knife_Attack.png"),
                 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 15, 0.04, PLAYER_IMAGE_SCALE),
-            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Shooting/Pistol/Player_Shooting.png"),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Shooting/AR/AR_Shooting.png"),
                 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 3, 0.1, PLAYER_IMAGE_SCALE),
-            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png"),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/AR/AR_Reload.png"),
                 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 15, 0.04, PLAYER_IMAGE_SCALE)
+        ]
+        this.SHOTGUN = [
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Idle/Shotgun/Shotgun_IDLE.png"),
+                0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 20, 0.04, PLAYER_IMAGE_SCALE),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/Shotgun/Shotgun_Move.png"),
+                0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 20, 0.04, PLAYER_IMAGE_SCALE),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/knifing/Knife_Attack.png"),
+                0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 15, 0.04, PLAYER_IMAGE_SCALE),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Shooting/Shotgun/Shotgun_Shooting.png"),
+                0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 3, 0.04, PLAYER_IMAGE_SCALE),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/reload/Shotgun/Shotgun_Reloading.png"),
+                0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 20, 0.04, PLAYER_IMAGE_SCALE)
         ]
 
 
-        this.guns = [this.pistol]
+
+        this.guns = [this.pistol, this.AR, this.SHOTGUN]
 
          return this.guns
     }

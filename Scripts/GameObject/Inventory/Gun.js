@@ -219,7 +219,7 @@ class Gun_SHOTGUN extends Gun {
 
 class Gun_SNIPER extends Gun {
     constructor() {
-        super(20, //dmg
+        super(5, //dmg
             30, //mag size
             120, //total ammo
             0.15, //fire cooldown
