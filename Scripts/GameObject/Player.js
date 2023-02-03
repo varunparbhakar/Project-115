@@ -17,7 +17,7 @@ const PLAYER_BB_DIMENSION = 100;
 const PLAYER_BC_RADIUS = 75;
 const PLAYER_VULNERABLE_RADIUS_SCALE = 1.5;
 
-const PLAYER_HP_MAX = 100;
+const PLAYER_HP_MAX = 10000;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
@@ -153,6 +153,10 @@ class Player extends GameObject {
             this.knifeCooldownUntilAttack -= GAME_ENGINE.clockTick
         }
         //key_use is embedded in places that needs it to avoid always checking on update
+        //Grenades
+        if (GAME_ENGINE.key_grenade) { //TODO check nade count
+            GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
+        }
 
 
         //Gun
@@ -178,31 +182,31 @@ class Player extends GameObject {
         switch (state) {
             case (ANIMATION_Idle) :
                 this.state = ANIMATION_Idle
-                this.animator = this.animationMatrix[0][ANIMATION_Idle]
+                this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex].animationType][ANIMATION_Idle]
                 // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Idle]
                 break;
             case(ANIMATION_Walking):
                 this.state = ANIMATION_Walking
                 // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Walking]
-                this.animator = this.animationMatrix[0][ANIMATION_Walking]
+                this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex].animationType][ANIMATION_Walking]
                 this.animator.finishedAnimation = false
                 break;
             case(ANIMATION_Shooting):
                 this.state = ANIMATION_Shooting
                 // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Shooting]
-                this.animator = this.animationMatrix[0][ANIMATION_Shooting]
+                this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex].animationType][ANIMATION_Shooting]
                 this.animator.finishedAnimation = false
                 break;
             case(ANIMATION_Reloading):
                 this.state = ANIMATION_Reloading
                 // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Reloading]
-                this.animator = this.animationMatrix[0][ANIMATION_Reloading]
+                this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex].animationType][ANIMATION_Reloading]
                 this.animator.finishedAnimation = false
                 break;
             case(ANIMATION_Melee) : //melee
                 this.state = ANIMATION_Melee
                 // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Melee]
-                this.animator = this.animationMatrix[0][ANIMATION_Melee]
+                this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex].animationType][ANIMATION_Melee]
                 this.animator.finishedAnimation = false
                 break
         }
@@ -337,6 +341,7 @@ class Player extends GameObject {
                 if (knifeBC.collide(entity.bc_Movement) < 0) {
                     entity.takeDamage(PLAYER_KNIFE_DMG, ZOMBIE_DMG_KNIFE)
                     hasKnifed = true
+                    GAME_ENGINE.camera.startShake(0.1, 2)
                 }
             }
         })

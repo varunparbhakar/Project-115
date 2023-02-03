@@ -312,7 +312,6 @@ class Zombie extends GameObject {
     takeDamage(damage, type=ZOMBIE_DMG_SHOT) {
         console.log(damage, "from", this.hp)
         this.hp -= damage
-
         if (this.hp <= 0) { //if died
             switch (type) {
                 case ZOMBIE_DMG_SHOT:
@@ -321,14 +320,29 @@ class Zombie extends GameObject {
                 case ZOMBIE_DMG_KNIFE:
                     GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_LETHAL_KNIFE)
                     break
+                case ZOMBIE_DMG_GRENADE:
+                    GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_LETHAL)
+                    break
                 default:
                     break
             }
             GAME_ENGINE.camera.map.roundManager.reportKill()
             this.removeFromWorld = true
         } else {
-            GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_NONLETHAL)
+            switch (type) {
+                case ZOMBIE_DMG_GRENADE:
+                    GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_NONLETHAL)
+                    //TODO crawler check
+                    break
+                default:
+                    GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_NONLETHAL)
+                    break
+            }
         }
+    }
+
+    takeDamageExplosive(damage, destPos, type=ZOMBIE_DMG_GRENADE) {
+        GAME_ENGINE.addEntity(new RaycastExplodeZombies(this, damage, destPos, type))
     }
 
 }
@@ -356,8 +370,8 @@ class RaycastZombies {
         //move (dont deltatime)
         var unitx = Math.cos(angle);
         var unity = Math.sin(angle);
-        this.posX += unitx * this.size
-        this.posY += unity * this.size
+        this.posX += unitx * this.size * 3
+        this.posY += unity * this.size * 3
 
         //update collision
         this.bb.x = this.posX - (this.size/2)
@@ -384,5 +398,51 @@ class RaycastZombies {
         //NOTHING
         //TODO remove debug
         // this.bb.drawBoundingBox("yellow")
+    }
+}
+
+class RaycastExplodeZombies extends RaycastZombies {
+    constructor(pairedZombie, damage, destPos, type) {
+        super(pairedZombie)
+        console.log("reached constructor")
+        this.destPos = destPos
+        this.type = type
+        this.damage = damage
+        //get rotation
+        let dx = destPos[0] - this.posX
+        let dy = destPos[1] - this.posY
+        this.angle = Math.atan2(dy, dx)
+    }
+
+    update() {
+        //move (dont deltatime)
+        var unitx = Math.cos(this.angle);
+        var unity = Math.sin(this.angle);
+        this.posX += unitx * this.size * 2
+        this.posY += unity * this.size * 2
+
+        //update collision
+        this.bb.x = this.posX - (this.size/2)
+        this.bb.y = this.posY - (this.size/2)
+        this.bb.updateSides()
+
+        //check collide
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+            if (this.bb.collide(entity.bb)) {
+                this.removeFromWorld = true
+            }
+        })
+
+        //check if at destination
+        if (Math.abs(this.posX - this.destPos[0]) < this.size * 2 && Math.abs(this.posY - this.destPos[1]) < this.size * 2) {
+            this.pairedZombie.takeDamage(this.damage, this.type)
+            this.removeFromWorld = true
+        }
+    }
+
+    draw() {
+        //NOTHING
+        //TODO remove debug
+        this.bb.drawBoundingBox("orange")
     }
 }

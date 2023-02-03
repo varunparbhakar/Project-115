@@ -118,40 +118,6 @@ class Gun {
     }
 }
 
-//TODO implement with guns
-ANIMATORGUN_IMG_PATH = "Assets/Images/Items/guns.png"
-ANIMATORGUN_SCALE = 1
-/**
- * Animator for the gun's hud element
- */
-class AnimatorGun {
-    /**
-     * Provide
-     * @param xStart
-     * @param yStart
-     * @param width
-     * @param height
-     */
-    constructor(xStart, yStart, width, height) {
-        Object.assign(this, {xStart, yStart, width, height})
-        //pin to bottom left corner
-        this.screenX = GAME_ENGINE.ctx.canvas.width - width
-        this.screenY = GAME_ENGINE.ctx.canvas.width - height
-        this.asset = ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH)
-    }
-
-    update () {
-
-    }
-
-    draw() {
-        GAME_ENGINE.ctx.drawImage(this.asset,
-            this.xStart, this.yStart,
-            this.width, this.height,
-            1, 1,
-            ANIMATORGUN_SCALE, ANIMATORGUN_SCALE)
-    }
-}
 //******************* M1911 ********************************
 
 class Gun_Pistol_M1911 extends Gun {
@@ -167,7 +133,6 @@ class Gun_Pistol_M1911 extends Gun {
             2000, //bullets speedTerminal
             0.1,5,
             GUN_Pistol //animation type
-
         );
     }
 }
@@ -182,12 +147,13 @@ class Gun_AR_M16 extends Gun {
             0.15, //increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
-            0.1,5
+            0.1,5,
+            GUN_AR //animation type
         );
     }
 }
 class Gun_SHOTGUN extends Gun {
-    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread, shotgunSpreadShots, screenShakeLength=0.1, screenShakeIntensity=10) {
+    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread, shotgunSpreadShots, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_Shotgun) {
         super (
             damage,
             magazineSize,
@@ -199,7 +165,8 @@ class Gun_SHOTGUN extends Gun {
             recoilDecreaseRate,
             bulletSpeed,
             screenShakeLength=0.1,
-            screenShakeIntensity=10
+            screenShakeIntensity=10,
+            GUN_Shotgun
         )
         Object.assign(this, {shotgunSpread, shotgunSpreadShots})
         this.shotgunSpread = 0.4
@@ -237,7 +204,44 @@ class Gun_SNIPER extends Gun {
 
 }
 
+//TODO implement with guns
+ANIMATORGUN_IMG_PATH = "Assets/Images/Items/guns.png"
+ANIMATORGUN_SCALE = 1
+/**
+ * Animator for the gun's hud element
+ */
+class AnimatorGun {
+    /**
+     * Provide
+     * @param xStart
+     * @param yStart
+     * @param width
+     * @param height
+     */
+    constructor(xStart, yStart, width, height) {
+        Object.assign(this, {xStart, yStart, width, height})
+        //pin to bottom left corner
+        this.screenX = GAME_ENGINE.ctx.canvas.width - width
+        this.screenY = GAME_ENGINE.ctx.canvas.width - height
+        this.asset = ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH)
+    }
 
+    update () {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.drawImage(this.asset,
+            this.xStart, this.yStart,
+            this.width, this.height,
+            1, 1,
+            ANIMATORGUN_SCALE, ANIMATORGUN_SCALE)
+    }
+}
+
+const GUN_TEXTURE_INFO = [
+    []
+]
 //GUN
     //PaP dmg increase
     //Burst fire
