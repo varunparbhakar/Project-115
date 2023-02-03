@@ -113,7 +113,7 @@ class Explosive extends Projectile {
         })
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof MapBB) {
-                if (this.bb.collide(entity.bb)) {
+                if (this.bb.collide(entity.bb) && !entity.projectilePasses) {
                     this.explode()
                     this.removeFromWorld = true
                 }

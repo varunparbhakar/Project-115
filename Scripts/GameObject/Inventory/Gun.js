@@ -122,7 +122,7 @@ class Gun {
 
 //******************* Guns Types ********************************
 
-class Gun_T_SHOTGUN extends Gun { //ABSTRACT
+class Gun_T_Shotgun extends Gun { //ABSTRACT
     constructor(name="Shotgun Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread=0.4, shotgunSpreadShots=5, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_Shotgun) {
         super (
             name,
@@ -154,7 +154,7 @@ class Gun_T_SHOTGUN extends Gun { //ABSTRACT
     }
 }
 
-class Gun_T_PIERCE extends Gun {
+class Gun_T_Pierce extends Gun {
     constructor(name="Sniper_Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, pierceCount=3, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_AR) {
         super(
             name,
@@ -179,7 +179,7 @@ class Gun_T_PIERCE extends Gun {
     }
 }
 
-class Gun_T_BURST extends Gun {
+class Gun_T_Burst extends Gun {
     constructor(name="Burst_Generic",
                 damage,
                 magazineSize,
@@ -289,6 +289,31 @@ class Gun_T_BURST extends Gun {
     }
 }
 
+class Gun_T_Explode extends Gun {
+    constructor(name="Explosive_Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, splashRadius=200, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_AR) {
+        super(
+            name,
+            damage, //dmg
+            magazineSize, //mag size
+            totalAmmo, //total ammo
+            maxFireCooldown, //fire cooldown
+            reloadTime, //reload time
+            movementPenalty, //movement penalty
+            recoilIncreasePerClick, //increase per fire
+            recoilDecreaseRate, //recoil decrease rate
+            bulletSpeed, //bullets speedTerminal
+            screenShakeLength,screenShakeIntensity,
+            animationType
+        );
+        this.splashRadius = splashRadius
+    }
+
+    shoot1(posX, posY, angle) {
+        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+        GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, this.splashRadius))
+    }
+}
+
 //******************* HUD Element ********************************
 
 //TODO implement with guns
@@ -367,7 +392,7 @@ class Gun_M1911 extends Gun {
     }
 }
 
-class Gun_Olympia extends Gun_T_SHOTGUN {
+class Gun_Olympia extends Gun_T_Shotgun {
     constructor() {
         super(
             "Olympia",
@@ -388,7 +413,7 @@ class Gun_Olympia extends Gun_T_SHOTGUN {
     }
 }
 
-class Gun_M16 extends Gun_T_BURST {
+class Gun_M16 extends Gun_T_Burst {
     constructor() {
         super(
             "M16",
@@ -410,7 +435,7 @@ class Gun_M16 extends Gun_T_BURST {
     }
 }
 
-class Gun_L96A1 extends Gun_T_PIERCE {
+class Gun_L96A1 extends Gun_T_Pierce {
     constructor() {
         super(
             "L96A1",
@@ -429,10 +454,31 @@ class Gun_L96A1 extends Gun_T_PIERCE {
     }
 }
 
+class Gun_RayGun extends Gun_T_Explode {
+    constructor() {
+        super(
+            "Ray Gun",
+            1800, //dmg
+            20, //mag size
+            160, //total ammo
+            0.4, //fire cooldown
+            3, //reload time
+            1, //movement penalty
+            0.1, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            150, //splash radius
+            0.1,2.5,
+            GUN_Pistol
+        )
+    }
+}
+
 const GUN_TEXTURE_MAP = newMap([
     //["Name", [xStart, yStart, width, height]]
     ["M1911", [0, 0, 16, 12]],
     ["Olympia", [108, 36, 53, 12]],
     ["M16", [55, 104, 45, 16]],
     ["L96A1", [300, 48, 59, 19]],
+    ["Ray Gun", [127, 0, 21, 14]],
 ])

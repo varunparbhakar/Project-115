@@ -17,7 +17,7 @@ const PLAYER_BB_DIMENSION = 100;
 const PLAYER_BC_RADIUS = 75;
 const PLAYER_VULNERABLE_RADIUS_SCALE = 1.5;
 
-const PLAYER_HP_MAX = 10000;
+const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100;
 const PLAYER_HEAL_COOLDOWN = 5;
 
@@ -51,7 +51,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_M16()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.gunInventory = [new Gun_RayGun()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
         this.currentGunIndex = 0;
 
         //HP
