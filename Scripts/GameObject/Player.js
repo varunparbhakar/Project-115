@@ -51,7 +51,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_RayGun()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.gunInventory = [new Gun_M1911(), new Gun_M16(), new Gun_RayGun(), new Gun_L96A1(), new Gun_Olympia()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
         this.currentGunIndex = 0;
 
         //HP
@@ -157,6 +157,21 @@ class Player extends GameObject {
         if (GAME_ENGINE.key_grenade) { //TODO check nade count, cooldown via animations
             GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
         }
+        //Grenades
+        if (GAME_ENGINE.key_switchGuns) { //TODO check nade count, cooldown via animations
+            if (this.gunInventory[this.currentGunIndex + 1] !== 0 && !this.isSwitching) {
+                this.currentGunIndex++
+                if (this.currentGunIndex === this.gunInventory.length) //loop back to start
+                    this.currentGunIndex = 0
+                this.isSwitching = true
+                this.animator.finishedAnimation = true
+                //TODO call gun on equip
+                this.gunInventory[this.currentGunIndex].equip()
+            }
+        } else {
+            this.isSwitching = false
+        }
+
 
 
         //Gun
@@ -341,7 +356,7 @@ class Player extends GameObject {
                 if (knifeBC.collide(entity.bc_Movement) < 0) {
                     entity.takeDamage(PLAYER_KNIFE_DMG, ZOMBIE_DMG_KNIFE)
                     hasKnifed = true
-                    GAME_ENGINE.camera.startShake(0.1, 2)
+                    GAME_ENGINE.camera.startShake(0.1, 7)
                 }
             }
         })

@@ -15,7 +15,7 @@ class HUD {
 //******************* HUD Elements ********************************
 ANIMATORGUN_IMG_PATH = "Assets/Images/Items/guns.png"
 ANIMATORGUNPAP_IMG_PATH = "Assets/Images/Items/guns_pap.png"
-ANIMATORGUN_SCALE = 13
+ANIMATORGUN_SCALE = 9
 /**
  * Animator for the gun's hud element
  */
@@ -23,10 +23,10 @@ class AnimatorGun {
     constructor() {
         //pin to bottom left corner
         this.asset = ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH)
-        this.assetPaP = ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH)
+        this.assetPaP = ASSET_MANAGER.getAsset(ANIMATORGUNPAP_IMG_PATH)
     }
 
-    update () { //TODO stop on update, us onSwitchWeapon for player or something
+    update() {
         if (GAME_ENGINE.ent_Player == null) return
         this.curr_gun = GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex]
         this.xStart = this.curr_gun.xStart
@@ -45,7 +45,9 @@ class AnimatorGun {
             this.xStart, this.yStart, //starting at
             this.width, this.height, //to
             GAME_ENGINE.ctx.canvas.width - (this.width  * ANIMATORGUN_SCALE), //where x
-            GAME_ENGINE.ctx.canvas.height - (this.height * ANIMATORGUN_SCALE), //where y
+            GAME_ENGINE.ctx.canvas.height - (this.height * ANIMATORGUN_SCALE) +
+                ((this.curr_gun.currentReloadTime / this.curr_gun.reloadTime) * this.height * ANIMATORGUN_SCALE) +
+                ((this.curr_gun.currentRecoil) * 50), //where y
             this.width * ANIMATORGUN_SCALE, this.height * ANIMATORGUN_SCALE //scale
         )
         GAME_ENGINE.ctx.restore()
@@ -54,11 +56,15 @@ class AnimatorGun {
         //Ammo
         let text
         if (this.curr_gun.currentReloadTime <= 0) {
-            text = this.curr_gun.currentMagazineAmmo + " / " + this.curr_gun.totalAmmo
-        } else {
+            text = this.curr_gun.currentMagazineAmmo + " / " + this.curr_gun.currentTotalAmmo
+            GAME_ENGINE.ctx.font = 'bold 50px arial'
+        } else if (!this.curr_gun.isSwitching) {
             text = "RELOADING"
+            GAME_ENGINE.ctx.font = 'bold 40px arial'
+        } else  {
+            text = "EQUIPPING"
+            GAME_ENGINE.ctx.font = 'bold 40px arial'
         }
-        GAME_ENGINE.ctx.font = 'bold 50px arial'
         GAME_ENGINE.ctx.fillStyle = "white"
         GAME_ENGINE.ctx.textAlign = "right"
         GAME_ENGINE.ctx.shadowColor="black"

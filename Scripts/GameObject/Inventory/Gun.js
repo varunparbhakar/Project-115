@@ -9,11 +9,15 @@ class GunPNGCoords {
     constructor() {
         this.map = new Map([
             //["Name", [xStart, yStart, width, height, isPaP]]
+
+            //Normal
             ["M1911", [0, 0, 16, 12, false]],
             ["Olympia", [108, 36, 53, 12, false]],
             ["M16", [55, 104, 45, 16, false]],
             ["L96A1", [300, 48, 59, 19, false]],
             ["Ray Gun", [127, 0, 21, 14, false]],
+
+            //PaP
         ])
     }
 }
@@ -53,6 +57,8 @@ class Gun {
         this.currentFireCooldown = 0
         this.currentReloadTime = 0
         this.currentRecoil = 0
+        this.currentTotalAmmo = totalAmmo
+        this.isSwitching = false
 
         //HUD element
         let spritesheetCoords = GUN_TEXTURE_MAP.map.get(this.name)
@@ -77,6 +83,8 @@ class Gun {
         //reload cooldown
         if (this.currentReloadTime > 0) {
             this.currentReloadTime -= GAME_ENGINE.clockTick
+        } else {
+            this.isSwitching = false
         }
     }
 
@@ -97,7 +105,7 @@ class Gun {
 
         //Shoot
         this.shoot1(posX, posY, angle)
-        console.log(this.currentMagazineAmmo, "/", this.totalAmmo)
+        console.log(this.currentMagazineAmmo, "/", this.currentTotalAmmo)
 
         return true
     }
@@ -116,7 +124,7 @@ class Gun {
 
     reload() {
         //full or no ammo, then return
-        if (this.currentMagazineAmmo === this.magazineSize || this.totalAmmo <= 0) {
+        if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
             return false
         }
 
@@ -125,21 +133,21 @@ class Gun {
         this.currentRecoil = 0
         this.currentFireCooldown = 0
 
-        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.totalAmmo)
+        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
         this.currentMagazineAmmo += withdraw
-        this.totalAmmo -= withdraw
-        // if (this.totalAmmo < 0) this.totalAmmo = 0
+        this.currentTotalAmmo -= withdraw
+        // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
         return true
     }
 
     /**
-     * Resets stats on weapon switch //TODO Player or Gun has switch delay
+     * Resets stats on weapon switch
      */
     equip() {
-        this.currentReloadTime = this.reloadTime
+        this.isSwitching = true
+        this.currentReloadTime = this.reloadTime * 0.7
         this.currentRecoil = 0
         this.currentFireCooldown = 0
-
     }
 }
 
@@ -170,6 +178,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
             GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
         }
+        this.currentRecoil += this.recoilIncreasePerClick;
     }
 
     getSpreadAngle(angle) {
@@ -199,6 +208,7 @@ class Gun_T_Pierce extends Gun {
     shoot1(posX, posY, angle) {
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, 3))
+        this.currentRecoil += this.recoilIncreasePerClick;
     }
 }
 
@@ -257,6 +267,8 @@ class Gun_T_Burst extends Gun {
         //reload cooldown
         if (this.currentReloadTime > 0) {
             this.currentReloadTime -= GAME_ENGINE.clockTick
+        } else {
+            this.isSwitching = false
         }
 
         //burst fire cooldown
@@ -276,7 +288,7 @@ class Gun_T_Burst extends Gun {
                     this.curr_burstBulletCount++
                     this.curr_burstCooldown = this.burstCooldown
                     this.currentMagazineAmmo--
-                    console.log(this.currentMagazineAmmo, "/", this.totalAmmo)
+                    console.log(this.currentMagazineAmmo, "/", this.currentTotalAmmo)
                     this.shoot1(GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, GAME_ENGINE.ent_Player.angle)
                     this.currentRecoil += this.recoilIncreasePerClick / 3
                 } else {
@@ -310,6 +322,13 @@ class Gun_T_Burst extends Gun {
             return true
         }
     }
+
+    equip() {
+        super.equip();
+        this.firing = false
+        this.curr_burstCooldown = 0
+        this.curr_burstBulletCount = 0
+    }
 }
 
 class Gun_T_Explode extends Gun {
@@ -334,6 +353,7 @@ class Gun_T_Explode extends Gun {
     shoot1(posX, posY, angle) {
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, this.splashRadius))
+        this.currentRecoil += this.recoilIncreasePerClick;
     }
 }
 
@@ -362,13 +382,13 @@ class Gun_M1911 extends Gun {
     constructor() {
         super(
             "M1911",
-            20, //dmg
+            45, //dmg
             7, //mag size
             60, //total ammo
             0.15, //fire cooldown
             1, //reload time
             1, //movement penalty
-            0.15, //recoil increase per fire
+            0.14, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1,2.5,
@@ -410,7 +430,7 @@ class Gun_M16 extends Gun_T_Burst {
             2.03, //reload time
             1, //movement penalty
             0.15, //recoil increase per fire
-            1.5, //recoil decrease rate
+            1.25, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1, //burst fire cooldown interval (multiplying by burst fire bullet count must < 0.5)
             3, //burst fire bullet count
@@ -435,7 +455,7 @@ class Gun_L96A1 extends Gun_T_Pierce {
             1, //recoil decrease rate
             2000, //bullets speedTerminal
             3, //pierce count
-            0.1,5
+            0.1,10
         )
     }
 }
@@ -450,7 +470,7 @@ class Gun_RayGun extends Gun_T_Explode {
             0.4, //fire cooldown
             3, //reload time
             1, //movement penalty
-            0.1, //recoil increase per fire
+            0.26, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             150, //splash radius
