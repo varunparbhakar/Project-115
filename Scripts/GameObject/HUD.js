@@ -37,6 +37,7 @@ class AnimatorGun {
     }
 
     draw() {
+        if (GAME_ENGINE.ent_Player == null) return
         GAME_ENGINE.ctx.save()
         //Gun
         GAME_ENGINE.ctx.drawImage(
