@@ -254,8 +254,8 @@ class Gun_T_BURST extends Gun {
                     this.curr_burstCooldown = this.burstCooldown
                     this.currentMagazineAmmo--
                     console.log(this.currentMagazineAmmo, "/", this.totalAmmo)
-                    GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
                     this.shoot1(GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, GAME_ENGINE.ent_Player.angle)
+                    this.currentRecoil += this.recoilIncreasePerClick / 3
                 } else {
                     this.firing = false
                 }
@@ -279,6 +279,7 @@ class Gun_T_BURST extends Gun {
             if (this.currentMagazineAmmo === 0) return false //no ammo
 
             //Shoot
+            GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
             this.firing = true
             this.curr_burstCooldown = 0
             this.curr_burstBulletCount = 0
@@ -359,9 +360,10 @@ class Gun_M1911 extends Gun {
             0.15, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
-            0.1,5,
+            0.1,2.5,
             GUN_Pistol //animation type
         );
+
     }
 }
 
@@ -372,15 +374,15 @@ class Gun_Olympia extends Gun_T_SHOTGUN {
             80, //dmg
             2, //mag size
             38, //total ammo
-            0.1, //fire cooldown
+            0.2, //fire cooldown
             3.3, //reload time
             1, //movement penalty
             0.15, //recoil increase per fire
-            0.6, //recoil decrease rate
+            0.3, //recoil decrease rate
             2000, //bullets speedTerminal
-            0.4, //shotgunSpread
+            0.2, //shotgunSpread
             8, //shotgun bullets
-            0.1, 5, //shake length and
+            0.1, 3.5, //shake length and
             GUN_Shotgun //animation type //TODO fix
         );
     }
@@ -396,13 +398,13 @@ class Gun_M16 extends Gun_T_BURST {
             0.5, //fire cooldown
             2.03, //reload time
             1, //movement penalty
-            0.1, //recoil increase per fire
-            0.7, //recoil decrease rate
+            0.15, //recoil increase per fire
+            1.5, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1, //burst fire cooldown interval (multiplying by burst fire bullet count must < 0.5)
             3, //burst fire bullet count
             0.1, //shake length
-            0.5, //shake intensity
+            2.5, //shake intensity
             GUN_AR
         )
     }
@@ -426,3 +428,11 @@ class Gun_L96A1 extends Gun_T_PIERCE {
         )
     }
 }
+
+const GUN_TEXTURE_MAP = newMap([
+    //["Name", [xStart, yStart, width, height]]
+    ["M1911", [0, 0, 16, 12]],
+    ["Olympia", [108, 36, 53, 12]],
+    ["M16", [55, 104, 45, 16]],
+    ["L96A1", [300, 48, 59, 19]],
+])
