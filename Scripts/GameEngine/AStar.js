@@ -13,7 +13,7 @@ ASTAR_BB_SIZE = [70, 50, 50]
  * Amount of iterations before giving up
  * @type {number}
  */
-ASTAR_ITERATIONS = [1000, 0, 0]
+ASTAR_ITERATIONS = [250, 0, 0] //TODO iterations based on player distance
 // ASTAR_ITERATION_OFFSET = [[0,0], [50,0], [-50, 25]]
 class AStar {
     constructor() {

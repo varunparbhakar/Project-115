@@ -16,8 +16,7 @@ const ZOMBIE_BC_ATTACK_RADIUS = 150
 
 const ZOMBIE_PATHING_NODE_LEEWAY = 50
 const ZOMBIE_PATHING_GIVEUP_COOLDOWN = 0.5
-
-const ZOMBIE_RAYCAST_COOLDOWN = 0.25 //1
+const ZOMBIE_RAYCAST_COOLDOWN = 0.1 //1
 
 //For player and bullet to call type of damage zombie received
 const ZOMBIE_DMG_SHOT = 0
