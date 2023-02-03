@@ -122,6 +122,7 @@ class Explosive extends Projectile {
     }
 
     explode() {
+        GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
@@ -131,6 +132,7 @@ class Explosive extends Projectile {
 
         if (bc.collide(GAME_ENGINE.ent_Player) < 0) {
             GAME_ENGINE.ent_Player.takeDamage(this.damage)
+            GAME_ENGINE.camera.startShake(5, 20)
         }
     }
 }
@@ -162,7 +164,7 @@ class Grenade extends Projectile {
         }
         //Speed
         if (this.speed > 0) {
-            this.speed -= 200 * GAME_ENGINE.clockTick
+            this.speed -= 800 * GAME_ENGINE.clockTick
         } else {
             this.speed = 0
         }
@@ -187,7 +189,8 @@ class Grenade extends Projectile {
     }
 
     explode() { //TODO inheritance (eww)
-        let bc = new BoundingCircle(this.posX, this.posY, )
+        GAME_ENGINE.camera.startShake(0.1, 5)
+        let bc = new BoundingCircle(this.posX, this.posY, GRANADE_RADIUS)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
                 entity.takeDamageExplosive(GRANADE_DAMAGE, [this.posX, this.posY])
@@ -195,6 +198,7 @@ class Grenade extends Projectile {
         })
         if (bc.collide(GAME_ENGINE.ent_Player) < 0) {
             GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
+            GAME_ENGINE.camera.startShake(5, 20)
         }
     }
 }

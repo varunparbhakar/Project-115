@@ -51,7 +51,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_Pistol_M1911()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.gunInventory = [new Gun_Olympia()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
         this.currentGunIndex = 0;
 
         //HP
@@ -154,7 +154,7 @@ class Player extends GameObject {
         }
         //key_use is embedded in places that needs it to avoid always checking on update
         //Grenades
-        if (GAME_ENGINE.key_grenade) { //TODO check nade count
+        if (GAME_ENGINE.key_grenade) { //TODO check nade count, cooldown via animations
             GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
         }
 
@@ -358,5 +358,52 @@ class Player extends GameObject {
         this.points -= points
         console.log("-" + points, this.points)
         //TODO points number hud
+    }
+}
+
+class RaycastExplodePlayer extends RaycastZombies {
+    constructor(pairedZombie, damage, type) {
+        super(pairedZombie)
+        this.destPos = destPos
+        this.type = type
+        this.damage = damage
+        //get rotation
+        let dx = destPos[0] - this.posX
+        let dy = destPos[1] - this.posY
+        this.angle = Math.atan2(dy, dx)
+    }
+
+    update() {
+        //move (dont deltatime)
+        var unitx = Math.cos(this.angle);
+        var unity = Math.sin(this.angle);
+        this.posX += unitx * this.size * 2
+        this.posY += unity * this.size * 2
+
+        //update collision
+        this.bb.x = this.posX - (this.size/2)
+        this.bb.y = this.posY - (this.size/2)
+        this.bb.updateSides()
+
+        //check collide
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+            if (entity instanceof MapBB) {
+                if (this.bb.collide(entity.bb) && !entity.projectilePasses) {
+                    this.removeFromWorld = true
+                }
+            }
+        })
+
+        //check if at destination
+        if (Math.abs(this.posX - this.destPos[0]) < this.size * 2 && Math.abs(this.posY - this.destPos[1]) < this.size * 2) {
+            this.pairedZombie.takeDamage(this.damage, this.type)
+            this.removeFromWorld = true
+        }
+    }
+
+    draw() {
+        //NOTHING
+        //TODO remove debug
+        this.bb.drawBoundingBox("orange")
     }
 }

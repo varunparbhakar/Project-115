@@ -404,7 +404,6 @@ class RaycastZombies {
 class RaycastExplodeZombies extends RaycastZombies {
     constructor(pairedZombie, damage, destPos, type) {
         super(pairedZombie)
-        console.log("reached constructor")
         this.destPos = destPos
         this.type = type
         this.damage = damage
@@ -428,8 +427,10 @@ class RaycastExplodeZombies extends RaycastZombies {
 
         //check collide
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (this.bb.collide(entity.bb)) {
-                this.removeFromWorld = true
+            if (entity instanceof MapBB) {
+                if (this.bb.collide(entity.bb) && !entity.projectilePasses) {
+                    this.removeFromWorld = true
+                }
             }
         })
 

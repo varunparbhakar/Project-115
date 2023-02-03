@@ -1,11 +1,14 @@
-//ABSTRACT
+//******************* Animation Matrix Values ********************************
 const GUN_Pistol = 0
-const GUN_Knife = 1
+// const GUN_Knife = 1
 const GUN_AR = 2
 const GUN_Shotgun = 3
 
+//******************* Super ********************************
+
 class Gun {
-    constructor(damage,
+    constructor(name,
+                damage,
                 magazineSize,
                 totalAmmo,
                 maxFireCooldown,
@@ -17,7 +20,9 @@ class Gun {
                 screenShakeLength=0.1,
                 screenShakeIntensity=10,
                 animationType=GUN_Pistol) {
-        Object.assign(this, {damage,
+        Object.assign(this, {
+            name,
+            damage,
             magazineSize,
             totalAmmo,
             maxFireCooldown,
@@ -53,9 +58,6 @@ class Gun {
     }
 
     shoot(posX, posY, angle) {
-        // console.log("FIRE COOLDOWN: " + this.currentFireCooldown)
-        // console.log("Reload COOLDOWN: " + this.currentFireCooldown)
-        // console.log("FIRE COOLDOWN: " + this.currentFireCooldown)
         //Check FireRate
         if (this.currentFireCooldown > 0) { //still in cooldown
             return false;
@@ -118,43 +120,12 @@ class Gun {
     }
 }
 
-//******************* M1911 ********************************
+//******************* Guns Types ********************************
 
-class Gun_Pistol_M1911 extends Gun {
-    constructor() {
-        super(20, //dmg
-            7, //mag size
-            60, //total ammo
-            0.15, //fire cooldown
-            1, //reload time
-            1, //movement penalty
-            0.15, //increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,5,
-            GUN_Pistol //animation type
-        );
-    }
-}
-class Gun_AR_M16 extends Gun {
-    constructor() {
-        super(20, //dmg
-            30, //mag size
-            120, //total ammo
-            0.15, //fire cooldown
-            1, //reload time
-            1, //movement penalty
-            0.15, //increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,5,
-            GUN_AR //animation type
-        );
-    }
-}
-class Gun_SHOTGUN extends Gun {
-    constructor(damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread, shotgunSpreadShots, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_Shotgun) {
+class Gun_T_SHOTGUN extends Gun { //ABSTRACT
+    constructor(name="Shotgun Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread=0.4, shotgunSpreadShots=5, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_Shotgun) {
         super (
+            name,
             damage,
             magazineSize,
             totalAmmo,
@@ -166,14 +137,13 @@ class Gun_SHOTGUN extends Gun {
             bulletSpeed,
             screenShakeLength=0.1,
             screenShakeIntensity=10,
-            GUN_Shotgun
+            animationType
         )
         Object.assign(this, {shotgunSpread, shotgunSpreadShots})
-        this.shotgunSpread = 0.4
-        this.shotgunSpreadShots = 5; //The number of bullets being spawned at shooting
     }
 
     shoot1(posX, posY, angle) {
+        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
             GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
         }
@@ -184,25 +154,141 @@ class Gun_SHOTGUN extends Gun {
     }
 }
 
-class Gun_SNIPER extends Gun {
-    constructor() {
-        super(5, //dmg
-            30, //mag size
-            120, //total ammo
-            0.15, //fire cooldown
-            1, //reload time
-            1, //movement penalty
-            0.15, //increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,5
+class Gun_T_PIERCE extends Gun {
+    constructor(name="Sniper_Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, pierceCount=3, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_AR) {
+        super(
+            name,
+            damage, //dmg
+            magazineSize, //mag size
+            totalAmmo, //total ammo
+            maxFireCooldown, //fire cooldown
+            reloadTime, //reload time
+            movementPenalty, //movement penalty
+            recoilIncreasePerClick, //increase per fire
+            recoilDecreaseRate, //recoil decrease rate
+            bulletSpeed, //bullets speedTerminal
+            screenShakeLength,screenShakeIntensity,
+            animationType
         );
-    }
-    update(){
-        //Needs to pierce zombies
+        this.pierceCount = pierceCount
     }
 
+    shoot1(posX, posY, angle) {
+        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+        GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, 3))
+    }
 }
+
+class Gun_T_BURST extends Gun {
+    constructor(name="Burst_Generic",
+                damage,
+                magazineSize,
+                totalAmmo,
+                maxFireCooldown,
+                reloadTime,
+                movementPenalty,
+                recoilIncreasePerClick,
+                recoilDecreaseRate,
+                bulletSpeed,
+                burstCooldown=0.13,
+                burstBulletCount=3,
+                screenShakeLength=0.1,
+                screenShakeIntensity=10,
+                animationType=GUN_AR) {
+        super(
+            name,
+            damage, //dmg
+            magazineSize, //mag size
+            totalAmmo, //total ammo
+            maxFireCooldown, //fire cooldown
+            reloadTime, //reload time
+            movementPenalty, //movement penalty
+            recoilIncreasePerClick, //increase per fire
+            recoilDecreaseRate, //recoil decrease rate
+            bulletSpeed, //bullets speedTerminal
+            screenShakeLength,screenShakeIntensity,
+            animationType
+        )
+        /**
+         * time between shots
+         * @type {number}
+         */
+        this.burstCooldown = burstCooldown
+        this.curr_burstCooldown = 0 //timer down
+        this.burstBulletCount = burstBulletCount
+        this.curr_burstBulletCount = 0 //counts up
+        this.firing = false
+    }
+
+    update() {
+        //fire rate cooldown
+        if (this.currentFireCooldown > 0) {
+            this.currentFireCooldown -= GAME_ENGINE.clockTick
+        }
+
+        //recoil cooldown
+        if (this.currentRecoil > 0) {
+            this.currentRecoil -= this.recoilDecreaseRate * GAME_ENGINE.clockTick
+        }
+
+        //reload cooldown
+        if (this.currentReloadTime > 0) {
+            this.currentReloadTime -= GAME_ENGINE.clockTick
+        }
+
+        //burst fire cooldown
+        if (this.currentburstCooldown > 0) {
+            this.currentburstCooldown -= GAME_ENGINE.clockTick
+        }
+
+        if (this.firing) {
+            if (this.currentMagazineAmmo === 0) { //no ammo
+                this.curr_burstCooldown = 0
+                this.curr_burstBulletCount = 0
+                this.firing = false
+            } else { //fire burst
+                if (this.curr_burstCooldown > 0) {
+                    this.curr_burstCooldown -= GAME_ENGINE.clockTick
+                } else if (this.curr_burstBulletCount < this.burstBulletCount) {
+                    this.curr_burstBulletCount++
+                    this.curr_burstCooldown = this.burstCooldown
+                    this.currentMagazineAmmo--
+                    console.log(this.currentMagazineAmmo, "/", this.totalAmmo)
+                    GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+                    this.shoot1(GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, GAME_ENGINE.ent_Player.angle)
+                } else {
+                    this.firing = false
+                }
+            }
+        }
+    }
+
+    shoot(posX, posY, angle) {
+        if (!this.firing) {
+            //Check FireRate
+            if (this.currentFireCooldown > 0) { //still in cooldown
+                return false;
+            }
+            //check reload
+            if (this.currentReloadTime > 0) {
+                return false;
+            }
+            this.currentFireCooldown = this.maxFireCooldown //set cooldown
+
+            //Check Ammo
+            if (this.currentMagazineAmmo === 0) return false //no ammo
+
+            //Shoot
+            this.firing = true
+            this.curr_burstCooldown = 0
+            this.curr_burstBulletCount = 0
+
+            return true
+        }
+    }
+}
+
+//******************* HUD Element ********************************
 
 //TODO implement with guns
 ANIMATORGUN_IMG_PATH = "Assets/Images/Items/guns.png"
@@ -239,24 +325,104 @@ class AnimatorGun {
     }
 }
 
-const GUN_TEXTURE_INFO = [
-    []
-]
-//GUN
+//GUN (DONE)
     //PaP dmg increase
     //Burst fire
-//Pistol
-    //same as gun
-//MG, SMG, LMG
-    //same as gun
+//Pistol (DONE)
+    //same as gun (DONE)
+//MG, SMG, LMG (DONE)
+    //same as gun (DONE)
     //Burst fire
-//Shotguns
-    //multiple bullets at once
-//Sniper, Slow fire
-    //piercing bullets that stop after passing multiple zombies
+//Shotguns (DONE)
+    //multiple bullets at once (DONE)
+//Sniper, Slow fire (DONE)
+    //piercing bullets that stop after passing multiple zombies (DONE)
 //Launchers
     //projectile explosions
     //Raygun is one too
     //flamethrower
         //explosive stays on the ground
 //Monkey?
+
+//******************* Unique Guns ********************************
+
+class Gun_M1911 extends Gun {
+    constructor() {
+        super(
+            "M1911",
+            20, //dmg
+            7, //mag size
+            60, //total ammo
+            0.15, //fire cooldown
+            1, //reload time
+            1, //movement penalty
+            0.15, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,5,
+            GUN_Pistol //animation type
+        );
+    }
+}
+
+class Gun_Olympia extends Gun_T_SHOTGUN {
+    constructor() {
+        super(
+            "Olympia",
+            80, //dmg
+            2, //mag size
+            38, //total ammo
+            0.1, //fire cooldown
+            3.3, //reload time
+            1, //movement penalty
+            0.15, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.4, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 5, //shake length and
+            GUN_Shotgun //animation type //TODO fix
+        );
+    }
+}
+
+class Gun_M16 extends Gun_T_BURST {
+    constructor() {
+        super(
+            "M16",
+            100, //dmg
+            30, //mag size
+            120, //total ammo
+            0.5, //fire cooldown
+            2.03, //reload time
+            1, //movement penalty
+            0.1, //recoil increase per fire
+            0.7, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1, //burst fire cooldown interval (multiplying by burst fire bullet count must < 0.5)
+            3, //burst fire bullet count
+            0.1, //shake length
+            0.5, //shake intensity
+            GUN_AR
+        )
+    }
+}
+
+class Gun_L96A1 extends Gun_T_PIERCE {
+    constructor() {
+        super(
+            "L96A1",
+            1000, //dmg
+            5, //mag size
+            50, //total ammo
+            1, //fire cooldown
+            2, //reload time
+            1, //movement penalty
+            1.1, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            3, //pierce count
+            0.1,5
+        )
+    }
+}
