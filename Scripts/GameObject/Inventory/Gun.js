@@ -4,6 +4,21 @@ const GUN_Pistol = 0
 const GUN_AR = 2
 const GUN_Shotgun = 3
 
+//******************* gun.png coordinates ********************************
+class GunPNGCoords {
+    constructor() {
+        this.map = new Map([
+            //["Name", [xStart, yStart, width, height]]
+            ["M1911", [0, 0, 16, 12]],
+            ["Olympia", [108, 36, 53, 12]],
+            ["M16", [55, 104, 45, 16]],
+            ["L96A1", [300, 48, 59, 19]],
+            ["Ray Gun", [127, 0, 21, 14]],
+        ])
+    }
+}
+const GUN_TEXTURE_MAP = new GunPNGCoords()
+
 //******************* Super ********************************
 
 class Gun {
@@ -38,6 +53,13 @@ class Gun {
         this.currentFireCooldown = 0
         this.currentReloadTime = 0
         this.currentRecoil = 0
+
+        //HUD element
+        let spritesheetCoords = GUN_TEXTURE_MAP.map.get(this.name)
+        this.xStart = spritesheetCoords[0]
+        this.yStart = spritesheetCoords[1]
+        this.width = spritesheetCoords[2]
+        this.height = spritesheetCoords[3]
     }
 
     update() {
@@ -473,12 +495,3 @@ class Gun_RayGun extends Gun_T_Explode {
         )
     }
 }
-
-const GUN_TEXTURE_MAP = newMap([
-    //["Name", [xStart, yStart, width, height]]
-    ["M1911", [0, 0, 16, 12]],
-    ["Olympia", [108, 36, 53, 12]],
-    ["M16", [55, 104, 45, 16]],
-    ["L96A1", [300, 48, 59, 19]],
-    ["Ray Gun", [127, 0, 21, 14]],
-])

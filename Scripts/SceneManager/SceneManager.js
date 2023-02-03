@@ -50,7 +50,7 @@ class SceneManager {
             case "title":
                 break;
             case "level1":
-                this.map = new Map(0,0, "level1")
+                this.map = new WorldMap(0,0, "level1")
                 this.player = this.map.player
                 break;
         }

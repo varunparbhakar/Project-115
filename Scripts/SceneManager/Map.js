@@ -1,4 +1,4 @@
-class Map {
+class WorldMap {
     /**
      *
      * @param posX from top left
