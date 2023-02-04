@@ -51,7 +51,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_M1911(), new Gun_AK47u]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.gunInventory = [new Gun_M1911(), new Gun_AK47u()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
         this.currentGunIndex = 0;
 
         //HP
