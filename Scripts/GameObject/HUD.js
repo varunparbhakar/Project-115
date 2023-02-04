@@ -3,12 +3,14 @@ class HUD {
         this.bottomLeftGuns = new HUDGun()
         this.bottomRightPoints = new HUDPoints()
         this.bottomRightRound = new HUDRound()
+        this.middleInteract = new HUDInteract()
     }
 
     update() {
         if (GAME_ENGINE.ent_Player == null) return
         this.bottomLeftGuns.update()
         this.bottomRightRound.update()
+        // this.middleInteract.update()
     }
 
     draw() {
@@ -16,6 +18,7 @@ class HUD {
         this.bottomLeftGuns.draw()
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
+        this.middleInteract.draw()
     }
 }
 
@@ -148,5 +151,38 @@ class HUDRound {
         GAME_ENGINE.ctx.shadowOffsetY = 5;
         GAME_ENGINE.ctx.fillText(GAME_ENGINE.camera.map.roundManager.curr_Round, 5, GAME_ENGINE.ctx.canvas.height - 10)
         GAME_ENGINE.ctx.restore()
+    }
+}
+
+class HUDInteract {
+    constructor() {
+        this.text = ""
+        this.isDisplaying = false
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        if (this.isDisplaying === false) {
+            return
+        }
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 40px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.textAlign = "center"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 10
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText(this.text, GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height - 100)
+        GAME_ENGINE.ctx.restore()
+        this.isDisplaying = false
+    }
+
+    displayText(text) {
+        this.text = text
+        this.isDisplaying = true
     }
 }

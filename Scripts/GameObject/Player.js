@@ -292,8 +292,11 @@ class Player extends GameObject {
                 //movement
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 //interact
-                if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
-                    entity.use()
+                if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
+                    entity.hudText()
+                    if (GAME_ENGINE.key_use) {
+                        entity.use()
+                    }
                 }
             } else if (entity instanceof Door) { //Door
                 //movement
@@ -301,8 +304,11 @@ class Player extends GameObject {
                     this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 }
                 //interact
-                if (GAME_ENGINE.key_use && this.player_Collision_World_BB.collide(entity.bb_interact)) {
-                    entity.use()
+                if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
+                    entity.hudText()
+                    if (GAME_ENGINE.key_use) {
+                        entity.use()
+                    }
                 }
             }
         })

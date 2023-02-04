@@ -341,6 +341,12 @@ class Barrier {
         }
         // console.log(this.hp)
     }
+
+    hudText() {
+        if (this.hp < BARRIER_MAX_HP) {
+            GAME_ENGINE.camera.map.hud.middleInteract.displayText("Hold F to Repair")
+        }
+    }
 }
 
 
@@ -408,6 +414,10 @@ class Door {
             this.isLocked = false //TODO remove if not needed
             this.removeFromWorld = true
         }
+    }
+
+    hudText() {
+        GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to Unlock for " + this.cost)
     }
 }
 
