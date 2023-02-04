@@ -255,7 +255,7 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
         this.currentRecoil = 0
         this.currentFireCooldown = 0
 
-        return true
+        return false
     }
 
     equip() {

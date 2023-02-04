@@ -1,6 +1,8 @@
 class HUD {
     constructor() {
-        this.bottomLeftGuns = new AnimatorGun()
+        this.bottomLeftGuns = new HUDGun()
+        this.bottomRightPoints = new HUDPoints()
+        this.bottomRightRound = new HUDRound()
     }
 
     update() {
@@ -9,6 +11,8 @@ class HUD {
 
     draw() {
         this.bottomLeftGuns.draw()
+        this.bottomRightPoints.draw()
+        this.bottomRightRound.draw()
     }
 }
 
@@ -19,7 +23,7 @@ ANIMATORGUN_SCALE = 9
 /**
  * Animator for the gun's hud element
  */
-class AnimatorGun {
+class HUDGun {
     constructor() {
         //pin to bottom left corner
         this.asset = ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH)
@@ -46,7 +50,7 @@ class AnimatorGun {
             this.width, this.height, //to
             GAME_ENGINE.ctx.canvas.width - (this.width  * ANIMATORGUN_SCALE), //where x
             GAME_ENGINE.ctx.canvas.height - (this.height * ANIMATORGUN_SCALE) +
-                ((this.curr_gun.currentReloadTime / this.curr_gun.reloadTime) * this.height * ANIMATORGUN_SCALE * 2) +
+                ((this.curr_gun.currentReloadTime / this.curr_gun.reloadTime) * this.height * 5) +
                 ((this.curr_gun.currentRecoil) * 50), //where y
             this.width * ANIMATORGUN_SCALE, this.height * ANIMATORGUN_SCALE //scale
         )
@@ -67,9 +71,60 @@ class AnimatorGun {
         }
         GAME_ENGINE.ctx.fillStyle = "white"
         GAME_ENGINE.ctx.textAlign = "right"
-        GAME_ENGINE.ctx.shadowColor="black"
-        GAME_ENGINE.ctx.shadowBlur=7
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur=1
         GAME_ENGINE.ctx.fillText(text, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height - 10)
+        GAME_ENGINE.ctx.restore()
+    }
+}
+
+class HUDPoints {
+    constructor() {
+
+    }
+
+    draw() {
+        //red rectangle
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = rgba(80, 0, 0, 20)
+        GAME_ENGINE.ctx.fillRect(10, GAME_ENGINE.ctx.canvas.height - 200, 250, 50)
+        GAME_ENGINE.ctx.restore()
+
+        //points
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 50px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.textAlign = "left"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 1
+        GAME_ENGINE.ctx.fillText(GAME_ENGINE.ent_Player.points, 13, GAME_ENGINE.ctx.canvas.height - 155)
+        GAME_ENGINE.ctx.restore()
+    }
+}
+
+class HUDPointsFlyOut {
+    constructor() {
+
+    }
+}
+
+class HUDRound {
+    constructor() {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.fillStyle = rgb(80, 0, 0)
+
+
+        //points
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 190px arial'
+        GAME_ENGINE.ctx.fillStyle = rgb(190, 0, 0)
+        GAME_ENGINE.ctx.textAlign = "left"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 1
+        GAME_ENGINE.ctx.fillText(GAME_ENGINE.camera.map.roundManager.curr_Round, 5, GAME_ENGINE.ctx.canvas.height - 10)
         GAME_ENGINE.ctx.restore()
     }
 }

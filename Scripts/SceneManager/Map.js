@@ -456,6 +456,7 @@ class RoundManager {
      * When all zombies die
      */
     roundEnd() {
+        //TODO call HUD to do transition
         this.inRound = false
         this.curr_roundsUntilNextDog--
         console.log("ROUND ENDED")
