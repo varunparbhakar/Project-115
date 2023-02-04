@@ -89,7 +89,7 @@ class Projectile extends GameObject {
 // const BULLET_IMAGE_HEIGHT = 283 * BULLET_IMAGE_SCALE;
 // const BULLET_RADIUS = (Math.min(BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT) / 2);
 
-const bulletImage = "Assets/Images/Items/Bullets/Bullet.png"
+const bulletImage = "Assets/Images/Items/Bullet.png"
 const BULLET_ANGLE_OFFSET = 0
 const BULLET_IMAGE_SCALE = 1
 const BULLET_IMAGE_WIDTH = 44
@@ -99,7 +99,7 @@ const BULLET_DESPAWN_TIME = 10
 class Bullet extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed) {
         // console.log("CONSTRUCTUR BULLET: " + posX + " " +  posY)
-        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
+        super(posX,posY, bulletImage, 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
 
         // console.log(posX, posY)
         // console.log(this.posX, this.posY)
@@ -301,7 +301,7 @@ class MuzzleFlash {
     constructor(posX, posY, angle) {
         Object.assign(this, {posX, posY, angle})
         this.decayTime = 0.05
-        this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset("Assets/Images/Items/Bullets/Muzzle_Flash_Pistol.png"), 0, 0, 800, 800, angle-1.6, 1, 1, 1)
+        this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset("Assets/Images/Items/Muzzle_Flash_Pistol.png"), 0, 0, 800, 800, angle-1.6, 1, 1, 1)
     }
 
     update() {

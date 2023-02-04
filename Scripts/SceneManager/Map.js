@@ -264,11 +264,29 @@ class Barrier {
                 break
         }
 
+        //Animator
+        this.scale = map.scale
+        this.angle = 0
+        switch (facing) { //TODO debug this, untested
+            case "N":
+                break
+            case "S":
+                this.angle = getDegreesToRadians(180)
+                break
+            case "E":
+                this.angle = getDegreesToRadians(90)
+                break
+            case "W":
+                this.angle = getDegreesToRadians(270)
+                break
+        }
+
         //Stats
         this.hp = BARRIER_MAX_HP
 
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/barrierLow.png")
-        this.scale = map.scale
+        this.animator = new AnimatorRotateOnce(this.asset, 0,0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, this.angle, 6, this.scale)
+
 
         // this.animator = new Animator(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 1, 1, this.scale)
     }
@@ -278,16 +296,17 @@ class Barrier {
     }
 
     draw() {
-        // this.animator.drawFrame(this.bb.x, this.bb.y) //TODO crashes when this is on
-        GAME_ENGINE.ctx.save();
-        GAME_ENGINE.ctx.drawImage(
-            this.asset,
-            Math.ceil(5 - this.hp) * BARRIER_IMAGE_DIMENSIONS, 0,
-            BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS,
-            this.bb.x - GAME_ENGINE.camera.posX, this.bb.y - GAME_ENGINE.camera.posY,
-            this.scale * BARRIER_IMAGE_DIMENSIONS, this.scale * BARRIER_IMAGE_DIMENSIONS
-        )
-        GAME_ENGINE.ctx.restore();
+        this.animator.changeRotationAndDraw(this.angle, Math.ceil(5 - this.hp), this.bb.x, this.bb.y)
+        // GAME_ENGINE.ctx.save();
+        // GAME_ENGINE.ctx.drawImage(
+        //     this.asset,
+        //     Math.ceil(5 - this.hp) * BARRIER_IMAGE_DIMENSIONS, 0,
+        //     BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS,
+        //     this.bb.x - GAME_ENGINE.camera.posX, this.bb.y - GAME_ENGINE.camera.posY,
+        //     this.scale * BARRIER_IMAGE_DIMENSIONS, this.scale * BARRIER_IMAGE_DIMENSIONS
+        // )
+        // GAME_ENGINE.ctx.restore();
+
         this.bb.drawBoundingBox("red")
         this.bb_interact.drawBoundingBox("green")
     }

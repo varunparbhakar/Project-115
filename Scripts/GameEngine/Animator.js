@@ -115,10 +115,15 @@ class AnimatorRotate {
 class AnimatorRotateOnce {
     constructor(spritesheet, xStart, yStart, width, height, angle, frameCount=1, scale=1, fudgeScaling=1) {
         Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, scale, fudgeScaling, angle});
-        this.changeRotation(this.angle,this.frame)
+        // this.frame = -1
+        this.changeRotation(this.angle,0)
     }
 
     changeRotation(angle, frame=0) {
+        // //if same already, return
+        // if (this.angle === angle && this.frame === frame) return
+        // this.angle = angle
+        // this.frame = frame
         var tempCanvas = document.createElement("canvas")
         //Offscreen canvas square that fits old asset
         // tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width*this.scale*this.fudgeScaling, this.height*this.scale*this.fudgeScaling), 2) * 2)
@@ -152,5 +157,10 @@ class AnimatorRotateOnce {
             posY - GAME_ENGINE.camera.posY, //where Y
         )
         let temp = this.width
+    }
+
+    changeRotationAndDraw(angle, frame=0, posX, posY) {
+        this.changeRotation(angle, frame)
+        this.drawFrame(posX, posY)
     }
 }
