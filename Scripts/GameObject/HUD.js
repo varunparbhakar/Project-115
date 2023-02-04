@@ -169,7 +169,7 @@ class HUDInteract {
             return
         }
         GAME_ENGINE.ctx.save()
-        GAME_ENGINE.ctx.font = 'bold 40px arial'
+        GAME_ENGINE.ctx.font = 'bold 30px arial'
         GAME_ENGINE.ctx.fillStyle = "white"
         GAME_ENGINE.ctx.textAlign = "center"
         GAME_ENGINE.ctx.shadowColor = "black"
