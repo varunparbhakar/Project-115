@@ -67,6 +67,8 @@ class Player extends GameObject {
         //Knife
         this.knifeCooldownUntilAttack = 0
         this.isKnifing = false
+        //Grenade
+        this.grenades = 2
 
         this.left_clickCooldown = 0
         this.reloadAnimationCooldownITR = 0
@@ -154,10 +156,12 @@ class Player extends GameObject {
         }
         //key_use is embedded in places that needs it to avoid always checking on update
         //Grenades
-        if (GAME_ENGINE.key_grenade) { //TODO check nade count, cooldown via animations
+        if (GAME_ENGINE.key_grenade && this.grenades > 0 && this.state != ANIMATION_Melee) { //TODO cooldown via GRENADE animations
+            this.changeAnimation(ANIMATION_Melee)
+            this.grenades--
             GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
         }
-        //Grenades
+        //Switching Guns
         if (GAME_ENGINE.key_switchGuns) { //TODO check nade count, cooldown via animations
             if (this.gunInventory[this.currentGunIndex + 1] !== 0 && !this.isSwitching) {
                 this.currentGunIndex++
@@ -171,8 +175,6 @@ class Player extends GameObject {
         } else {
             this.isSwitching = false
         }
-
-
 
         //Gun
         this.gunInventory[this.currentGunIndex].update()
@@ -360,6 +362,10 @@ class Player extends GameObject {
                 }
             }
         })
+    }
+
+    addGrenades(amount) {
+        this.grenades = Math.min(this.grenades + 2, 4)
     }
 
     earnPoints(points) {
