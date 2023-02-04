@@ -41,6 +41,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Items/Muzzle_Flash_Pistol.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_pap.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_wall.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_wallr.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/points_underlay.png")
 
 ASSET_MANAGER.downloadAll(() => {
