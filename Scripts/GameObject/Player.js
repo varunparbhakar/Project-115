@@ -376,7 +376,7 @@ class Player extends GameObject {
     }
 }
 
-class RaycastExplodePlayer extends RaycastZombies {
+class RaycastExplodePlayer extends RaycastZombies { //TODO get this working for player explosive dmg
     constructor(pairedZombie, damage, type) {
         super(pairedZombie)
         this.destPos = destPos
