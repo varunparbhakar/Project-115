@@ -62,7 +62,7 @@ class GunPNGCoords {
 const GUN_TEXTURE_MAP = new GunPNGCoords()
 
 //******************* Super ********************************
-const GUN_DMG_MULTIPLIER = 1 //for balancing if needed
+const GUN_DMG_MULTIPLIER = 2.5 //for balancing if needed
 class Gun {
     constructor(name,
                 damage,
@@ -508,7 +508,6 @@ class Gun_M1911 extends Gun {
             0.1,2.5,
             GUN_Pistol //animation type
         );
-
     }
 }
 
