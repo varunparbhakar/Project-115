@@ -199,7 +199,7 @@ class MapBB {
 
 const BARRIER_LONG = 60
 const BARRIER_SHORT = 10
-const BARRIER_IMAGE_DIMENSIONS = 60
+const BARRIER_IMAGE_DIMENSIONS = 260
 const BARRIER_IMAGE_FRAMES = 6
 const BARRIER_ADDITIONAL_INTERACT_SHORT = 14
 BARRIER_ADDITIONAL_INTERACT_LONG = 10
@@ -270,7 +270,7 @@ class Barrier {
         }
 
         //Animator
-        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/barrierLow.png")
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/Barrier_Spritesheet.png")
         this.scale = map.scale
         this.facing = facing
         switch (facing) { //TODO debug this, untested
@@ -295,7 +295,7 @@ class Barrier {
 
         // this.animator = new AnimatorRotateOnce(this.asset, 0,0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, this.angle, 6, this.scale)
 
-        this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS * this.scale, BARRIER_IMAGE_DIMENSIONS * this.scale, 6, 1, this.scale, 1)
+        this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 6, 1, 1, 1) //TODO this is hard coded scale based on img size of 260
     }
 
     update() {
@@ -490,6 +490,12 @@ class WallBuyTrigger {
             //TODO else if Check PAP
         }
         GAME_ENGINE.camera.map.hud.middleInteract.displayText(text)
+    }
+}
+
+class WallBuyImage{
+    constructor(posX, posY, gunName, scale, map) {
+
     }
 }
 
