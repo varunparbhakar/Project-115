@@ -1,6 +1,6 @@
 class AnimatorRotate {
-    constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale) {
-        Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale});
+    constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale, fudgeScaling=1) {
+        Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale, fudgeScaling});
 
         if (this.frameCount < 2) {//Static Image
             frameDuration = 1;
@@ -23,7 +23,7 @@ class AnimatorRotate {
 
         var tempCanvas = document.createElement("canvas")
         //Offscreen canvas square that fits old asset
-        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width*this.scale, this.height*this.scale), 2) * 2)
+        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width*this.scale*this.fudgeScaling, this.height*this.scale*this.fudgeScaling), 2) * 2)
         tempCanvas.height = tempCanvas.width
         var tempCtx = tempCanvas.getContext("2d")
 
