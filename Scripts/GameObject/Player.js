@@ -417,6 +417,8 @@ class Player extends GameObject {
 
         //replace gun
         this.gunInventory[this.currentGunIndex] = gun
+        this.gunInventory[this.currentGunIndex].equip()
+        this.animator.finishedAnimation = true
         return 0
 
     }
