@@ -71,9 +71,13 @@ class WorldMap {
         let room1Spawners = [spawner1N, spawner1W, spawner1S]
         //WallBuys
         let wb_M14 = new WallBuyTrigger(490, 471, 50, 21, "M14", 500, this)
+        let wb_M14T = new WallBuyImage(490, 468, "S", "M14", 4, this)
         GAME_ENGINE.addEntity(wb_M14)
+        GAME_ENGINE.addEntity(wb_M14T)
         let wb_Olympia = new WallBuyTrigger(725, 852, 59, 23, "Olympia", 500, this)
+        let wb_OlympiaT = new WallBuyImage(725, 870, "S", "Olympia", 4, this)
         GAME_ENGINE.addEntity(wb_Olympia)
+        GAME_ENGINE.addEntity(wb_OlympiaT)
 
         ////////////OUTSIDE////////////
         //MapBB Outer Fences
@@ -493,10 +497,40 @@ class WallBuyTrigger {
     }
 }
 
-class WallBuyImage{
-    constructor(posX, posY, gunName, scale, map) {
+const WALLBUY_ASSET = "Assets/Images/Items/guns_wall.png"
+const WALLBUY_ASSETR = "Assets/Images/Items/guns_wallr.png"
+class WallBuyImage {
+    constructor(posX, posY, facing, gunName, scale=4, map) {
+        let gunPNGCoords = GUN_TEXTURE_MAP.map.get(gunName)
+        switch (facing) {
+            case "N":
+                this.animator = new Animator(ASSET_MANAGER.getAsset(WALLBUY_ASSET), gunPNGCoords[0], gunPNGCoords[1], gunPNGCoords[2], gunPNGCoords[3], 1, 1, scale, false, true)
+                break
+            case "S":
+                this.animator = new Animator(ASSET_MANAGER.getAsset(WALLBUY_ASSET), gunPNGCoords[0], gunPNGCoords[1], gunPNGCoords[2], gunPNGCoords[3], 1, 1, scale, false, false)
+                break
+            case "E":
+                let asset = ASSET_MANAGER.getAsset(WALLBUY_ASSETR)
+                this.animator = new Animator(asset, asset.width - (gunPNGCoords[1] + gunPNGCoords[3]), gunPNGCoords[0], gunPNGCoords[3], gunPNGCoords[2], 1, 1, scale, true, false) //TODO
+                break
+            case "W":
+                let asset1 = ASSET_MANAGER.getAsset(WALLBUY_ASSETR)
+                this.animator = new Animator(asset1, asset1.width - (gunPNGCoords[1] + gunPNGCoords[3]), gunPNGCoords[0], gunPNGCoords[3], gunPNGCoords[2], 1, 1, scale, false, false) //TODO
+                break
+        }
+        this.posX = posX * map.scale
+        this.posY = posY * map.scale
+    }
+
+    update() {
 
     }
+
+    draw() {
+        this.animator.drawFrame(this.posX, this.posY)
+    }
+
+
 }
 
 //https://project-lazarus.fandom.com/wiki/Rounds they be using real formulas
