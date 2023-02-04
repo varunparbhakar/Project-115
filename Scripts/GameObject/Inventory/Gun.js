@@ -62,7 +62,7 @@ class GunPNGCoords {
 const GUN_TEXTURE_MAP = new GunPNGCoords()
 
 //******************* Super ********************************
-
+const GUN_DMG_MULTIPLIER = 1 //for balancing if needed
 class Gun {
     constructor(name,
                 damage,
@@ -91,6 +91,7 @@ class Gun {
             screenShakeLength,
             screenShakeIntensity,
             animationType})
+        this.damage *= GUN_DMG_MULTIPLIER
         this.currentMagazineAmmo = this.magazineSize;
         this.currentFireCooldown = 0
         this.currentReloadTime = 0
@@ -495,7 +496,7 @@ class Gun_M1911 extends Gun {
     constructor() {
         super(
             "M1911",
-            45, //dmg
+            20, //dmg
             7, //mag size
             60, //total ammo
             0.15, //fire cooldown

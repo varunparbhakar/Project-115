@@ -8,6 +8,7 @@ class HUD {
     update() {
         if (GAME_ENGINE.ent_Player == null) return
         this.bottomLeftGuns.update()
+        this.bottomRightRound.update()
     }
 
     draw() {
@@ -122,14 +123,16 @@ class HUDPointsFlyOut {
 
 class HUDRound {
     constructor() {
-        this.color = rgb(125, 0, 0)
+        this.time = 0
     }
 
     update() {
         if (GAME_ENGINE.camera.map.roundManager.inRound) {
             this.color = rgb(125, 0, 0)
         } else {
-            this.color = rgb(130, 130, 130)
+            this.time += GAME_ENGINE.clockTick * 5
+            let amplitude = (((Math.sin(this.time) + 1) / 2) * 128) + 128
+            this.color = rgb(amplitude, amplitude, amplitude)
         }
     }
 
