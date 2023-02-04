@@ -140,7 +140,7 @@ class Player extends GameObject {
                 this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].reloadTime)
             }
         }
-        if (GAME_ENGINE.right_click) {
+        if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee) {
             if (this.state !== ANIMATION_Melee) {
                 this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.45
                 this.changeAnimation(ANIMATION_Melee, PLAYER_KNIFE_COOLDOWN)
@@ -156,7 +156,7 @@ class Player extends GameObject {
         }
         //key_use is embedded in places that needs it to avoid always checking on update
         //Grenades
-        if (GAME_ENGINE.key_grenade && this.grenades > 0 && this.state != ANIMATION_Melee) { //TODO cooldown via GRENADE animations
+        if (GAME_ENGINE.key_grenade && this.grenades > 0 && this.state != ANIMATION_Melee && this.state !== ANIMATION_Reloading) { //TODO cooldown via GRENADE animations
             this.changeAnimation(ANIMATION_Melee)
             this.grenades--
             GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
@@ -370,7 +370,7 @@ class Player extends GameObject {
 
     earnPoints(points) {
         this.points += points
-        console.log("+" + points, this.points)
+        // console.log("+" + points, this.points)
         //TODO 2x Points
         //TODO points number hud
     }

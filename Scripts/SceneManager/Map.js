@@ -525,7 +525,6 @@ class RoundManager {
      * Zombie call on death. Will end round when no zombies left to spawn
      */
     reportKill() {
-        this.curr_ZombiesLeft--
         this.curr_ZombiesSpawned--
         if (this.curr_ZombiesSpawned <= 0 && this.curr_ZombiesLeft <= 0) {
             this.roundEnd()

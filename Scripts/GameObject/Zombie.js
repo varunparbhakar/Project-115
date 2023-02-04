@@ -309,7 +309,7 @@ class Zombie extends GameObject {
     }
 
     takeDamage(damage, type=ZOMBIE_DMG_SHOT) {
-        console.log(damage, "from", this.hp)
+        // console.log(damage, "from", this.hp)
         this.hp -= damage
         if (this.hp <= 0) { //if died
             switch (type) {

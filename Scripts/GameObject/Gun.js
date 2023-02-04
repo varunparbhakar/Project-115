@@ -144,7 +144,7 @@ class Gun {
 
         //Shoot
         this.shoot1(posX, posY, angle)
-        console.log(this.currentMagazineAmmo, "/", this.currentTotalAmmo)
+        // console.log(this.currentMagazineAmmo, "/", this.currentTotalAmmo)
 
         return true
     }
