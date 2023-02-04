@@ -1,8 +1,8 @@
 //******************* Animation Matrix Values ********************************
 const GUN_Pistol = 0
 // const GUN_Knife = 1
-const GUN_AR = 2
-const GUN_Shotgun = 3
+const GUN_AR = 1
+const GUN_Shotgun = 2
 
 //******************* gun.png coordinates ********************************
 class GunPNGCoords {
@@ -110,12 +110,14 @@ class Gun {
         return true
     }
 
-    //super calls this for children to inherit from
-    shoot1(posX, posY, angle) {
-        let tempBullet = new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed)
-        GAME_ENGINE.addEntity(tempBullet)
+    shoot1(posX, posY, angle) { //handles recoil
+        this.shoot2(posX, posY, angle)
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         this.currentRecoil += this.recoilIncreasePerClick;
+    }
+
+    shoot2(posX, posY, angle) { //shoo the bullet
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
     }
 
     getSpreadAngle(angle) {
@@ -176,9 +178,50 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
     shoot1(posX, posY, angle) {
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
-            GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+            this.shoot2()
         }
         this.currentRecoil += this.recoilIncreasePerClick;
+    }
+
+    shoot2(posX, posY, angle) {
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+    }
+
+    getSpreadAngle(angle) {
+        return angle + ((this.shotgunSpread + this.currentRecoil) * (Math.random() * 2 - 1))
+    }
+}
+
+class Gun_T_ShotgunReloadIndi extends Gun { //ABSTRACT
+    constructor(name="Shotgun Indiviual Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread=0.4, shotgunSpreadShots=5, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_Shotgun) {
+        super (
+            name,
+            damage,
+            magazineSize,
+            totalAmmo,
+            maxFireCooldown,
+            reloadTime,
+            movementPenalty,
+            recoilIncreasePerClick,
+            recoilDecreaseRate,
+            bulletSpeed,
+            screenShakeLength=0.1,
+            screenShakeIntensity=10,
+            animationType
+        )
+        Object.assign(this, {shotgunSpread, shotgunSpreadShots})
+    }
+
+    shoot1(posX, posY, angle) {
+        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+        for (let i = 0; i < this.shotgunSpreadShots; i++) {
+            this.shoot2()
+        }
+        this.currentRecoil += this.recoilIncreasePerClick;
+    }
+
+    shoot2(posX, posY, angle) {
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
     }
 
     getSpreadAngle(angle) {
@@ -205,10 +248,8 @@ class Gun_T_Pierce extends Gun {
         this.pierceCount = pierceCount
     }
 
-    shoot1(posX, posY, angle) {
-        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+    shoot2(posX, posY, angle) {
         GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, 3))
-        this.currentRecoil += this.recoilIncreasePerClick;
     }
 }
 
@@ -350,10 +391,8 @@ class Gun_T_Explode extends Gun {
         this.splashRadius = splashRadius
     }
 
-    shoot1(posX, posY, angle) {
-        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+    shoot2(posX, posY, angle) {
         GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, this.splashRadius))
-        this.currentRecoil += this.recoilIncreasePerClick;
     }
 }
 
