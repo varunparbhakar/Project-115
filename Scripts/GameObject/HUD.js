@@ -90,7 +90,7 @@ class HUDPoints {
         //red rectangle
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = rgb(0, 0, 0)
-        GAME_ENGINE.ctx.fillRect(10, GAME_ENGINE.ctx.canvas.height - 200, 200, 50)
+        // GAME_ENGINE.ctx.fillRect(10, GAME_ENGINE.ctx.canvas.height - 200, 200, 50)
         GAME_ENGINE.ctx.restore()
 
         //points
