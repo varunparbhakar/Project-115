@@ -71,7 +71,7 @@ class HUDGun {
             text = "RELOADING"
             GAME_ENGINE.ctx.font = 'bold 40px arial'
         } else  {
-            text = "EQUIPPING"
+            text = this.curr_gun.name
             GAME_ENGINE.ctx.font = 'bold 40px arial'
         }
         GAME_ENGINE.ctx.fillStyle = "white"

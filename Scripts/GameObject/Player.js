@@ -51,7 +51,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_M1911(), new Gun_AK47u(), new Gun_Stakeout()]; //Logic //TODO create a map {Key: GUN_ENUM, Value: Object}
+        this.gunInventory = [new Gun_M1911(), 0];
         this.currentGunIndex = 0;
 
         //HP
@@ -310,6 +310,13 @@ class Player extends GameObject {
                         entity.use()
                     }
                 }
+            } else if (entity instanceof WallBuyTrigger) {
+                if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
+                    entity.hudText()
+                    if (GAME_ENGINE.key_use) {
+                        entity.use()
+                    }
+                }
             }
         })
     }
@@ -385,6 +392,33 @@ class Player extends GameObject {
         this.points -= points
         console.log("-" + points, this.points)
         //TODO points number hud
+    }
+
+    acceptNewGun(gun) {
+        //check if space is available
+        for (let i = 0; i < this.gunInventory.length; i++) {
+            if (this.gunInventory[i] === 0) {
+                this.gunInventory[i] = gun
+                this.currentGunIndex = i //switch to
+                this.gunInventory[this.currentGunIndex].equip()
+                this.animator.finishedAnimation = true
+                return 0 //buy
+            }
+        }
+
+        //purchase ammo
+        for (let i = 0; i < this.gunInventory.length; i++) {
+            if (this.gunInventory[i].name === gun.name) { //has same gun
+                if (this.gunInventory[i].currentTotalAmmo = this.gunInventory[i].totalAmmo) return -1 //nvm, already full
+                this.gunInventory[i].currentTotalAmmo = this.gunInventory[i].totalAmmo //refill
+                return 1 //ammo
+            }
+        }
+
+        //replace gun
+        this.gunInventory[this.currentGunIndex] = gun
+        return 0
+
     }
 }
 

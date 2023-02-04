@@ -36,30 +36,41 @@ class GunPNGCoords {
             ["MPL", [177,128,24,17,false]],
             ["PM63", [152,127,23,12,false]],
             ["Spectre", [259,128,22,14,false]],
-            ["Thompson", [110,127,39,14,false]], //TODO make
-            ["Type 100", [68,127,41,13,false]], //TODO make
-            ["HK21", [237,66,57,22,false]], //TODO make
-            ["RPK", [180,65,54,22,false]], //TODO make
-            ["FG42", [63,70,58,13,false]], //TODO make
-            ["Dragunov", [234,48,66,17,false]], //TODO make
-            ["Kar98k", [0,50,57,14,false]], //TODO make
-            ["HS-10", [246,30,35,18,false]], //TODO make
-            ["Stakeout", [163,34,35,13,false]], //TODO make
-            ["Double-Barrel", [53,36,55,12,false]], //TODO make
-            ["M1897 Trench Gun", [0,36,53,12,false]], //TODO make
-            ["China Lake", [249,145,45,17,false]], //TODO make
-            ["M72 LAW", [205,149,43,11,false]], //TODO make
+            ["Thompson", [110,127,39,14,false]],
+            ["Type 100", [68,127,41,13,false]],
+            ["HK21", [237,66,57,22,false]],
+            ["RPK", [180,65,54,22,false]],
+            ["FG42", [63,70,58,13,false]],
+            ["Dragunov", [234,48,66,17,false]],
+            ["Kar98k", [0,50,57,14,false]],
+            ["HS-10", [246,30,35,18,false]],
+            ["Stakeout", [163,34,35,13,false]],
+            ["Double-Barrel", [53,36,55,12,false]],
+            ["M1897 Trench Gun", [0,36,53,12,false]],
+            ["China Lake", [249,145,45,17,false]],
+            ["M72 LAW", [205,149,43,11,false]],
             ["Ballistic Knife", [192,2,26,12,false]], //TODO make
             ["Crossbow", [94,149,42,13,false]], //TODO make
             ["Wunderwaffe DG-2", [41,145,52,22,false]], //TODO make
-            ["AK-47", [354,108,47,18,false]], //TODO stats
-            ["PPSH", [26,127,41,15,false]], //TODO stats
+            ["AK-47", [354,108,47,18,false]], //TODO stats and make
+            ["PPSH", [26,127,41,15,false]], //TODO stats and make
 
             //PaP
         ])
     }
 }
 const GUN_TEXTURE_MAP = new GunPNGCoords()
+const CREATE_GUN_FROM_NAME = (name, isPaP) => {
+    switch (name) { //TODO add adjacent case and if for PaP guns and complete
+        case "M1911":
+        case "Mustang and Sally":
+            return !isPaP ? new Gun_M1911() : new Gun_M1911() //TODO PaP version
+        case "M14":
+            return !isPaP ? new Gun_M14() : new Gun_M14() //TODO PaP version
+        case "Olympia":
+            return !isPaP ? new Gun_Olympia() : new Gun_Olympia() //TODO PaP version
+    }
+}
 
 //******************* Super ********************************
 const GUN_DMG_MULTIPLIER = 2.5 //for balancing if needed

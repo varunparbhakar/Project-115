@@ -69,6 +69,11 @@ class WorldMap {
         let spawner1W = new SpawnerBarrier(219, 603, barrier1W, true, this)
         let spawner1S = new SpawnerBarrier(602, 1154, barrier1S, true, this)
         let room1Spawners = [spawner1N, spawner1W, spawner1S]
+        //WallBuys
+        let wb_M14 = new WallBuyTrigger(490, 471, 50, 21, "M14", 500, this)
+        GAME_ENGINE.addEntity(wb_M14)
+        let wb_Olympia = new WallBuyTrigger(725, 852, 59, 23, "Olympia", 500, this)
+        GAME_ENGINE.addEntity(wb_Olympia)
 
         ////////////OUTSIDE////////////
         //MapBB Outer Fences
@@ -175,22 +180,22 @@ class MapBB {
 /**
  * One way-able MapBB
  */
-class MapBBSided extends MapBB {
-    constructor(posX, posY, width, height, map, sides=["N","E","S","W"]) {
-        super(posX, posY, width, height, map)
-        this.sides = sides
-        this.isCurrentlyIn = false
-        this.bb.updateSides()
-    }
-
-    update() {
-
-    }
-
-    draw() {
-        this.bb.drawBoundingBox()
-    }
-}
+// class MapBBSided extends MapBB {
+//     constructor(posX, posY, width, height, map, sides=["N","E","S","W"]) {
+//         super(posX, posY, width, height, map)
+//         this.sides = sides
+//         this.isCurrentlyIn = false
+//         this.bb.updateSides()
+//     }
+//
+//     update() {
+//
+//     }
+//
+//     draw() {
+//         this.bb.drawBoundingBox()
+//     }
+// }
 
 const BARRIER_LONG = 60
 const BARRIER_SHORT = 10
@@ -434,6 +439,57 @@ class SpawnerBarrier {
 
     spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
         GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
+    }
+}
+
+class WallBuyTrigger {
+    constructor(posX, posY,  width, height, gunName, cost, map) {
+        Object.assign(this, {gunName, cost})
+        this.bb_interact = new BoundingBox(
+            (map.posX + posX) * map.scale,
+            (map.posY + posY) * map.scale,
+            width * map.scale,
+            height * map.scale
+        )
+        this.bb_interact.updateSides()
+        this.hasIntractedCooldown = 0 //prevent spam
+
+        this.gunNamePap = CREATE_GUN_FROM_NAME(this.gunName, 1).name //TODO Use to check PAP
+    }
+
+    update() {
+        if (this.hasIntractedCooldown > 0) {
+            this.hasIntractedCooldown -= GAME_ENGINE.clockTick
+        }
+    }
+
+    draw() {
+        this.bb_interact.drawBoundingBox("green")
+    }
+
+    use() {
+        //TODO Check PAP
+        if (GAME_ENGINE.ent_Player.points >= this.cost && this.hasIntractedCooldown <= 0) { //has money & check spam
+            let acceptResponse = GAME_ENGINE.ent_Player.acceptNewGun(CREATE_GUN_FROM_NAME(this.gunName, false))
+            if (acceptResponse === 0) { //bought gun
+                GAME_ENGINE.ent_Player.losePoints(this.cost)
+            } else if (acceptResponse === 1) { //bought ammo
+                GAME_ENGINE.ent_Player.losePoints(this.cost/2)
+            }
+            this.hasIntractedCooldown = 3
+        }
+    }
+
+    hudText() {
+        let text = "F to Purchase " + this.gunName + " for " + this.cost
+        //check if already in inventory
+        for (let i = 0; i < GAME_ENGINE.ent_Player.gunInventory.length; i++) {
+            if (GAME_ENGINE.ent_Player.gunInventory[i].name === this.gunName) {
+                text = "F to Purchase Ammo for " + this.cost/2
+            }
+            //TODO else if Check PAP
+        }
+        GAME_ENGINE.camera.map.hud.middleInteract.displayText(text)
     }
 }
 
