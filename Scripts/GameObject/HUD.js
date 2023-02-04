@@ -46,7 +46,7 @@ class AnimatorGun {
             this.width, this.height, //to
             GAME_ENGINE.ctx.canvas.width - (this.width  * ANIMATORGUN_SCALE), //where x
             GAME_ENGINE.ctx.canvas.height - (this.height * ANIMATORGUN_SCALE) +
-                ((this.curr_gun.currentReloadTime / this.curr_gun.reloadTime) * this.height * ANIMATORGUN_SCALE) +
+                ((this.curr_gun.currentReloadTime / this.curr_gun.reloadTime) * this.height * ANIMATORGUN_SCALE * 2) +
                 ((this.curr_gun.currentRecoil) * 50), //where y
             this.width * ANIMATORGUN_SCALE, this.height * ANIMATORGUN_SCALE //scale
         )

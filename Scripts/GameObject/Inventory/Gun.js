@@ -16,6 +16,7 @@ class GunPNGCoords {
             ["M16", [55, 104, 45, 16, false]],
             ["L96A1", [300, 48, 59, 19, false]],
             ["Ray Gun", [127, 0, 21, 14, false]],
+            ["SPAS-12", [199, 31, 46, 15, false]]
 
             //PaP
         ])
@@ -125,6 +126,10 @@ class Gun {
     }
 
     reload() {
+        //cant reload if still switching
+        if (this.isSwitching) {
+            return false
+        }
         //full or no ammo, then return
         if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
             return false
@@ -147,7 +152,7 @@ class Gun {
      */
     equip() {
         this.isSwitching = true
-        this.currentReloadTime = this.reloadTime * 0.7
+        this.currentReloadTime = this.reloadTime * 0.5
         this.currentRecoil = 0
         this.currentFireCooldown = 0
     }
@@ -168,8 +173,8 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
             recoilIncreasePerClick,
             recoilDecreaseRate,
             bulletSpeed,
-            screenShakeLength=0.1,
-            screenShakeIntensity=10,
+            screenShakeLength,
+            screenShakeIntensity,
             animationType
         )
         Object.assign(this, {shotgunSpread, shotgunSpreadShots})
@@ -178,7 +183,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
     shoot1(posX, posY, angle) {
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
-            this.shoot2()
+            this.shoot2(posX, posY, angle)
         }
         this.currentRecoil += this.recoilIncreasePerClick;
     }
@@ -192,8 +197,8 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
     }
 }
 
-class Gun_T_ShotgunReloadIndi extends Gun { //ABSTRACT
-    constructor(name="Shotgun Indiviual Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread=0.4, shotgunSpreadShots=5, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_Shotgun) {
+class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
+    constructor(name="Shotgun Individual Shell Generic", damage, magazineSize, totalAmmo, maxFireCooldown, reloadTime, movementPenalty, recoilIncreasePerClick, recoilDecreaseRate, bulletSpeed, shotgunSpread=0.4, shotgunSpreadShots=5, screenShakeLength=0.1, screenShakeIntensity=10, animationType=GUN_Shotgun) {
         super (
             name,
             damage,
@@ -205,27 +210,58 @@ class Gun_T_ShotgunReloadIndi extends Gun { //ABSTRACT
             recoilIncreasePerClick,
             recoilDecreaseRate,
             bulletSpeed,
-            screenShakeLength=0.1,
-            screenShakeIntensity=10,
+            shotgunSpread,
+            shotgunSpreadShots,
+            screenShakeLength,
+            screenShakeIntensity,
             animationType
         )
         Object.assign(this, {shotgunSpread, shotgunSpreadShots})
+        this.isShellReloading = false
     }
 
-    shoot1(posX, posY, angle) {
-        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
-        for (let i = 0; i < this.shotgunSpreadShots; i++) {
-            this.shoot2()
+    update() {
+        super.update()
+
+        if (this.isShellReloading) {
+            if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) { //full or empty
+                this.isShellReloading = false
+                this.currentReloadTime = 0
+            } else {
+                if (this.currentReloadTime <= 0) {
+                    GAME_ENGINE.ent_Player.changeAnimation(ANIMATION_Reloading, this.reloadTime)
+                    this.currentReloadTime = this.reloadTime
+                    this.currentMagazineAmmo++
+                    this.currentTotalAmmo--
+                }
+            }
         }
-        this.currentRecoil += this.recoilIncreasePerClick;
     }
 
-    shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+    shoot(posX, posY, angle) {
+        this.isShellReloading = false
+
+        return super.shoot(posX, posY, angle)
     }
 
-    getSpreadAngle(angle) {
-        return angle + ((this.shotgunSpread + this.currentRecoil) * (Math.random() * 2 - 1))
+    reload() {
+        if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
+            return false
+        }
+
+        //otherwise, reset stats
+        this.isShellReloading = true
+        this.currentReloadTime = this.reloadTime
+        this.currentRecoil = 0
+        this.currentFireCooldown = 0
+
+        return true
+    }
+
+    equip() {
+        super.equip();
+        this.currentReloadTime = this.reloadTime * this.magazineSize * 0.25
+        this.isShellReloading = false
     }
 }
 
@@ -453,7 +489,28 @@ class Gun_Olympia extends Gun_T_Shotgun {
             0.2, //shotgunSpread
             8, //shotgun bullets
             0.1, 3.5, //shake length and
-            GUN_Shotgun //animation type //TODO fix
+            GUN_Shotgun //animation type
+        );
+    }
+}
+
+class Gun_SPAS12 extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "SPAS-12",
+            160, //dmg
+            8, //mag size
+            32, //total ammo
+            0.2, //fire cooldown
+            0.567, //reload time per shell
+            1, //movement penalty
+            0.15, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
         );
     }
 }
