@@ -264,6 +264,7 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
         if (this.isShellReloading) {
             if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) { //full or empty
                 this.isShellReloading = false
+                GAME_ENGINE.ent_Player.animator.finishedAnimation = true
                 this.currentReloadTime = 0
             } else {
                 if (this.currentReloadTime <= 0) {

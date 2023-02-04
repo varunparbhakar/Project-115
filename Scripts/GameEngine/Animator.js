@@ -122,3 +122,9 @@ class AnimatorRotate {
         this.frameDuration = totalTime / this.frameCount
     }
 }
+
+class AnimatorRotateOnce {
+    contructor (spritesheet, xStart, yStart, width, height, frameCount, scale, fudgeScaling=1) {
+        Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, scale, fudgeScaling});
+    }
+}
