@@ -909,7 +909,7 @@ class Gun_HK21 extends Gun {
             3.75, //reload time
             1, //movement penalty
             0.145, //recoil increase per fire
-            0.6, //recoil decrease rate
+            0.6, //recoil decrease rateq
             2000, //bullets speedTerminal
             0.1,0.5,
             GUN_AR //animation type
