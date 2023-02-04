@@ -83,14 +83,21 @@ class HUDGun {
 
 class HUDPoints {
     constructor() {
-
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/points_underlay.png")
     }
 
     draw() {
         //red rectangle
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = rgb(0, 0, 0)
-        // GAME_ENGINE.ctx.fillRect(10, GAME_ENGINE.ctx.canvas.height - 200, 200, 50)
+        GAME_ENGINE.ctx.drawImage(
+            this.asset, //what
+            0, 0, //starting at
+            this.asset.width, this.asset.height, //to
+            10, //where x
+            GAME_ENGINE.ctx.canvas.height - 225, //where y
+            this.asset.width, this.asset.height - 27 //scale
+        )
         GAME_ENGINE.ctx.restore()
 
         //points
@@ -102,7 +109,7 @@ class HUDPoints {
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(GAME_ENGINE.ent_Player.points, 13, GAME_ENGINE.ctx.canvas.height - 155)
+        GAME_ENGINE.ctx.fillText(GAME_ENGINE.ent_Player.points, 20, GAME_ENGINE.ctx.canvas.height - 165)
         GAME_ENGINE.ctx.restore()
     }
 }

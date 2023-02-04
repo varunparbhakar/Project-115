@@ -2,11 +2,10 @@ const GAME_ENGINE = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 //Load Assets
-ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Player.png");
-ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Zombie_PNG.png");
+// ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Player.png");
+// ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Zombie_PNG.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Boss/Panzer_Soldat.png");
-ASSET_MANAGER.queueDownload("Assets/Images/Map/Blocks/Bricks.png")
-ASSET_MANAGER.queueDownload("Assets/Images/Items/Bullets/Bullet.png");
+// ASSET_MANAGER.queueDownload("Assets/Images/Map/Blocks/Bricks.png")
 
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
@@ -37,9 +36,11 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/S
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/knifing/Knife_Attack.png")
 
 //Load Guns/Items
+ASSET_MANAGER.queueDownload("Assets/Images/Items/Bullets/Bullet.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_pap.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_wall.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Items/points_underlay.png")
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

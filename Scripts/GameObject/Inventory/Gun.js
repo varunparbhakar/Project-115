@@ -746,7 +746,7 @@ class Gun_STG44 extends Gun {
     }
 }
 
-class Gun_AKu extends Gun {
+class Gun_AK47u extends Gun {
     constructor() {
         super(
             "AK-74u",
