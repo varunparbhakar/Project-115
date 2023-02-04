@@ -379,10 +379,12 @@ class RaycastZombies {
 
         //check sightline
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (this.bb.collide(entity.bb)) {
-                // console.log("No sightline, switching to pathing.")
-                this.pairedZombie.movementState = 1
-                this.removeFromWorld = true
+            if (entity instanceof MapBB) {
+                if (this.bb.collide(entity.bb)) {
+                    // console.log("No sightline, switching to pathing.")
+                    this.pairedZombie.movementState = 1
+                    this.removeFromWorld = true
+                }
             }
         })
         if (this.bb.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
