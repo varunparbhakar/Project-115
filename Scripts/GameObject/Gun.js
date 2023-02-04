@@ -161,13 +161,38 @@ class Gun {
     }
 
     shoot1(posX, posY, angle) { //handles recoil
-        this.shoot2(posX, posY, angle)
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         this.currentRecoil += this.recoilIncreasePerClick;
-        GAME_ENGINE.addEntity(new MuzzleFlash(posX, posY, angle))
+        let gunOffset = this.getMuzzle_Offset(this.animationType)
+        let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
+        let unitV = getUnitVector(posX, posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
+        let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
+        this.shoot2(posX, posY, angle)
+        GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle))
     }
 
-    shoot2(posX, posY, angle) { //shoo the bullet
+    getMuzzle_Angle(gun){
+        switch (gun) {
+            case(GUN_Pistol):
+                return -0.15
+            case(GUN_Shotgun):
+                return -0.15
+            case(GUN_AR):
+                return -0.15
+        }
+    }
+    getMuzzle_Offset(gun){
+        switch (gun){
+            case(GUN_Pistol):
+                return 225
+            case(GUN_Shotgun):
+                return 250
+            case(GUN_AR):
+                return 260
+        }
+    }
+
+    shoot2(posX, posY, angle) { //shooy the bullet
         GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
     }
 
@@ -232,6 +257,12 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
 
     shoot1(posX, posY, angle) {
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+        let gunOffset = this.getMuzzle_Offset(this.animationType)
+        let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
+        let unitV = getUnitVector(posX, posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
+        let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
+
+        GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle))
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
             this.shoot2(posX, posY, angle)
         }
@@ -293,7 +324,7 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
     shoot(posX, posY, angle) {
         this.isShellReloading = false
 
-        return super.shoot(posX, posY, angle)
+        super.shoot(posX, posY, angle)
     }
 
     reload() {
