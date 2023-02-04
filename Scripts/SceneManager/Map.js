@@ -509,6 +509,8 @@ class RoundManager {
 
         this.curr_roundsUntilNextDog--
 
+        GAME_ENGINE.ent_Player.addGrenades(2)
+
         this.inRound = true
         console.log("ROUND " + this.curr_Round)
         console.log("Z count: " + this.curr_ZombiesLeft)
