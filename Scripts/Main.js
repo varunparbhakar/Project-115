@@ -37,6 +37,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/knifing/
 
 //Load Guns/Items
 ASSET_MANAGER.queueDownload("Assets/Images/Items/Bullets/Bullet.png");
+ASSET_MANAGER.queueDownload("Assets/Images/Items/Bullets/Muzzle_Flash_Pistol.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_pap.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_wall.png")

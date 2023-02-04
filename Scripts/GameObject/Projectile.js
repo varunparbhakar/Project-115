@@ -1,20 +1,28 @@
+const PROJECTILE_BC_RADIUS = 10
+const PROJECTILE_BB_DIMEN = 20
 class Projectile extends GameObject {
-    constructor(posX, posY, spritesheetPath, xStart, yStart, width, height, frameCount, frameDuration, scale, angle,
-                speed, despawnTime) {
-        super(posX, posY, spritesheetPath, xStart, yStart, width, height, frameCount, frameDuration, scale, false, false, angle)
+    constructor(posX, posY, spritesheetPath, xStart=0, yStart=0, width, height, frameCount, scale, angle,
+                speed, despawnTime, fudgeScaling=1) {
+        super(posX, posY, spritesheetPath, xStart, yStart, width, height, frameCount, scale, false, false, angle)
         this.speed = speed
         this.despawnTime = despawnTime
 
         //Rotated Canvas Cache
         this.angle = angle
-        this.tempCanvas = document.createElement("canvas")
-        this.tempCTX = this.tempCanvas.getContext("2d")
-        this.animator.spritesheet = this.tempCanvas;
-        this.onCreate()
+        // this.tempCanvas = document.createElement("canvas")
+        // this.tempCTX = this.tempCanvas.getContext("2d")
+        // this.animator.spritesheet = this.tempCanvas;
 
-        this.bc = new BoundingCircle(this.posX, this.posY, this.width / 2)
-        this.bb = new BoundingBox(this.posX, this.posY, this.width, this.height)
+        //Finds Movement Vectors
+        var unitx = Math.cos(this.angle);
+        var unity = Math.sin(this.angle);
+        this.movementVectorX = (unitx * this.speed)
+        this.movementVectorY = (unity * this.speed)
 
+        this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(spritesheetPath), xStart, yStart, width, height, angle, frameCount, scale, fudgeScaling)
+
+        this.bc = new BoundingCircle(this.posX, this.posY, PROJECTILE_BC_RADIUS)
+        this.bb = new BoundingBox(this.posX, this.posY, PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
     }
 
     update(){
@@ -37,7 +45,7 @@ class Projectile extends GameObject {
     draw() {
         //super.draw()
 
-        this.animator.drawFrame(this.posX - this.width/2, this.posY - this.height/2);
+        this.animator.drawFrame(this.posX - (this.width/2), this.posY - (this.height/2));
         //TODO DEBUG REMOVE ME
         this.bc.drawBoundingCircle()
         this.bb.drawBoundingBox()
@@ -56,59 +64,24 @@ class Projectile extends GameObject {
         this.bc.y = this.posY
     }
 
-    onCreate() {
-        //Finds Movement Vectors
-        var unitx = Math.cos(this.angle);
-        var unity = Math.sin(this.angle);
-        this.movementVectorX = (unitx * this.speed)
-        this.movementVectorY = (unity * this.speed)
-        // console.log(unitx + ", " + unity)
-        // console.log(this.movementVectorX + ", " + this.movementVectorY)
-
-        //CODE FROM PLAYER
-        this.tempCanvas.width = Math.sqrt(Math.pow(Math.max(BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT), 2) * 2) //Offscreen canvas square that fits old asset
-        this.tempCanvas.height = this.tempCanvas.width
-        // var myOffset = this.tempCanvas.width/2 - this.width/2
-        this.xAllign = 1 * BULLET_IMAGE_SCALE
-        this.yAllign = -200 * BULLET_IMAGE_SCALE
-
-        this.tempCTX.save();
-        this.tempCTX.translate((BULLET_IMAGE_WIDTH / 2), (BULLET_IMAGE_HEIGHT / 2)) //Find mid (Squares ONLY)
-        this.tempCTX.rotate(this.angle + (Math.PI) / 2)
-        this.tempCTX.translate (-(BULLET_IMAGE_WIDTH / 2), -(BULLET_IMAGE_HEIGHT / 2)) ;
-        this.tempCTX.drawImage(this.asset, 0, 0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT);
-        this.tempCTX.restore();
-
-        // GAME_ENGINE.ctx.drawImage(this.tempCanvas, this.posX - (this.tempCanvas.width/2) - GAME_ENGINE.camera.posX,
-        //     this.posY - (this.tempCanvas.height/2) - GAME_ENGINE.camera.posY);
-
-        // this.bb.drawBoundingBox()
-
-        //CODE FROM PLAYER
-
-
-
-        //Cache Rotated Canvas
-        // this.rotatedCtx.save()
-        // this.rotatedCanvas.width = Math.sqrt(Math.pow(Math.max(this.width, this.height), 2) * 2) //Offscreen canvas square that fits old asset
-        // this.rotatedCanvas.height = this.rotatedCanvas.width
-        // var myOffsetX = this.rotatedCanvas.width/2 - this.width/2
-        // // var myOffsetY = this.rotatedCanvas.width/2 - this.height/2
-
-        //TODO Fix Rotate
-        // this.rotatedCtx.translate(this.width / 2 + myOffsetX, this.height / 2 + myOffsetX) //Find mid (Squares ONLY) //TODO FIND OFFSET
-        // this.rotatedCtx.rotate(this.angle + (Math.PI) / 2)
-        // this.rotatedCtx.translate (-(this.width / 2 + myOffsetX), -(this.height / 2 + myOffsetX));
-        // this.rotatedCtx.drawImage(this.asset, 0, 0 - 5);
-
-
-
-        // this.rotatedCtx.stroke.style = "red"
-        // this.rotatedCtx.strokeRect(0,0,this.width, this.height)
-
-        this.tempCTX.restore();
-
-    }
+    // onCreate() {
+    //     console.log(unitx + ", " + unity)
+    //     console.log(this.movementVectorX + ", " + this.movementVectorY)
+    //
+    //     //CODE FROM PLAYER
+    //     this.tempCanvas.width = Math.sqrt(Math.pow(Math.max(BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT), 2) * 2) //Offscreen canvas square that fits old asset
+    //     this.tempCanvas.height = this.tempCanvas.width
+    //     // var myOffset = this.tempCanvas.width/2 - this.width/2
+    //     this.xAllign = 1 * BULLET_IMAGE_SCALE
+    //     this.yAllign = -200 * BULLET_IMAGE_SCALE
+    //
+    //     this.tempCTX.save();
+    //     this.tempCTX.translate((BULLET_IMAGE_WIDTH / 2), (BULLET_IMAGE_HEIGHT / 2)) //Find mid (Squares ONLY)
+    //     this.tempCTX.rotate(this.angle + (Math.PI) / 2)
+    //     this.tempCTX.translate (-(BULLET_IMAGE_WIDTH / 2), -(BULLET_IMAGE_HEIGHT / 2)) ;
+    //     this.tempCTX.drawImage(this.asset, 0, 0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT);
+    //     this.tempCTX.restore();
+    // }
 }
 
 // const BULLET_IMAGE_SCALE = 0.5;
@@ -118,15 +91,15 @@ class Projectile extends GameObject {
 
 const bulletImage = "Assets/Images/Items/Bullets/Bullet.png"
 const BULLET_ANGLE_OFFSET = 0
-const BULLET_IMAGE_SCALE = 0.2
-const BULLET_IMAGE_WIDTH = 150 * BULLET_IMAGE_SCALE
-const BULLET_IMAGE_HEIGHT = 150 * BULLET_IMAGE_SCALE
+const BULLET_IMAGE_SCALE = 1
+const BULLET_IMAGE_WIDTH = 44
+const BULLET_IMAGE_HEIGHT = 44
 const BULLET_DESPAWN_TIME = 10
 
 class Bullet extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed) {
         // console.log("CONSTRUCTUR BULLET: " + posX + " " +  posY)
-        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
+        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
 
         // console.log(posX, posY)
         // console.log(this.posX, this.posY)
@@ -163,7 +136,7 @@ class Bullet extends Projectile {
 
 class BulletPierce extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed, pierceAmount=2) {
-        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
+        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
         this.pierceAmount = pierceAmount
         this.damage = damage
         this.current_Pierced = 0
@@ -204,7 +177,7 @@ class BulletPierce extends Projectile {
 
 class Explosive extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed, radius) {
-        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
+        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
         this.damage = damage
         this.radius = radius
     }
@@ -256,7 +229,7 @@ GRANADE_TIMER = 3
 GRANADE_RADIUS = 400
 class Grenade extends Projectile {
     constructor(posX, posY, angle) {
-        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
+        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
         this.timer = GRANADE_TIMER
     }
 
@@ -313,6 +286,34 @@ class Grenade extends Projectile {
             GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
             GAME_ENGINE.camera.startShake(5, 20)
         }
+    }
+}
+
+// class Decal {
+//     constructor(spritesheet, xStart=0, yStart=0, width, height, frameCount=1, frameDuration=1, scale=1, angle=0, decayTime=1) {
+//         this.animator = new AnimatorRotateOnce(spritesheet, xStart, yStart, width, height, angle, frameCount, scale, 1)
+//
+//         }
+//     }
+// }
+
+class MuzzleFlash {
+    constructor(posX, posY, angle) {
+        Object.assign(this, {posX, posY, angle})
+        this.decayTime = 0.05
+        this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset("Assets/Images/Items/Bullets/Muzzle_Flash_Pistol.png"), 0, 0, 800, 800, angle-1.6, 1, 1, 1)
+    }
+
+    update() {
+        if (this.decayTime > 0) {
+            this.decayTime-= GAME_ENGINE.clockTick
+        } else {
+            this.removeFromWorld = true
+        }
+    }
+
+    draw() {
+        this.animator.drawFrame(this.posX-400, this.posY-400)
     }
 }
 

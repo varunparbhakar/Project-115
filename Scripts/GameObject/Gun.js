@@ -153,6 +153,7 @@ class Gun {
         this.shoot2(posX, posY, angle)
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         this.currentRecoil += this.recoilIncreasePerClick;
+        GAME_ENGINE.addEntity(new MuzzleFlash(posX, posY, angle))
     }
 
     shoot2(posX, posY, angle) { //shoo the bullet
