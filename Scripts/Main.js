@@ -47,6 +47,7 @@ ASSET_MANAGER.downloadAll(() => {
 	const ctx = canvas.getContext("2d");
 	ctx.imageSmoothingEnabled = false;
 	ctx.imageSmoothingQuality = "low";
+	ctx.onselectstart = () => {return false}
 
 	GAME_ENGINE.options.debugging = false;
 
