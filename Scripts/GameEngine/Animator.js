@@ -55,6 +55,10 @@ class AnimatorRotate {
         this.finishedAnimation = false
         this.elaspedTime = 0;
         this.totalTime = frameCount * frameDuration;
+
+        this.frame = -1
+        this.angle = 0
+        this.canvas = null
     }
 
     drawFrame(object_posX, object_posY, angle) {
@@ -66,34 +70,40 @@ class AnimatorRotate {
         }
         const frame = this.currentFrame();
 
-        var tempCanvas = document.createElement("canvas")
-        //Offscreen canvas square that fits old asset
-        tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width*this.fudgeScaling, this.height*this.fudgeScaling), 2) * 2)
-        tempCanvas.height = tempCanvas.width
-        var tempCtx = tempCanvas.getContext("2d")
-        var myOffset = tempCanvas.width/2 - this.width/2
+        if (this.angle !== angle || this.frame !== frame) {
+            var tempCanvas = document.createElement("canvas")
+            //Offscreen canvas square that fits old asset
+            tempCanvas.width = Math.sqrt(Math.pow(Math.max(this.width*this.fudgeScaling, this.height*this.fudgeScaling), 2) * 2)
+            tempCanvas.height = tempCanvas.width
+            var tempCtx = tempCanvas.getContext("2d")
+            var myOffset = tempCanvas.width/2 - this.width/2
 
-        tempCtx.save();
-        tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
-        tempCtx.rotate(angle  + (Math.PI) / 2)
-        tempCtx.translate (-(this.width / 2), -(this.height / 2));
-        tempCtx.drawImage(
-            this.spritesheet, this.xStart + (this.width/this.scale * frame), this.yStart,
-            this.width, this.height,
-            1, 1,
-            this.width * this.scale, this.height * this.scale
-        );
-        tempCtx.restore();
+            tempCtx.save();
+            tempCtx.imageSmoothingEnabled = false;
+            tempCtx.imageSmoothingQuality = "low";
+            tempCtx.translate(this.width / 2 + myOffset, this.height / 2 + myOffset) //Find mid (Squares ONLY)
+            tempCtx.rotate(angle  + (Math.PI) / 2)
+            tempCtx.translate (-(this.width / 2), -(this.height / 2));
+            tempCtx.drawImage(
+                this.spritesheet, this.xStart + (this.width/this.scale * frame), this.yStart,
+                this.width, this.height,
+                0, 0,
+                this.width * this.scale, this.height * this.scale
+            );
+            tempCtx.restore();
 
-        tempCtx.save();
-        tempCtx.strokeStyle = "gray"
-        tempCtx.strokeRect(0,0, tempCanvas.width, tempCanvas.height)
-        tempCtx.restore();
+            tempCtx.save();
+            tempCtx.strokeStyle = "gray"
+            tempCtx.strokeRect(0,0, tempCanvas.width, tempCanvas.height)
+            tempCtx.restore();
+
+            this.canvas = tempCanvas
+        }
 
         GAME_ENGINE.ctx.drawImage(
-            tempCanvas, //what to draw
-            object_posX - (tempCanvas.width/2) - GAME_ENGINE.camera.posX, //where X
-            object_posY - (tempCanvas.height/2) - GAME_ENGINE.camera.posY, //where Y
+            this.canvas, //what to draw
+            object_posX - (this.canvas.width/2) - GAME_ENGINE.camera.posX, //where X
+            object_posY - (this.canvas.height/2) - GAME_ENGINE.camera.posY, //where Y
         )
     }
 
@@ -130,6 +140,8 @@ class AnimatorRotateOnce {
         tempCanvas.width = this.width
         tempCanvas.height = tempCanvas.width
         var tempCtx = tempCanvas.getContext("2d")
+        tempCtx.imageSmoothingEnabled = false;
+        tempCtx.imageSmoothingQuality = "low";
         var myOffset = tempCanvas.width/2 - this.width/2
 
         tempCtx.save();
@@ -138,7 +150,7 @@ class AnimatorRotateOnce {
         tempCtx.translate (-(this.width / 2), -(this.height / 2));
         tempCtx.drawImage(
             this.spritesheet, this.xStart + (this.width/this.scale * frame), this.yStart,
-            this.width, this.height,
+            this.width * this.scale, this.height * this.scale
         );
         tempCtx.restore();
 

@@ -265,30 +265,32 @@ class Barrier {
         }
 
         //Animator
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/barrierLow.png")
         this.scale = map.scale
-        this.angle = 0
+        this.facing = facing
         switch (facing) { //TODO debug this, untested
             case "N":
-                break
-            case "S":
-                this.angle = getDegreesToRadians(180)
-                break
-            case "E":
                 this.angle = getDegreesToRadians(90)
                 break
-            case "W":
+            case "S":
                 this.angle = getDegreesToRadians(270)
                 break
+            case "E":
+                this.angle = getDegreesToRadians(180)
+                break
+            case "W":
+                this.angle = 0
+                break
         }
+
 
         //Stats
         this.hp = BARRIER_MAX_HP
 
-        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/barrierLow.png")
-        this.animator = new AnimatorRotateOnce(this.asset, 0,0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, this.angle, 6, this.scale)
 
+        // this.animator = new AnimatorRotateOnce(this.asset, 0,0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, this.angle, 6, this.scale)
 
-        // this.animator = new Animator(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 1, 1, this.scale)
+        this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS * this.scale, BARRIER_IMAGE_DIMENSIONS * this.scale, 6, 1, this.scale, 1)
     }
 
     update() {
@@ -296,16 +298,23 @@ class Barrier {
     }
 
     draw() {
-        this.animator.changeRotationAndDraw(this.angle, Math.ceil(5 - this.hp), this.bb.x, this.bb.y)
+        // this.animator.changeRotationAndDraw(this.angle, Math.ceil(5 - this.hp), this.bb.x, this.bb.y)
+
+
         // GAME_ENGINE.ctx.save();
         // GAME_ENGINE.ctx.drawImage(
         //     this.asset,
         //     Math.ceil(5 - this.hp) * BARRIER_IMAGE_DIMENSIONS, 0,
         //     BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS,
-        //     this.bb.x - GAME_ENGINE.camera.posX, this.bb.y - GAME_ENGINE.camera.posY,
+        //     this.bb.x - GAME_ENGINE.camera.posX,
+        //     this.bb.y - GAME_ENGINE.camera.posY,
         //     this.scale * BARRIER_IMAGE_DIMENSIONS, this.scale * BARRIER_IMAGE_DIMENSIONS
         // )
         // GAME_ENGINE.ctx.restore();
+
+        let temp = this.bb.getCenteredPos()
+        this.animator.drawFrame(temp[0], temp[1], this.angle)
+        this.animator.elaspedTime = Math.ceil(BARRIER_MAX_HP - this.hp)
 
         this.bb.drawBoundingBox("red")
         this.bb_interact.drawBoundingBox("green")
@@ -548,7 +557,6 @@ class RoundManager {
                 //round's zombie
                 this.curr_ZombiesLeft--
                 this.curr_ZombiesSpawned++
-
 
                 //TODO decrease spawn delay
                 //TODO Pick closest spawn to Player (randomize it a bit too)

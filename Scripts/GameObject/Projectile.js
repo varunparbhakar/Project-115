@@ -229,7 +229,7 @@ GRANADE_TIMER = 3
 GRANADE_RADIUS = 400
 class Grenade extends Projectile {
     constructor(posX, posY, angle) {
-        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
+        super(posX,posY,"Assets/Images/Items/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
         this.timer = GRANADE_TIMER
     }
 
