@@ -539,8 +539,8 @@ class WallBuyImage {
 }
 
 MYSTERYBOX_SPINS_UNTIL_TEDDY = 15 //15
-MYSTERYBOX_WIDTH = 90
-MYSTERYBOX_HEIGHT = 30
+MYSTERYBOX_BB_WIDTH = 90
+MYSTERYBOX_BB_HEIGHT = 30
 MYSTERYBOX_ROLL_TIME = 5
 MYSTERYBOX_OFFER_TIME = 10
 MYSTERYBOX_SPAM_PREVENT_TIME = 3
@@ -577,8 +577,8 @@ class MysteryBox {
     }
 
     changeLocation() {
-        this.bb = new BoundingBox(this.curr_Pos[0] * this.scale , this.curr_Pos[1] * this.scale , MYSTERYBOX_WIDTH * this.scale , MYSTERYBOX_HEIGHT * this.scale)
-        this.bb_interact = new BoundingBox((this.curr_Pos[0] - 3)  * this.scale, (this.curr_Pos[1] - 3) * this.scale , (MYSTERYBOX_WIDTH + 6) * this.scale , (MYSTERYBOX_HEIGHT + 6) * this.scale)
+        this.bb = new BoundingBox(this.curr_Pos[0] * this.scale , this.curr_Pos[1] * this.scale , MYSTERYBOX_BB_WIDTH * this.scale , MYSTERYBOX_BB_HEIGHT * this.scale)
+        this.bb_interact = new BoundingBox((this.curr_Pos[0] - 3)  * this.scale, (this.curr_Pos[1] - 3) * this.scale , (MYSTERYBOX_BB_WIDTH + 6) * this.scale , (MYSTERYBOX_BB_HEIGHT + 6) * this.scale)
         this.bb.updateSides()
         this.bb_interact.updateSides()
     }
