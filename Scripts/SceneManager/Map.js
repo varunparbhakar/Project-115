@@ -732,6 +732,9 @@ class PowerSwitch {
 
     draw() {
         // this.animator.drawFrame() //TODO
+
+        this.bb.drawBoundingBox()
+        this.bb_interact.drawBoundingBox("green")
     }
 
     hudText() {
@@ -866,7 +869,7 @@ class RoundManager {
             this.curr_ZombiesSpawnDelay -= GAME_ENGINE.clockTick
             if (this.curr_ZombiesLeft > 0 && this.curr_ZombiesSpawnDelay <= 0 && this.curr_ZombiesSpawned <= this.max_Zombies) { //spawn if no more cooldown
                 //Spawn
-                this.listOfEnabledSpawns[randomInt(this.listOfEnabledSpawns.length) ].spawnZombie(0, this.curr_ZombiesHealth) //TODO Zombie
+                this.listOfEnabledSpawns[randomInt(this.listOfEnabledSpawns.length) ].spawnZombie(1, this.curr_ZombiesHealth) //TODO Zombie
                 //Reset timer
                 this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
                 //round's zombie
