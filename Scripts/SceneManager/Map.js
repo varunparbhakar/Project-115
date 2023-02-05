@@ -344,9 +344,17 @@ class Barrier {
      * Call each frame in hurtbox to start repairing
      */
     use() {
-        this.hp += GAME_ENGINE.clockTick
+
         if (this.hp > BARRIER_MAX_HP) { //clamp
+
             this.hp = BARRIER_MAX_HP
+            this.oldBarrierHP = this.hp
+        } else {
+            if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
+                GAME_ENGINE.camera.startShake(0.1, 5)
+            }
+            this.hp += GAME_ENGINE.clockTick
+
         }
         // console.log(this.hp)
     }
