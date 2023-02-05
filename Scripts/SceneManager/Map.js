@@ -112,6 +112,10 @@ class WorldMap {
         let mysterybox = new MysteryBox([[700, 472],[998, 608]], 0, this)
         GAME_ENGINE.addEntity(mysterybox)
 
+        ////////////Power////////////
+        this.powerSwitch = new PowerSwitch(824, 715, 19, 48, this)
+        GAME_ENGINE.addEntity(this.powerSwitch)
+
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
         GAME_ENGINE.addEntity(this.player)
@@ -354,13 +358,14 @@ class Barrier {
         }
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
             GAME_ENGINE.camera.startShake(0.1, 5)
+            GAME_ENGINE.ent_Player.earnPoints(10) //TODO round cap
             //TODO audio trigger
         }
     }
 
     hudText() {
         if (this.hp < BARRIER_MAX_HP) {
-            GAME_ENGINE.camera.map.hud.middleInteract.displayText("Hold F to Repair")
+            GAME_ENGINE.camera.map.hud.middleInteract.displayText("Hold F to repair")
         }
     }
 }
@@ -433,7 +438,7 @@ class Door {
     }
 
     hudText() {
-        GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to Unlock for " + this.cost)
+        GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to unlock for " + this.cost)
     }
 }
 
@@ -496,7 +501,7 @@ class WallBuyTrigger {
         //check if already in inventory
         for (let i = 0; i < GAME_ENGINE.ent_Player.gunInventory.length; i++) {
             if (GAME_ENGINE.ent_Player.gunInventory[i].name === this.gunName) {
-                text = "F to Purchase Ammo for " + this.cost/2
+                text = "F to purchase ammo for " + this.cost/2
             }
             //TODO else if Check PAP
         }
@@ -685,6 +690,53 @@ class MysteryBox {
             case 2:
                 GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use pick up " + this.curr_GunOffer.name)
                 break
+        }
+    }
+}
+
+POWERSWITCH_INTERACT_SIZE = 4
+class PowerSwitch {
+    constructor(posX, posY, width, height, map) {
+        this.bb = new BoundingBox(
+            (map.posX + posX) * map.scale,
+            (map.posY + posY) * map.scale,
+            width * map.scale,
+            height * map.scale
+        )
+        this.bb_interact = new BoundingBox(
+            (map.posX + posX - POWERSWITCH_INTERACT_SIZE) * map.scale,
+            (map.posY + posY - POWERSWITCH_INTERACT_SIZE) * map.scale,
+            (width + POWERSWITCH_INTERACT_SIZE*2) * map.scale,
+            (height + POWERSWITCH_INTERACT_SIZE*2) * map.scale
+        )
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+
+        // this.animator = new Animator() //TODO
+
+        this.power = false
+    }
+
+    use() {
+        if (!this.power) {
+            console.log("power turned on")
+            this.power = true
+            //TODO change xStart in animator
+            //TODO trigger audio and other effects
+        }
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        // this.animator.drawFrame() //TODO
+    }
+
+    hudText() {
+        if (!this.power) {
+            GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to turn on power")
         }
     }
 }

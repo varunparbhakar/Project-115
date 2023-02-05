@@ -189,7 +189,15 @@ class GameEngine {
             this.ent_Projectiles.push(entity)
         } else if (entity instanceof Zombie) {
             this.ent_Zombies.push(entity)
-        } else if (entity instanceof MapBB || entity instanceof Barrier || entity instanceof Door || entity instanceof WallBuyTrigger || entity instanceof WallBuyImage || entity instanceof MysteryBox) {
+        } else if (
+            entity instanceof MapBB ||
+            entity instanceof Barrier ||
+            entity instanceof Door ||
+            entity instanceof WallBuyTrigger ||
+            entity instanceof WallBuyImage ||
+            entity instanceof MysteryBox ||
+            entity instanceof PowerSwitch
+        ) {
             this.ent_MapObjects.push(entity)
         } else if (entity instanceof MapLayer_Background) {
             this.ent_MapBackground = entity

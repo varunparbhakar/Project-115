@@ -317,7 +317,7 @@ class Player extends GameObject {
                         entity.use()
                     }
                 }
-            } else if (entity instanceof WallBuyTrigger) {
+            } else if (entity instanceof WallBuyTrigger) { //TODO merge similar
                 if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
                     entity.hudText()
                     if (GAME_ENGINE.key_use) {
@@ -325,7 +325,14 @@ class Player extends GameObject {
                     }
                 }
             } else if (entity instanceof MysteryBox) {
-                //movement
+                this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
+                if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
+                    entity.hudText()
+                    if (GAME_ENGINE.key_use) {
+                        entity.use()
+                    }
+                }
+            } else if (entity instanceof PowerSwitch) {
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
                     entity.hudText()
