@@ -57,6 +57,16 @@ class GunPNGCoords {
 
             //PaP
         ])
+
+        // let stringq = "MYSTERY_LOOT_TABLE = ["
+        //
+        // for (let [key, value] of this.map) {
+        //     stringq = stringq.concat("\"", key,"\"", ",")
+        //
+        // }
+        // stringq = stringq.concat("]")
+        // console.log(stringq)
+
     }
 }
 const GUN_TEXTURE_MAP = new GunPNGCoords()
@@ -232,17 +242,17 @@ class Gun {
     shoot1(posX, posY, angle) { //handles recoil
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         this.shoot2(posX, posY, angle)
-
         this.currentRecoil += this.recoilIncreasePerClick;
+        this.spawnMuzzleFlash(posX, posY, angle)
 
+    }
+    spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
         let gunOffset = this.getMuzzle_Offset(this.animationType)
         let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
         let unitV = getUnitVector(posX, posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
         let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
-
-        GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle))
+        GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle, specialFlash, w, h))
     }
-
     getMuzzle_Angle(gun){
         switch (gun) {
             case(GUN_Pistol):
@@ -1336,5 +1346,12 @@ class Gun_RayGun extends Gun_T_Explode {
             0.1,2.5,
             GUN_Pistol
         )
+    }
+    shoot1(posX, posY, angle) { //handles recoil
+        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+        this.shoot2(posX, posY, angle)
+        this.currentRecoil += this.recoilIncreasePerClick;
+        this.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
+
     }
 }

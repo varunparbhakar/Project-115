@@ -43,6 +43,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_pap.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_wall.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/guns_wallr.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/points_underlay.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Items/Muzzle_Flash_RayGun.png") //RayGun Muzzle Flash
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

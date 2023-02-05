@@ -353,7 +353,7 @@ class Barrier {
             this.hp = BARRIER_MAX_HP
         }
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
-            GAME_ENGINE.camera.startShake(0.1, 2.5)
+            GAME_ENGINE.camera.startShake(0.1, 5)
             //TODO audio trigger
         }
     }
