@@ -109,7 +109,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(door2W)
 
         ////////////Mystery Box////////////
-        let mysterybox = new MysteryBox([[710, 471]], 0, this)
+        let mysterybox = new MysteryBox([[998, 608]], 0, this)
         GAME_ENGINE.addEntity(mysterybox)
 
         ////////////Player///////////
@@ -614,7 +614,6 @@ class MysteryBox {
                 if (this.stateCooldownTimer <= 0) {
                     this.state = 0
                 }
-
         }
     }
 
@@ -627,7 +626,7 @@ class MysteryBox {
                 this.animatorGun.yStart = this.curr_GunTexture[1]
                 this.animatorGun.width = this.curr_GunTexture[2]
                 this.animatorGun.height = this.curr_GunTexture[3]
-                this.animatorGun.drawFrame(centerPos[0] - this.curr_GunTexture[2], centerPos[1] - this.curr_GunTexture[3])
+                this.animatorGun.drawFrame(centerPos[0] - (this.curr_GunTexture[2]/2 * this.animatorGun.scale), centerPos[1] - (this.curr_GunTexture[3]/2 * this.animatorGun.scale))
                 break
         }
        this.bb.drawBoundingBox("red")

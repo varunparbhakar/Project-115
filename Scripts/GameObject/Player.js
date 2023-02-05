@@ -70,6 +70,13 @@ class Player extends GameObject {
         //Grenade
         this.grenades = 2
 
+        //Perk
+        this.perk_hasJug = false
+        this.perk_hasSpeed = false
+        this.perk_hasDouble = false
+        this.perk_hasQuickRev = false
+        this.perk_hasStaminUp = false
+
         this.left_clickCooldown = 0
         this.reloadAnimationCooldownITR = 0
 
