@@ -109,7 +109,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(door2W)
 
         ////////////Mystery Box////////////
-        let mysterybox = new MysteryBox([[710, 471]], 0, this)
+        let mysterybox = new MysteryBox([[998, 608]], 0, this)
         GAME_ENGINE.addEntity(mysterybox)
 
         ////////////Player///////////
