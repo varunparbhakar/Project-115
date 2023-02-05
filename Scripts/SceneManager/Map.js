@@ -543,6 +543,7 @@ MYSTERYBOX_WIDTH = 90
 MYSTERYBOX_HEIGHT = 30
 MYSTERYBOX_ROLL_TIME = 5
 MYSTERYBOX_OFFER_TIME = 10
+MYSTERYBOX_SPAM_PREVENT_TIME = 3
 MYSTERYBOX_LOOT_TABLE = ["M1911", "Olympia", "M16", "L96A1", "Ray Gun"] //TODO create from 1/2 of GUN_TEXTURE_MAP.map
 class MysteryBox {
     constructor(locationsPos=[], startingPosIndex=0, map) {
@@ -550,6 +551,7 @@ class MysteryBox {
          * 0 = closed
          * 1 = spinning
          * 2 = offering
+         * 3 = cooldown to prevent spam
          * @type {number}
          */
         this.state = 0
@@ -603,23 +605,29 @@ class MysteryBox {
                 }
                 break
             case 2:
+                if (this.stateCooldownTimer <= 0) {
+                    this.state = 3
+                    this.stateCooldownTimer = MYSTERYBOX_SPAM_PREVENT_TIME
+                }
                 break
+            case 3:
+                if (this.stateCooldownTimer <= 0) {
+                    this.state = 4
+                }
+
         }
     }
 
     draw() {
         let centerPos = this.bb.getCenteredPos()
         switch (this.state) {
-            case 0:
-                break
             case 1:
+            case 2:
                 this.animatorGun.xStart = this.curr_GunTexture[0]
                 this.animatorGun.yStart = this.curr_GunTexture[1]
                 this.animatorGun.width = this.curr_GunTexture[2]
                 this.animatorGun.height = this.curr_GunTexture[3]
-                this.animatorGun.drawFrame(centerPos[0] - this.curr_GunTexture[2]/2, centerPos[1] - this.curr_GunTexture[3]/2)
-            case 2:
-
+                this.animatorGun.drawFrame(centerPos[0] - this.curr_GunTexture[2], centerPos[1] - this.curr_GunTexture[3])
                 break
         }
        this.bb.drawBoundingBox("red")
@@ -629,13 +637,18 @@ class MysteryBox {
     use() {
         switch (this.state) {
             case 0:
+                if (GAME_ENGINE.ent_Player.points < 950) {
+                    return
+                }
+                GAME_ENGINE.ent_Player.losePoints(950)
                 this.spinCooldownTimer = 0
                 this.state = 1
                 this.stateCooldownTimer = MYSTERYBOX_ROLL_TIME
                 console.log("rolling mystery box")
                 break
             case 2:
-                this.state = 0
+                this.state = 3
+                this.stateCooldownTimer = MYSTERYBOX_SPAM_PREVENT_TIME
                 GAME_ENGINE.ent_Player.acceptNewGun(this.curr_GunOffer)
                 console.log("picked up gun")
                 break
