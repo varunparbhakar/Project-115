@@ -23,9 +23,11 @@ class Projectile extends GameObject {
 
         this.bc = new BoundingCircle(this.posX, this.posY, PROJECTILE_BC_RADIUS)
         this.bb = new BoundingBox(this.posX, this.posY, PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
+        this.bb.updateSides()
     }
 
     update(){
+        this.saveLastBB()
         this.automaticDespawnHandler()
         this.updateCollision()
         this.movementHandler()
@@ -56,9 +58,19 @@ class Projectile extends GameObject {
         this.posY += this.movementVectorY * GAME_ENGINE.clockTick
     }
 
+
+    saveLastBB() {
+        this.lastbb = this.bb
+        this.bb = new BoundingBox(
+            this.posX - (this.bb.width/ 2),
+            this.posY - (this.bb.height/ 2),
+            PROJECTILE_BB_DIMEN, PROJECTILE_BB_DIMEN)
+    }
+
     updateCollision() {
         this.bb.x = this.posX - (this.bb.width/ 2)
         this.bb.y = this.posY - (this.bb.height/ 2)
+        this.bb.updateSides()
 
         this.bc.x = this.posX
         this.bc.y = this.posY
@@ -224,22 +236,24 @@ class Explosive extends Projectile {
 }
 
 GRANADE_DAMAGE = 500 //TODO cod zombies stats
-GRANADE_SPEED_INIT = 750
+GRANADE_SPEED_INIT = 1500
 GRANADE_TIMER = 3
 GRANADE_RADIUS = 400
 class Grenade extends Projectile {
     constructor(posX, posY, angle) {
         super(posX,posY,"Assets/Images/Items/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
         this.timer = GRANADE_TIMER
+        this.xdirection = 1
+        this.ydirection = 1
     }
 
     update() {
         super.update();
         //recalc movement vector for changing speed
-        var unitx = Math.cos(this.angle);
-        var unity = Math.sin(this.angle);
-        this.movementVectorX = (unitx * this.speed)
-        this.movementVectorY = (unity * this.speed)
+        this.unitx = Math.cos(this.angle);
+        this.unity = Math.sin(this.angle);
+        this.movementVectorX = (this.unitx * this.speed * this.xdirection)
+        this.movementVectorY = (this.unity * this.speed * this.ydirection)
 
         this.checkCollisions()
         //Timer
@@ -257,6 +271,7 @@ class Grenade extends Projectile {
     }
 
     checkCollisions() {
+        this.bb.updateSides()
         //Zombies
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie) {
@@ -267,11 +282,21 @@ class Grenade extends Projectile {
         })
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof MapBB) {
-                if (this.bb.collide(entity.bb)) {
-                    this.speed = 0
-                }
+                this.checkBBCollisions(this.bb, this.lastbb, entity.bb)
             }
         })
+    }
+
+    checkBBCollisions(thisBB, thisBBLast, othBB) {
+        if(thisBB.collide(othBB)) {
+            if (thisBBLast.bottom <= othBB.top || thisBBLast.top >= othBB.bottom) { //from top
+                this.ydirection = -1;
+            } else if (thisBBLast.left >= othBB.right || thisBBLast.right <= othBB.left) { //from right
+                this.xdirection = -1;
+            }
+
+            this.updateCollision()
+        }
     }
 
     explode() { //TODO inheritance (eww)
