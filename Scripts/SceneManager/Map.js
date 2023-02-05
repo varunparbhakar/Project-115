@@ -614,7 +614,6 @@ class MysteryBox {
                 if (this.stateCooldownTimer <= 0) {
                     this.state = 0
                 }
-
         }
     }
 
@@ -627,7 +626,7 @@ class MysteryBox {
                 this.animatorGun.yStart = this.curr_GunTexture[1]
                 this.animatorGun.width = this.curr_GunTexture[2]
                 this.animatorGun.height = this.curr_GunTexture[3]
-                this.animatorGun.drawFrame(centerPos[0] - this.curr_GunTexture[2], centerPos[1] - this.curr_GunTexture[3])
+                this.animatorGun.drawFrame(centerPos[0] - (this.curr_GunTexture[2]/2 * this.animatorGun.scale), centerPos[1] - (this.curr_GunTexture[3]/2 * this.animatorGun.scale))
                 break
         }
        this.bb.drawBoundingBox("red")
