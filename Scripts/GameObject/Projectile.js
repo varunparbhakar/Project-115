@@ -236,7 +236,7 @@ class Explosive extends Projectile {
 }
 
 GRANADE_DAMAGE = 500 //TODO cod zombies stats
-GRANADE_SPEED_INIT = 1500
+GRANADE_SPEED_INIT = 750
 GRANADE_TIMER = 3
 GRANADE_RADIUS = 400
 class Grenade extends Projectile {
