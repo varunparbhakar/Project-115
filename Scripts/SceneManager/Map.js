@@ -109,7 +109,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(door2W)
 
         ////////////Mystery Box////////////
-        let mysterybox = new MysteryBox([[998, 608]], 0, this)
+        let mysterybox = new MysteryBox([[700, 472],[998, 608]], 0, this)
         GAME_ENGINE.addEntity(mysterybox)
 
         ////////////Player///////////
@@ -538,12 +538,13 @@ class WallBuyImage {
     }
 }
 
-MYSTERYBOX_SPINS_UNTIL_TEDDY = 15
+MYSTERYBOX_SPINS_UNTIL_TEDDY = 15 //15
 MYSTERYBOX_WIDTH = 90
 MYSTERYBOX_HEIGHT = 30
 MYSTERYBOX_ROLL_TIME = 5
 MYSTERYBOX_OFFER_TIME = 10
 MYSTERYBOX_SPAM_PREVENT_TIME = 3
+MYSTERYBOX_COST = 950 //950
 MYSTERYBOX_LOOT_TABLE = ["M1911","Olympia","M16","L96A1","Ray Gun","SPAS-12","CZ75","Python","AUG","Commando","Famas","FN-FAL","G11","Galil","M14","Gewehr 43","M1 Carbine","STG-44","AK-74u","MP5K","MP40","MPL","PM63","Spectre","Thompson","Type 100","HK21","RPK","FG42","Dragunov","Kar98k","HS-10","Stakeout","Double-Barrel","M1897 Trench Gun","China Lake","M72 LAW"] //"Ballistic Knife","Crossbow","Wunderwaffe DG-2","AK-47","PPSH", "Python TRASH"
 class MysteryBox {
     constructor(locationsPos=[], startingPosIndex=0, map) {
@@ -552,6 +553,7 @@ class MysteryBox {
          * 1 = spinning
          * 2 = offering
          * 3 = cooldown to prevent spam
+         * 4 = teddy
          * @type {number}
          */
         this.state = 0
@@ -560,6 +562,7 @@ class MysteryBox {
         this.spinCooldownTimer = 0
         this.locationsPos = locationsPos
         this.curr_Pos = locationsPos[0]
+        this.cuur_PosIndex = startingPosIndex
         this.changeLocation()
         this.setSpinsUntilTeddy()
 
@@ -586,7 +589,7 @@ class MysteryBox {
         }
 
         switch (this.state) {
-            case 1:
+            case 1: //spinning
                 //Spin
                 if (this.spinCooldownTimer > 0) {
                     this.spinCooldownTimer -= GAME_ENGINE.clockTick
@@ -594,26 +597,41 @@ class MysteryBox {
                     this.spinCooldownTimer = 0.1
                     this.curr_GunTexture = GUN_TEXTURE_MAP.map.get((MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]))
                 }
-
                 //Done Spinning
                 if (this.stateCooldownTimer <= 0) {
-                    this.state = 2
                     this.stateCooldownTimer = MYSTERYBOX_OFFER_TIME
-                    let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
-                    this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
-                    this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
+                    //If Teddy
+                    if (this.curr_spinsUntilTeddy > 0) {
+                        this.state = 2
+                        let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
+                        this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
+                        this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
+                    } else {
+                        this.state = 4
+                        this.curr_GunTexture = [0,0,100,100] //TODO teddy image
+                        this.curr_GunOffer = null
+                    }
+
                 }
                 break
-            case 2:
+            case 2: //offering
                 if (this.stateCooldownTimer <= 0) {
                     this.state = 3
                     this.stateCooldownTimer = MYSTERYBOX_SPAM_PREVENT_TIME
                 }
                 break
-            case 3:
+            case 3: //prevent spam
                 if (this.stateCooldownTimer <= 0) {
                     this.state = 0
                 }
+                break
+            case 4:
+                if (this.stateCooldownTimer <= 0) {
+                    this.curr_Pos = this.locationsPos[this.cuur_PosIndex + ((randomInt(this.locationsPos.length - 1) + 1) % this.locationsPos.length)]
+                    this.changeLocation()
+                    this.state = 0
+                }
+                break
         }
     }
 
@@ -622,6 +640,7 @@ class MysteryBox {
         switch (this.state) {
             case 1:
             case 2:
+            case 4:
                 this.animatorGun.xStart = this.curr_GunTexture[0]
                 this.animatorGun.yStart = this.curr_GunTexture[1]
                 this.animatorGun.width = this.curr_GunTexture[2]
@@ -635,21 +654,21 @@ class MysteryBox {
 
     use() {
         switch (this.state) {
-            case 0:
-                if (GAME_ENGINE.ent_Player.points < 950) {
+            case 0: //buy
+                if (GAME_ENGINE.ent_Player.points < MYSTERYBOX_COST) {
                     return
                 }
-                GAME_ENGINE.ent_Player.losePoints(950)
+                GAME_ENGINE.ent_Player.losePoints(MYSTERYBOX_COST)
                 this.spinCooldownTimer = 0
                 this.state = 1
                 this.stateCooldownTimer = MYSTERYBOX_ROLL_TIME
-                console.log("rolling mystery box")
+                this.curr_spinsUntilTeddy--
+                console.log(this.curr_spinsUntilTeddy)
                 break
-            case 2:
+            case 2: //offer pickup
                 this.state = 3
                 this.stateCooldownTimer = MYSTERYBOX_SPAM_PREVENT_TIME
                 GAME_ENGINE.ent_Player.acceptNewGun(this.curr_GunOffer)
-                console.log("picked up gun")
                 break
         }
     }
@@ -657,9 +676,7 @@ class MysteryBox {
     hudText() {
         switch (this.state) {
             case 0:
-                GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use the Mystery Box for 950")
-                break
-            case 1:
+                GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use the Mystery Box for " + MYSTERYBOX_COST)
                 break
             case 2:
                 GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use pick up " + this.curr_GunOffer.name)
