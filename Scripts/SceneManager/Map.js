@@ -255,10 +255,9 @@ class Barrier {
 
         //zombie arrival point [x,y] world coords
         // this.zombieArrivalPoint = this.bb.getCenteredPos()
-        // TODO remove below, unnecessary
         let tempCenter = this.bb.getCenteredPos()
         let tempOffset = (BARRIER_ARRIVAL_OFFSET * map.scale)
-        switch (facing) { //TODO debug this, untested
+        switch (facing) {
             case "N":
                 this.zombieArrivalPoint = [tempCenter[0], tempCenter[1] - tempOffset]
                 break
@@ -344,19 +343,15 @@ class Barrier {
      * Call each frame in hurtbox to start repairing
      */
     use() {
-
+        this.oldBarrierHP = Math.floor(this.hp)
+        this.hp += GAME_ENGINE.clockTick
         if (this.hp > BARRIER_MAX_HP) { //clamp
-
             this.hp = BARRIER_MAX_HP
-            this.oldBarrierHP = this.hp
-        } else {
-            if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
-                GAME_ENGINE.camera.startShake(0.1, 5)
-            }
-            this.hp += GAME_ENGINE.clockTick
-
         }
-        // console.log(this.hp)
+        if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
+            GAME_ENGINE.camera.startShake(0.1, 2.5)
+            //TODO audio trigger
+        }
     }
 
     hudText() {
