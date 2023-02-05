@@ -113,7 +113,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(mysterybox)
 
         ////////////Power////////////
-        this.powerSwitch = new PowerSwitch(824, 715, 19, 48, this)
+        this.powerSwitch = new PowerSwitch(824, 715, 19, 48, "W", this)
         GAME_ENGINE.addEntity(this.powerSwitch)
         ////////////Perks////////////
         let perkJug = new PerkMachine(576, 611, 31, 40, "Juggernog", this)
@@ -636,6 +636,7 @@ class MysteryBox {
             case 4:
                 if (this.stateCooldownTimer <= 0) {
                     this.curr_Pos = this.locationsPos[this.cuur_PosIndex + ((randomInt(this.locationsPos.length - 1) + 1) % this.locationsPos.length)]
+                    this.setSpinsUntilTeddy()
                     this.changeLocation()
                     this.state = 0
                 }
@@ -698,8 +699,9 @@ class MysteryBox {
 }
 
 POWERSWITCH_INTERACT_SIZE = 4
+POWERSWITCH_IMG_PATH = "Assets/Images/Map/PowerSwitch_Sprite.png"
 class PowerSwitch {
-    constructor(posX, posY, width, height, map) {
+    constructor(posX, posY, width, height, facing, map) {
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
             (map.posY + posY) * map.scale,
@@ -715,7 +717,8 @@ class PowerSwitch {
         this.bb.updateSides()
         this.bb_interact.updateSides()
 
-        // this.animator = new Animator() //TODO
+        this.animator = new Animator(ASSET_MANAGER.getAsset(POWERSWITCH_IMG_PATH), 0,0, 395,336, 1, 1, map.scale/9.5)
+        if (facing === "W") this.animator.flippedX = true
 
         this.power = false
     }
@@ -724,7 +727,7 @@ class PowerSwitch {
         if (!this.power) {
             console.log("power turned on")
             this.power = true
-            //TODO change xStart in animator
+            this.animator.xStart = this.animator.width
             //TODO trigger audio and other effects
         }
     }
@@ -734,7 +737,7 @@ class PowerSwitch {
     }
 
     draw() {
-        // this.animator.drawFrame() //TODO
+        this.animator.drawFrame(this.bb.x, this.bb.y)
 
         this.bb.drawBoundingBox()
         this.bb_interact.drawBoundingBox("green")
