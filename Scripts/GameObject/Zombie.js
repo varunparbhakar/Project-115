@@ -311,6 +311,7 @@ class Zombie extends GameObject {
     }
 
     takeDamage(damage, type=ZOMBIE_DMG_SHOT) {
+        if (this.removeFromWorld) return //already dead, don't give points (for shotguns)
         // console.log(damage, "from", this.hp)
         this.hp -= damage
         if (this.hp <= 0) { //if died
