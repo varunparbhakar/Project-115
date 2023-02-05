@@ -545,6 +545,7 @@ MYSTERYBOX_ROLL_TIME = 5
 MYSTERYBOX_OFFER_TIME = 10
 MYSTERYBOX_SPAM_PREVENT_TIME = 3
 MYSTERYBOX_COST = 950 //950
+MYSTERYBOX_IMG_PATH = "Assets/Images/Map/MysteryBox_Sprite.png"
 MYSTERYBOX_LOOT_TABLE = ["M1911","Olympia","M16","L96A1","Ray Gun","SPAS-12","CZ75","Python","AUG","Commando","Famas","FN-FAL","G11","Galil","M14","Gewehr 43","M1 Carbine","STG-44","AK-74u","MP5K","MP40","MPL","PM63","Spectre","Thompson","Type 100","HK21","RPK","FG42","Dragunov","Kar98k","HS-10","Stakeout","Double-Barrel","M1897 Trench Gun","China Lake","M72 LAW"] //"Ballistic Knife","Crossbow","Wunderwaffe DG-2","AK-47","PPSH", "Python TRASH"
 class MysteryBox {
     constructor(locationsPos=[], startingPosIndex=0, map) {
@@ -566,10 +567,9 @@ class MysteryBox {
         this.changeLocation()
         this.setSpinsUntilTeddy()
 
-        // this.animatorBase =
+        this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 797, 307, 1, 1, this.scale / 9)
         this.curr_GunTexture = new Gun_M1911()
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
-        // this.animatorLid =
     }
 
     setSpinsUntilTeddy() {
@@ -637,6 +637,10 @@ class MysteryBox {
 
     draw() {
         let centerPos = this.bb.getCenteredPos()
+        //base
+        this.animatorBase.xStart = this.state === 0 ? 0 : this.animatorBase.width
+        this.animatorBase.drawFrame(this.bb.x, this.bb.y - 10)
+        //guns
         switch (this.state) {
             case 1:
             case 2:
