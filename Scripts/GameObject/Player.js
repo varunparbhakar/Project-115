@@ -409,7 +409,7 @@ class Player extends GameObject {
         //purchase ammo
         for (let i = 0; i < this.gunInventory.length; i++) {
             if (this.gunInventory[i].name === gun.name) { //has same gun
-                if (this.gunInventory[i].currentTotalAmmo = this.gunInventory[i].totalAmmo) return -1 //nvm, already full
+                if (this.gunInventory[i].currentTotalAmmo === this.gunInventory[i].totalAmmo) return -1 //nvm, already full
                 this.gunInventory[i].currentTotalAmmo = this.gunInventory[i].totalAmmo //refill
                 return 1 //ammo
             }

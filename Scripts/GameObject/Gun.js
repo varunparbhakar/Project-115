@@ -590,7 +590,7 @@ class Gun_Python extends Gun_T_Pierce {
             0.3, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
-            2, //pierce count
+            1, //pierce count
             0.1,5,
             GUN_Pistol
         )
