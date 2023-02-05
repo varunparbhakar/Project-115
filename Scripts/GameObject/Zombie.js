@@ -402,7 +402,7 @@ class RaycastZombies {
     draw() {
         //NOTHING
         //TODO remove debug
-        this.bb.drawBoundingBox("yellow")
+        // this.bb.drawBoundingBox("yellow")
     }
 }
 
