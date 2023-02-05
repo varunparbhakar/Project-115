@@ -63,7 +63,7 @@ class Player extends GameObject {
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
         //Points
-        this.points = 500
+        this.points = 90000
         //Knife
         this.knifeCooldownUntilAttack = 0
         this.isKnifing = false
@@ -72,8 +72,8 @@ class Player extends GameObject {
 
         //Perk
         this.perk_hasJug = false
-        this.perk_hasSpeed = false
-        this.perk_hasDouble = false
+        this.perk_hasSpeedCola = false
+        this.perk_hasDoubleTap = false
         this.perk_hasQuickRev = false
         this.perk_hasStaminUp = false
 
@@ -305,18 +305,6 @@ class Player extends GameObject {
                         entity.use()
                     }
                 }
-            } else if (entity instanceof Door) { //Door
-                //movement
-                if (entity.isLocked == true) {
-                    this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
-                }
-                //interact
-                if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
-                    entity.hudText()
-                    if (GAME_ENGINE.key_use) {
-                        entity.use()
-                    }
-                }
             } else if (entity instanceof WallBuyTrigger) { //TODO merge similar
                 if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
                     entity.hudText()
@@ -324,15 +312,7 @@ class Player extends GameObject {
                         entity.use()
                     }
                 }
-            } else if (entity instanceof MysteryBox) {
-                this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
-                if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
-                    entity.hudText()
-                    if (GAME_ENGINE.key_use) {
-                        entity.use()
-                    }
-                }
-            } else if (entity instanceof PowerSwitch) {
+            } else if (entity instanceof MysteryBox || entity instanceof PowerSwitch || entity instanceof PerkMachine || entity instanceof Door) {
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
                     entity.hudText()

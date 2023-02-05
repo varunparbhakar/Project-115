@@ -196,7 +196,8 @@ class GameEngine {
             entity instanceof WallBuyTrigger ||
             entity instanceof WallBuyImage ||
             entity instanceof MysteryBox ||
-            entity instanceof PowerSwitch
+            entity instanceof PowerSwitch ||
+            entity instanceof PerkMachine
         ) {
             this.ent_MapObjects.push(entity)
         } else if (entity instanceof MapLayer_Background) {
