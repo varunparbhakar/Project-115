@@ -544,7 +544,7 @@ MYSTERYBOX_HEIGHT = 30
 MYSTERYBOX_ROLL_TIME = 5
 MYSTERYBOX_OFFER_TIME = 10
 MYSTERYBOX_SPAM_PREVENT_TIME = 3
-MYSTERYBOX_LOOT_TABLE = ["M1911", "Olympia", "M16", "L96A1", "Ray Gun"] //TODO create from 1/2 of GUN_TEXTURE_MAP.map
+MYSTERYBOX_LOOT_TABLE = ["M1911","Olympia","M16","L96A1","Ray Gun","SPAS-12","CZ75","Python TRASH","Python","AUG","Commando","Famas","FN-FAL","G11","Galil","M14","Gewehr 43","M1 Carbine","STG-44","AK-74u","MP5K","MP40","MPL","PM63","Spectre","Thompson","Type 100","HK21","RPK","FG42","Dragunov","Kar98k","HS-10","Stakeout","Double-Barrel","M1897 Trench Gun","China Lake","M72 LAW"] //"Ballistic Knife","Crossbow","Wunderwaffe DG-2","AK-47","PPSH"
 class MysteryBox {
     constructor(locationsPos=[], startingPosIndex=0, map) {
         /**
@@ -612,7 +612,7 @@ class MysteryBox {
                 break
             case 3:
                 if (this.stateCooldownTimer <= 0) {
-                    this.state = 4
+                    this.state = 0
                 }
 
         }
