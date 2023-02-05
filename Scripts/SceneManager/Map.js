@@ -108,6 +108,10 @@ class WorldMap {
         let door2W = new Door(843, 626, 10, 60, 1000, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
         GAME_ENGINE.addEntity(door2W)
 
+        ////////////Mystery Box////////////
+        let mysterybox = new MysteryBox([[710, 471]], 0, this)
+        GAME_ENGINE.addEntity(mysterybox)
+
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
         GAME_ENGINE.addEntity(this.player)
@@ -532,8 +536,124 @@ class WallBuyImage {
     draw() {
         this.animator.drawFrame(this.posX, this.posY)
     }
+}
 
+MYSTERYBOX_SPINS_UNTIL_TEDDY = 15
+MYSTERYBOX_WIDTH = 90
+MYSTERYBOX_HEIGHT = 30
+MYSTERYBOX_ROLL_TIME = 5
+MYSTERYBOX_OFFER_TIME = 10
+MYSTERYBOX_LOOT_TABLE = ["M1911", "Olympia", "M16", "L96A1", "Ray Gun"] //TODO create from 1/2 of GUN_TEXTURE_MAP.map
+class MysteryBox {
+    constructor(locationsPos=[], startingPosIndex=0, map) {
+        /**
+         * 0 = closed
+         * 1 = spinning
+         * 2 = offering
+         * @type {number}
+         */
+        this.state = 0
+        this.scale = map.scale
+        this.stateCooldownTimer = 0
+        this.spinCooldownTimer = 0
+        this.locationsPos = locationsPos
+        this.curr_Pos = locationsPos[0]
+        this.changeLocation()
+        this.setSpinsUntilTeddy()
 
+        // this.animatorBase =
+        this.curr_GunTexture = new Gun_M1911()
+        this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
+        // this.animatorLid =
+    }
+
+    setSpinsUntilTeddy() {
+        this.curr_spinsUntilTeddy = MYSTERYBOX_SPINS_UNTIL_TEDDY - randomInt(6)
+    }
+
+    changeLocation() {
+        this.bb = new BoundingBox(this.curr_Pos[0] * this.scale , this.curr_Pos[1] * this.scale , MYSTERYBOX_WIDTH * this.scale , MYSTERYBOX_HEIGHT * this.scale)
+        this.bb_interact = new BoundingBox((this.curr_Pos[0] - 3)  * this.scale, (this.curr_Pos[1] - 3) * this.scale , (MYSTERYBOX_WIDTH + 6) * this.scale , (MYSTERYBOX_HEIGHT + 6) * this.scale)
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+    }
+
+    update() {
+        if (this.stateCooldownTimer > 0) {
+            this.stateCooldownTimer -= GAME_ENGINE.clockTick
+        }
+
+        switch (this.state) {
+            case 1:
+                //Spin
+                if (this.spinCooldownTimer > 0) {
+                    this.spinCooldownTimer -= GAME_ENGINE.clockTick
+                } else {
+                    this.spinCooldownTimer = 0.1
+                    this.curr_GunTexture = GUN_TEXTURE_MAP.map.get((MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]))
+                }
+
+                //Done Spinning
+                if (this.stateCooldownTimer <= 0) {
+                    this.state = 2
+                    this.stateCooldownTimer = MYSTERYBOX_OFFER_TIME
+                    let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
+                    this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
+                    this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
+                }
+                break
+            case 2:
+                break
+        }
+    }
+
+    draw() {
+        let centerPos = this.bb.getCenteredPos()
+        switch (this.state) {
+            case 0:
+                break
+            case 1:
+                this.animatorGun.xStart = this.curr_GunTexture[0]
+                this.animatorGun.yStart = this.curr_GunTexture[1]
+                this.animatorGun.width = this.curr_GunTexture[2]
+                this.animatorGun.height = this.curr_GunTexture[3]
+                this.animatorGun.drawFrame(centerPos[0] - this.curr_GunTexture[2]/2, centerPos[1] - this.curr_GunTexture[3]/2)
+            case 2:
+
+                break
+        }
+       this.bb.drawBoundingBox("red")
+       this.bb_interact.drawBoundingBox("green")
+    }
+
+    use() {
+        switch (this.state) {
+            case 0:
+                this.spinCooldownTimer = 0
+                this.state = 1
+                this.stateCooldownTimer = MYSTERYBOX_ROLL_TIME
+                console.log("rolling mystery box")
+                break
+            case 2:
+                this.state = 0
+                GAME_ENGINE.ent_Player.acceptNewGun(this.curr_GunOffer)
+                console.log("picked up gun")
+                break
+        }
+    }
+
+    hudText() {
+        switch (this.state) {
+            case 0:
+                GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use the Mystery Box for 950")
+                break
+            case 1:
+                break
+            case 2:
+                GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use pick up " + this.curr_GunOffer.name)
+                break
+        }
+    }
 }
 
 //https://project-lazarus.fandom.com/wiki/Rounds they be using real formulas

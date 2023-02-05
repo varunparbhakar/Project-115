@@ -18,49 +18,50 @@ class GunPNGCoords {
             ["Ray Gun", [127, 0, 21, 14, false]],
             ["SPAS-12", [199, 31, 46, 15, false]],
             ["CZ75", [35, 1, 18, 11, false]],
-            ["Python TRASH", [79,1,21,12, false]], //TODO stats
-            ["Python", [148,0,27,14, false]],
-            ["AUG", [268,106,43,18, false]],
-            ["Commando", [101,106,36,17,false]],
-            ["Famas", [311,107,42,19,false]],
-            ["FN-FAL", [185,107,48,16,false]],
-            ["G11", [233,106,35,18,false]],
-            ["Galil", [137,107,48,18,false]],
-            ["M14", [0,105,55,14,false]],
-            ["Gewehr 43", [59,86,57,15,false]],
-            ["M1 Carbine", [117,86,52,15,false]],
-            ["STG-44", [171,88,40,17,false]],
-            ["AK-74u", [201,128,35,17,false]],
-            ["MP5K", [237,128,21,17,false]],
-            ["MP40", [1,127,25,17,false]],
-            ["MPL", [177,128,24,17,false]],
-            ["PM63", [152,127,23,12,false]],
-            ["Spectre", [259,128,22,14,false]],
-            ["Thompson", [110,127,39,14,false]],
-            ["Type 100", [68,127,41,13,false]],
-            ["HK21", [237,66,57,22,false]],
-            ["RPK", [180,65,54,22,false]],
-            ["FG42", [63,70,58,13,false]],
-            ["Dragunov", [234,48,66,17,false]],
-            ["Kar98k", [0,50,57,14,false]],
-            ["HS-10", [246,30,35,18,false]],
-            ["Stakeout", [163,34,35,13,false]],
-            ["Double-Barrel", [53,36,55,12,false]],
-            ["M1897 Trench Gun", [0,36,53,12,false]],
-            ["China Lake", [249,145,45,17,false]],
-            ["M72 LAW", [205,149,43,11,false]],
-            ["Ballistic Knife", [192,2,26,12,false]], //TODO make
-            ["Crossbow", [94,149,42,13,false]], //TODO make
-            ["Wunderwaffe DG-2", [41,145,52,22,false]], //TODO make
-            ["AK-47", [354,108,47,18,false]], //TODO stats and make
-            ["PPSH", [26,127,41,15,false]], //TODO stats and make
+            ["Python TRASH", [79, 1, 21, 12, false]], //TODO make and stats
+            ["Python", [148, 0, 27, 14, false]],
+            ["AUG", [268, 106, 43, 18, false]],
+            ["Commando", [101, 106, 36, 17, false]],
+            ["Famas", [311, 107, 42, 19, false]],
+            ["FN-FAL", [185, 107, 48, 16, false]],
+            ["G11", [233, 106, 35, 18, false]],
+            ["Galil", [137, 107, 48, 18, false]],
+            ["M14", [0, 105, 55, 14, false]],
+            ["Gewehr 43", [59, 86, 57, 15, false]],
+            ["M1 Carbine", [117, 86, 52, 15, false]],
+            ["STG-44", [171, 88, 40, 17, false]],
+            ["AK-74u", [201, 128, 35, 17, false]],
+            ["MP5K", [237, 128, 21, 17, false]],
+            ["MP40", [1, 127, 25, 17, false]],
+            ["MPL", [177, 128, 24, 17, false]],
+            ["PM63", [152, 127, 23, 12, false]],
+            ["Spectre", [259, 128, 22, 14, false]],
+            ["Thompson", [110, 127, 39, 14, false]],
+            ["Type 100", [68, 127, 41, 13, false]],
+            ["HK21", [237, 66, 57, 22, false]],
+            ["RPK", [180, 65, 54, 22, false]],
+            ["FG42", [63, 70, 58, 13, false]],
+            ["Dragunov", [234, 48, 66, 17, false]],
+            ["Kar98k", [0, 50, 57, 14, false]],
+            ["HS-10", [246, 30, 35, 18, false]],
+            ["Stakeout", [163, 34, 35, 13, false]],
+            ["Double-Barrel", [53, 36, 55, 12, false]],
+            ["M1897 Trench Gun", [0, 36, 53, 12, false]],
+            ["China Lake", [249, 145, 45, 17, false]],
+            ["M72 LAW", [205, 149, 43, 11, false]],
+            ["Ballistic Knife", [192, 2, 26, 12, false]], //TODO make
+            ["Crossbow", [94, 149, 42, 13, false]], //TODO make
+            ["Wunderwaffe DG-2", [41, 145, 52, 22, false]], //TODO make
+            ["AK-47", [354, 108, 47, 18, false]], //TODO stats and make
+            ["PPSH", [26, 127, 41, 15, false]], //TODO stats and make
 
             //PaP
         ])
     }
 }
 const GUN_TEXTURE_MAP = new GunPNGCoords()
-const CREATE_GUN_FROM_NAME = (name, isPaP) => {
+
+const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
     switch (name) { //TODO add adjacent case and if for PaP guns and complete
         case "M1911":
         case "Mustang and Sally":
@@ -69,6 +70,74 @@ const CREATE_GUN_FROM_NAME = (name, isPaP) => {
             return !isPaP ? new Gun_M14() : new Gun_M14() //TODO PaP version
         case "Olympia":
             return !isPaP ? new Gun_Olympia() : new Gun_Olympia() //TODO PaP version
+        case "M16":
+            return !isPaP ? new Gun_M16() : new Gun_M16() //TODO PaP version
+        case "L96A1":
+            return !isPaP ? new Gun_L96A1() : new Gun_L96A1() //TODO PaP version
+        case "Ray Gun":
+            return !isPaP ? new Gun_RayGun() : new Gun_RayGun() //TODO PaP version
+        case "SPAS-12":
+            return !isPaP ? new Gun_SPAS12() : new Gun_SPAS12() //TODO PaP version
+        case "CZ75":
+            return !isPaP ? new Gun_CZ75() : new Gun_CZ75() //TODO PaP version
+        case "Python":
+            return !isPaP ? new Gun_Python() : new Gun_Python() //TODO PaP version
+        case "AUG":
+            return !isPaP ? new Gun_AUG() : new Gun_AUG() //TODO PaP version
+        case "Commando":
+            return !isPaP ? new Gun_Commando() : new Gun_Commando() //TODO PaP version
+        case "Famas":
+            return !isPaP ? new Gun_Famas() : new Gun_Famas() //TODO PaP version
+        case "FN-FAL":
+            return !isPaP ? new Gun_FAL() : new Gun_FAL() //TODO PaP version
+        case "G11":
+            return !isPaP ? new Gun_G11() : new Gun_G11() //TODO PaP version
+        case "Galil":
+            return !isPaP ? new Gun_Galil() : new Gun_Galil() //TODO PaP version
+        case "Gewehr 43":
+            return !isPaP ? new Gun_Gewehr() : new Gun_Gewehr() //TODO PaP version
+        case "M1 Carbine":
+            return !isPaP ? new Gun_M1Carbine() : new Gun_M1Carbine() //TODO PaP version
+        case "STG-44":
+            return !isPaP ? new Gun_STG44() : new Gun_STG44() //TODO PaP version
+        case "AK-74u":
+            return !isPaP ? new Gun_AK47u() : new Gun_AK47u() //TODO PaP version
+        case "MP5K":
+            return !isPaP ? new Gun_MP5k() : new Gun_MP5k() //TODO PaP version
+        case "MP40":
+            return !isPaP ? new Gun_MP40() : new Gun_MP40() //TODO PaP version
+        case "MPL":
+            return !isPaP ? new Gun_MPL() : new Gun_MPL() //TODO PaP version
+        case "PM63":
+            return !isPaP ? new Gun_PM63() : new Gun_PM63() //TODO PaP version
+        case "Spectre":
+            return !isPaP ? new Gun_Spectre() : new Gun_Spectre() //TODO PaP version
+        case "Thompson":
+            return !isPaP ? new Gun_Thomspon() : new Gun_Thomspon() //TODO PaP version
+        case "Type 100":
+            return !isPaP ? new Gun_Type100() : new Gun_Type100() //TODO PaP version
+        case "HK21":
+            return !isPaP ? new Gun_HK21() : new Gun_HK21() //TODO PaP version
+        case "RPK":
+            return !isPaP ? new Gun_RPK() : new Gun_RPK() //TODO PaP version
+        case "FG42":
+            return !isPaP ? new Gun_FG42() : new Gun_FG42() //TODO PaP version
+        case "Dragunov":
+            return !isPaP ? new Gun_Dragunov() : new Gun_Dragunov() //TODO PaP version
+        case "Kar98k":
+            return !isPaP ? new Gun_Kar98k() : new Gun_Kar98k() //TODO PaP version
+        case "HS-10":
+            return !isPaP ? new Gun_HS10() : new Gun_HS10() //TODO PaP version
+        case "Stakeout":
+            return !isPaP ? new Gun_Stakeout() : new Gun_Stakeout() //TODO PaP version
+        case "Double-Barrel":
+            return !isPaP ? new Gun_DoubleBarrel() : new Gun_DoubleBarrel() //TODO PaP version
+        case "M1897 Trench Gun":
+            return !isPaP ? new Gun_TrenchGun() : new Gun_TrenchGun() //TODO PaP version
+        case "China Lake":
+            return !isPaP ? new Gun_ChinaLake() : new Gun_ChinaLake() //TODO PaP version
+        case "M72 LAW":
+            return !isPaP ? new Gun_Law() : new Gun_Law() //TODO PaP version
     }
 }
 
