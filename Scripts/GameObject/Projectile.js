@@ -136,7 +136,7 @@ class Bullet extends Projectile {
 
 class BulletPierce extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed, pierceAmount=2) {
-        super(posX,posY,"Assets/Images/Items/Bullets/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
+        super(posX,posY,"Assets/Images/Items/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
         this.pierceAmount = pierceAmount
         this.damage = damage
         this.current_Pierced = 0

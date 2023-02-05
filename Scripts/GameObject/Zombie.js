@@ -15,7 +15,7 @@ const ZOMBIE_BC_MOVEMENT_RADIUS = 70
 const ZOMBIE_BC_ATTACK_RADIUS = 150
 
 const ZOMBIE_PATHING_NODE_LEEWAY = 50
-const ZOMBIE_PATHING_GIVEUP_COOLDOWN = 0.5
+const ZOMBIE_PATHING_GIVEUP_COOLDOWN = 1
 const ZOMBIE_RAYCAST_COOLDOWN = 0.1 //1
 
 //For player and bullet to call type of damage zombie received
@@ -56,6 +56,7 @@ class Zombie extends GameObject {
          * @type {null}
          */
         this.movementState = this.pairedBarrier != null ? 2 : 3 //reference to Barrier to path to
+        this.canAttackPlayer = true
         this.aStar = new AStar()
         this.raycastCooldown = ZOMBIE_RAYCAST_COOLDOWN
         this.pathingGiveUpCooldown = ZOMBIE_PATHING_GIVEUP_COOLDOWN
@@ -155,7 +156,7 @@ class Zombie extends GameObject {
 
             }
             //Attack Hurt
-            if (intersectionDepth < -ZOMBIE_ATTACK_THRESHOLD) { //if px inside player, hit //TODO raycast check
+            if (intersectionDepth < -ZOMBIE_ATTACK_THRESHOLD && this.canAttackPlayer) { //if px inside player, hit //TODO raycast check
                 if (this.attack_currentCooldown <= 0) {
                     entity.takeDamage(ZOMBIE_ATTACK_DAMAGE)
                     this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
@@ -259,6 +260,7 @@ class Zombie extends GameObject {
                     dx = (GAME_ENGINE.camera.player.posX) - (this.posX);
                     dy = (GAME_ENGINE.camera.player.posY) - (this.posY);
                     this.movementState = 0
+                    this.canAttackPlayer = false
                     console.log("pathing failed")
                     break
                 }
@@ -382,6 +384,7 @@ class RaycastZombies {
             if (entity instanceof MapBB) {
                 if (this.bb.collide(entity.bb)) {
                     // console.log("No sightline, switching to pathing.")
+                    this.pairedZombie.canAttackPlayer = false
                     this.pairedZombie.movementState = 1
                     this.removeFromWorld = true
                 }
@@ -389,6 +392,7 @@ class RaycastZombies {
         })
         if (this.bb.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
             // console.log("has sightline, switching to straight run.")
+            this.pairedZombie.canAttackPlayer = true
             this.pairedZombie.aStar.pathList = []
             this.pairedZombie.movementState = 0
             this.removeFromWorld = true
@@ -398,7 +402,7 @@ class RaycastZombies {
     draw() {
         //NOTHING
         //TODO remove debug
-        // this.bb.drawBoundingBox("yellow")
+        this.bb.drawBoundingBox("yellow")
     }
 }
 
@@ -418,8 +422,8 @@ class RaycastExplodeZombies extends RaycastZombies {
         //move (dont deltatime)
         var unitx = Math.cos(this.angle);
         var unity = Math.sin(this.angle);
-        this.posX += unitx * this.size * 2
-        this.posY += unity * this.size * 2
+        this.posX += unitx * this.size
+        this.posY += unity * this.size
 
         //update collision
         this.bb.x = this.posX - (this.size/2)
