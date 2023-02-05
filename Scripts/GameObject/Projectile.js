@@ -107,7 +107,6 @@ const BULLET_IMAGE_SCALE = 1
 const BULLET_IMAGE_WIDTH = 44
 const BULLET_IMAGE_HEIGHT = 44
 const BULLET_DESPAWN_TIME = 10
-
 class Bullet extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed) {
         // console.log("CONSTRUCTUR BULLET: " + posX + " " +  posY)
@@ -220,6 +219,7 @@ class Explosive extends Projectile {
     }
 
     explode() {
+        GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange")) //TODO remove debug
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
@@ -228,7 +228,7 @@ class Explosive extends Projectile {
             }
         })
 
-        if (bc.collide(GAME_ENGINE.ent_Player) < 0) {
+        if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.ent_Player.takeDamage(this.damage)
             GAME_ENGINE.camera.startShake(5, 20)
         }
@@ -300,6 +300,7 @@ class Grenade extends Projectile {
     }
 
     explode() { //TODO inheritance (eww)
+        GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, GRANADE_RADIUS, 1, "orange")) //TODO remove debug
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, GRANADE_RADIUS)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
@@ -307,7 +308,7 @@ class Grenade extends Projectile {
                 entity.takeDamageExplosive(GRANADE_DAMAGE, [this.posX, this.posY])
             }
         })
-        if (bc.collide(GAME_ENGINE.ent_Player) < 0) {
+        if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
             GAME_ENGINE.camera.startShake(5, 20)
         }

@@ -23,6 +23,7 @@ class BoundingCircle {
         // }
         // return false
     }
+
     drawBoundingCircle(color="red") {
         GAME_ENGINE.ctx.save();
         GAME_ENGINE.ctx.beginPath();
@@ -38,5 +39,26 @@ class BoundingCircle {
         // GAME_ENGINE.ctx.fillStyle = "white";
         // GAME_ENGINE.ctx.fillRect(this.x - GAME_ENGINE.camera.x, this.y - GAME_ENGINE.camera.y, this.width, this.height);
         GAME_ENGINE.ctx.restore();
+    }
+}
+
+class DebugBC extends BoundingCircle {
+    constructor(x, y, radius, decay=1, color="red") {
+        super(x, y, radius)
+        this.decay = decay
+        this.color = color
+    }
+
+    update() {
+        if (this.decay > 0) {
+            this.decay -= GAME_ENGINE.clockTick
+            console.log(this.decay)
+        } else {
+            this.removeFromWorld = true
+        }
+    }
+
+    draw() {
+        super.drawBoundingCircle(this.color)
     }
 }
