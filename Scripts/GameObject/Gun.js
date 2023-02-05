@@ -917,10 +917,10 @@ class Gun_MP40 extends Gun {
             100, //dmg
             32, //mag size
             192, //total ammo
-            0.21, //fire cooldown
+            0.175, //fire cooldown
             2.3, //reload time
             1, //movement penalty
-            0.145, //recoil increase per fire
+            0.135, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1,2.5,
