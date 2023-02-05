@@ -189,7 +189,7 @@ class GameEngine {
             this.ent_Projectiles.push(entity)
         } else if (entity instanceof Zombie) {
             this.ent_Zombies.push(entity)
-        } else if (entity instanceof MapBB || entity instanceof Barrier || entity instanceof Door || entity instanceof WallBuyTrigger) {
+        } else if (entity instanceof MapBB || entity instanceof Barrier || entity instanceof Door || entity instanceof WallBuyTrigger || entity instanceof WallBuyImage) {
             this.ent_MapObjects.push(entity)
         } else if (entity instanceof MapLayer_Background) {
             this.ent_MapBackground = entity
@@ -199,7 +199,7 @@ class GameEngine {
             this.ent_Player = entity
         } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
             this.ent_Etc.push(entity)
-        } else if (entity instanceof HUD) {
+        } else if (entity instanceof HUD || entity instanceof MuzzleFlash) {
             this.ent_HUD.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
