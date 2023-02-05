@@ -162,12 +162,15 @@ class Gun {
 
     shoot1(posX, posY, angle) { //handles recoil
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+        this.shoot2(posX, posY, angle)
+
         this.currentRecoil += this.recoilIncreasePerClick;
+
         let gunOffset = this.getMuzzle_Offset(this.animationType)
         let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
         let unitV = getUnitVector(posX, posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
         let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
-        this.shoot2(posX, posY, angle)
+
         GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle))
     }
 
