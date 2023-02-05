@@ -67,9 +67,7 @@ const getUnitVector = (thisPosX, thisPosY, othPosX, othPosY) => {
     var dx = (othPosX) - (thisPosX);
     var dy = (othPosY) - (thisPosY);
     var angle = Math.atan2(dy, dx)
-    //to unit vector
-    var unitX = Math.cos(angle);
-    var unitY = Math.sin(angle);
+
     return [Math.cos(angle), Math.sin(angle)]
 }
 
