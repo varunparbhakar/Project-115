@@ -108,7 +108,7 @@ class AStar {
                     let isWalkable = true
                     for (let j = 0; j < GAME_ENGINE.ent_MapObjects.length; j++) {
                         let entity = GAME_ENGINE.ent_MapObjects[j]
-                        if (entity instanceof MapBB || entity instanceof Barrier || entity instanceof Door || entity instanceof MysteryBox) { //OTHER OBSTACLES GO HERE
+                        if (entity instanceof MapBB || entity instanceof Barrier || entity instanceof Door || entity instanceof MysteryBox || entity instanceof PerkMachine) { //TODO OTHER OBSTACLES GO HERE
                             if (bb.collide(entity.bb)) {
                                 isWalkable = false
                                 break

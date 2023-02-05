@@ -115,6 +115,9 @@ class WorldMap {
         ////////////Power////////////
         this.powerSwitch = new PowerSwitch(824, 715, 19, 48, this)
         GAME_ENGINE.addEntity(this.powerSwitch)
+        ////////////Perks////////////
+        let perkJug = new PerkMachine(576, 611, 31, 40, "Juggernog", this)
+        GAME_ENGINE.addEntity(perkJug)
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
@@ -572,7 +575,7 @@ class MysteryBox {
         this.changeLocation()
         this.setSpinsUntilTeddy()
 
-        this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 797, 307, 1, 1, this.scale / 9)
+        this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, this.scale/3)
         this.curr_GunTexture = new Gun_M1911()
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
     }
@@ -732,11 +735,136 @@ class PowerSwitch {
 
     draw() {
         // this.animator.drawFrame() //TODO
+
+        this.bb.drawBoundingBox()
+        this.bb_interact.drawBoundingBox("green")
     }
 
     hudText() {
         if (!this.power) {
             GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to turn on power")
+        }
+    }
+}
+
+class PerkMachine {
+    constructor(posX, posY, width, height, perk="Juggernog", map) {
+        Object.assign(this, {perk})
+        this.bb = new BoundingBox(
+            (map.posX + posX) * map.scale,
+            (map.posY + posY) * map.scale,
+            width * map.scale,
+            height * map.scale
+        )
+        this.bb_interact = new BoundingBox(
+            (map.posX + posX - POWERSWITCH_INTERACT_SIZE) * map.scale,
+            (map.posY + posY - POWERSWITCH_INTERACT_SIZE) * map.scale,
+            (width + POWERSWITCH_INTERACT_SIZE*2) * map.scale,
+            (height + POWERSWITCH_INTERACT_SIZE*2) * map.scale
+        )
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+        this.perkSetup()
+    }
+
+    use() {
+        if (GAME_ENGINE.ent_Player.points >= this.cost) {
+            if (this.givePerk()) {
+                GAME_ENGINE.ent_Player.losePoints(this.cost)
+            }
+        }
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        this.bb.drawBoundingBox()
+        this.bb_interact.drawBoundingBox("green")
+    }
+
+    hudText() {
+        if (!GAME_ENGINE.camera.map.powerSwitch.power) return //no power
+        //already has the perk
+        switch (this.perk) {
+            case "Juggernog":
+                if (GAME_ENGINE.ent_Player.perk_hasJug) return true
+            case "Speed Cola":
+                if (GAME_ENGINE.ent_Player.perk_hasSpeedCola) return true
+            case "Double Tap":
+                if (GAME_ENGINE.ent_Player.perk_hasDoubleTap) return true
+            case "Quick Revive":
+                if (GAME_ENGINE.ent_Player.perk_hasQuickRev) return true
+            case "Stamin-Up":
+                if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
+        }
+        GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to purchase " + this.perk)
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        switch (this.perk) {
+            case "Juggernog":
+                if (!GAME_ENGINE.ent_Player.perk_hasJug) {
+                    GAME_ENGINE.ent_Player.perk_hasJug = true
+                    return true
+                }
+                return false
+            case "Speed Cola":
+                if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
+                    GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
+                    return true
+                }
+                return false
+            case "Double Tap":
+                if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
+                    GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
+                    return true
+                }
+                return false
+            case "Quick Revive":
+                if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
+                    GAME_ENGINE.ent_Player.perk_hasQuickRev = true
+                    return true
+                }
+                return false
+            case "Stamin-Up":
+                if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
+                    GAME_ENGINE.ent_Player.perk_hasStaminUp = true
+                    return true
+                }
+                return false
+            default:
+                console.log(this.perk, "is an invalid perk!")
+                return false
+        }
+    }
+
+    perkSetup() {
+        switch (this.perk) {
+            case "Juggernog":
+                //TODO red glow
+                this.cost = 2500
+                break
+            case "Speed Cola":
+                //TODO green glow
+                this.cost = 2500
+                break
+            case "Double Tap":
+                //TODO orange glow
+                this.cost = 2000
+                break
+            case "Quick Revive":
+                //TODO blue glow
+                this.cost = 500
+                break
+            case "Stamin-Up":
+                //TODO yellow glow
+                this.cost = 2000
+                break
+            default:
+                console.log(this.perk, "is an invalid perk!")
         }
     }
 }
@@ -866,7 +994,7 @@ class RoundManager {
             this.curr_ZombiesSpawnDelay -= GAME_ENGINE.clockTick
             if (this.curr_ZombiesLeft > 0 && this.curr_ZombiesSpawnDelay <= 0 && this.curr_ZombiesSpawned <= this.max_Zombies) { //spawn if no more cooldown
                 //Spawn
-                this.listOfEnabledSpawns[randomInt(this.listOfEnabledSpawns.length) ].spawnZombie(0, this.curr_ZombiesHealth) //TODO Zombie
+                this.listOfEnabledSpawns[randomInt(this.listOfEnabledSpawns.length) ].spawnZombie(1, this.curr_ZombiesHealth) //TODO Zombie
                 //Reset timer
                 this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
                 //round's zombie

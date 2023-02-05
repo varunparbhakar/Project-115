@@ -176,7 +176,7 @@ class Zombie extends GameObject {
         }
         //MapObjects
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB || entity instanceof MysteryBox) {
+            if (entity instanceof MapBB || entity instanceof MysteryBox || entity instanceof PowerSwitch || entity instanceof PerkMachine) {
                 this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
             }
             if (entity instanceof Barrier) { // With Barrier
