@@ -105,15 +105,15 @@ class WorldMap {
         let spawner2S = new SpawnerBarrier(1036, 1169, barrier2S, false, this)
         let room2Spawners = [spawner2N, spawner2E, spawner2S]
         //Connecting Door
-        let door2W = new Door(843, 626, 10, 60, 1000, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
+        let door2W = new Door(843, 626, 10, 60, 1500, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
         GAME_ENGINE.addEntity(door2W)
 
         ////////////Mystery Box////////////
-        let mysterybox = new MysteryBox([[700, 472],[998, 608]], 0, this)
+        let mysterybox = new MysteryBox([[700, 472],[998, 608]], 1, this)
         GAME_ENGINE.addEntity(mysterybox)
 
         ////////////Power////////////
-        this.powerSwitch = new PowerSwitch(824, 715, 19, 48, "W", this)
+        this.powerSwitch = new PowerSwitch(824, 715, "W", this) //20 by 25 px
         GAME_ENGINE.addEntity(this.powerSwitch)
         ////////////Perks////////////
         let perkJug = new PerkMachine(576, 611, 31, 40, "Juggernog", this)
@@ -286,7 +286,6 @@ class Barrier {
         //Animator
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/Barrier_Spritesheet.png")
         this.scale = map.scale
-        this.facing = facing
         switch (facing) { //TODO debug this, untested
             case "N":
                 this.angle = getDegreesToRadians(90)
@@ -570,7 +569,7 @@ class MysteryBox {
         this.stateCooldownTimer = 0
         this.spinCooldownTimer = 0
         this.locationsPos = locationsPos
-        this.curr_Pos = locationsPos[0]
+        this.curr_Pos = locationsPos[startingPosIndex]
         this.cuur_PosIndex = startingPosIndex
         this.changeLocation()
         this.setSpinsUntilTeddy()
@@ -700,8 +699,12 @@ class MysteryBox {
 
 POWERSWITCH_INTERACT_SIZE = 4
 POWERSWITCH_IMG_PATH = "Assets/Images/Map/PowerSwitch_Sprite.png"
+POWERSWITCH_IMG_WIDTH = 178
+POWERSWITCH_IMG_HEIGHT = 149
 class PowerSwitch {
-    constructor(posX, posY, width, height, facing, map) {
+    constructor(posX, posY, facing="E", map) {
+        let width = 20
+        let height = 25
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
             (map.posY + posY) * map.scale,
@@ -717,8 +720,15 @@ class PowerSwitch {
         this.bb.updateSides()
         this.bb_interact.updateSides()
 
-        this.animator = new Animator(ASSET_MANAGER.getAsset(POWERSWITCH_IMG_PATH), 0,0, 395,336, 1, 1, map.scale/10)
-        if (facing === "W") this.animator.flippedX = true
+        this.animator = new Animator(ASSET_MANAGER.getAsset(POWERSWITCH_IMG_PATH), 0,0, POWERSWITCH_IMG_WIDTH,POWERSWITCH_IMG_HEIGHT, 1, 1, map.scale/5)
+        if (facing === "W") {
+            this.animator.flippedX = true
+            this.renderX = this.bb.x - this.bb.width + 10 //TODO ugly + 10
+            this.renderY = this.bb.y
+        } else {
+            this.renderX = this.bb.x
+            this.renderY = this.bb.y
+        }
 
         this.power = false
     }
@@ -737,7 +747,7 @@ class PowerSwitch {
     }
 
     draw() {
-        this.animator.drawFrame(this.bb.x, this.bb.y)
+        this.animator.drawFrame(this.renderX, this.renderY)
 
         this.bb.drawBoundingBox()
         this.bb_interact.drawBoundingBox("green")
@@ -750,6 +760,7 @@ class PowerSwitch {
     }
 }
 
+PERKMACHINE_INTERACT_SIZE = 4
 class PerkMachine {
     constructor(posX, posY, width, height, perk="Juggernog", map) {
         Object.assign(this, {perk})
@@ -760,10 +771,10 @@ class PerkMachine {
             height * map.scale
         )
         this.bb_interact = new BoundingBox(
-            (map.posX + posX - POWERSWITCH_INTERACT_SIZE) * map.scale,
-            (map.posY + posY - POWERSWITCH_INTERACT_SIZE) * map.scale,
-            (width + POWERSWITCH_INTERACT_SIZE*2) * map.scale,
-            (height + POWERSWITCH_INTERACT_SIZE*2) * map.scale
+            (map.posX + posX - PERKMACHINE_INTERACT_SIZE) * map.scale,
+            (map.posY + posY - PERKMACHINE_INTERACT_SIZE) * map.scale,
+            (width + PERKMACHINE_INTERACT_SIZE*2) * map.scale,
+            (height + PERKMACHINE_INTERACT_SIZE*2) * map.scale
         )
         this.bb.updateSides()
         this.bb_interact.updateSides()
@@ -771,6 +782,7 @@ class PerkMachine {
     }
 
     use() {
+        if (!GAME_ENGINE.camera.map.powerSwitch.power) return //no power
         if (GAME_ENGINE.ent_Player.points >= this.cost) {
             if (this.givePerk()) {
                 GAME_ENGINE.ent_Player.losePoints(this.cost)
