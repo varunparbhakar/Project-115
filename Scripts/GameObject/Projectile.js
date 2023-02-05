@@ -224,12 +224,14 @@ class Explosive extends Projectile {
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
-                entity.takeDamageExplosive(this.damage, [this.posX, this.posY])
+                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, this.damage))
+                // entity.takeDamageExplosive(this.damage, [this.posX, this.posY])
             }
         })
 
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
-            GAME_ENGINE.ent_Player.takeDamage(this.damage)
+            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, this.damage))
+            // GAME_ENGINE.ent_Player.takeDamage(this.damage)
             GAME_ENGINE.camera.startShake(5, 20)
         }
     }
@@ -305,13 +307,88 @@ class Grenade extends Projectile {
         let bc = new BoundingCircle(this.posX, this.posY, GRANADE_RADIUS)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
-                entity.takeDamageExplosive(GRANADE_DAMAGE, [this.posX, this.posY])
+                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, GRANADE_DAMAGE))
+                // entity.takeDamageExplosive(GRANADE_DAMAGE, [this.posX, this.posY])
             }
         })
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
-            GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
+            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE))
+            // GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
             GAME_ENGINE.camera.startShake(5, 20)
         }
+    }
+}
+
+class RaycastExplosive {
+    constructor(pairedEntity, startPosX, startPosY, damage) {
+        if (pairedEntity == null) {
+            console.log("Invalid explosive raycast target")
+            this.removeFromWorld = true
+            return
+        }
+        this.damage = damage
+        this.size = 10
+        this.pairedEntity = pairedEntity
+        this.posX = startPosX
+        this.posY = startPosY
+        this.bb = new BoundingBox(this.posX - (this.size/2), this.posY - (this.size/2), this.size, this.size)
+        this.bb.updateSides()
+    }
+
+    update() {
+        //get rotation
+        let dx = this.pairedEntity.posX - this.posX
+        let dy = this.pairedEntity.posY - this.posY
+        let angle = Math.atan2(dy, dx)
+
+        //move (dont deltatime)
+        var unitx = Math.cos(angle);
+        var unity = Math.sin(angle);
+        this.posX += unitx * this.size * 3
+        this.posY += unity * this.size * 3
+
+        //update collision
+        this.bb.x = this.posX - (this.size/2)
+        this.bb.y = this.posY - (this.size/2)
+        this.bb.updateSides()
+
+        //check if arrived
+        if (Math.abs(this.posX - this.pairedEntity.posX) < this.size * 2 && Math.abs(this.posY - this.pairedEntity.posY) < this.size * 2) {
+            this.makeTakeDamage()
+            this.removeFromWorld = true
+        }
+
+    }
+
+    makeTakeDamage() {
+        //Abstract
+    }
+
+    draw() {
+        //NOTHING
+        //TODO remove debug
+        this.bb.drawBoundingBox("yellow")
+    }
+}
+
+EXPLOSIVE_PLAYER_DMG_REDUCTION = 5 //factor
+class RaycastExplosivePlayer extends RaycastExplosive {
+    constructor(pairedEntity, startPosX, startPosY, damage) {
+        super(pairedEntity, startPosX, startPosY, damage)
+    }
+
+    makeTakeDamage() {
+        this.pairedEntity.takeDamage(this.damage/EXPLOSIVE_PLAYER_DMG_REDUCTION)
+    }
+}
+
+class RaycastExplosiveZombie extends RaycastExplosive {
+    constructor(pairedEntity, startPosX, startPosY, damage) {
+        super(pairedEntity, startPosX, startPosY, damage)
+    }
+
+    makeTakeDamage() {
+        this.pairedEntity.takeDamage(this.damage, ZOMBIE_DMG_GRENADE)
     }
 }
 
