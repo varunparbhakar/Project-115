@@ -236,9 +236,9 @@ class Explosive extends Projectile {
 }
 
 GRANADE_DAMAGE = 500 //TODO cod zombies stats
-GRANADE_SPEED_INIT = 750
-GRANADE_TIMER = 3
-GRANADE_RADIUS = 400
+GRANADE_SPEED_INIT = 800
+GRANADE_TIMER = 2.5
+GRANADE_RADIUS = 300
 class Grenade extends Projectile {
     constructor(posX, posY, angle) {
         super(posX,posY,"Assets/Images/Items/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
@@ -328,7 +328,7 @@ class MuzzleFlash {
         this.decayTime = 0.05
         if(specialFlashPath == "") {
             this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset("Assets/Images/Items/Muzzle_Flash_Pistol.png"), 0, 0, 800, 800, angle-1.6, 1, 1, 1)
-        }else {
+        } else {
             this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(specialFlashPath), 0, 0, width, height, angle-1.6, 1, 1, 1)
         }
 

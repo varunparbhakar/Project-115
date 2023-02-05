@@ -717,7 +717,7 @@ class PowerSwitch {
         this.bb.updateSides()
         this.bb_interact.updateSides()
 
-        this.animator = new Animator(ASSET_MANAGER.getAsset(POWERSWITCH_IMG_PATH), 0,0, 395,336, 1, 1, map.scale/9.5)
+        this.animator = new Animator(ASSET_MANAGER.getAsset(POWERSWITCH_IMG_PATH), 0,0, 395,336, 1, 1, map.scale/10)
         if (facing === "W") this.animator.flippedX = true
 
         this.power = false
