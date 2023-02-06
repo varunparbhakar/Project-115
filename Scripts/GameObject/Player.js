@@ -271,6 +271,7 @@ class Player extends GameObject {
         this.player_Collision_World_BB.drawBoundingBox()
         this.playerCollision_Zombies_C.drawBoundingCircle("Red")
         this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
+        console.log(this.hp)
     }
 
     saveLastBB() {
@@ -338,9 +339,24 @@ class Player extends GameObject {
         this.hp -= damage
         GAME_ENGINE.camera.map.hud.fullscreenRedHurt.flash()
         //death?
-        if (this.hp <= 0) {
+        if (this.hp <= 0 && !this.perk_hasQuickRev) { //real death
             this.alive = false
-            this.removeFromWorld = true
+            this.removeFromWorld = true //TODO make death screen
+        } else if (this.hp <= 0 && this.perk_hasQuickRev) { //Quick Revive, cause an explosion and get back
+            //clear perks
+            this.perk_hasQuickRev = false
+            this.perk_hasJug = false
+            this.perk_hasSpeedCola = false
+            this.perk_hasStaminUp = false
+            this.perk_hasDoubleTap = false
+            //explode
+            let explosive = new ExplosiveQuickRevive(this.posX, this.posY,this.angle, 10000000, 0, 5000)
+            GAME_ENGINE.addEntity(explosive)
+            explosive.explode()
+            GAME_ENGINE.camera.startShake(5, 25)
+            explosive.removeFromWorld = true
+            //reset health
+            this.heal_currentCooldown = 0
         }
 
         //screenshake

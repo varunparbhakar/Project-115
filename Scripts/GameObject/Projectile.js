@@ -232,8 +232,25 @@ class Explosive extends Projectile {
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, this.damage))
             // GAME_ENGINE.ent_Player.takeDamage(this.damage)
-            GAME_ENGINE.camera.startShake(5, 20)
         }
+    }
+}
+
+class ExplosiveQuickRevive extends Explosive {
+    constructor(posX, posY, angle, damage, bulletspeed, radius) {
+        super(posX, posY, angle, damage, bulletspeed, radius);
+    }
+
+    explode() {
+        GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange")) //TODO remove debug
+        GAME_ENGINE.camera.startShake(0.1, 5)
+        let bc = new BoundingCircle(this.posX, this.posY, this.radius)
+        GAME_ENGINE.ent_Zombies.forEach((entity) => {
+            if (bc.collide(entity.bc_Movement) < 0) {
+                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, this.damage))
+                // entity.takeDamageExplosive(this.damage, [this.posX, this.posY])
+            }
+        })
     }
 }
 
@@ -390,6 +407,8 @@ class RaycastExplosivePlayer extends RaycastExplosive {
     }
 
     makeTakeDamage() {
+        GAME_ENGINE.camera.startShake(5, 25)
+        //TODO play tinnitus sound or something
         this.pairedEntity.takeDamage(this.damage/EXPLOSIVE_PLAYER_DMG_REDUCTION)
     }
 }

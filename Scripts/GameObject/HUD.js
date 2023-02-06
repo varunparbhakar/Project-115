@@ -1,3 +1,7 @@
+class HUDPerks {
+
+}
+
 class HUD {
     constructor() {
         this.bottomLeftGuns = new HUDGun()
@@ -5,6 +9,7 @@ class HUD {
         this.bottomRightGrenades = new HUDGrenade(this.bottomLeftGuns)
         this.bottomRightRound = new HUDRound()
         this.middleInteract = new HUDInteract()
+        this.middlePerks = new HUDPerks()
         this.fullscreenRedHurt = new HUDHurt()
     }
 
