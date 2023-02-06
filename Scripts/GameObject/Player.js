@@ -110,13 +110,13 @@ class Player extends GameObject {
 
         //Sprint
         if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== ANIMATION_Reloading) {
-
-            this.speed = (this.perk_hasStaminUp ? PLAYER_RUNNING_SPEED : (PLAYER_RUNNING_SPEED * this.gunInventory[this.currentGunIndex].movementPenalty))
+            this.speed = (this.perk_hasStaminUp ? PLAYER_RUNNING_SPEED : (PLAYER_RUNNING_SPEED * this.gunInventory[this.currentGunIndex].movementPenalty)) //speed
+            //stamina usage
             this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
             this.sprintRest = (this.sprintStamina <= 0);
         } else {
-            this.speed = PLAYER_WALKING_SPEED
-
+            this.speed = PLAYER_WALKING_SPEED //speed
+            //stamina heal
             if (this.sprintStamina < (this.perk_hasStaminUp ? PLAYER_STAMINA_UP_STAMINA_MAX: PLAYER_STAMINA_MAX)) {
                 this.sprintStamina += PLAYER_STAMINA_HEAL_PER_SEC * GAME_ENGINE.clockTick;
             } else {
@@ -151,7 +151,7 @@ class Player extends GameObject {
         this.posX += movementVector[0] * this.speed * GAME_ENGINE.clockTick;
         this.posY += movementVector[1] * this.speed * GAME_ENGINE.clockTick;
 
-        if(GAME_ENGINE.left_click) {
+        if (GAME_ENGINE.left_click) {
             if (this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)) {
                 this.changeAnimation(ANIMATION_Shooting, this.gunInventory[this.currentGunIndex].maxFireCooldown)
             }
@@ -161,7 +161,7 @@ class Player extends GameObject {
                 this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].getReloadCooldown())
             }
         }
-        if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee) {
+        if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee && this.state != ANIMATION_Shooting) {
             if (this.state !== ANIMATION_Melee) {
                 this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.45
                 this.changeAnimation(ANIMATION_Melee, PLAYER_KNIFE_COOLDOWN)
