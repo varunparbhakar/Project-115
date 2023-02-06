@@ -47,6 +47,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Items/Muzzle_Flash_RayGun.png") //Ray
 ASSET_MANAGER.queueDownload("Assets/Images/Map/MysteryBox_Sprite.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/PowerSwitch_Sprite.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/Bloody_Screen.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Map/Perks_Hud.png")
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

@@ -1,7 +1,3 @@
-class HUDPerks {
-
-}
-
 class HUD {
     constructor() {
         this.bottomLeftGuns = new HUDGun()
@@ -29,6 +25,7 @@ class HUD {
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
         this.middleInteract.draw()
+        this.middlePerks.draw()
         this.bottomRightGrenades.draw()
     }
 }
@@ -247,9 +244,11 @@ class HUDHurt {
 
         if (GAME_ENGINE.ent_Player.hp <= PLAYER_HP_MAX / 2) {
             GAME_ENGINE.ctx.save()
+            //Red
             GAME_ENGINE.ctx.fillStyle = "red"
             GAME_ENGINE.ctx.globalAlpha = 0.15
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            //Blood overlay
             GAME_ENGINE.ctx.globalAlpha = 0.4
             GAME_ENGINE.ctx.drawImage(
                 this.asset,
@@ -257,5 +256,72 @@ class HUDHurt {
             )
             GAME_ENGINE.ctx.restore()
         }
+    }
+}
+
+HUDPERKS_SCALE = 2.5
+HUDPERKS_PATH = "Assets/Images/Map/Perks_Hud.png"
+class HUDPerks {
+    constructor() {
+        this.asset = ASSET_MANAGER.getAsset(HUDPERKS_PATH)
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        let perkCount = 0
+        if (GAME_ENGINE.ent_Player.perk_hasJug) {
+            this.drawPerk("Juggernog", perkCount)
+            perkCount++
+        }
+        if (GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
+            this.drawPerk("Speed Cola", perkCount)
+            perkCount++
+        }
+        if (GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
+            this.drawPerk("Double Tap", perkCount)
+            perkCount++
+        }
+        if (GAME_ENGINE.ent_Player.perk_hasQuickRev) {
+            this.drawPerk("Quick Revive", perkCount)
+            perkCount++
+        }
+        if (GAME_ENGINE.ent_Player.perk_hasStaminUp) {
+            this.drawPerk("Stamin-Up", perkCount)
+            perkCount++
+        }
+        GAME_ENGINE.ctx.restore()
+    }
+
+    drawPerk(perk, i) {
+        let coords
+        switch (perk) {
+            case "Juggernog":
+                coords = [0,0]
+                break
+            case "Speed Cola":
+                coords = [48,0]
+                break
+            case "Double Tap":
+                coords = [72,0]
+                break
+            case "Quick Revive":
+                coords = [24,0]
+                break
+            case "Stamin-Up":
+                coords = [120,0]
+                break
+        }
+
+        GAME_ENGINE.ctx.drawImage(
+            this.asset,
+            coords[0], coords[1],
+            22, 24,
+            22 * i * HUDPERKS_SCALE + 5, 5,
+            22 * HUDPERKS_SCALE, 24 * HUDPERKS_SCALE
+        )
     }
 }
