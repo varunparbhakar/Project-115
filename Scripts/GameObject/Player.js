@@ -337,6 +337,7 @@ class Player extends GameObject {
     takeDamage(damage) {
         //dmg
         this.hp -= damage
+        GAME_ENGINE.camera.map.hud.fullscreenRedHurt.flash()
         //death?
         if (this.hp <= 0) {
             this.alive = false

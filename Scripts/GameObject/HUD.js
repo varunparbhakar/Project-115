@@ -2,8 +2,10 @@ class HUD {
     constructor() {
         this.bottomLeftGuns = new HUDGun()
         this.bottomRightPoints = new HUDPoints()
+        this.bottomRightGrenades = new HUDGrenade(this.bottomLeftGuns)
         this.bottomRightRound = new HUDRound()
         this.middleInteract = new HUDInteract()
+        this.fullscreenRedHurt = new HUDHurt()
     }
 
     update() {
@@ -11,6 +13,8 @@ class HUD {
         this.bottomLeftGuns.update()
         this.bottomRightRound.update()
         // this.middleInteract.update()
+        // this.bottomRightGrenades.update()
+        this.fullscreenRedHurt.update()
     }
 
     draw() {
@@ -19,6 +23,8 @@ class HUD {
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
         this.middleInteract.draw()
+        this.bottomRightGrenades.draw()
+        this.fullscreenRedHurt.draw()
     }
 }
 
@@ -184,5 +190,61 @@ class HUDInteract {
     displayText(text) {
         this.text = text
         this.isDisplaying = true
+    }
+}
+
+ANIMATORGRENADE_SCALE = 1
+class HUDGrenade {
+    constructor(bottomLeftGuns) {
+        this.bottomLeftGuns = bottomLeftGuns
+        this.animator = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 32, 17, 10, 12, 1, 1,  ANIMATORGRENADE_SCALE=5)
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        for (let i = 0; i < GAME_ENGINE.ent_Player.grenades; i++) {
+            this.animator.drawFrame(
+                GAME_ENGINE.ctx.canvas.width - (this.animator.width*this.animator.scale) - (i*this.animator.width/2*this.animator.scale) + GAME_ENGINE.camera.posX,
+                GAME_ENGINE.ctx.canvas.height - (this.bottomLeftGuns.height*ANIMATORGUN_SCALE) - (13*this.animator.scale) + GAME_ENGINE.camera.posY
+            )
+        }
+    }
+}
+
+HUDHURT_RED_FLASH_DECAY = 0.5
+class HUDHurt {
+    constructor() {
+        this.flashDecay = 0
+    }
+
+    update() {
+        if (this.flashDecay > 0) {
+            this.flashDecay -= GAME_ENGINE.clockTick
+        }
+    }
+
+    flash() {
+        this.flashDecay = HUDHURT_RED_FLASH_DECAY
+    }
+
+    draw() {
+        if (this.flashDecay > 0) {
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = "red"
+            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / HUDHURT_RED_FLASH_DECAY) * 0.25;
+            GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.restore()
+        }
+
+        if (GAME_ENGINE.ent_Player.hp <= PLAYER_HP_MAX / 2) {
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = "red"
+            GAME_ENGINE.ctx.globalAlpha = 0.1
+            GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.restore()
+        }
     }
 }
