@@ -633,9 +633,6 @@ class MysteryBox extends MapInteract {
                             let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
                             this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
                             this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
-
-                            console.log(JSON.stringify(nameOfGunsInInventory) + " " + this.curr_GunOffer.name)
-
                         } while ((nameOfGunsInInventory.includes(this.curr_GunOffer.name) ))
                     } else {
                         this.state = 4
