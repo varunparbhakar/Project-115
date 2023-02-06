@@ -4,8 +4,9 @@ class HUD {
         this.bottomRightPoints = new HUDPoints()
         this.bottomRightGrenades = new HUDGrenade(this.bottomLeftGuns)
         this.bottomRightRound = new HUDRound()
-        this.middleInteract = new HUDInteract()
-        this.middlePerks = new HUDPerks()
+        this.bottomMiddleInteract = new HUDInteract()
+        this.topLeftPerks = new HUDPerks()
+        this.topRightPerks = new HUDPowerUp()
         this.fullscreenRedHurt = new HUDHurt()
     }
 
@@ -13,9 +14,10 @@ class HUD {
         if (GAME_ENGINE.ent_Player == null) return
         this.bottomLeftGuns.update()
         this.bottomRightRound.update()
-        // this.middleInteract.update()
+        // this.bottomMiddleInteract.update()
         // this.bottomRightGrenades.update()
         this.fullscreenRedHurt.update()
+        // this.topRightPerks.update()
     }
 
     draw() {
@@ -24,9 +26,10 @@ class HUD {
         this.bottomLeftGuns.draw()
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
-        this.middleInteract.draw()
-        this.middlePerks.draw()
+        this.bottomMiddleInteract.draw()
+        this.topLeftPerks.draw()
         this.bottomRightGrenades.draw()
+        this.topRightPerks.draw()
     }
 }
 
@@ -321,6 +324,50 @@ class HUDPerks {
             coords[0], coords[1],
             22, 24,
             22 * i * HUDPERKS_SCALE + 5, 5,
+            22 * HUDPERKS_SCALE, 24 * HUDPERKS_SCALE
+        )
+    }
+}
+
+class HUDPowerUp {
+    constructor() {
+        this.asset = ASSET_MANAGER.getAsset(HUDPERKS_PATH)
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        let count = 0
+        if (GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer > 0) {
+            this.drawPerk("Insta Kill", count)
+            count++
+        }
+        if (GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer > 0) {
+            this.drawPerk("Double Points", count)
+            count++
+        }
+        GAME_ENGINE.ctx.restore()
+    }
+
+    drawPerk(perk, i) {
+        let coords
+        switch (perk) {
+            case "Insta Kill":
+                coords = [264,0]
+                break
+            case "Double Points":
+                coords = [330,0]
+                break
+        }
+
+        GAME_ENGINE.ctx.drawImage(
+            this.asset,
+            coords[0], coords[1],
+            22, 24,
+            GAME_ENGINE.ctx.canvas.width - (22 * HUDPERKS_SCALE) - (22 * i * HUDPERKS_SCALE) - 5, 5,
             22 * HUDPERKS_SCALE, 24 * HUDPERKS_SCALE
         )
     }

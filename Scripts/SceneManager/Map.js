@@ -373,7 +373,7 @@ class Barrier {
 
     hudText() {
         if (this.hp < BARRIER_MAX_HP) {
-            GAME_ENGINE.camera.map.hud.middleInteract.displayText("Hold F to repair")
+            GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("Hold F to repair")
         }
     }
 }
@@ -455,7 +455,7 @@ class Door extends MapInteract {
     }
 
     hudText() {
-        GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to unlock for " + this.cost)
+        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to unlock for " + this.cost)
     }
 }
 
@@ -521,7 +521,7 @@ class WallBuyTrigger {
             }
             //TODO else if Check PAP
         }
-        GAME_ENGINE.camera.map.hud.middleInteract.displayText(text)
+        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText(text)
     }
 }
 
@@ -620,20 +620,20 @@ class MysteryBox extends MapInteract {
                 }
 
                 //Done Spinning
-                var nameOfGunsInInventory = GAME_ENGINE.ent_Player.gunInventory.map(x => x.name);
                 if(this.stateCooldownTimer <= 0) {
                     this.stateCooldownTimer = MYSTERYBOX_OFFER_TIME
                     //If Teddy
                     if (this.curr_spinsUntilTeddy > 0) {
                         this.state = 2
                         this.endCounter = 0
-
-
-                        do {
-                            let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
-                            this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
-                            this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
-                        } while ((nameOfGunsInInventory.includes(this.curr_GunOffer.name) ))
+                        if (GAME_ENGINE.ent_Player !== null) { //null pointer
+                            let nameOfGunsInInventory = GAME_ENGINE.ent_Player.gunInventory.map(x => x.name);
+                            do {
+                                let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
+                                this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
+                                this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
+                            } while ((nameOfGunsInInventory.includes(this.curr_GunOffer.name) ))
+                        }
                     } else {
                         this.state = 4
                         this.curr_GunTexture = [0,0,100,100] //TODO teddy image
@@ -708,10 +708,10 @@ class MysteryBox extends MapInteract {
     hudText() {
         switch (this.state) {
             case 0:
-                GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use the Mystery Box for " + MYSTERYBOX_COST)
+                GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to use the Mystery Box for " + MYSTERYBOX_COST)
                 break
             case 2:
-                GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to use pick up " + this.curr_GunOffer.name)
+                GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to use pick up " + this.curr_GunOffer.name)
                 break
         }
     }
@@ -776,7 +776,7 @@ class PowerSwitch extends MapInteract {
 
     hudText() {
         if (!this.power) {
-            GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to turn on power")
+            GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to turn on power")
         }
     }
 }
@@ -823,7 +823,7 @@ class PerkMachine extends MapInteract {
 
     hudText() {
         if (!GAME_ENGINE.camera.map.powerSwitch.power) { //no power
-            GAME_ENGINE.camera.map.hud.middleInteract.displayText("No power")
+            GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("No power")
             return false
         }
         //already has the perk
@@ -839,7 +839,7 @@ class PerkMachine extends MapInteract {
             case "Stamin-Up":
                 if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
         }
-        GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to purchase " + this.perk)
+        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk)
     }
 
     givePerk() {

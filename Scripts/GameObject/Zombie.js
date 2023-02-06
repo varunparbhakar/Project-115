@@ -28,7 +28,7 @@ const ZOMBIE_POINTS_NONLETHAL = 10
 const ZOMBIE_POINTS_LETHAL = 60
 const ZOMBIE_POINTS_LETHAL_KNIFE = 100
 
-const ZOMBIE_POWERUP_CHANCE = 1
+const ZOMBIE_POWERUP_CHANCE = 0.05
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
