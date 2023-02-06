@@ -58,7 +58,7 @@ class SceneManager {
 
     startShake(length, intensity) {
         this.shake_current += length
-        this.shake_max += length
-        this.shake_intensity += intensity
+        this.shake_max = Math.max(this.shake_max, length)
+        this.shake_intensity = Math.max(this.shake_intensity, intensity)
     }
 }

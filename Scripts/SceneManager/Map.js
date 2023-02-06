@@ -590,7 +590,7 @@ class MysteryBox extends MapInteract {
         this.setSpinsUntilTeddy()
 
         this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, this.scale/3)
-        this.curr_GunTexture = new Gun_M1911()
+        this.curr_GunTexture = new Gun_M1911() //to avoid null pointer
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
     }
 

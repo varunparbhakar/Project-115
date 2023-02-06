@@ -256,7 +256,7 @@ class ExplosiveQuickRevive extends Explosive {
 
 GRANADE_DAMAGE = 500 //TODO cod zombies stats
 GRANADE_SPEED_INIT = 800
-GRANADE_TIMER = 2.5
+GRANADE_TIMER = 2
 GRANADE_RADIUS = 300
 class Grenade extends Projectile {
     constructor(posX, posY, angle) {
@@ -329,7 +329,7 @@ class Grenade extends Projectile {
             }
         })
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
-            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE))
+            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE/2))
             // GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
             GAME_ENGINE.camera.startShake(5, 20)
         }

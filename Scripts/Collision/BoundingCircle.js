@@ -52,7 +52,7 @@ class DebugBC extends BoundingCircle {
     update() {
         if (this.decay > 0) {
             this.decay -= GAME_ENGINE.clockTick
-            console.log(this.decay)
+            // console.log(this.decay)
         } else {
             this.removeFromWorld = true
         }

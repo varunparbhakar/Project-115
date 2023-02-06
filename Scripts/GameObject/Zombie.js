@@ -7,12 +7,12 @@ const ZOMBIE_ANGLE_OFFSET = -1.6;
 const ZOMBIE_SPEEDS = [PLAYER_WALKING_SPEED*0.25, PLAYER_WALKING_SPEED*0.95, PLAYER_RUNNING_SPEED*0.60, PLAYER_RUNNING_SPEED*0.775];
 
 const ZOMBIE_ATTACK_DAMAGE = 50
-const ZOMBIE_ATTACK_COOLDOWN = 0.6
-const ZOMBIE_ATTACK_THRESHOLD = 100 //the depth of Zombies Attack BC colliding with Player's Hurt BC
+const ZOMBIE_ATTACK_COOLDOWN = 0.5
+const ZOMBIE_ATTACK_THRESHOLD = 5 //the depth of Zombies Attack BC colliding with Player's Hurt BC
 
 const ZOMBIE_BB_DIMENSION = 25
 const ZOMBIE_BC_MOVEMENT_RADIUS = 70
-const ZOMBIE_BC_ATTACK_RADIUS = 150
+const ZOMBIE_BC_ATTACK_RADIUS = 80
 
 const ZOMBIE_PATHING_NODE_LEEWAY = 50
 const ZOMBIE_PATHING_GIVEUP_COOLDOWN = 1
@@ -28,7 +28,8 @@ const ZOMBIE_POINTS_NONLETHAL = 10
 const ZOMBIE_POINTS_LETHAL = 60
 const ZOMBIE_POINTS_LETHAL_KNIFE = 100
 
-const ZOMBIE_POWERUP_CHANCE = 0.05
+const ZOMBIE_POWERUP_CHANCE = 0.02
+const ZOMBIE_CRAWLER_CHANCE = 1
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
@@ -147,6 +148,10 @@ class Zombie extends GameObject {
             //Swing
             let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
             if (intersectionDepth < 0) {
+                if (this.attack_currentCooldown == ZOMBIE_ATTACK_COOLDOWN) {
+                    this.animator.finishedAnimation = false
+                    this.animator.elaspedTime = 0
+                }
                 this.changeAnimation(1) //swing
                 this.attack_currentCooldown -= GAME_ENGINE.clockTick
             } else {
@@ -335,7 +340,9 @@ class Zombie extends GameObject {
             switch (type) {
                 case ZOMBIE_DMG_GRENADE:
                     GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_NONLETHAL)
-                    //TODO crawler check
+                    if (Math.random() < ZOMBIE_CRAWLER_CHANCE) {
+                        this.speed = ZOMBIE_SPEEDS[0]
+                    }
                     break
                 default:
                     GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_NONLETHAL)

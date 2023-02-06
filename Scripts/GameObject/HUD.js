@@ -64,10 +64,10 @@ class HUDGun {
             this.isPaP ? this.assetPaP : this.asset, //what
             this.xStart, this.yStart, //starting at
             this.width, this.height, //to
-            GAME_ENGINE.ctx.canvas.width - (this.width  * ANIMATORGUN_SCALE), //where x
+            GAME_ENGINE.ctx.canvas.width - (this.width  * ANIMATORGUN_SCALE) - 5, //where x
             GAME_ENGINE.ctx.canvas.height - (this.height * ANIMATORGUN_SCALE) +
                 ((this.curr_gun.currentReloadTime / this.curr_gun.reloadTime) * this.height * ANIMATORGUN_SCALE) +
-                ((this.curr_gun.currentRecoil) * 50), //where y
+                ((this.curr_gun.currentRecoil) * 50) - 5, //where y
             this.width * ANIMATORGUN_SCALE, this.height * ANIMATORGUN_SCALE //scale
         )
         GAME_ENGINE.ctx.restore()
@@ -91,7 +91,7 @@ class HUDGun {
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(text, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height - 10)
+        GAME_ENGINE.ctx.fillText(text, GAME_ENGINE.ctx.canvas.width - 5, GAME_ENGINE.ctx.canvas.height - 10)
         GAME_ENGINE.ctx.restore()
     }
 }
@@ -212,8 +212,8 @@ class HUDGrenade {
     draw() {
         for (let i = 0; i < GAME_ENGINE.ent_Player.grenades; i++) {
             this.animator.drawFrame(
-                GAME_ENGINE.ctx.canvas.width - (this.animator.width*this.animator.scale) - (i*this.animator.width/2*this.animator.scale) + GAME_ENGINE.camera.posX,
-                GAME_ENGINE.ctx.canvas.height - (this.bottomLeftGuns.height*ANIMATORGUN_SCALE) - (13*this.animator.scale) + GAME_ENGINE.camera.posY
+                GAME_ENGINE.ctx.canvas.width - (this.animator.width*this.animator.scale) - (i*this.animator.width/2*this.animator.scale) + GAME_ENGINE.camera.posX - 5,
+                GAME_ENGINE.ctx.canvas.height - (this.bottomLeftGuns.height*ANIMATORGUN_SCALE) - (14*this.animator.scale) + GAME_ENGINE.camera.posY
             )
         }
     }

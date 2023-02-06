@@ -100,8 +100,8 @@ class Player extends GameObject {
     };
 
     update() {
+        if (!this.alive) {return} //dead, dont update
 
-        // console.log(this.hp)
         //Mouse
         this.angle = this.mouseRotationHandler() ;
 
@@ -274,6 +274,7 @@ class Player extends GameObject {
     }
 
     draw() {
+        if (!this.alive) {return} //dead, dont draw
         this.animator.drawFrame(this.posX, this.posY, this.angle + PLAYER_IMAGE_ROTATION_OFFSET)
 
         //TODO remove debug
@@ -350,7 +351,7 @@ class Player extends GameObject {
         //death?
         if (this.hp <= 0 && !this.perk_hasQuickRev) { //real death
             this.alive = false
-            this.removeFromWorld = true //TODO make death screen
+            //TODO make death screen
         } else if (this.hp <= 0 && this.perk_hasQuickRev) { //Quick Revive, cause an explosion and get back
             //clear perks
             this.perk_hasQuickRev = false
