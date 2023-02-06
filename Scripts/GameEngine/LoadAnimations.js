@@ -30,7 +30,7 @@ class LoadAnimations {
             new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Idle/AR/Rifle_IDLE.png"),
                 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 20, 0.1, PLAYER_IMAGE_SCALE),
             new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/moving/AR/AR_Moving.png"),
-                0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 3, 0.1, PLAYER_IMAGE_SCALE),
+                0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 20, 0.1, PLAYER_IMAGE_SCALE),
             knifeAnimator,
             new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Shooting/AR/AR_Shooting.png"),
                 0, 0, PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT, 3, 0.1, PLAYER_IMAGE_SCALE),

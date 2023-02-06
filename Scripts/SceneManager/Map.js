@@ -116,8 +116,14 @@ class WorldMap {
         this.powerSwitch = new PowerSwitch(824, 715, "W", this) //20 by 25 px
         GAME_ENGINE.addEntity(this.powerSwitch)
         ////////////Perks////////////
-        let perkJug = new PerkMachine(576, 611, 31, 40, "Juggernog", this)
+        let perkJug = new PerkMachine(852, 838, 47, 39, "Juggernog", this)
         GAME_ENGINE.addEntity(perkJug)
+        let perkSpeed = new PerkMachine(988, 702, 35, 31, "Speed Cola", this)
+        GAME_ENGINE.addEntity(perkSpeed)
+        let perkStam = new PerkMachine(526, 846, 31, 30, "Stamin-Up", this)
+        GAME_ENGINE.addEntity(perkStam)
+        let perk2x = new PerkMachine(435, 490, 32, 32, "Double Tap", this)
+        GAME_ENGINE.addEntity(perk2x)
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
@@ -603,7 +609,6 @@ class MysteryBox extends MapInteract {
         if (this.stateCooldownTimer > 0) {
             this.stateCooldownTimer -= GAME_ENGINE.clockTick
         }
-
         switch (this.state) {
             case 1: //spinning
                 //Spin
@@ -820,7 +825,10 @@ class PerkMachine extends MapInteract {
     }
 
     hudText() {
-        if (!GAME_ENGINE.camera.map.powerSwitch.power) return //no power
+        if (!GAME_ENGINE.camera.map.powerSwitch.power) { //no power
+            GAME_ENGINE.camera.map.hud.middleInteract.displayText("No power")
+            return false
+        }
         //already has the perk
         switch (this.perk) {
             case "Juggernog":

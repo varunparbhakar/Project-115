@@ -226,7 +226,7 @@ class Gun {
         if (this.currentReloadTime > 0) {
             return false;
         }
-        this.currentFireCooldown = this.maxFireCooldown //set cooldown
+        this.currentFireCooldown = this.getFireCooldown() //set cooldown
 
         //Check Ammo
         if (this.currentMagazineAmmo === 0) return false //no ammo
@@ -242,10 +242,68 @@ class Gun {
     shoot1(posX, posY, angle) { //handles recoil
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         this.shoot2(posX, posY, angle)
-        this.currentRecoil += this.recoilIncreasePerClick;
+        this.currentRecoil += this.getRecoilPerClick();
         this.spawnMuzzleFlash(posX, posY, angle)
-
     }
+
+    shoot2(posX, posY, angle) { //shooy the bullet
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+    }
+
+    getSpreadAngle(angle) {
+        return angle + this.currentRecoil * (Math.random() * 2 - 1)
+    }
+
+    reload() {
+        //cant reload if still switching
+        if (this.isSwitching) {
+            return false
+        }
+        //full or no ammo, then return
+        if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
+            return false
+        }
+
+        //otherwise, reset stats
+        this.currentReloadTime = this.getReloadCooldown()
+        this.currentRecoil = 0
+        this.currentFireCooldown = 0
+
+        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
+        this.currentMagazineAmmo += withdraw
+        this.currentTotalAmmo -= withdraw
+        // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
+        return true
+    }
+
+    //Speed Cola
+    getReloadCooldown() {
+        return (GAME_ENGINE.ent_Player.perk_hasSpeedCola ? (this.reloadTime * 0.5) : this.reloadTime)
+    }
+
+    //Double Tap
+    getFireCooldown() {
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.maxFireCooldown * 0.7 : this.maxFireCooldown)
+    }
+    //Double Tap
+    getRecoilPerClick() {
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.recoilIncreasePerClick * 0.7 : this.recoilIncreasePerClick)
+    }
+    //Double Tap
+    getDamage() {
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.damage * 2 : this.damage)
+    }
+
+    /**
+     * Resets stats on weapon switch
+     */
+    equip() {
+        this.isSwitching = true
+        this.currentReloadTime = this.reloadTime * 0.5
+        this.currentRecoil = 0
+        this.currentFireCooldown = 0
+    }
+
     spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
         let gunOffset = this.getMuzzle_Offset(this.animationType)
         let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
@@ -272,46 +330,6 @@ class Gun {
             case(GUN_AR):
                 return 260
         }
-    }
-
-    shoot2(posX, posY, angle) { //shooy the bullet
-        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
-    }
-
-    getSpreadAngle(angle) {
-        return angle + this.currentRecoil * (Math.random() * 2 - 1)
-    }
-
-    reload() {
-        //cant reload if still switching
-        if (this.isSwitching) {
-            return false
-        }
-        //full or no ammo, then return
-        if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
-            return false
-        }
-
-        //otherwise, reset stats
-        this.currentReloadTime = this.reloadTime
-        this.currentRecoil = 0
-        this.currentFireCooldown = 0
-
-        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
-        this.currentMagazineAmmo += withdraw
-        this.currentTotalAmmo -= withdraw
-        // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
-        return true
-    }
-
-    /**
-     * Resets stats on weapon switch
-     */
-    equip() {
-        this.isSwitching = true
-        this.currentReloadTime = this.reloadTime * 0.5
-        this.currentRecoil = 0
-        this.currentFireCooldown = 0
     }
 }
 
@@ -352,7 +370,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed - randomInt(200)))
     }
 
     getSpreadAngle(angle) {
@@ -450,7 +468,7 @@ class Gun_T_Pierce extends Gun {
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, 3))
+        GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, 3))
     }
 }
 
@@ -550,7 +568,7 @@ class Gun_T_Burst extends Gun {
             if (this.currentReloadTime > 0) {
                 return false;
             }
-            this.currentFireCooldown = this.maxFireCooldown //set cooldown
+            this.currentFireCooldown = this.getFireCooldown() //set cooldown
 
             //Check Ammo
             if (this.currentMagazineAmmo === 0) return false //no ammo
@@ -593,7 +611,7 @@ class Gun_T_Explode extends Gun {
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, this.splashRadius))
+        GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, this.splashRadius))
     }
 }
 

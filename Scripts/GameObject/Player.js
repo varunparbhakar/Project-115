@@ -41,7 +41,6 @@ class Player extends GameObject {
             PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
             1, 1,
             PLAYER_IMAGE_SCALE);
-
         //Animations
         //setupAnimation
         var ld = new LoadAnimations();
@@ -57,7 +56,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_M1911(), 0];
+        this.gunInventory = [new Gun_M1911(), 0]; //[new Gun_M1911(), 0]
         this.currentGunIndex = 0;
 
         //HP
@@ -77,14 +76,14 @@ class Player extends GameObject {
         this.grenades = 2
 
         //Perks
-        this.perk_hasJug = true
+        this.perk_hasJug = false
         this.perk_hasSpeedCola = false
         this.perk_hasDoubleTap = false
         this.perk_hasQuickRev = false
-        this.perk_hasStaminUp = true
+        this.perk_hasStaminUp = false
 
-        this.left_clickCooldown = 0
-        this.reloadAnimationCooldownITR = 0
+        // this.left_clickCooldown = 0
+        // this.reloadAnimationCooldownITR = 0
 
         this.player_Collision_World_BB = new BoundingBox(
             posX,
@@ -154,7 +153,7 @@ class Player extends GameObject {
         }
         if (GAME_ENGINE.key_reload) {
             if (this.gunInventory[this.currentGunIndex].reload()) {
-                this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].reloadTime)
+                this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].getReloadCooldown())
             }
         }
         if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee) {
@@ -272,6 +271,7 @@ class Player extends GameObject {
         this.player_Collision_World_BB.drawBoundingBox()
         this.playerCollision_Zombies_C.drawBoundingCircle("Red")
         this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
+        console.log(this.hp)
     }
 
     saveLastBB() {
@@ -339,9 +339,24 @@ class Player extends GameObject {
         this.hp -= damage
         GAME_ENGINE.camera.map.hud.fullscreenRedHurt.flash()
         //death?
-        if (this.hp <= 0) {
+        if (this.hp <= 0 && !this.perk_hasQuickRev) { //real death
             this.alive = false
-            this.removeFromWorld = true
+            this.removeFromWorld = true //TODO make death screen
+        } else if (this.hp <= 0 && this.perk_hasQuickRev) { //Quick Revive, cause an explosion and get back
+            //clear perks
+            this.perk_hasQuickRev = false
+            this.perk_hasJug = false
+            this.perk_hasSpeedCola = false
+            this.perk_hasStaminUp = false
+            this.perk_hasDoubleTap = false
+            //explode
+            let explosive = new ExplosiveQuickRevive(this.posX, this.posY,this.angle, 10000000, 0, 5000)
+            GAME_ENGINE.addEntity(explosive)
+            explosive.explode()
+            GAME_ENGINE.camera.startShake(5, 25)
+            explosive.removeFromWorld = true
+            //reset health
+            this.heal_currentCooldown = 0
         }
 
         //screenshake
@@ -351,7 +366,6 @@ class Player extends GameObject {
     }
 
     healHandler() {
-        console.log("My current HP", this.hp)
         if (this.heal_currentCooldown > 0) { //cant heal, return
             this.heal_currentCooldown -= GAME_ENGINE.clockTick;
             return
