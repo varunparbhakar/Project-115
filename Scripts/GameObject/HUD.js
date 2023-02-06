@@ -5,6 +5,7 @@ class HUD {
         this.bottomRightGrenades = new HUDGrenade(this.bottomLeftGuns)
         this.bottomRightRound = new HUDRound()
         this.middleInteract = new HUDInteract()
+        this.fullscreenRedHurt = new HUDHurt()
     }
 
     update() {
@@ -13,6 +14,7 @@ class HUD {
         this.bottomRightRound.update()
         // this.middleInteract.update()
         // this.bottomRightGrenades.update()
+        this.fullscreenRedHurt.update()
     }
 
     draw() {
@@ -22,6 +24,7 @@ class HUD {
         this.bottomRightRound.draw()
         this.middleInteract.draw()
         this.bottomRightGrenades.draw()
+        this.fullscreenRedHurt.draw()
     }
 }
 
@@ -209,9 +212,39 @@ class HUDGrenade {
             )
         }
     }
+}
 
-    displayText(text) {
-        this.text = text
-        this.isDisplaying = true
+HUDHURT_RED_FLASH_DECAY = 0.5
+class HUDHurt {
+    constructor() {
+        this.flashDecay = 0
+    }
+
+    update() {
+        if (this.flashDecay > 0) {
+            this.flashDecay -= GAME_ENGINE.clockTick
+        }
+    }
+
+    flash() {
+        this.flashDecay = HUDHURT_RED_FLASH_DECAY
+    }
+
+    draw() {
+        if (this.flashDecay > 0) {
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = "red"
+            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / HUDHURT_RED_FLASH_DECAY) * 0.25;
+            GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.restore()
+        }
+
+        if (GAME_ENGINE.ent_Player.hp <= PLAYER_HP_MAX / 2) {
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = "red"
+            GAME_ENGINE.ctx.globalAlpha = 0.1
+            GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.restore()
+        }
     }
 }

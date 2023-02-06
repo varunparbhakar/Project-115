@@ -144,7 +144,6 @@ class Zombie extends GameObject {
             let entity = GAME_ENGINE.ent_Player
             //Swing
             let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
-
             if (intersectionDepth < 0) {
                 this.changeAnimation(1) //swing
                 this.attack_currentCooldown -= GAME_ENGINE.clockTick
@@ -153,7 +152,6 @@ class Zombie extends GameObject {
                 if (this.animator.isDone()) {
                     this.changeAnimation(0) //normal
                 }
-
             }
             //Attack Hurt
             if (intersectionDepth < -ZOMBIE_ATTACK_THRESHOLD && this.canAttackPlayer) { //if px inside player, hit //TODO raycast check
