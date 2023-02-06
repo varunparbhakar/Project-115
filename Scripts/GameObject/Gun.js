@@ -370,7 +370,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed))
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed - randomInt(200)))
     }
 
     getSpreadAngle(angle) {

@@ -56,7 +56,7 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_M1911(), new Gun_M14(), new Gun_HS10()];
+        this.gunInventory = [new Gun_M1911(), 0]; //[new Gun_M1911(), 0]
         this.currentGunIndex = 0;
 
         //HP
@@ -76,11 +76,11 @@ class Player extends GameObject {
         this.grenades = 2
 
         //Perks
-        this.perk_hasJug = true
-        this.perk_hasSpeedCola = true
+        this.perk_hasJug = false
+        this.perk_hasSpeedCola = false
         this.perk_hasDoubleTap = false
         this.perk_hasQuickRev = false
-        this.perk_hasStaminUp = true
+        this.perk_hasStaminUp = false
 
         // this.left_clickCooldown = 0
         // this.reloadAnimationCooldownITR = 0
@@ -350,7 +350,6 @@ class Player extends GameObject {
     }
 
     healHandler() {
-        console.log("My current HP", this.hp)
         if (this.heal_currentCooldown > 0) { //cant heal, return
             this.heal_currentCooldown -= GAME_ENGINE.clockTick;
             return
