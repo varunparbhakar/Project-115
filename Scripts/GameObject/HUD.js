@@ -2,6 +2,7 @@ class HUD {
     constructor() {
         this.bottomLeftGuns = new HUDGun()
         this.bottomRightPoints = new HUDPoints()
+        this.bottomRightGrenades = new HUDGrenade(this.bottomLeftGuns)
         this.bottomRightRound = new HUDRound()
         this.middleInteract = new HUDInteract()
     }
@@ -11,6 +12,7 @@ class HUD {
         this.bottomLeftGuns.update()
         this.bottomRightRound.update()
         // this.middleInteract.update()
+        // this.bottomRightGrenades.update()
     }
 
     draw() {
@@ -19,6 +21,7 @@ class HUD {
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
         this.middleInteract.draw()
+        this.bottomRightGrenades.draw()
     }
 }
 
@@ -179,6 +182,32 @@ class HUDInteract {
         GAME_ENGINE.ctx.fillText(this.text, GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height - 100)
         GAME_ENGINE.ctx.restore()
         this.isDisplaying = false
+    }
+
+    displayText(text) {
+        this.text = text
+        this.isDisplaying = true
+    }
+}
+
+ANIMATORGRENADE_SCALE = 1
+class HUDGrenade {
+    constructor(bottomLeftGuns) {
+        this.bottomLeftGuns = bottomLeftGuns
+        this.animator = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 32, 17, 10, 12, 1, 1,  ANIMATORGRENADE_SCALE=5)
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        for (let i = 0; i < GAME_ENGINE.ent_Player.grenades; i++) {
+            this.animator.drawFrame(
+                GAME_ENGINE.ctx.canvas.width - (this.animator.width*this.animator.scale) - (i*this.animator.width/2*this.animator.scale) + GAME_ENGINE.camera.posX,
+                GAME_ENGINE.ctx.canvas.height - (this.bottomLeftGuns.height*ANIMATORGUN_SCALE) - (13*this.animator.scale) + GAME_ENGINE.camera.posY
+            )
+        }
     }
 
     displayText(text) {
