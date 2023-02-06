@@ -4,15 +4,18 @@ const PLAYER_IMAGE_HEIGHT = 400 * PLAYER_IMAGE_SCALE;
 const PLAYER_RADIUS = (Math.min(PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT) / 2);
 const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
 
-const PLAYER_WALKING_SPEED = 400;
-const PLAYER_RUNNING_SPEED = 700;
 // const PLAYER_ACCEL = 10000;
 // const PLAYER_FRICTION = 5000;
+const PLAYER_WALKING_SPEED = 400;
+const PLAYER_RUNNING_SPEED = 700;
 const PLAYER_STAMINA_MAX = 150;
 const PLAYER_STAMINA_RESTED_THRES = 100;
 const PLAYER_STAMINA_USAGE_PER_SEC = 25;
 const PLAYER_STAMINA_HEAL_PER_SEC = 30;
+//Stamina Up Stats
+const PLAYER_STAMINA_UP_STAMINA_MAX = 250;
 
+//Bounding Entities
 const PLAYER_BB_DIMENSION = 100;
 const PLAYER_BC_RADIUS = 75;
 const PLAYER_VULNERABLE_RADIUS_SCALE = 1.5;
@@ -21,6 +24,9 @@ const PLAYER_HP_MAX = 100;
 const PLAYER_HEAL_POINTS = 100; //will heal this amount in 1 sec
 const PLAYER_HEAL_COOLDOWN = 5;
 
+const PLAYER_HP_JUGG_MAX = 250
+
+//Knife
 const PLAYER_KNIFE_COOLDOWN = 0.9;
 const PLAYER_KNIFE_DISTANCE = 125;
 const PLAYER_KNIFE_RADIUS = 75;
@@ -70,12 +76,12 @@ class Player extends GameObject {
         //Grenade
         this.grenades = 2
 
-        //Perk
-        this.perk_hasJug = false
+        //Perks
+        this.perk_hasJug = true
         this.perk_hasSpeedCola = false
         this.perk_hasDoubleTap = false
         this.perk_hasQuickRev = false
-        this.perk_hasStaminUp = false
+        this.perk_hasStaminUp = true
 
         this.left_clickCooldown = 0
         this.reloadAnimationCooldownITR = 0
@@ -90,6 +96,7 @@ class Player extends GameObject {
     };
 
     update() {
+
         // console.log(this.hp)
         //Mouse
         this.angle = this.mouseRotationHandler() ;
@@ -99,15 +106,18 @@ class Player extends GameObject {
 
         //Sprint
         if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== ANIMATION_Reloading) {
-            this.speed = PLAYER_RUNNING_SPEED;
 
+            this.speed = (this.perk_hasStaminUp ? PLAYER_RUNNING_SPEED : (PLAYER_RUNNING_SPEED * this.gunInventory[this.currentGunIndex].movementPenalty))
             this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
             this.sprintRest = (this.sprintStamina <= 0);
         } else {
-            this.speed = PLAYER_WALKING_SPEED;
+            this.speed = PLAYER_WALKING_SPEED
 
-            if (this.sprintStamina < PLAYER_STAMINA_MAX)
+            if (this.sprintStamina < (this.perk_hasStaminUp ? PLAYER_STAMINA_UP_STAMINA_MAX: PLAYER_STAMINA_MAX)) {
                 this.sprintStamina += PLAYER_STAMINA_HEAL_PER_SEC * GAME_ENGINE.clockTick;
+            } else {
+                this.sprintStamina = (this.perk_hasStaminUp ? PLAYER_STAMINA_UP_STAMINA_MAX: PLAYER_STAMINA_MAX)
+            }
             this.sprintRest = (this.sprintStamina < PLAYER_STAMINA_RESTED_THRES);
         }
 
@@ -340,11 +350,15 @@ class Player extends GameObject {
     }
 
     healHandler() {
-        if (this.heal_currentCooldown <= 0) { //can heal
-            if (this.hp < PLAYER_HP_MAX) //less than max hp
-                this.hp += PLAYER_HEAL_POINTS * GAME_ENGINE.clockTick; //heal
-        } else { //heal on cooldown
+        console.log("My current HP", this.hp)
+        if (this.heal_currentCooldown > 0) { //cant heal, return
             this.heal_currentCooldown -= GAME_ENGINE.clockTick;
+            return
+        }
+        if (this.hp < (this.perk_hasJug ? PLAYER_HP_JUGG_MAX : PLAYER_HP_MAX)) {//less than max hp
+            this.hp += PLAYER_HEAL_POINTS * GAME_ENGINE.clockTick; //heal
+        } else {
+            this.hp = (this.perk_hasJug ? PLAYER_HP_JUGG_MAX : PLAYER_HP_MAX) //Clamping the Health to max
         }
     }
 
