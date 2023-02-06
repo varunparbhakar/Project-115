@@ -109,7 +109,8 @@ class Player extends GameObject {
         // console.log(this.sprintStamina + "\n" + this.sprintRest)
 
         //Sprint
-        if (GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest && this.state !== ANIMATION_Reloading) {
+        if ((GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) &&
+            GAME_ENGINE.key_run && this.sprintStamina > 0 && !this.sprintRest) {
             this.speed = (this.perk_hasStaminUp ? PLAYER_RUNNING_SPEED : (PLAYER_RUNNING_SPEED * this.gunInventory[this.currentGunIndex].movementPenalty)) //speed
             //stamina usage
             this.sprintStamina -= PLAYER_STAMINA_USAGE_PER_SEC * GAME_ENGINE.clockTick;
@@ -151,16 +152,19 @@ class Player extends GameObject {
         this.posX += movementVector[0] * this.speed * GAME_ENGINE.clockTick;
         this.posY += movementVector[1] * this.speed * GAME_ENGINE.clockTick;
 
+        //Shoot
         if (GAME_ENGINE.left_click) {
             if (this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)) {
                 this.changeAnimation(ANIMATION_Shooting, this.gunInventory[this.currentGunIndex].maxFireCooldown)
             }
         }
+        //Reload
         if (GAME_ENGINE.key_reload) {
             if (this.gunInventory[this.currentGunIndex].reload()) {
                 this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].getReloadCooldown())
             }
         }
+        //Knifing
         if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee && this.state != ANIMATION_Shooting) {
             if (this.state !== ANIMATION_Melee) {
                 this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.45
@@ -168,7 +172,6 @@ class Player extends GameObject {
                 this.isKnifing = true
             }
         }
-        //Knifing
         if (this.isKnifing && this.knifeCooldownUntilAttack <= 0) {
             this.knife()
             this.isKnifing = false
@@ -177,7 +180,7 @@ class Player extends GameObject {
         }
         //key_use is embedded in places that needs it to avoid always checking on update
         //Grenades
-        if (GAME_ENGINE.key_grenade && this.grenades > 0 && this.state != ANIMATION_Melee && this.state !== ANIMATION_Reloading) { //TODO cooldown via GRENADE animations
+        if (GAME_ENGINE.key_grenade && this.grenades > 0 && (this.state === ANIMATION_Walking || this.state === ANIMATION_Idle)) { //TODO cooldown via GRENADE animations
             this.changeAnimation(ANIMATION_Melee)
             this.grenades--
             GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
