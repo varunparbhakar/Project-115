@@ -41,7 +41,6 @@ class Player extends GameObject {
             PLAYER_IMAGE_WIDTH, PLAYER_IMAGE_HEIGHT,
             1, 1,
             PLAYER_IMAGE_SCALE);
-
         //Animations
         //setupAnimation
         var ld = new LoadAnimations();

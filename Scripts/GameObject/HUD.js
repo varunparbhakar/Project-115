@@ -19,12 +19,12 @@ class HUD {
 
     draw() {
         if (GAME_ENGINE.ent_Player == null) return
+        this.fullscreenRedHurt.draw()
         this.bottomLeftGuns.draw()
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
         this.middleInteract.draw()
         this.bottomRightGrenades.draw()
-        this.fullscreenRedHurt.draw()
     }
 }
 
@@ -218,6 +218,7 @@ HUDHURT_RED_FLASH_DECAY = 0.2
 class HUDHurt {
     constructor() {
         this.flashDecay = 0
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Bloody_Screen.png")
     }
 
     update() {
@@ -234,7 +235,7 @@ class HUDHurt {
         if (this.flashDecay > 0) {
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = "red"
-            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / HUDHURT_RED_FLASH_DECAY) * 0.5;
+            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / HUDHURT_RED_FLASH_DECAY) * 0.4;
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
             GAME_ENGINE.ctx.restore()
         }
@@ -242,8 +243,13 @@ class HUDHurt {
         if (GAME_ENGINE.ent_Player.hp <= PLAYER_HP_MAX / 2) {
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = "red"
-            GAME_ENGINE.ctx.globalAlpha = 0.2
+            GAME_ENGINE.ctx.globalAlpha = 0.15
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.globalAlpha = 0.4
+            GAME_ENGINE.ctx.drawImage(
+                this.asset,
+                0,0
+            )
             GAME_ENGINE.ctx.restore()
         }
     }

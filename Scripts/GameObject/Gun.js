@@ -242,9 +242,8 @@ class Gun {
     shoot1(posX, posY, angle) { //handles recoil
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
         this.shoot2(posX, posY, angle)
-        this.currentRecoil += this.recoilIncreasePerClick;
+        this.currentRecoil += this.getRecoilPerClick();
         this.spawnMuzzleFlash(posX, posY, angle)
-
     }
 
     shoot2(posX, posY, angle) { //shooy the bullet
@@ -277,16 +276,22 @@ class Gun {
         return true
     }
 
+    //Speed Cola
     getReloadCooldown() {
-        return (GAME_ENGINE.ent_Player.perk_hasSpeedCola ? this.reloadTime / 2 : this.reloadTime)
+        return (GAME_ENGINE.ent_Player.perk_hasSpeedCola ? (this.reloadTime * 0.5) : this.reloadTime)
     }
 
+    //Double Tap
     getFireCooldown() {
-        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.currentFireCooldown * 0.3 : this.currentFireCooldown)
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.maxFireCooldown * 0.7 : this.maxFireCooldown)
     }
-
-    getRecoil() {
-        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.recoilIncreasePerClick * 0.3 : this.recoilIncreasePerClick)
+    //Double Tap
+    getRecoilPerClick() {
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.recoilIncreasePerClick * 0.7 : this.recoilIncreasePerClick)
+    }
+    //Double Tap
+    getDamage() {
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.damage * 2 : this.damage)
     }
 
     /**
@@ -365,7 +370,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed))
     }
 
     getSpreadAngle(angle) {
@@ -463,7 +468,7 @@ class Gun_T_Pierce extends Gun {
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, 3))
+        GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, 3))
     }
 }
 
@@ -606,7 +611,7 @@ class Gun_T_Explode extends Gun {
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed, this.splashRadius))
+        GAME_ENGINE.addEntity(new Explosive(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, this.splashRadius))
     }
 }
 
