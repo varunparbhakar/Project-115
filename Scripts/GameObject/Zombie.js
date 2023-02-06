@@ -382,7 +382,7 @@ class RaycastZombies {
 
         //check sightline
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB || entity instanceof MapInteract) {
                 if (this.bb.collide(entity.bb)) {
                     // console.log("No sightline, switching to pathing.")
                     this.pairedZombie.canAttackPlayer = false

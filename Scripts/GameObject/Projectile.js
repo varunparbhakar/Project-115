@@ -136,7 +136,7 @@ class Bullet extends Projectile {
             }
         })
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB || entity instanceof MapInteract) {
                 if(this.bb.collide(entity.bb) && !entity.projectilePasses) {
                     this.removeFromWorld = true
                 }
@@ -177,7 +177,7 @@ class BulletPierce extends Projectile {
             }
         })
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB || entity instanceof MapInteract) {
                 if(this.bb.collide(entity.bb) && !entity.projectilePasses) {
                     this.removeFromWorld = true
                 }
@@ -209,7 +209,7 @@ class Explosive extends Projectile {
             }
         })
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB || entity instanceof MapInteract) {
                 if (this.bb.collide(entity.bb) && !entity.projectilePasses) {
                     this.explode()
                     this.removeFromWorld = true
@@ -283,7 +283,7 @@ class Grenade extends Projectile {
             }
         })
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB || entity instanceof MapInteract) {
                 this.checkBBCollisions(this.bb, this.lastbb, entity.bb)
             }
         })
@@ -351,6 +351,18 @@ class RaycastExplosive {
         this.bb.x = this.posX - (this.size/2)
         this.bb.y = this.posY - (this.size/2)
         this.bb.updateSides()
+
+        //check collision (failed)
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+            if (entity instanceof MapBB || entity instanceof MapInteract) {
+                if (entity instanceof MapBB || entity instanceof MapInteract) {
+                    if (this.bb.collide(entity.bb)) {
+                        this.removeFromWorld = true
+                        return
+                    }
+                }
+            }
+        })
 
         //check if arrived
         if (Math.abs(this.posX - this.pairedEntity.posX) < this.size * 2 && Math.abs(this.posY - this.pairedEntity.posY) < this.size * 2) {
