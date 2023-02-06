@@ -7,7 +7,7 @@ const ZOMBIE_ANGLE_OFFSET = -1.6;
 const ZOMBIE_SPEEDS = [PLAYER_WALKING_SPEED*0.25, PLAYER_WALKING_SPEED*0.95, PLAYER_RUNNING_SPEED*0.60, PLAYER_RUNNING_SPEED*0.775];
 
 const ZOMBIE_ATTACK_DAMAGE = 50
-const ZOMBIE_ATTACK_COOLDOWN = 0.5
+const ZOMBIE_ATTACK_COOLDOWN = 0.6
 const ZOMBIE_ATTACK_THRESHOLD = 5 //the depth of Zombies Attack BC colliding with Player's Hurt BC
 
 const ZOMBIE_BB_DIMENSION = 25
@@ -29,7 +29,7 @@ const ZOMBIE_POINTS_LETHAL = 60
 const ZOMBIE_POINTS_LETHAL_KNIFE = 100
 
 const ZOMBIE_POWERUP_CHANCE = 0.02
-const ZOMBIE_CRAWLER_CHANCE = 1
+const ZOMBIE_CRAWLER_CHANCE = 0.6
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
@@ -44,7 +44,7 @@ class Zombie extends GameObject {
         //TODO better constructor
         this.state = 0
         this.animation_Walking = new AnimatorRotate(this.asset, 0,0, ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT,17,0.14, ZOMBIE_IMAGE_SCALE, 0.68)
-        this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.095,1,0.68)
+        this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.1,1,0.68)
         this.animator = this.animation_Walking
 
 
@@ -336,7 +336,7 @@ class Zombie extends GameObject {
             this.trySpawnPowerUp()
             GAME_ENGINE.camera.map.roundManager.reportKill()
             this.removeFromWorld = true
-        } else {
+        } else { //else non lethal hit
             switch (type) {
                 case ZOMBIE_DMG_GRENADE:
                     GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_NONLETHAL)

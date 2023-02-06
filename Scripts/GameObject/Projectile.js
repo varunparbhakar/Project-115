@@ -324,7 +324,7 @@ class Grenade extends Projectile {
         let bc = new BoundingCircle(this.posX, this.posY, GRANADE_RADIUS)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
-                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, GRANADE_DAMAGE))
+                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, GRANADE_DAMAGE, ZOMBIE_DMG_GRENADE))
                 // entity.takeDamageExplosive(GRANADE_DAMAGE, [this.posX, this.posY])
             }
         })
@@ -415,7 +415,8 @@ class RaycastExplosivePlayer extends RaycastExplosive {
 
 class RaycastExplosiveZombie extends RaycastExplosive {
     constructor(pairedEntity, startPosX, startPosY, damage, dmgType = ZOMBIE_DMG_GRENADE) {
-        super(pairedEntity, startPosX, startPosY, damage, dmgType)
+        super(pairedEntity, startPosX, startPosY, damage)
+        this.dmgType = dmgType
     }
 
     makeTakeDamage() {

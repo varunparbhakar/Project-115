@@ -124,6 +124,8 @@ class WorldMap {
         GAME_ENGINE.addEntity(perkStam)
         let perk2x = new PerkMachine(435, 490, 32, 32, "Double Tap", this)
         GAME_ENGINE.addEntity(perk2x)
+        let perkQuick = new PerkMachine(607, 614, 37, 38, "Quick Revive", this)
+        GAME_ENGINE.addEntity(perkQuick)
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
