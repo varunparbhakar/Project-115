@@ -18,7 +18,7 @@ const PLAYER_BC_RADIUS = 75;
 const PLAYER_VULNERABLE_RADIUS_SCALE = 1.5;
 
 const PLAYER_HP_MAX = 100;
-const PLAYER_HEAL_POINTS = 100;
+const PLAYER_HEAL_POINTS = 100; //will heal this amount in 1 sec
 const PLAYER_HEAL_COOLDOWN = 5;
 
 const PLAYER_KNIFE_COOLDOWN = 0.9;
@@ -312,7 +312,7 @@ class Player extends GameObject {
                         entity.use()
                     }
                 }
-            } else if (entity instanceof MysteryBox || entity instanceof PowerSwitch || entity instanceof PerkMachine || entity instanceof Door) {
+            } else if (entity instanceof MapInteract) {
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)
                 if (this.player_Collision_World_BB.collide(entity.bb_interact)) {
                     entity.hudText()
@@ -343,7 +343,6 @@ class Player extends GameObject {
         if (this.heal_currentCooldown <= 0) { //can heal
             if (this.hp < PLAYER_HP_MAX) //less than max hp
                 this.hp += PLAYER_HEAL_POINTS * GAME_ENGINE.clockTick; //heal
-            this.hp = PLAYER_HP_MAX
         } else { //heal on cooldown
             this.heal_currentCooldown -= GAME_ENGINE.clockTick;
         }

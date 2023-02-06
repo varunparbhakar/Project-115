@@ -372,8 +372,16 @@ class Barrier {
     }
 }
 
+/**
+ * For organizing Collisions
+ */
+class MapInteract {
+    constructor() {
+        //NOTHING
+    }
+}
 
-class Door {
+class Door extends MapInteract {
     /**
      * Door
      * @param posX
@@ -386,6 +394,7 @@ class Door {
      * @param map
      */
     constructor(posX, posY, width, height, cost, listOfSpawners, imagePath, map) {
+        super()
         //define bbs
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
@@ -443,7 +452,6 @@ class Door {
         GAME_ENGINE.camera.map.hud.middleInteract.displayText("F to unlock for " + this.cost)
     }
 }
-
 
 /**
  * Spawner that routes Zombie to Barrier
@@ -554,8 +562,9 @@ MYSTERYBOX_SPAM_PREVENT_TIME = 3
 MYSTERYBOX_COST = 950 //950
 MYSTERYBOX_IMG_PATH = "Assets/Images/Map/MysteryBox_Sprite.png"
 MYSTERYBOX_LOOT_TABLE = ["M1911","Olympia","M16","L96A1","Ray Gun","SPAS-12","CZ75","Python","AUG","Commando","Famas","FN-FAL","G11","Galil","M14","Gewehr 43","M1 Carbine","STG-44","AK-74u","MP5K","MP40","MPL","PM63","Spectre","Thompson","Type 100","HK21","RPK","FG42","Dragunov","Kar98k","HS-10","Stakeout","Double-Barrel","M1897 Trench Gun","China Lake","M72 LAW"] //"Ballistic Knife","Crossbow","Wunderwaffe DG-2","AK-47","PPSH", "Python TRASH"
-class MysteryBox {
+class MysteryBox extends MapInteract {
     constructor(locationsPos=[], startingPosIndex=0, map) {
+        super()
         /**
          * 0 = closed
          * 1 = spinning
@@ -701,8 +710,9 @@ POWERSWITCH_INTERACT_SIZE = 4
 POWERSWITCH_IMG_PATH = "Assets/Images/Map/PowerSwitch_Sprite.png"
 POWERSWITCH_IMG_WIDTH = 178
 POWERSWITCH_IMG_HEIGHT = 149
-class PowerSwitch {
+class PowerSwitch extends MapInteract {
     constructor(posX, posY, facing="E", map) {
+        super()
         let width = 20
         let height = 25
         this.bb = new BoundingBox(
@@ -761,8 +771,9 @@ class PowerSwitch {
 }
 
 PERKMACHINE_INTERACT_SIZE = 4
-class PerkMachine {
+class PerkMachine extends MapInteract {
     constructor(posX, posY, width, height, perk="Juggernog", map) {
+        super()
         Object.assign(this, {perk})
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
