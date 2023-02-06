@@ -636,6 +636,7 @@ class Gun_T_Explode extends Gun {
 
 //******************* Unique Guns ********************************
 
+//Pistols
 class Gun_M1911 extends Gun {
     constructor() {
         super(
@@ -654,7 +655,6 @@ class Gun_M1911 extends Gun {
         );
     }
 }
-
 class Gun_CZ75 extends Gun {
     constructor() {
         super(
@@ -673,7 +673,6 @@ class Gun_CZ75 extends Gun {
         );
     }
 }
-
 class Gun_Python extends Gun_T_Pierce {
     constructor() {
         super(
@@ -693,7 +692,152 @@ class Gun_Python extends Gun_T_Pierce {
         )
     }
 }
-
+//SMG
+class Gun_MP5k extends Gun {
+    constructor() {
+        super(
+            "MP5K",
+            100, //dmg
+            30, //mag size
+            180, //total ammo
+            0.0775, //fire cooldown
+            2.9, //reload time
+            1, //movement penalty
+            0.09, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
+class Gun_MP40 extends Gun {
+    constructor() {
+        super(
+            "MP40",
+            100, //dmg
+            32, //mag size
+            192, //total ammo
+            0.175, //fire cooldown
+            2.3, //reload time
+            1, //movement penalty
+            0.135, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_MPL extends Gun {
+    constructor() {
+        super(
+            "MPL",
+            100, //dmg
+            24, //mag size
+            120, //total ammo
+            0.06, //fire cooldown
+            2.25, //reload time
+            1, //movement penalty
+            0.065, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
+class Gun_PM63 extends Gun {
+    constructor() {
+        super(
+            "PM63",
+            100, //dmg
+            20, //mag size
+            100, //total ammo
+            0.055, //fire cooldown
+            2.05, //reload time
+            1, //movement penalty
+            0.0675, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
+class Gun_Spectre extends Gun {
+    constructor() {
+        super(
+            "Spectre",
+            90, //dmg
+            30, //mag size
+            120, //total ammo
+            0.06, //fire cooldown
+            2.05, //reload time
+            1, //movement penalty
+            0.0665, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
+class Gun_Thomspon extends Gun {
+    constructor() {
+        super(
+            "Thompson",
+            120, //dmg
+            20, //mag size
+            200, //total ammo
+            0.11, //fire cooldown
+            2.1, //reload time
+            1, //movement penalty
+            0.09, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_Type100 extends Gun {
+    constructor() {
+        super(
+            "Type 100",
+            100, //dmg
+            30, //mag size
+            160, //total ammo
+            0.11, //fire cooldown
+            2.25, //reload time
+            1, //movement penalty
+            0.085, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_AK47u extends Gun {
+    constructor() {
+        super(
+            "AK-74u",
+            120, //dmg
+            30, //mag size
+            180, //total ammo
+            0.09, //fire cooldown
+            2.1, //reload time
+            1, //movement penalty
+            0.0825, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
+//AR
 class Gun_AUG extends Gun {
     constructor() {
         super(
@@ -713,7 +857,6 @@ class Gun_AUG extends Gun {
 
     }
 }
-
 class Gun_Commando extends Gun {
     constructor() {
         super(
@@ -733,7 +876,6 @@ class Gun_Commando extends Gun {
 
     }
 }
-
 class Gun_Famas extends Gun {
     constructor() {
         super(
@@ -753,7 +895,6 @@ class Gun_Famas extends Gun {
 
     }
 }
-
 class Gun_FAL extends Gun {
     constructor() {
         super(
@@ -772,7 +913,6 @@ class Gun_FAL extends Gun {
         );
     }
 }
-
 class Gun_G11 extends Gun_T_Burst {
     constructor() {
         super(
@@ -794,7 +934,6 @@ class Gun_G11 extends Gun_T_Burst {
         )
     }
 }
-
 class Gun_Galil extends Gun {
     constructor() {
         super(
@@ -813,7 +952,6 @@ class Gun_Galil extends Gun {
         );
     }
 }
-
 class Gun_M14 extends Gun {
     constructor() {
         super(
@@ -832,7 +970,6 @@ class Gun_M14 extends Gun {
         );
     }
 }
-
 class Gun_Gewehr extends Gun {
     constructor() {
         super(
@@ -851,7 +988,6 @@ class Gun_Gewehr extends Gun {
         );
     }
 }
-
 class Gun_M1Carbine extends Gun {
     constructor() {
         super(
@@ -870,7 +1006,6 @@ class Gun_M1Carbine extends Gun {
         );
     }
 }
-
 class Gun_STG44 extends Gun {
     constructor() {
         super(
@@ -889,423 +1024,6 @@ class Gun_STG44 extends Gun {
         );
     }
 }
-
-class Gun_AK47u extends Gun {
-    constructor() {
-        super(
-            "AK-74u",
-            120, //dmg
-            30, //mag size
-            180, //total ammo
-            0.09, //fire cooldown
-            2.1, //reload time
-            1, //movement penalty
-            0.0825, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,2.5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_MP5k extends Gun {
-    constructor() {
-        super(
-            "MP5K",
-            100, //dmg
-            30, //mag size
-            180, //total ammo
-            0.0775, //fire cooldown
-            2.9, //reload time
-            1, //movement penalty
-            0.09, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,2.5,
-            GUN_Pistol //animation type
-        );
-    }
-}
-
-class Gun_MP40 extends Gun {
-    constructor() {
-        super(
-            "MP40",
-            100, //dmg
-            32, //mag size
-            192, //total ammo
-            0.175, //fire cooldown
-            2.3, //reload time
-            1, //movement penalty
-            0.135, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,2.5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_MPL extends Gun {
-    constructor() {
-        super(
-            "MPL",
-            100, //dmg
-            24, //mag size
-            120, //total ammo
-            0.06, //fire cooldown
-            2.25, //reload time
-            1, //movement penalty
-            0.065, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_Pistol //animation type
-        );
-    }
-}
-
-class Gun_PM63 extends Gun {
-    constructor() {
-        super(
-            "PM63",
-            100, //dmg
-            20, //mag size
-            100, //total ammo
-            0.055, //fire cooldown
-            2.05, //reload time
-            1, //movement penalty
-            0.0675, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_Pistol //animation type
-        );
-    }
-}
-
-class Gun_Spectre extends Gun {
-    constructor() {
-        super(
-            "Spectre",
-            90, //dmg
-            30, //mag size
-            120, //total ammo
-            0.06, //fire cooldown
-            2.05, //reload time
-            1, //movement penalty
-            0.0665, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_Pistol //animation type
-        );
-    }
-}
-
-class Gun_Thomspon extends Gun {
-    constructor() {
-        super(
-            "Thompson",
-            120, //dmg
-            20, //mag size
-            200, //total ammo
-            0.11, //fire cooldown
-            2.1, //reload time
-            1, //movement penalty
-            0.09, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_Type100 extends Gun {
-    constructor() {
-        super(
-            "Type 100",
-            100, //dmg
-            30, //mag size
-            160, //total ammo
-            0.11, //fire cooldown
-            2.25, //reload time
-            1, //movement penalty
-            0.085, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_HK21 extends Gun {
-    constructor() {
-        super(
-            "HK21",
-            150, //dmg
-            125, //mag size
-            500, //total ammo
-            0.18, //fire cooldown
-            3.75, //reload time
-            1, //movement penalty
-            0.145, //recoil increase per fire
-            0.6, //recoil decrease rateq
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_RPK extends Gun {
-    constructor() {
-        super(
-            "RPK",
-            130, //dmg
-            100, //mag size
-            400, //total ammo
-            0.1, //fire cooldown
-            4, //reload time
-            1, //movement penalty
-            0.085, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_FG42 extends Gun {
-    constructor() {
-        super(
-            "FG42",
-            100, //dmg
-            32, //mag size
-            192, //total ammo
-            0.06, //fire cooldown
-            2.4, //reload time
-            1, //movement penalty
-            0.065, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.1,0.5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_Dragunov extends Gun_T_Pierce {
-    constructor() {
-        super(
-            "Dragunov",
-            300, //dmg
-            10, //mag size
-            40, //total ammo
-            0.35, //fire cooldown
-            2.95, //reload time
-            1, //movement penalty
-            0.36, //recoil increase per fire
-            1, //recoil decrease rate
-            2000, //bullets speedTerminal
-            3, //pierce count
-            0.1,10, //shake
-            GUN_AR //Animation Type
-        )
-    }
-}
-
-class Gun_Kar98k extends Gun_T_Pierce {
-    constructor() {
-        super(
-            "Kar98k",
-            100, //dmg
-            5, //mag size
-            50, //total ammo
-            1, //fire cooldown
-            2.5, //reload time
-            1, //movement penalty
-            0.9, //recoil increase per fire
-            0.6, //recoil decrease rate
-            2000, //bullets speedTerminal
-            2, //Pierce count
-            0.1,5,
-            GUN_AR //animation type
-        );
-    }
-}
-
-
-class Gun_HS10 extends Gun_T_ShotgunReloadShell {
-    constructor() {
-        super(
-            "HS-10",
-            160, //dmg
-            8, //mag size
-            32, //total ammo
-            0.3, //fire cooldown
-            0.567, //reload time per shell
-            1, //movement penalty
-            0.15, //recoil increase per fire
-            0.3, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.2, //shotgunSpread
-            8, //shotgun bullets
-            0.1, 3.5, //shake length and
-            GUN_Shotgun //animation type
-        );
-    }
-}
-
-class Gun_Stakeout extends Gun_T_ShotgunReloadShell {
-    constructor() {
-        super(
-            "Stakeout",
-            160, //dmg
-            6, //mag size
-            54, //total ammo
-            0.8, //fire cooldown
-            0.567, //reload time per shell
-            1, //movement penalty
-            0.3, //recoil increase per fire
-            0.3, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.2, //shotgunSpread
-            8, //shotgun bullets
-            0.1, 3.5, //shake length and
-            GUN_Shotgun //animation type
-        );
-    }
-}
-
-class Gun_DoubleBarrel extends Gun_T_Shotgun {
-    constructor() {
-        super(
-            "Double-Barrel",
-            200, //dmg
-            2, //mag size
-            60, //total ammo
-            0.3, //fire cooldown
-            3, //reload time
-            1, //movement penalty
-            0.3, //recoil increase per fire
-            0.3, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.2, //shotgunSpread
-            8, //shotgun bullets
-            0.1, 3.5, //shake length and
-            GUN_Shotgun //animation type
-        );
-    }
-}
-
-class Gun_TrenchGun extends Gun_T_ShotgunReloadShell {
-    constructor() {
-        super(
-            "M1897 Trench Gun",
-            160, //dmg
-            6, //mag size
-            60, //total ammo
-            0.8, //fire cooldown
-            0.6, //reload time
-            1, //movement penalty
-            0.3, //recoil increase per fire
-            0.3, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.2, //shotgunSpread
-            8, //shotgun bullets
-            0.1, 3.5, //shake length and
-            GUN_AR //animation type
-        );
-    }
-}
-
-class Gun_ChinaLake extends Gun_T_Explode {
-    constructor() {
-        super(
-            "China Lake",
-            1100, //dmg
-            2, //mag size
-            20, //total ammo
-            1.6, //fire cooldown
-            3, //reload time
-            1, //movement penalty
-            1.6, //recoil increase per fire
-            1, //recoil decrease rate
-            2000, //bullets speedTerminal
-            700, //splash radius
-            0.1,5,
-            GUN_Shotgun
-        )
-    }
-}
-
-class Gun_Law extends Gun_T_Explode {
-    constructor() {
-        super(
-            "M72 LAW",
-            2500, //dmg
-            1, //mag size
-            20, //total ammo
-            0.1, //fire cooldown
-            3, //reload time
-            1, //movement penalty
-            1, //recoil increase per fire
-            1, //recoil decrease rate
-            2000, //bullets speedTerminal
-            700, //splash radius
-            0.1,5,
-            GUN_Shotgun
-        )
-    }
-}
-
-class Gun_Olympia extends Gun_T_Shotgun {
-    constructor() {
-        super(
-            "Olympia",
-            80, //dmg
-            2, //mag size
-            38, //total ammo
-            0.2, //fire cooldown
-            3.3, //reload time
-            1, //movement penalty
-            0.15, //recoil increase per fire
-            0.3, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.2, //shotgunSpread
-            8, //shotgun bullets
-            0.1, 3.5, //shake length and
-            GUN_Shotgun //animation type
-        );
-    }
-}
-
-class Gun_SPAS12 extends Gun_T_ShotgunReloadShell {
-    constructor() {
-        super(
-            "SPAS-12",
-            160, //dmg
-            8, //mag size
-            32, //total ammo
-            0.2, //fire cooldown
-            0.567, //reload time per shell
-            1, //movement penalty
-            0.15, //recoil increase per fire
-            0.3, //recoil decrease rate
-            2000, //bullets speedTerminal
-            0.2, //shotgunSpread
-            8, //shotgun bullets
-            0.1, 3.5, //shake length and
-            GUN_Shotgun //animation type
-        );
-    }
-}
-
 class Gun_M16 extends Gun_T_Burst {
     constructor() {
         super(
@@ -1327,7 +1045,100 @@ class Gun_M16 extends Gun_T_Burst {
         )
     }
 }
-
+//LMG
+class Gun_HK21 extends Gun {
+    constructor() {
+        super(
+            "HK21",
+            150, //dmg
+            125, //mag size
+            500, //total ammo
+            0.18, //fire cooldown
+            3.75, //reload time
+            1, //movement penalty
+            0.145, //recoil increase per fire
+            0.6, //recoil decrease rateq
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_RPK extends Gun {
+    constructor() {
+        super(
+            "RPK",
+            130, //dmg
+            100, //mag size
+            400, //total ammo
+            0.1, //fire cooldown
+            4, //reload time
+            1, //movement penalty
+            0.085, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_FG42 extends Gun {
+    constructor() {
+        super(
+            "FG42",
+            100, //dmg
+            32, //mag size
+            192, //total ammo
+            0.06, //fire cooldown
+            2.4, //reload time
+            1, //movement penalty
+            0.065, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
+//Sniper
+class Gun_Dragunov extends Gun_T_Pierce {
+    constructor() {
+        super(
+            "Dragunov",
+            300, //dmg
+            10, //mag size
+            40, //total ammo
+            0.35, //fire cooldown
+            2.95, //reload time
+            1, //movement penalty
+            0.36, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            3, //pierce count
+            0.1,10, //shake
+            GUN_AR //Animation Type
+        )
+    }
+}
+class Gun_Kar98k extends Gun_T_Pierce {
+    constructor() {
+        super(
+            "Kar98k",
+            100, //dmg
+            5, //mag size
+            50, //total ammo
+            1, //fire cooldown
+            2.5, //reload time
+            1, //movement penalty
+            0.9, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            2, //Pierce count
+            0.1,5,
+            GUN_AR //animation type
+        );
+    }
+}
 class Gun_L96A1 extends Gun_T_Pierce {
     constructor() {
         super(
@@ -1346,7 +1157,167 @@ class Gun_L96A1 extends Gun_T_Pierce {
         )
     }
 }
-
+//Shotgun
+class Gun_Olympia extends Gun_T_Shotgun {
+    constructor() {
+        super(
+            "Olympia",
+            80, //dmg
+            2, //mag size
+            38, //total ammo
+            0.2, //fire cooldown
+            3.3, //reload time
+            1, //movement penalty
+            0.15, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_SPAS12 extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "SPAS-12",
+            160, //dmg
+            8, //mag size
+            32, //total ammo
+            0.2, //fire cooldown
+            0.567, //reload time per shell
+            1, //movement penalty
+            0.15, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_HS10 extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "HS-10",
+            160, //dmg
+            8, //mag size
+            32, //total ammo
+            0.3, //fire cooldown
+            0.567, //reload time per shell
+            1, //movement penalty
+            0.15, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_Stakeout extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "Stakeout",
+            160, //dmg
+            6, //mag size
+            54, //total ammo
+            0.8, //fire cooldown
+            0.567, //reload time per shell
+            1, //movement penalty
+            0.3, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_DoubleBarrel extends Gun_T_Shotgun {
+    constructor() {
+        super(
+            "Double-Barrel",
+            200, //dmg
+            2, //mag size
+            60, //total ammo
+            0.3, //fire cooldown
+            3, //reload time
+            1, //movement penalty
+            0.3, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_TrenchGun extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "M1897 Trench Gun",
+            160, //dmg
+            6, //mag size
+            60, //total ammo
+            0.8, //fire cooldown
+            0.6, //reload time
+            1, //movement penalty
+            0.3, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_AR //animation type
+        );
+    }
+}
+//Launchers
+class Gun_ChinaLake extends Gun_T_Explode {
+    constructor() {
+        super(
+            "China Lake",
+            1100, //dmg
+            2, //mag size
+            20, //total ammo
+            1.6, //fire cooldown
+            3, //reload time
+            1, //movement penalty
+            1.6, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            700, //splash radius
+            0.1,5,
+            GUN_Shotgun
+        )
+    }
+}
+class Gun_Law extends Gun_T_Explode {
+    constructor() {
+        super(
+            "M72 LAW",
+            2500, //dmg
+            1, //mag size
+            20, //total ammo
+            0.1, //fire cooldown
+            3, //reload time
+            1, //movement penalty
+            1, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            700, //splash radius
+            0.1,5,
+            GUN_Shotgun
+        )
+    }
+}
+//Special
 class Gun_RayGun extends Gun_T_Explode {
     constructor() {
         super(
