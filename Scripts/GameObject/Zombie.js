@@ -28,6 +28,8 @@ const ZOMBIE_POINTS_NONLETHAL = 10
 const ZOMBIE_POINTS_LETHAL = 60
 const ZOMBIE_POINTS_LETHAL_KNIFE = 100
 
+const ZOMBIE_POWERUP_CHANCE = 1
+
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
 class Zombie extends GameObject {
@@ -311,7 +313,7 @@ class Zombie extends GameObject {
     takeDamage(damage, type=ZOMBIE_DMG_SHOT) {
         if (this.removeFromWorld) return //already dead, don't give points (for shotguns)
         // console.log(damage, "from", this.hp)
-        this.hp -= damage
+        this.hp -= (GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer > 0 ? this.hp : damage)
         if (this.hp <= 0) { //if died
             switch (type) {
                 case ZOMBIE_DMG_SHOT:
@@ -326,6 +328,7 @@ class Zombie extends GameObject {
                 default:
                     break
             }
+            this.trySpawnPowerUp()
             GAME_ENGINE.camera.map.roundManager.reportKill()
             this.removeFromWorld = true
         } else {
@@ -341,10 +344,32 @@ class Zombie extends GameObject {
         }
     }
 
-    // takeDamageExplosive(damage, destPos, type=ZOMBIE_DMG_GRENADE) {
-    //     GAME_ENGINE.addEntity(new RaycastExplodeZombies(this, damage, destPos, type))
-    // }
+    trySpawnPowerUp() {
+        if (this.movementState === 2) {return} //still pathing, dont spawn
 
+        //try chance
+        if (Math.random() > ZOMBIE_POWERUP_CHANCE) {return} //if > 0.1, it's a 10% chance of spawning
+
+        //try spawning one
+        switch (randomInt(5)) {
+            case 0:
+                GAME_ENGINE.addEntity(new PowerUp_Nuke(this.posX, this.posY))
+                break
+            case 1:
+                GAME_ENGINE.addEntity(new PowerUp_MaxAmmo(this.posX, this.posY))
+                break
+            case 2:
+                GAME_ENGINE.addEntity(new PowerUp_Carpenter(this.posX, this.posY))
+                break
+            case 3:
+                GAME_ENGINE.addEntity(new PowerUp_DoublePoints(this.posX, this.posY))
+                break
+            case 4:
+                GAME_ENGINE.addEntity(new PowerUp_InstaKill(this.posX, this.posY))
+                break
+        }
+
+    }
 }
 
 class RaycastZombies {

@@ -247,7 +247,7 @@ class ExplosiveQuickRevive extends Explosive {
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
-                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, this.damage))
+                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, this.damage, ZOMBIE_DMG_NOPOINTS))
                 // entity.takeDamageExplosive(this.damage, [this.posX, this.posY])
             }
         })
@@ -414,12 +414,12 @@ class RaycastExplosivePlayer extends RaycastExplosive {
 }
 
 class RaycastExplosiveZombie extends RaycastExplosive {
-    constructor(pairedEntity, startPosX, startPosY, damage) {
-        super(pairedEntity, startPosX, startPosY, damage)
+    constructor(pairedEntity, startPosX, startPosY, damage, dmgType = ZOMBIE_DMG_GRENADE) {
+        super(pairedEntity, startPosX, startPosY, damage, dmgType)
     }
 
     makeTakeDamage() {
-        this.pairedEntity.takeDamage(this.damage, ZOMBIE_DMG_GRENADE)
+        this.pairedEntity.takeDamage(this.damage, this.dmgType)
     }
 }
 

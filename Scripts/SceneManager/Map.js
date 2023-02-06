@@ -909,6 +909,126 @@ class PerkMachine extends MapInteract {
     }
 }
 
+
+class PowerUp {
+    constructor(posX, posY, xStart, yStart, width, height) {
+        Object.assign(this, {posX, posY})
+        // this.animatorGlow = new Animator(HUDPERKS_PATH, xStart, yStart, width, height, 1, 1, 1)
+        this.animator = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), xStart, yStart, width, height, 1, 1, 4)
+        this.aliveTimer = 30
+        this.bb_interact = new BoundingBox(posX - 25, posY - 25, 50, 50)
+        this.bb_interact.updateSides()
+    }
+
+    update() {
+        if (this.aliveTimer > 0) {
+            this.aliveTimer -= GAME_ENGINE.clockTick
+        } else {
+            this.removeFromWorld = true
+        }
+
+        this.checkCollision()
+    }
+
+    draw() {
+        let pos = this.bb_interact.getCenteredPos()
+        //green glow
+        //TODO
+        //perk
+        this.animator.drawFrame( pos[0] - this.animator.width*this.animator.scale/2 , pos[1] - this.animator.height*this.animator.scale/2)
+
+        this.bb_interact.drawBoundingBox("green")
+    }
+
+    //just do check here because it's only interact
+    checkCollision() {
+        if (GAME_ENGINE.ent_Player === null) return
+        if (this.bb_interact.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
+            this.givePowerUp()
+            this.removeFromWorld = true
+        }
+    }
+
+    givePowerUp() { //Abstract
+        //GAME_ENGINE.ent_Player.powerup_hasInstaKill = 30
+    }
+}
+
+class PowerUp_InstaKill extends PowerUp {
+    constructor(posX, posY) {
+        super(posX, posY, 0, 167, 18, 23)
+    }
+
+    givePowerUp() {
+        GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer = 30 //secs
+    }
+}
+
+class PowerUp_DoublePoints extends PowerUp {
+    constructor(posX, posY) {
+        super(posX, posY, 71, 171, 20, 14)
+    }
+
+    givePowerUp() {
+        GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer = 30 //secs
+    }
+}
+
+class PowerUp_MaxAmmo extends PowerUp {
+    constructor(posX, posY) {
+        super(posX, posY, 17, 168, 25, 18)
+    }
+
+    givePowerUp() {
+        GAME_ENGINE.ent_Player.gunInventory.forEach((gun) => {
+            if (gun === 0) return
+            gun.currentTotalAmmo = gun.totalAmmo
+        })
+    }
+}
+
+class PowerUp_Nuke extends PowerUp {
+    constructor(posX, posY) {
+        super(posX, posY, 42, 170, 28, 16)
+    }
+
+    givePowerUp() {
+        GAME_ENGINE.ent_Zombies.forEach((zombie) => {
+            zombie.takeDamage(zombie.hp, ZOMBIE_DMG_NOPOINTS)
+        })
+        GAME_ENGINE.ent_Player.earnPoints(400)
+    }
+}
+
+class PowerUp_Carpenter extends PowerUp {
+    constructor(posX, posY) {
+        super(posX, posY, 91, 165, 23, 25)
+    }
+
+    givePowerUp() {
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+            if (entity instanceof Barrier) {
+                entity.hp = BARRIER_MAX_HP
+            }
+        })
+    }
+}
+
+//TODO Sprite Z cash
+// class PowerUp_BonusPoints extends PowerUp {
+//     constructor(posX, posY) {
+//         super(posX, posY, 91, 165, 23, 25)
+//     }
+//
+//     givePowerUp() {
+//         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+//             if (entity instanceof Barrier) {
+//                 entity.hp = BARRIER_MAX_HP
+//             }
+//         })
+//     }
+// }
+
 //https://project-lazarus.fandom.com/wiki/Rounds they be using real formulas
 const ROUND_COUNT = [6,8,13,18,24,27,28,28,29,33,34,36,39,41,44,47,50,53,56,60,63]
 class RoundManager {

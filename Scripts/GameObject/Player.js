@@ -82,6 +82,11 @@ class Player extends GameObject {
         this.perk_hasQuickRev = false
         this.perk_hasStaminUp = false
 
+        //Powerup
+        this.powerup_hasInstaKillTimer = 0 //TODO decrement timer
+        this.powerup_hasDoublePointsTimer = 0
+        //TODO Fire Sale (Hard, must tell Mystery Box to duplicate to all locations)
+
         // this.left_clickCooldown = 0
         // this.reloadAnimationCooldownITR = 0
 
@@ -202,8 +207,12 @@ class Player extends GameObject {
 
         this.animationRuntime -= GAME_ENGINE.clockTick
 
-        //Heal
+        //Heal Cooldown Timer
         this.healHandler()
+        //Power Ups Timers
+        this.powerUpHandler()
+
+        //BB
         this.saveLastBB()
         this.updateCollision()
         this.checkCollisions()
@@ -377,6 +386,17 @@ class Player extends GameObject {
         }
     }
 
+    powerUpHandler() {
+        if (this.powerup_hasInstaKillTimer > 0) {
+            this.powerup_hasInstaKillTimer -= GAME_ENGINE.clockTick
+            console.log("INSTA KILL", this.powerup_hasInstaKillTimer)
+        }
+        if (this.powerup_hasDoublePointsTimer > 0) {
+            this.powerup_hasDoublePointsTimer -= GAME_ENGINE.clockTick
+            console.log("INSTA KILL", this.powerup_hasDoublePointsTimer)
+        }
+    }
+
     checkBBandPushOut(thisBB, thisBBLast, othBB) {
         if(thisBB.collide(othBB)) {
             if (thisBBLast.bottom <= othBB.top) { //was above last
@@ -413,7 +433,7 @@ class Player extends GameObject {
     }
 
     earnPoints(points) {
-        this.points += points
+        this.points += (this.powerup_hasDoublePointsTimer > 0 ? points * 2 : points)
         // console.log("+" + points, this.points)
         //TODO 2x Points
         //TODO points number hud
