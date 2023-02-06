@@ -613,21 +613,30 @@ class MysteryBox extends MapInteract {
                     this.spinCooldownTimer = 0.1
                     this.curr_GunTexture = GUN_TEXTURE_MAP.map.get((MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]))
                 }
+
                 //Done Spinning
-                if (this.stateCooldownTimer <= 0) {
+                var nameOfGunsInInventory = GAME_ENGINE.ent_Player.gunInventory.map(x => x.name);
+                if(this.stateCooldownTimer <= 0) {
                     this.stateCooldownTimer = MYSTERYBOX_OFFER_TIME
                     //If Teddy
                     if (this.curr_spinsUntilTeddy > 0) {
                         this.state = 2
-                        let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
-                        this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
-                        this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
+                        this.endCounter = 0
+
+
+                        do {
+                            let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
+                            this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
+                            this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
+
+                            console.log(JSON.stringify(nameOfGunsInInventory) + " " + this.curr_GunOffer.name)
+
+                        } while ((nameOfGunsInInventory.includes(this.curr_GunOffer.name) ))
                     } else {
                         this.state = 4
                         this.curr_GunTexture = [0,0,100,100] //TODO teddy image
                         this.curr_GunOffer = null
                     }
-
                 }
                 break
             case 2: //offering
