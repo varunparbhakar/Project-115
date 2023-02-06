@@ -23,7 +23,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/moving/p
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Shooting/Pistol/Player_Shooting.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/Pistol/Player_Reload.png")
 //Loading AR
-ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/AR/Rilfe_IDLE.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/AR/Rifle_IDLE.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/moving/AR/AR_Moving.png");
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Shooting/AR/AR_Shooting.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/reload/AR/AR_Reload.png")
