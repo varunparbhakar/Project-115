@@ -78,13 +78,13 @@ class Player extends GameObject {
 
         //Perks
         this.perk_hasJug = true
-        this.perk_hasSpeedCola = false
+        this.perk_hasSpeedCola = true
         this.perk_hasDoubleTap = false
         this.perk_hasQuickRev = false
         this.perk_hasStaminUp = true
 
-        this.left_clickCooldown = 0
-        this.reloadAnimationCooldownITR = 0
+        // this.left_clickCooldown = 0
+        // this.reloadAnimationCooldownITR = 0
 
         this.player_Collision_World_BB = new BoundingBox(
             posX,
@@ -154,7 +154,7 @@ class Player extends GameObject {
         }
         if (GAME_ENGINE.key_reload) {
             if (this.gunInventory[this.currentGunIndex].reload()) {
-                this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].reloadTime)
+                this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].getReloadCooldown())
             }
         }
         if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee) {

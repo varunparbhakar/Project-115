@@ -226,7 +226,7 @@ class Gun {
         if (this.currentReloadTime > 0) {
             return false;
         }
-        this.currentFireCooldown = this.maxFireCooldown //set cooldown
+        this.currentFireCooldown = this.getFireCooldown() //set cooldown
 
         //Check Ammo
         if (this.currentMagazineAmmo === 0) return false //no ammo
@@ -246,6 +246,59 @@ class Gun {
         this.spawnMuzzleFlash(posX, posY, angle)
 
     }
+
+    shoot2(posX, posY, angle) { //shooy the bullet
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+    }
+
+    getSpreadAngle(angle) {
+        return angle + this.currentRecoil * (Math.random() * 2 - 1)
+    }
+
+    reload() {
+        //cant reload if still switching
+        if (this.isSwitching) {
+            return false
+        }
+        //full or no ammo, then return
+        if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
+            return false
+        }
+
+        //otherwise, reset stats
+        this.currentReloadTime = this.getReloadCooldown()
+        this.currentRecoil = 0
+        this.currentFireCooldown = 0
+
+        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
+        this.currentMagazineAmmo += withdraw
+        this.currentTotalAmmo -= withdraw
+        // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
+        return true
+    }
+
+    getReloadCooldown() {
+        return (GAME_ENGINE.ent_Player.perk_hasSpeedCola ? this.reloadTime / 2 : this.reloadTime)
+    }
+
+    getFireCooldown() {
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.currentFireCooldown * 0.3 : this.currentFireCooldown)
+    }
+
+    getRecoil() {
+        return (GAME_ENGINE.ent_Player.perk_hasDoubleTap ? this.recoilIncreasePerClick * 0.3 : this.recoilIncreasePerClick)
+    }
+
+    /**
+     * Resets stats on weapon switch
+     */
+    equip() {
+        this.isSwitching = true
+        this.currentReloadTime = this.reloadTime * 0.5
+        this.currentRecoil = 0
+        this.currentFireCooldown = 0
+    }
+
     spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
         let gunOffset = this.getMuzzle_Offset(this.animationType)
         let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
@@ -272,46 +325,6 @@ class Gun {
             case(GUN_AR):
                 return 260
         }
-    }
-
-    shoot2(posX, posY, angle) { //shooy the bullet
-        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
-    }
-
-    getSpreadAngle(angle) {
-        return angle + this.currentRecoil * (Math.random() * 2 - 1)
-    }
-
-    reload() {
-        //cant reload if still switching
-        if (this.isSwitching) {
-            return false
-        }
-        //full or no ammo, then return
-        if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
-            return false
-        }
-
-        //otherwise, reset stats
-        this.currentReloadTime = this.reloadTime
-        this.currentRecoil = 0
-        this.currentFireCooldown = 0
-
-        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
-        this.currentMagazineAmmo += withdraw
-        this.currentTotalAmmo -= withdraw
-        // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
-        return true
-    }
-
-    /**
-     * Resets stats on weapon switch
-     */
-    equip() {
-        this.isSwitching = true
-        this.currentReloadTime = this.reloadTime * 0.5
-        this.currentRecoil = 0
-        this.currentFireCooldown = 0
     }
 }
 
@@ -550,7 +563,7 @@ class Gun_T_Burst extends Gun {
             if (this.currentReloadTime > 0) {
                 return false;
             }
-            this.currentFireCooldown = this.maxFireCooldown //set cooldown
+            this.currentFireCooldown = this.getFireCooldown() //set cooldown
 
             //Check Ammo
             if (this.currentMagazineAmmo === 0) return false //no ammo

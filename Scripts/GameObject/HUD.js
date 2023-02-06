@@ -214,7 +214,7 @@ class HUDGrenade {
     }
 }
 
-HUDHURT_RED_FLASH_DECAY = 0.5
+HUDHURT_RED_FLASH_DECAY = 0.2
 class HUDHurt {
     constructor() {
         this.flashDecay = 0
@@ -234,7 +234,7 @@ class HUDHurt {
         if (this.flashDecay > 0) {
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = "red"
-            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / HUDHURT_RED_FLASH_DECAY) * 0.25;
+            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / HUDHURT_RED_FLASH_DECAY) * 0.5;
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
             GAME_ENGINE.ctx.restore()
         }
@@ -242,7 +242,7 @@ class HUDHurt {
         if (GAME_ENGINE.ent_Player.hp <= PLAYER_HP_MAX / 2) {
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = "red"
-            GAME_ENGINE.ctx.globalAlpha = 0.1
+            GAME_ENGINE.ctx.globalAlpha = 0.2
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
             GAME_ENGINE.ctx.restore()
         }
