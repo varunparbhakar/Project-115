@@ -76,26 +76,59 @@ class GunPNGCoords {
             ["The Afterburner", [1, 127, 25, 17, true]],
 
             ["MPL", [177, 128, 24, 17, false]],
+            ["MPL-LF", [177, 128, 24, 17, true]],
+
             ["PM63", [152, 127, 23, 12, false]],
+            ["Tokyo but no Rose", [152, 127, 23, 12, true]],
+
             ["Spectre", [259, 128, 22, 14, false]],
+            ["Phantom", [259, 128, 22, 14, true]],
+
             ["Thompson", [110, 127, 39, 14, false]],
+            ["Gibs-O-Matic", [110, 127, 39, 14, true]],
+
             ["Type 100", [68, 127, 41, 13, false]],
+            ["1001 Samurais", [68, 127, 41, 13, true]],
+
             ["HK21", [237, 66, 57, 22, false]],
+            ["H115 Oscillator", [237, 66, 57, 22, true]],
+
             ["RPK", [180, 65, 54, 22, false]],
+            ["R115 Resonator", [180, 65, 54, 22, true]],
+
             ["FG42", [63, 70, 58, 13, false]],
+            ["420 Impeller", [63, 70, 58, 13, true]],
+
             ["Dragunov", [234, 48, 66, 17, false]],
+            ["D115 Disassembler", [234, 48, 66, 17, true]],
+
             ["Kar98k", [0, 50, 57, 14, false]],
+            ["Armageddon", [0, 50, 57, 14, true]],
+
             ["HS-10", [246, 30, 35, 18, false]],
+            ["Typhoid but no Mary", [246, 30, 35, 18, true]],
+
             ["Stakeout", [163, 34, 35, 13, false]],
+            ["Raid", [163, 34, 35, 13, true]],
+
             ["Double-Barrel", [53, 36, 55, 12, false]],
+            ["24 Bore Long Range", [53, 36, 55, 12, true]],
+
             ["M1897 Trench Gun", [0, 36, 53, 12, false]],
+            ["Gut Shot", [0, 36, 53, 12, true]],
+
             ["China Lake", [249, 145, 45, 17, false]],
+            ["China Beach", [249, 145, 45, 17, true]],
+
             ["M72 LAW", [205, 149, 43, 11, false]],
+            ["M72 Anarchy", [205, 149, 43, 11, true]],
+
             ["Ballistic Knife", [192, 2, 26, 12, false]], //TODO make
             ["Crossbow", [94, 149, 42, 13, false]], //TODO make
             ["Wunderwaffe DG-2", [41, 145, 52, 22, false]], //TODO make
             ["AK-47", [354, 108, 47, 18, false]], //TODO stats and make
-            ["PPSH", [26, 127, 41, 15, false]], //TODO stats and make
+            ["AK-47", [354, 108, 47, 18, false]], //TODO stats and make
+            ["PPSH", [26, 127, 41, 15, false]],
         ])
 
         // let stringq = "MYSTERY_LOOT_TABLE = ["
@@ -115,13 +148,15 @@ const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
     switch (name) { //TODO add adjacent case and if for PaP guns and complete
         case "M1911":
         case "Mustang but no Sally :(":
-            return !isPaP ? new Gun_M1911() : new Gun_M1911_PaP() //TODO PaP version
+            return !isPaP ? new Gun_M1911() : new Gun_M1911_PaP()
         case "M14":
-            return !isPaP ? new Gun_M14() : new Gun_M14() //TODO PaP version
+            return !isPaP ? new Gun_M14() : new Gun_M14_PaP() //TODO PaP version
         case "Olympia":
-            return !isPaP ? new Gun_Olympia() : new Gun_Olympia() //TODO PaP version
+        case "Hades":
+            return !isPaP ? new Gun_Olympia() : new Gun_Olympia_PaP() //TODO PaP version
         case "M16":
-            return !isPaP ? new Gun_M16() : new Gun_M16() //TODO PaP version
+        case "Skullcrusher":
+            return !isPaP ? new Gun_M16() : new Gun_M16_PaP() //TODO PaP version
         case "L96A1":
         case "L115 Isolator":
             return !isPaP ? new Gun_L96A1() : new Gun_L96A1_PaP() //TODO PaP version
@@ -129,146 +164,99 @@ const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
         case "Porter's X2 Ray Gun":
             return !isPaP ? new Gun_RayGun() : new Gun_RayGun_PaP() //TODO PaP version
         case "SPAS-12":
-            return !isPaP ? new Gun_SPAS12() : new Gun_SPAS12() //TODO PaP version
+        case "SPAZ-24":
+            return !isPaP ? new Gun_SPAS12() : new Gun_SPAS12_PaP() //TODO PaP version
         case "CZ75":
-            return !isPaP ? new Gun_CZ75() : new Gun_CZ75() //TODO PaP version
+        case "Calamity":
+            return !isPaP ? new Gun_CZ75() : new Gun_CZ75_PaP() //TODO PaP version
         case "Python":
-            return !isPaP ? new Gun_Python() : new Gun_Python() //TODO PaP version
+        case "Cobra":
+            return !isPaP ? new Gun_Python() : new Gun_Python_PaP() //TODO PaP version
         case "AUG":
-            return !isPaP ? new Gun_AUG() : new Gun_AUG() //TODO PaP version
+        case "AUG-50M3":
+            return !isPaP ? new Gun_AUG() : new Gun_AUG_PaP() //TODO PaP version
         case "Commando":
-            return !isPaP ? new Gun_Commando() : new Gun_Commando() //TODO PaP version
+        case "Predator":
+            return !isPaP ? new Gun_Commando() : new Gun_Commando_PaP() //TODO PaP version
         case "Famas":
-            return !isPaP ? new Gun_Famas() : new Gun_Famas() //TODO PaP version
-        case "FN-FAL":
-            return !isPaP ? new Gun_FAL() : new Gun_FAL() //TODO PaP version
+        case "G16-GL35":
+            return !isPaP ? new Gun_Famas() : new Gun_Famas_PaP() //TODO PaP version
+        case "FN FAL":
+        case "EPC WN":
+            return !isPaP ? new Gun_FAL() : new Gun_FAL_PaP() //TODO PaP version
         case "G11":
-            return !isPaP ? new Gun_G11() : new Gun_G11() //TODO PaP version
+        case "G115 Generator":
+            return !isPaP ? new Gun_G11() : new Gun_G11_PaP() //TODO PaP version
         case "Galil":
-            return !isPaP ? new Gun_Galil() : new Gun_Galil() //TODO PaP version
+        case "Lamentation":
+            return !isPaP ? new Gun_Galil() : new Gun_Galil_PaP() //TODO PaP version
         case "Gewehr 43":
-            return !isPaP ? new Gun_Gewehr() : new Gun_Gewehr() //TODO PaP version
+        case "G115 Compressor":
+            return !isPaP ? new Gun_Gewehr() : new Gun_Gewehr_PaP() //TODO PaP version
         case "M1 Carbine":
-            return !isPaP ? new Gun_M1Carbine() : new Gun_M1Carbine() //TODO PaP version
+        case "Widdershins RC-1":
+            return !isPaP ? new Gun_M1Carbine() : new Gun_M1Carbine_PaP() //TODO PaP version
         case "STG-44":
-            return !isPaP ? new Gun_STG44() : new Gun_STG44() //TODO PaP version
+        case "Spatz-447 +":
+            return !isPaP ? new Gun_STG44() : new Gun_STG44_PaP() //TODO PaP version
         case "AK-74u":
-            return !isPaP ? new Gun_AK47u() : new Gun_AK47u() //TODO PaP version
+        case "AK-74fu2":
+            return !isPaP ? new Gun_AK47u() : new Gun_AK47u_PaP() //TODO PaP version
         case "MP5K":
-            return !isPaP ? new Gun_MP5k() : new Gun_MP5k() //TODO PaP version
+        case "MP115 Kollider":
+            return !isPaP ? new Gun_MP5k() : new Gun_MP5k_PaP() //TODO PaP version
         case "MP40":
-            return !isPaP ? new Gun_MP40() : new Gun_MP40() //TODO PaP version
+        case "The Afterburner":
+            return !isPaP ? new Gun_MP40() : new Gun_MP40_PaP() //TODO PaP version
         case "MPL":
-            return !isPaP ? new Gun_MPL() : new Gun_MPL() //TODO PaP version
+        case "MPL-LF":
+            return !isPaP ? new Gun_MPL() : new Gun_MPL_PaP() //TODO PaP version
         case "PM63":
-            return !isPaP ? new Gun_PM63() : new Gun_PM63() //TODO PaP version
+        case "Tokyo but no Rose":
+            return !isPaP ? new Gun_PM63() : new Gun_PM63_PaP() //TODO PaP version
         case "Spectre":
-            return !isPaP ? new Gun_Spectre() : new Gun_Spectre() //TODO PaP version
+        case "Phantom":
+            return !isPaP ? new Gun_Spectre() : new Gun_Spectre_PaP() //TODO PaP version
         case "Thompson":
-            return !isPaP ? new Gun_Thomspon() : new Gun_Thomspon() //TODO PaP version
+        case "Gibs-O-Matic":
+            return !isPaP ? new Gun_Thomspon() : new Gun_Thomspon_PaP() //TODO PaP version
         case "Type 100":
-            return !isPaP ? new Gun_Type100() : new Gun_Type100() //TODO PaP version
+        case "1001 Samurais":
+            return !isPaP ? new Gun_Type100() : new Gun_Type100_PaP() //TODO PaP version
         case "HK21":
-            return !isPaP ? new Gun_HK21() : new Gun_HK21() //TODO PaP version
+        case "H115 Oscillator":
+            return !isPaP ? new Gun_HK21() : new Gun_HK21_PaP() //TODO PaP version
         case "RPK":
-            return !isPaP ? new Gun_RPK() : new Gun_RPK() //TODO PaP version
+        case "R115 Resonator":
+            return !isPaP ? new Gun_RPK() : new Gun_RPK_PaP() //TODO PaP version
         case "FG42":
-            return !isPaP ? new Gun_FG42() : new Gun_FG42() //TODO PaP version
+        case "420 Impeller":
+            return !isPaP ? new Gun_FG42() : new Gun_FG42_PaP() //TODO PaP version
         case "Dragunov":
-            return !isPaP ? new Gun_Dragunov() : new Gun_Dragunov() //TODO PaP version
+        case "D115 Disassembler":
+            return !isPaP ? new Gun_Dragunov() : new Gun_Dragunov_PaP() //TODO PaP version
         case "Kar98k":
-            return !isPaP ? new Gun_Kar98k() : new Gun_Kar98k() //TODO PaP version
+        case "Armageddon":
+            return !isPaP ? new Gun_Kar98k() : new Gun_Kar98k_PaP() //TODO PaP version
         case "HS-10":
-            return !isPaP ? new Gun_HS10() : new Gun_HS10() //TODO PaP version
+        case "Typhoid but no Mary":
+            return !isPaP ? new Gun_HS10() : new Gun_HS10_PaP() //TODO PaP version
         case "Stakeout":
-            return !isPaP ? new Gun_Stakeout() : new Gun_Stakeout() //TODO PaP version
+        case "Raid":
+            return !isPaP ? new Gun_Stakeout() : new Gun_Stakeout_PaP() //TODO PaP version
         case "Double-Barrel":
-            return !isPaP ? new Gun_DoubleBarrel() : new Gun_DoubleBarrel() //TODO PaP version
+        case "24 Bore Long Range":
+            return !isPaP ? new Gun_DoubleBarrel() : new Gun_DoubleBarrel_PaP() //TODO PaP version
         case "M1897 Trench Gun":
-            return !isPaP ? new Gun_TrenchGun() : new Gun_TrenchGun() //TODO PaP version
+        case "Gun Shot":
+            return !isPaP ? new Gun_TrenchGun() : new Gun_TrenchGun_PaP() //TODO PaP version
         case "China Lake":
-            return !isPaP ? new Gun_ChinaLake() : new Gun_ChinaLake() //TODO PaP version
+        case "China Beach":
+            return !isPaP ? new Gun_ChinaLake() : new Gun_ChinaLake_PaP() //TODO PaP version
         case "M72 LAW":
-            return !isPaP ? new Gun_Law() : new Gun_Law() //TODO PaP version
+        case "M72 Anarchy":
+            return !isPaP ? new Gun_Law() : new Gun_Law_PaP() //TODO PaP version
     }
-
-    // switch (name) { //TODO add adjacent case and if for PaP guns and complete
-    //     case "M1911":
-    //     case "Mustang but no Sally :(":
-    //         return !isPaP ? new Gun_M1911() : new Gun_M1911_PaP()
-    //     case "M14":
-    //         return !isPaP ? new Gun_M14() : new Gun_M14_PaP() //TODO PaP version
-    //     case "Olympia":
-    //         return !isPaP ? new Gun_Olympia() : new Gun_Olympia_PaP() //TODO PaP version
-    //     case "M16":
-    //         return !isPaP ? new Gun_M16() : new Gun_M16_PaP() //TODO PaP version
-    //     case "L96A1":
-    //         return !isPaP ? new Gun_L96A1() : new Gun_L96A1_PaP() //TODO PaP version
-    //     case "Ray Gun":
-    //         return !isPaP ? new Gun_RayGun() : new Gun_RayGun_PaP() //TODO PaP version
-    //     case "SPAS-12":
-    //         return !isPaP ? new Gun_SPAS12() : new Gun_SPAS12_PaP() //TODO PaP version
-    //     case "CZ75":
-    //         return !isPaP ? new Gun_CZ75() : new Gun_CZ75_PaP() //TODO PaP version
-    //     case "Python":
-    //         return !isPaP ? new Gun_Python() : new Gun_Python_PaP() //TODO PaP version
-    //     case "AUG":
-    //         return !isPaP ? new Gun_AUG() : new Gun_AUG_PaP() //TODO PaP version
-    //     case "Commando":
-    //         return !isPaP ? new Gun_Commando() : new Gun_Commando_PaP() //TODO PaP version
-    //     case "Famas":
-    //         return !isPaP ? new Gun_Famas() : new Gun_Famas_PaP() //TODO PaP version
-    //     case "FN-FAL":
-    //         return !isPaP ? new Gun_FAL() : new Gun_FAL_PaP() //TODO PaP version
-    //     case "G11":
-    //         return !isPaP ? new Gun_G11() : new Gun_G11_PaP() //TODO PaP version
-    //     case "Galil":
-    //         return !isPaP ? new Gun_Galil() : new Gun_Galil_PaP() //TODO PaP version
-    //     case "Gewehr 43":
-    //         return !isPaP ? new Gun_Gewehr() : new Gun_Gewehr_PaP() //TODO PaP version
-    //     case "M1 Carbine":
-    //         return !isPaP ? new Gun_M1Carbine() : new Gun_M1Carbine_PaP() //TODO PaP version
-    //     case "STG-44":
-    //         return !isPaP ? new Gun_STG44() : new Gun_STG44_PaP() //TODO PaP version
-    //     case "AK-74u":
-    //         return !isPaP ? new Gun_AK47u() : new Gun_AK47u_PaP() //TODO PaP version
-    //     case "MP5K":
-    //         return !isPaP ? new Gun_MP5k() : new Gun_MP5k_PaP() //TODO PaP version
-    //     case "MP40":
-    //         return !isPaP ? new Gun_MP40() : new Gun_MP40_PaP() //TODO PaP version
-    //     case "MPL":
-    //         return !isPaP ? new Gun_MPL() : new Gun_MPL_PaP() //TODO PaP version
-    //     case "PM63":
-    //         return !isPaP ? new Gun_PM63() : new Gun_PM63_PaP() //TODO PaP version
-    //     case "Spectre":
-    //         return !isPaP ? new Gun_Spectre() : new Gun_Spectre_PaP() //TODO PaP version
-    //     case "Thompson":
-    //         return !isPaP ? new Gun_Thomspon() : new Gun_Thomspon_PaP() //TODO PaP version
-    //     case "Type 100":
-    //         return !isPaP ? new Gun_Type100() : new Gun_Type100_PaP() //TODO PaP version
-    //     case "HK21":
-    //         return !isPaP ? new Gun_HK21() : new Gun_HK21_PaP() //TODO PaP version
-    //     case "RPK":
-    //         return !isPaP ? new Gun_RPK() : new Gun_RPK_PaP() //TODO PaP version
-    //     case "FG42":
-    //         return !isPaP ? new Gun_FG42() : new Gun_FG42_PaP() //TODO PaP version
-    //     case "Dragunov":
-    //         return !isPaP ? new Gun_Dragunov() : new Gun_Dragunov_PaP() //TODO PaP version
-    //     case "Kar98k":
-    //         return !isPaP ? new Gun_Kar98k() : new Gun_Kar98k_PaP() //TODO PaP version
-    //     case "HS-10":
-    //         return !isPaP ? new Gun_HS10() : new Gun_HS10_PaP() //TODO PaP version
-    //     case "Stakeout":
-    //         return !isPaP ? new Gun_Stakeout() : new Gun_Stakeout_PaP() //TODO PaP version
-    //     case "Double-Barrel":
-    //         return !isPaP ? new Gun_DoubleBarrel() : new Gun_DoubleBarrel_PaP() //TODO PaP version
-    //     case "M1897 Trench Gun":
-    //         return !isPaP ? new Gun_TrenchGun() : new Gun_TrenchGun_PaP() //TODO PaP version
-    //     case "China Lake":
-    //         return !isPaP ? new Gun_ChinaLake() : new Gun_ChinaLake_PaP() //TODO PaP version
-    //     case "M72 LAW":
-    //         return !isPaP ? new Gun_Law() : new Gun_Law_PaP() //TODO PaP version
-    // }
 }
 
 //******************* Super ********************************
@@ -1592,6 +1580,24 @@ class Gun_HK21 extends Gun {
         );
     }
 }
+class Gun_HK21_PaP extends Gun {
+    constructor() {
+        super(
+            "H115 Oscillator",
+            210, //dmg
+            150, //mag size
+            500, //total ammo
+            0.18, //fire cooldown
+            3.75, //reload time
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
+            0.145, //recoil increase per fire
+            0.6, //recoil decrease rateq
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
 class Gun_RPK extends Gun {
     constructor() {
         super(
@@ -1610,6 +1616,24 @@ class Gun_RPK extends Gun {
         );
     }
 }
+class Gun_RPK_PaP extends Gun {
+    constructor() {
+        super(
+            "R115 Resonator",
+            130, //dmg
+            125, //mag size
+            500, //total ammo
+            0.1, //fire cooldown
+            4, //reload time
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
+            0.085, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
 class Gun_FG42 extends Gun {
     constructor() {
         super(
@@ -1617,6 +1641,24 @@ class Gun_FG42 extends Gun {
             100, //dmg
             32, //mag size
             192, //total ammo
+            0.06, //fire cooldown
+            2.4, //reload time
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
+            0.065, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_FG42_PaP extends Gun {
+    constructor() {
+        super(
+            "420 Impeller",
+            110, //dmg
+            64, //mag size
+            400, //total ammo
             0.06, //fire cooldown
             2.4, //reload time
             MOVEMENT_PENALTY_HEAVY, //movement penalty
@@ -1648,6 +1690,25 @@ class Gun_Dragunov extends Gun_T_Pierce {
         )
     }
 }
+class Gun_Dragunov_PaP extends Gun_T_Pierce {
+    constructor() {
+        super(
+            "D115 Disassembler",
+            1000, //dmg
+            10, //mag size
+            80, //total ammo
+            0.35, //fire cooldown
+            2.95, //reload time
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
+            0.36, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            3, //pierce count
+            0.1,10, //shake
+            GUN_AR //Animation Type
+        )
+    }
+}
 class Gun_Kar98k extends Gun_T_Pierce {
     constructor() {
         super(
@@ -1657,7 +1718,26 @@ class Gun_Kar98k extends Gun_T_Pierce {
             50, //total ammo
             1, //fire cooldown
             2.5, //reload time
-            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
+            0.9, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            2, //Pierce count
+            0.1,5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_Kar98k_PaP extends Gun_T_Pierce {
+    constructor() {
+        super(
+            "Armageddon",
+            200, //dmg
+            8, //mag size
+            60, //total ammo
+            1, //fire cooldown
+            2.5, //reload time
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.9, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1671,9 +1751,9 @@ class Gun_L96A1 extends Gun_T_Pierce {
     constructor() {
         super(
             "L96A1",
-            1000, //dmg
+            500, //dmg
             5, //mag size
-            50, //total ammo
+            45, //total ammo
             1, //fire cooldown
             2, //reload time
             MOVEMENT_PENALTY_HEAVY, //movement penalty
@@ -1681,6 +1761,24 @@ class Gun_L96A1 extends Gun_T_Pierce {
             1, //recoil decrease rate
             2000, //bullets speedTerminal
             3, //pierce count
+            0.1,10
+        )
+    }
+}
+class Gun_L96A1_PaP extends Gun_T_Pierce {
+    constructor() {
+        super(
+            "L115 Isolator",
+            1000, //dmg
+            5, //mag size
+            72, //total ammo
+            1, //fire cooldown
+            3.3, //reload time
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
+            1.1, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            5, //pierce count
             0.1,10
         )
     }
@@ -1695,6 +1793,26 @@ class Gun_Olympia extends Gun_T_Shotgun {
             38, //total ammo
             0.2, //fire cooldown
             3.3, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.15, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_Olympia_PaP extends Gun_T_Shotgun {
+    constructor() {
+        super(
+            "Hades",
+            200, //dmg
+            2, //mag size
+            60, //total ammo
+            0.2, //fire cooldown
+            2, //reload time
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.15, //recoil increase per fire
             0.3, //recoil decrease rate
@@ -1726,15 +1844,55 @@ class Gun_SPAS12 extends Gun_T_ShotgunReloadShell {
         );
     }
 }
+class Gun_SPAS12_PaP extends Gun_T_Shotgun {
+    constructor() {
+        super(
+            "SPAZ-24",
+            300, //dmg
+            24, //mag size
+            72, //total ammo
+            0.2, //fire cooldown
+            1, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.15, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
 class Gun_HS10 extends Gun_T_ShotgunReloadShell {
     constructor() {
         super(
             "HS-10",
             160, //dmg
-            8, //mag size
+            6, //mag size
             32, //total ammo
             0.3, //fire cooldown
             0.567, //reload time per shell
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.15, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_HS10_PaP extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "Typhoid but no Mary",
+            300, //dmg
+            8, //mag size
+            80, //total ammo
+            0.3, //fire cooldown
+            0.4, //reload time per shell
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.15, //recoil increase per fire
             0.3, //recoil decrease rate
@@ -1753,6 +1911,26 @@ class Gun_Stakeout extends Gun_T_ShotgunReloadShell {
             160, //dmg
             6, //mag size
             54, //total ammo
+            0.8, //fire cooldown
+            0.567, //reload time per shell
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.3, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
+class Gun_Stakeout_PaP extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "Raid",
+            240, //dmg
+            10, //mag size
+            60, //total ammo
             0.8, //fire cooldown
             0.567, //reload time per shell
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
@@ -1786,12 +1964,52 @@ class Gun_DoubleBarrel extends Gun_T_Shotgun {
         );
     }
 }
+class Gun_DoubleBarrel_PaP extends Gun_T_Shotgun {
+    constructor() {
+        super(
+            "24 Bore Long Range",
+            380, //dmg
+            2, //mag size
+            60, //total ammo
+            0.3, //fire cooldown
+            2.5, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.3, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_Shotgun //animation type
+        );
+    }
+}
 class Gun_TrenchGun extends Gun_T_ShotgunReloadShell {
     constructor() {
         super(
             "M1897 Trench Gun",
             160, //dmg
             6, //mag size
+            60, //total ammo
+            0.8, //fire cooldown
+            0.6, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.3, //recoil increase per fire
+            0.3, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.2, //shotgunSpread
+            8, //shotgun bullets
+            0.1, 3.5, //shake length and
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_TrenchGun_PaP extends Gun_T_ShotgunReloadShell {
+    constructor() {
+        super(
+            "Gut Shot",
+            240, //dmg
+            10, //mag size
             60, //total ammo
             0.8, //fire cooldown
             0.6, //reload time
@@ -1826,6 +2044,25 @@ class Gun_ChinaLake extends Gun_T_Explode {
         )
     }
 }
+class Gun_ChinaLake_PaP extends Gun_T_Explode {
+    constructor() {
+        super(
+            "China Beach",
+            2000, //dmg
+            5, //mag size
+            40, //total ammo
+            1.6, //fire cooldown
+            3, //reload time
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
+            1.6, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            400, //splash radius
+            0.1,5,
+            GUN_Shotgun
+        )
+    }
+}
 class Gun_Law extends Gun_T_Explode {
     constructor() {
         super(
@@ -1833,6 +2070,25 @@ class Gun_Law extends Gun_T_Explode {
             2500, //dmg
             1, //mag size
             20, //total ammo
+            0.1, //fire cooldown
+            3, //reload time
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
+            1, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            450, //splash radius
+            0.1,5,
+            GUN_Shotgun
+        )
+    }
+}
+class Gun_Law_PaP extends Gun_T_Explode {
+    constructor() {
+        super(
+            "M72 Anarchy",
+            3600, //dmg
+            10, //mag size
+            40, //total ammo
             0.1, //fire cooldown
             3, //reload time
             MOVEMENT_PENALTY_HEAVY, //movement penalty
@@ -1872,6 +2128,36 @@ class Gun_RayGun extends Gun_T_Explode { //Pistol
     // }
 
     spawnMuzzleFlash(posX, posY, angle, specialFlash = "Assets/Images/Items/Muzzle_Flash_RayGun.png", w = 0, h = 0) {
+        super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);
+    }
+}
+//Special
+class Gun_RayGun_PaP extends Gun_T_Explode { //Pistol
+    constructor() {
+        super(
+            "Porter's X2 Ray Gun",
+            2300, //dmg
+            40, //mag size
+            200, //total ammo
+            0.4, //fire cooldown
+            3, //reload time
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
+            0.26, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            150, //splash radius
+            0.1,2.5,
+            GUN_Pistol
+        )
+    }
+    // shoot1(posX, posY, angle) { //handles recoil
+    //     GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+    //     this.shoot2(posX, posY, angle)
+    //     this.currentRecoil += this.recoilIncreasePerClick;
+    //     this.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
+    // }
+
+    spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
         super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);
     }
 }
