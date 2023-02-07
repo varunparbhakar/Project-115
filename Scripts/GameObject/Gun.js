@@ -314,7 +314,7 @@ class Gun {
     getMuzzle_Angle(gun){
         switch (gun) {
             case(GUN_Pistol):
-                return -0.15
+                return -0.1
             case(GUN_Shotgun):
                 return -0.15
             case(GUN_AR):
@@ -324,7 +324,7 @@ class Gun {
     getMuzzle_Offset(gun){
         switch (gun){
             case(GUN_Pistol):
-                return 225
+                return 210
             case(GUN_Shotgun):
                 return 250
             case(GUN_AR):
@@ -1292,7 +1292,7 @@ class Gun_ChinaLake extends Gun_T_Explode {
             1.6, //recoil increase per fire
             1, //recoil decrease rate
             2000, //bullets speedTerminal
-            700, //splash radius
+            400, //splash radius
             0.1,5,
             GUN_Shotgun
         )
@@ -1311,14 +1311,14 @@ class Gun_Law extends Gun_T_Explode {
             1, //recoil increase per fire
             1, //recoil decrease rate
             2000, //bullets speedTerminal
-            700, //splash radius
+            450, //splash radius
             0.1,5,
             GUN_Shotgun
         )
     }
 }
 //Special
-class Gun_RayGun extends Gun_T_Explode {
+class Gun_RayGun extends Gun_T_Explode { //Pistol
     constructor() {
         super(
             "Ray Gun",

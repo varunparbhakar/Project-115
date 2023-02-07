@@ -224,6 +224,7 @@ class HUDHurt {
     constructor() {
         this.flashDecay = 0
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Bloody_Screen.png")
+        this.isOneShotabble = false
     }
 
     update() {
@@ -246,13 +247,20 @@ class HUDHurt {
         }
 
         if (GAME_ENGINE.ent_Player.hp <= PLAYER_HP_MAX / 2) {
+            this.isOneShotabble = true
+        }
+        if (GAME_ENGINE.ent_Player.hp >= PLAYER_HP_MAX) {
+            this.isOneShotabble = false
+        }
+
+        if (this.isOneShotabble) {
             GAME_ENGINE.ctx.save()
             //Red
             GAME_ENGINE.ctx.fillStyle = "red"
-            GAME_ENGINE.ctx.globalAlpha = 0.15
+            GAME_ENGINE.ctx.globalAlpha = Math.min(0.3 * (1-GAME_ENGINE.ent_Player.hp / PLAYER_HP_MAX), 0.15)
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
             //Blood overlay
-            GAME_ENGINE.ctx.globalAlpha = 0.4
+            GAME_ENGINE.ctx.globalAlpha = Math.min(0.8 * (1-GAME_ENGINE.ent_Player.hp / PLAYER_HP_MAX), 0.4)
             GAME_ENGINE.ctx.drawImage(
                 this.asset,
                 0,0

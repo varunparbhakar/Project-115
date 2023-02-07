@@ -329,7 +329,7 @@ class Grenade extends Projectile {
             }
         })
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
-            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE/2))
+            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE))
             // GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
             GAME_ENGINE.camera.startShake(5, 20)
         }
@@ -400,7 +400,7 @@ class RaycastExplosive {
     }
 }
 
-EXPLOSIVE_PLAYER_DMG_REDUCTION = 5 //factor
+EXPLOSIVE_PLAYER_DMG_REDUCTION = 10 //factor
 class RaycastExplosivePlayer extends RaycastExplosive {
     constructor(pairedEntity, startPosX, startPosY, damage) {
         super(pairedEntity, startPosX, startPosY, damage)
@@ -442,6 +442,9 @@ class MuzzleFlash {
             this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(specialFlashPath), 0, 0, width, height, angle-1.6, 1, 1, 1)
         }
 
+        // //position randomness
+        // this.posX += (Math.random() * 2 - 1) * 5
+        // this.posY += (Math.random() * 2 - 1) * 5
     }
 
     update() {
