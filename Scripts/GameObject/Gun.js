@@ -780,7 +780,7 @@ class Gun_M1911_PaP extends Gun_T_Explode {
             0.3, //fire cooldown
             1.6, //reload time
             MOVEMENT_PENALTY_LIGHTEST, //movement penalty
-            0.14, //recoil increase per fire
+            0.25, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             150, //splash radius
