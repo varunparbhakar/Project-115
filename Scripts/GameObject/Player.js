@@ -56,7 +56,9 @@ class Player extends GameObject {
         //TODO adding animation list
 
         //Guns
-        this.gunInventory = [new Gun_M1911(), 0]; //[new Gun_M1911(), 0]
+        let startM1911 = new Gun_M1911()
+        startM1911.currentTotalAmmo = 32
+        this.gunInventory = [startM1911, 0]; //[new Gun_M1911(), 0]
         this.currentGunIndex = 0;
 
         //HP

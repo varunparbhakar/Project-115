@@ -643,7 +643,7 @@ class Gun_M1911 extends Gun {
             "M1911",
             20, //dmg
             7, //mag size
-            60, //total ammo
+            80, //total ammo
             0.15, //fire cooldown
             1, //reload time
             1, //movement penalty
