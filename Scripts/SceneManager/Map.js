@@ -1049,6 +1049,11 @@ class PowerUp_Carpenter extends PowerUp {
 PAP_WIDTH = 80
 PAP_HEIGHT = 50
 PAP_COST = 5000
+PAP_STATECD_1 = 2
+PAP_STATECD_2 = 2
+PAP_STATECD_3 = 2
+PAP_STATECD_4 = 10
+PAP_STATECD_5 = 2
 class PackAPunch extends MapInteract {
     constructor(posX, posY, map) {
         super()
@@ -1080,6 +1085,7 @@ class PackAPunch extends MapInteract {
         // this.animatorPaP = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, this.scale/3)
         this.currGun = new Gun_M1911() //to avoid null pointer
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
+        this.animatorGunPaP = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUNPAP_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
     }
 
     update() {
@@ -1088,26 +1094,26 @@ class PackAPunch extends MapInteract {
                 break
             case 1: //taking in gun
                 if (this.stateCooldown <= 0) {
-                    this.stateCooldown = 2
+                    this.stateCooldown = PAP_STATECD_2
                     this.state++
                 }
                 break
             case 2: //gun disappears
                 if (this.stateCooldown <= 0) {
                     this.currGun = CREATE_GUN_FROM_NAME(this.currGun.name, true)
-                    this.stateCooldown = 2
+                    this.stateCooldown = PAP_STATECD_3
                     this.state++
                 }
                 break
             case 3: //guns comes out
                 if (this.stateCooldown <= 0) {
-                    this.stateCooldown = 10
+                    this.stateCooldown = PAP_STATECD_4
                     this.state++
                 }
                 break
             case 4: //offer gun
                 if (this.stateCooldown <= 0) {
-                    this.stateCooldown = 2
+                    this.stateCooldown = PAP_STATECD_5
                     this.state++
                 }
                 break
@@ -1137,12 +1143,12 @@ class PackAPunch extends MapInteract {
                 //pap
                 break
             case 3: //guns comes out
-                this.drawGun(0)
+                this.drawGunPaP(0)
                 //flashing lights
                 //pap
                 break
             case 4: //offer gun
-                this.drawGun(0)
+                this.drawGunPaP(0)
                 //flashing lights
                 //pap
                 break
@@ -1157,11 +1163,20 @@ class PackAPunch extends MapInteract {
 
     drawGun(offsetY) {
         let centerPos = this.bb.getCenteredPos()
-        this.animatorGun.xStart = this.currGun[0]
-        this.animatorGun.yStart = this.currGun[1]
-        this.animatorGun.width = this.currGun[2]
-        this.animatorGun.height = this.currGun[3]
-        this.animatorGun.drawFrame(centerPos[0] - (this.currGun[2]/2 * this.animatorGun.scale), centerPos[1] - (this.currGun[3]/2 * this.animatorGun.scale))
+        this.animatorGun.xStart = this.currGun.xStart
+        this.animatorGun.yStart = this.currGun.yStart
+        this.animatorGun.width = this.currGun.width
+        this.animatorGun.height = this.currGun.height
+        this.animatorGun.drawFrame(centerPos[0] - (this.animatorGun.width/2 * this.animatorGun.scale), centerPos[1] - (this.animatorGun.height/2 * this.animatorGun.scale))
+    }
+
+    drawGunPaP(offsetY) {
+        let centerPos = this.bb.getCenteredPos()
+        this.animatorGunPaP.xStart = this.currGun.xStart
+        this.animatorGunPaP.yStart = this.currGun.yStart
+        this.animatorGunPaP.width = this.currGun.width
+        this.animatorGunPaP.height = this.currGun.height
+        this.animatorGunPaP.drawFrame(centerPos[0] - (this.animatorGunPaP.width/2 * this.animatorGunPaP.scale), centerPos[1] - (this.animatorGunPaP.height/2 * this.animatorGunPaP.scale))
     }
 
     hudText() {
@@ -1189,13 +1204,12 @@ class PackAPunch extends MapInteract {
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()
                 GAME_ENGINE.ent_Player.switchGuns()
                 this.state++
-                this.stateCooldown = 2
+                this.stateCooldown = PAP_STATECD_2
                 break
             case 4: //offering
                 GAME_ENGINE.ent_Player.acceptNewGun(this.currGun)
-                this.stateCooldown = 2
+                this.stateCooldown = PAP_STATECD_5
                 this.state++
-
         }
     }
 }
