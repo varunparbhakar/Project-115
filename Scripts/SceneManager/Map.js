@@ -1198,9 +1198,11 @@ class PackAPunch extends MapInteract {
     }
 
     use() {
-        if (!GAME_ENGINE.camera.map.powerSwitch.power || GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP) {return}
+        if (!GAME_ENGINE.camera.map.powerSwitch.power) {return}
         switch(this.state) {
             case 0: //waiting
+                if (GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP || GAME_ENGINE.ent_Player.points < PAP_COST) {return}
+                GAME_ENGINE.ent_Player.losePoints(PAP_COST)
                 this.currGun = GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex]
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()
                 GAME_ENGINE.ent_Player.switchGuns()
