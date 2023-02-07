@@ -635,7 +635,10 @@ class Gun_T_Explode extends Gun {
 //Monkey?
 
 //******************* Unique Guns ********************************
-
+const MOVEMENT_PENALTY_LIGHTEST = 1//handguns
+const MOVEMENT_PENALTY_LIGHT = 0.95 //smg
+const MOVEMENT_PENALTY_MEDIUM = 0.9 //AR
+const MOVEMENT_PENALTY_HEAVY = 0.825 //LMG, Launchers
 //Pistols
 class Gun_M1911 extends Gun {
     constructor() {
@@ -643,10 +646,10 @@ class Gun_M1911 extends Gun {
             "M1911",
             20, //dmg
             7, //mag size
-            80, //total ammo
+            8-0, //total ammo
             0.15, //fire cooldown
             1, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
             0.14, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -664,7 +667,7 @@ class Gun_CZ75 extends Gun {
             135, //total ammo
             0.08, //fire cooldown
             1.75, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
             0.1, //recoil increase per fire //TODO balance recoil
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -682,7 +685,7 @@ class Gun_Python extends Gun_T_Pierce {
             84, //total ammo
             0.35, //fire cooldown
             2, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
             0.3, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -702,7 +705,7 @@ class Gun_MP5k extends Gun {
             180, //total ammo
             0.0775, //fire cooldown
             2.9, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.09, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -720,7 +723,7 @@ class Gun_MP40 extends Gun {
             192, //total ammo
             0.175, //fire cooldown
             2.3, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.135, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -738,7 +741,7 @@ class Gun_MPL extends Gun {
             120, //total ammo
             0.06, //fire cooldown
             2.25, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.065, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -756,7 +759,7 @@ class Gun_PM63 extends Gun {
             100, //total ammo
             0.055, //fire cooldown
             2.05, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.0675, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -774,7 +777,7 @@ class Gun_Spectre extends Gun {
             120, //total ammo
             0.06, //fire cooldown
             2.05, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.0665, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -792,7 +795,7 @@ class Gun_Thomspon extends Gun {
             200, //total ammo
             0.11, //fire cooldown
             2.1, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.09, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -810,7 +813,7 @@ class Gun_Type100 extends Gun {
             160, //total ammo
             0.11, //fire cooldown
             2.25, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.085, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -828,7 +831,7 @@ class Gun_AK47u extends Gun {
             180, //total ammo
             0.09, //fire cooldown
             2.1, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.0825, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -847,7 +850,7 @@ class Gun_AUG extends Gun {
             270, //total ammo
             0.09, //fire cooldown
             2.75, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.1, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -866,7 +869,7 @@ class Gun_Commando extends Gun {
             270, //total ammo
             0.125, //fire cooldown
             2.05, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.115, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -885,7 +888,7 @@ class Gun_Famas extends Gun {
             150, //total ammo
             0.09, //fire cooldown
             2.5, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.09, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -904,7 +907,7 @@ class Gun_FAL extends Gun {
             180, //total ammo
             0.3, //fire cooldown
             2.5, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.215, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -922,7 +925,7 @@ class Gun_G11 extends Gun_T_Burst {
             144, //total ammo
             0.5, //fire cooldown
             2.7, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.075, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal //TODO
@@ -943,7 +946,7 @@ class Gun_Galil extends Gun {
             315, //total ammo
             0.08, //fire cooldown
             2.8, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.075, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -961,7 +964,7 @@ class Gun_M14 extends Gun {
             96, //total ammo
             0.3, //fire cooldown
             2.4, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.25, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -979,7 +982,7 @@ class Gun_Gewehr extends Gun {
             120, //total ammo
             0.325, //fire cooldown
             3.4, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.225, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -997,7 +1000,7 @@ class Gun_M1Carbine extends Gun {
             120, //total ammo
             0.315, //fire cooldown
             2.9, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.215, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1015,7 +1018,7 @@ class Gun_STG44 extends Gun {
             180, //total ammo
             0.17, //fire cooldown
             2.15, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.135, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1033,7 +1036,7 @@ class Gun_M16 extends Gun_T_Burst {
             120, //total ammo
             0.5, //fire cooldown
             2.03, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.15, //recoil increase per fire
             1.25, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1055,7 +1058,7 @@ class Gun_HK21 extends Gun {
             500, //total ammo
             0.18, //fire cooldown
             3.75, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.145, //recoil increase per fire
             0.6, //recoil decrease rateq
             2000, //bullets speedTerminal
@@ -1073,7 +1076,7 @@ class Gun_RPK extends Gun {
             400, //total ammo
             0.1, //fire cooldown
             4, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.085, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1091,7 +1094,7 @@ class Gun_FG42 extends Gun {
             192, //total ammo
             0.06, //fire cooldown
             2.4, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.065, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1110,7 +1113,7 @@ class Gun_Dragunov extends Gun_T_Pierce {
             40, //total ammo
             0.35, //fire cooldown
             2.95, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.36, //recoil increase per fire
             1, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1129,7 +1132,7 @@ class Gun_Kar98k extends Gun_T_Pierce {
             50, //total ammo
             1, //fire cooldown
             2.5, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.9, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1148,7 +1151,7 @@ class Gun_L96A1 extends Gun_T_Pierce {
             50, //total ammo
             1, //fire cooldown
             2, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
             1.1, //recoil increase per fire
             1, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1167,7 +1170,7 @@ class Gun_Olympia extends Gun_T_Shotgun {
             38, //total ammo
             0.2, //fire cooldown
             3.3, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.15, //recoil increase per fire
             0.3, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1187,7 +1190,7 @@ class Gun_SPAS12 extends Gun_T_ShotgunReloadShell {
             32, //total ammo
             0.2, //fire cooldown
             0.567, //reload time per shell
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.15, //recoil increase per fire
             0.3, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1207,7 +1210,7 @@ class Gun_HS10 extends Gun_T_ShotgunReloadShell {
             32, //total ammo
             0.3, //fire cooldown
             0.567, //reload time per shell
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.15, //recoil increase per fire
             0.3, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1227,7 +1230,7 @@ class Gun_Stakeout extends Gun_T_ShotgunReloadShell {
             54, //total ammo
             0.8, //fire cooldown
             0.567, //reload time per shell
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.3, //recoil increase per fire
             0.3, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1247,7 +1250,7 @@ class Gun_DoubleBarrel extends Gun_T_Shotgun {
             60, //total ammo
             0.3, //fire cooldown
             3, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.3, //recoil increase per fire
             0.3, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1267,7 +1270,7 @@ class Gun_TrenchGun extends Gun_T_ShotgunReloadShell {
             60, //total ammo
             0.8, //fire cooldown
             0.6, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.3, //recoil increase per fire
             0.3, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1288,7 +1291,7 @@ class Gun_ChinaLake extends Gun_T_Explode {
             20, //total ammo
             1.6, //fire cooldown
             3, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
             1.6, //recoil increase per fire
             1, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1307,7 +1310,7 @@ class Gun_Law extends Gun_T_Explode {
             20, //total ammo
             0.1, //fire cooldown
             3, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_HEAVY, //movement penalty
             1, //recoil increase per fire
             1, //recoil decrease rate
             2000, //bullets speedTerminal
@@ -1327,7 +1330,7 @@ class Gun_RayGun extends Gun_T_Explode { //Pistol
             160, //total ammo
             0.4, //fire cooldown
             3, //reload time
-            1, //movement penalty
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
             0.26, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
