@@ -569,7 +569,7 @@ MYSTERYBOX_OFFER_TIME = 10
 MYSTERYBOX_SPAM_PREVENT_TIME = 3
 MYSTERYBOX_COST = 950 //950
 MYSTERYBOX_IMG_PATH = "Assets/Images/Map/MysteryBox_Sprite.png"
-MYSTERYBOX_LOOT_TABLE = ["M1911","Olympia","M16","L96A1","Ray Gun","SPAS-12","CZ75","Python","AUG","Commando","Famas","FN-FAL","G11","Galil","M14","Gewehr 43","M1 Carbine","STG-44","AK-74u","MP5K","MP40","MPL","PM63","Spectre","Thompson","Type 100","HK21","RPK","FG42","Dragunov","Kar98k","HS-10","Stakeout","Double-Barrel","M1897 Trench Gun","China Lake","M72 LAW"] //"Ballistic Knife","Crossbow","Wunderwaffe DG-2","AK-47","PPSH", "Python TRASH"
+MYSTERYBOX_LOOT_TABLE = ["M1911","Olympia","M16","L96A1","Ray Gun","SPAS-12","CZ75","Python","AUG","Commando","Famas","FN FAL","G11","Galil","M14","Gewehr 43","M1 Carbine","STG-44","AK-74u","MP5K","MP40","MPL","PM63","Spectre","Thompson","Type 100","HK21","RPK","FG42","Dragunov","Kar98k","HS-10","Stakeout","Double-Barrel","M1897 Trench Gun","China Lake","M72 LAW"] //"Ballistic Knife","Crossbow","Wunderwaffe DG-2","AK-47","PPSH", "Python TRASH"
 class MysteryBox extends MapInteract {
     constructor(locationsPos=[], startingPosIndex=0, map) {
         super()
@@ -841,7 +841,7 @@ class PerkMachine extends MapInteract {
             case "Stamin-Up":
                 if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
         }
-        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk)
+        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk + " for " + this.cost)
     }
 
     givePerk() {
@@ -986,6 +986,7 @@ class PowerUp_MaxAmmo extends PowerUp {
             if (gun === 0) return
             gun.currentTotalAmmo = gun.totalAmmo
         })
+        GAME_ENGINE.ent_Player.grenades = 4
     }
 }
 

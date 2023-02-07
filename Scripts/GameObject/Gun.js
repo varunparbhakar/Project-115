@@ -14,26 +14,67 @@ class GunPNGCoords {
             ["Mustang but no Sally :(", [0, 0, 16, 12, true]],
 
             ["Olympia", [108, 36, 53, 12, false]],
+            ["Hades", [108, 36, 53, 12, true]],
+
             ["M16", [55, 104, 45, 16, false]],
+            ["Skullcrusher", [55, 104, 45, 16, true]],
+
             ["L96A1", [300, 48, 59, 19, false]],
+            ["L115 Isolator", [300, 48, 59, 19, true]],
+
             ["Ray Gun", [127, 0, 21, 14, false]],
+            ["Porter's X2 Ray Gun", [127, 0, 21, 14, true]],
+
             ["SPAS-12", [199, 31, 46, 15, false]],
-            ["CZ75", [35, 1, 18, 11, false]],
+            ["SPAZ-24", [199, 31, 46, 15, true]],
+
+            ["CZ75", [174, 2, 16, 11, false]],
+            ["Calamity", [174, 2, 16, 11, true]],
+
             ["Python TRASH", [79, 1, 21, 12, false]], //TODO make and stats
+
             ["Python", [148, 0, 27, 14, false]],
+            ["Cobra", [148, 0, 27, 14, true]],
+
             ["AUG", [268, 106, 43, 18, false]],
+            ["AUG-50M3", [268, 106, 43, 18, true]],
+
             ["Commando", [101, 106, 36, 17, false]],
+            ["Predator", [101, 106, 36, 17, true]],
+
             ["Famas", [311, 107, 42, 19, false]],
-            ["FN-FAL", [185, 107, 48, 16, false]],
+            ["G16-GL35", [311, 107, 42, 19, true]],
+
+            ["FN FAL", [185, 107, 48, 16, false]],
+            ["EPC WN", [185, 107, 48, 16, true]],
+
             ["G11", [233, 106, 35, 18, false]],
+            ["G115 Generator", [233, 106, 35, 18, true]],
+
             ["Galil", [137, 107, 48, 18, false]],
+            ["Lamentation", [137, 107, 48, 18, true]],
+
             ["M14", [0, 105, 55, 14, false]],
+            ["Mnesia", [0, 105, 55, 14, true]],
+
             ["Gewehr 43", [59, 86, 57, 15, false]],
+            ["G115 Compressor", [59, 86, 57, 15, true]],
+
             ["M1 Carbine", [117, 86, 52, 15, false]],
+            ["Widdershins RC-1", [117, 86, 52, 15, true]],
+
             ["STG-44", [171, 88, 40, 17, false]],
+            ["Spatz-447 +", [171, 88, 40, 17, true]],
+
             ["AK-74u", [201, 128, 35, 17, false]],
+            ["AK-74fu2", [201, 128, 35, 17, true]],
+
             ["MP5K", [237, 128, 21, 17, false]],
+            ["MP115 Kollider", [237, 128, 21, 17, true]],
+
             ["MP40", [1, 127, 25, 17, false]],
+            ["The Afterburner", [1, 127, 25, 17, true]],
+
             ["MPL", [177, 128, 24, 17, false]],
             ["PM63", [152, 127, 23, 12, false]],
             ["Spectre", [259, 128, 22, 14, false]],
@@ -82,9 +123,11 @@ const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
         case "M16":
             return !isPaP ? new Gun_M16() : new Gun_M16() //TODO PaP version
         case "L96A1":
-            return !isPaP ? new Gun_L96A1() : new Gun_L96A1() //TODO PaP version
+        case "L115 Isolator":
+            return !isPaP ? new Gun_L96A1() : new Gun_L96A1_PaP() //TODO PaP version
         case "Ray Gun":
-            return !isPaP ? new Gun_RayGun() : new Gun_RayGun() //TODO PaP version
+        case "Porter's X2 Ray Gun":
+            return !isPaP ? new Gun_RayGun() : new Gun_RayGun_PaP() //TODO PaP version
         case "SPAS-12":
             return !isPaP ? new Gun_SPAS12() : new Gun_SPAS12() //TODO PaP version
         case "CZ75":
@@ -229,7 +272,7 @@ const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
 }
 
 //******************* Super ********************************
-const GUN_DMG_MULTIPLIER = 2.5 //for balancing if needed
+const GUN_DMG_MULTIPLIER = 2.3 //for balancing if needed
 class Gun {
     constructor(name,
                 damage,
@@ -772,6 +815,24 @@ class Gun_CZ75 extends Gun {
         );
     }
 }
+class Gun_CZ75_PaP extends Gun {
+    constructor() {
+        super(
+            "Calamity",
+            300, //dmg
+            20, //mag size
+            240, //total ammo
+            0.08, //fire cooldown
+            1.75, //reload time
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
+            0.1, //recoil increase per fire //TODO balance recoil
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
 class Gun_Python extends Gun_T_Pierce {
     constructor() {
         super(
@@ -779,6 +840,25 @@ class Gun_Python extends Gun_T_Pierce {
             1000, //dmg
             6, //mag size
             84, //total ammo
+            0.35, //fire cooldown
+            2, //reload time
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
+            0.3, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            1, //pierce count
+            0.1,5,
+            GUN_Pistol
+        )
+    }
+}
+class Gun_Python_PaP extends Gun_T_Pierce {
+    constructor() {
+        super(
+            "Cobra",
+            1700, //dmg
+            6, //mag size
+            96, //total ammo
             0.35, //fire cooldown
             2, //reload time
             MOVEMENT_PENALTY_LIGHTEST, //movement penalty
@@ -810,12 +890,48 @@ class Gun_MP5k extends Gun {
         );
     }
 }
+class Gun_MP5k_PaP extends Gun {
+    constructor() {
+        super(
+            "MP115 Kollider",
+            140, //dmg
+            40, //mag size
+            200, //total ammo
+            0.0775, //fire cooldown
+            2.9, //reload time
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
+            0.09, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
 class Gun_MP40 extends Gun {
     constructor() {
         super(
             "MP40",
             100, //dmg
             32, //mag size
+            192, //total ammo
+            0.175, //fire cooldown
+            2.3, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.135, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_MP40_PaP extends Gun {
+    constructor() {
+        super(
+            "The Afterburner",
+            200, //dmg
+            64, //mag size
             192, //total ammo
             0.175, //fire cooldown
             2.3, //reload time
@@ -846,6 +962,24 @@ class Gun_MPL extends Gun {
         );
     }
 }
+class Gun_MPL_PaP extends Gun {
+    constructor() {
+        super(
+            "MPL-LF",
+            140, //dmg
+            40, //mag size
+            200, //total ammo
+            0.06, //fire cooldown
+            2.25, //reload time
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
+            0.065, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
 class Gun_PM63 extends Gun {
     constructor() {
         super(
@@ -853,6 +987,24 @@ class Gun_PM63 extends Gun {
             100, //dmg
             20, //mag size
             100, //total ammo
+            0.055, //fire cooldown
+            2.05, //reload time
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
+            0.0675, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
+class Gun_PM63_PaP extends Gun {
+    constructor() {
+        super(
+            "Tokyo but no Rose",
+            140, //dmg
+            25, //mag size
+            225, //total ammo
             0.055, //fire cooldown
             2.05, //reload time
             MOVEMENT_PENALTY_LIGHT, //movement penalty
@@ -882,6 +1034,24 @@ class Gun_Spectre extends Gun {
         );
     }
 }
+class Gun_Spectre_PaP extends Gun {
+    constructor() {
+        super(
+            "Phantom",
+            130, //dmg
+            45, //mag size
+            225, //total ammo
+            0.06, //fire cooldown
+            2.05, //reload time
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
+            0.0665, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
 class Gun_Thomspon extends Gun {
     constructor() {
         super(
@@ -893,6 +1063,24 @@ class Gun_Thomspon extends Gun {
             2.1, //reload time
             MOVEMENT_PENALTY_LIGHT, //movement penalty
             0.09, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_Thomspon_PaP extends Gun {
+    constructor() {
+        super(
+            "Gibs-O-Matic",
+            200, //dmg
+            40, //mag size
+            250, //total ammo
+            0.09, //fire cooldown
+            2.1, //reload time
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
+            0.0825, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1,0.5,
@@ -918,6 +1106,24 @@ class Gun_Type100 extends Gun {
         );
     }
 }
+class Gun_Type100_PaP extends Gun {
+    constructor() {
+        super(
+            "1001 Samurais",
+            200, //dmg
+            60, //mag size
+            220, //total ammo
+            0.10, //fire cooldown
+            2.25, //reload time
+            MOVEMENT_PENALTY_LIGHT, //movement penalty
+            0.08, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,0.5,
+            GUN_AR //animation type
+        );
+    }
+}
 class Gun_AK47u extends Gun {
     constructor() {
         super(
@@ -925,6 +1131,24 @@ class Gun_AK47u extends Gun {
             120, //dmg
             30, //mag size
             180, //total ammo
+            0.09, //fire cooldown
+            2.1, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.0825, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_AK47u_PaP extends Gun {
+    constructor() {
+        super(
+            "AK-74fu2",
+            190, //dmg
+            40, //mag size
+            280, //total ammo
             0.09, //fire cooldown
             2.1, //reload time
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
@@ -956,6 +1180,25 @@ class Gun_AUG extends Gun {
 
     }
 }
+class Gun_AUG_PaP extends Gun {
+    constructor() {
+        super(
+            "AUG-50M3",
+            200, //dmg
+            30, //mag size
+            390, //total ammo
+            0.09, //fire cooldown
+            2.75, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.1, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+
+    }
+}
 class Gun_Commando extends Gun {
     constructor() {
         super(
@@ -963,6 +1206,25 @@ class Gun_Commando extends Gun {
             150, //dmg
             30, //mag size
             270, //total ammo
+            0.125, //fire cooldown
+            2.05, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.115, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.7,
+            GUN_AR //animation type
+        );
+
+    }
+}
+class Gun_Commando_PaP extends Gun {
+    constructor() {
+        super(
+            "Predator",
+            210, //dmg
+            40, //mag size
+            360, //total ammo
             0.125, //fire cooldown
             2.05, //reload time
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
@@ -994,10 +1256,29 @@ class Gun_Famas extends Gun {
 
     }
 }
+class Gun_Famas_PaP extends Gun {
+    constructor() {
+        super(
+            "G16-GL35",
+            150, //dmg
+            45, //mag size
+            225, //total ammo
+            0.09, //fire cooldown
+            2.5, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.09, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.7,
+            GUN_AR //animation type
+        );
+
+    }
+}
 class Gun_FAL extends Gun {
     constructor() {
         super(
-            "FN-FAL",
+            "FN FAL",
             160, //dmg
             20, //mag size
             180, //total ammo
@@ -1008,6 +1289,26 @@ class Gun_FAL extends Gun {
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1,2.7,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_FAL_PaP extends Gun_T_Burst {
+    constructor() {
+        super(
+            "EPC WN",
+            240, //dmg
+            20, //mag size
+            180, //total ammo
+            0.3, //fire cooldown
+            2.5, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.070, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.04, //burst fire cooldown interval (multiplying by burst fire bullet count must < 0.5)
+            3, //burst fire bullet count
+            0.1,2,
             GUN_AR //animation type
         );
     }
@@ -1033,6 +1334,25 @@ class Gun_G11 extends Gun_T_Burst {
         )
     }
 }
+class Gun_G11_PaP extends Gun {
+    constructor() {
+        super(
+            "G115 Generator",
+            100, //dmg
+            48, //mag size
+            288, //total ammo
+            0.1, //fire cooldown
+            2.7, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.08, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal //TODO
+            0.1, //shake length
+            2.5, //shake intensity
+            GUN_AR
+        )
+    }
+}
 class Gun_Galil extends Gun {
     constructor() {
         super(
@@ -1040,6 +1360,24 @@ class Gun_Galil extends Gun {
             150, //dmg
             35, //mag size
             315, //total ammo
+            0.08, //fire cooldown
+            2.8, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.075, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_Galil_PaP extends Gun {
+    constructor() {
+        super(
+            "Lamentation",
+            220, //dmg
+            35, //mag size
+            490, //total ammo
             0.08, //fire cooldown
             2.8, //reload time
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
@@ -1069,6 +1407,24 @@ class Gun_M14 extends Gun {
         );
     }
 }
+class Gun_M14_PaP extends Gun {
+    constructor() {
+        super(
+            "Mnesia",
+            200, //dmg
+            16, //mag size
+            192, //total ammo
+            0.3, //fire cooldown
+            2.4, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.225, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
 class Gun_Gewehr extends Gun {
     constructor() {
         super(
@@ -1076,6 +1432,24 @@ class Gun_Gewehr extends Gun {
             90, //dmg
             10, //mag size
             120, //total ammo
+            0.325, //fire cooldown
+            3.4, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.225, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_Gewehr_PaP extends Gun {
+    constructor() {
+        super(
+            "G115 Compressor",
+            200, //dmg
+            12, //mag size
+            170, //total ammo
             0.325, //fire cooldown
             3.4, //reload time
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
@@ -1105,6 +1479,24 @@ class Gun_M1Carbine extends Gun {
         );
     }
 }
+class Gun_M1Carbine_PaP extends Gun {
+    constructor() {
+        super(
+            "Widdershins RC-1",
+            200, //dmg
+            15, //mag size
+            150, //total ammo
+            0.3, //fire cooldown
+            2.9, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.2075, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
 class Gun_STG44 extends Gun {
     constructor() {
         super(
@@ -1116,6 +1508,24 @@ class Gun_STG44 extends Gun {
             2.15, //reload time
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.135, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_AR //animation type
+        );
+    }
+}
+class Gun_STG44_PaP extends Gun {
+    constructor() {
+        super(
+            "Spatz-447 +",
+            150, //dmg
+            60, //mag size
+            300, //total ammo
+            0.15, //fire cooldown
+            2.15, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.1175, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             0.1,2.5,
@@ -1138,6 +1548,25 @@ class Gun_M16 extends Gun_T_Burst {
             2000, //bullets speedTerminal
             0.1, //burst fire cooldown interval (multiplying by burst fire bullet count must < 0.5)
             3, //burst fire bullet count
+            0.1, //shake length
+            2.5, //shake intensity
+            GUN_AR
+        )
+    }
+}
+class Gun_M16_PaP extends Gun {
+    constructor() {
+        super(
+            "Skullcrusher",
+            150, //dmg
+            30, //mag size
+            270, //total ammo
+            0.1, //fire cooldown
+            2.03, //reload time
+            MOVEMENT_PENALTY_MEDIUM, //movement penalty
+            0.084, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
             0.1, //shake length
             2.5, //shake intensity
             GUN_AR
