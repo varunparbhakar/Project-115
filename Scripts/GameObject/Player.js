@@ -85,7 +85,7 @@ class Player extends GameObject {
         this.perk_hasStaminUp = false
 
         //Powerup
-        this.powerup_hasInstaKillTimer = 0 //TODO decrement timer
+        this.powerup_hasInstaKillTimer = 0
         this.powerup_hasDoublePointsTimer = 0
         //TODO Fire Sale (Hard, must tell Mystery Box to duplicate to all locations)
 

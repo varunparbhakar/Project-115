@@ -937,7 +937,18 @@ class PowerUp {
         //green glow
         //TODO
         //perk
-        this.animator.drawFrame( pos[0] - this.animator.width*this.animator.scale/2 , pos[1] - this.animator.height*this.animator.scale/2)
+        if (GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer <= 5) {
+            if (Math.ceil(this.aliveTimer * 8) % 2 !== 0) {
+                this.animator.drawFrame( pos[0] - this.animator.width*this.animator.scale/2 , pos[1] - this.animator.height*this.animator.scale/2)
+            }
+        } else if (this.aliveTimer <= 10) {
+            if (Math.ceil(this.aliveTimer * 2) % 2 !== 0) {
+                this.animator.drawFrame( pos[0] - this.animator.width*this.animator.scale/2 , pos[1] - this.animator.height*this.animator.scale/2)
+            }
+        } else {
+            this.animator.drawFrame( pos[0] - this.animator.width*this.animator.scale/2 , pos[1] - this.animator.height*this.animator.scale/2)
+        }
+
 
         this.bb_interact.drawBoundingBox("green")
     }

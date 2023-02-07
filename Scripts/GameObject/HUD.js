@@ -350,12 +350,29 @@ class HUDPowerUp {
         GAME_ENGINE.ctx.save()
         let count = 0
         if (GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer > 0) {
-            this.drawPerk("Insta Kill", count)
+            if (GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer <= 5) {
+                if (Math.ceil(GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer * 8) % 2 !== 0) {
+                    this.drawPerk("Insta Kill", count)
+                }
+            } else if (GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer <= 10) {
+                if (Math.ceil(GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer * 2) % 2 !== 0) {
+                    this.drawPerk("Insta Kill", count)
+                }
+            } else {
+                this.drawPerk("Insta Kill", count)
+            }
             count++
         }
-        if (GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer > 0) {
+        if (GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer <= 5) {
+            if (Math.ceil(GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer * 8) % 2 !== 0) {
+                this.drawPerk("Double Points", count)
+            }
+        } else if (GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer <= 10) {
+            if (Math.ceil(GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer * 2) % 2 !== 0) {
+                this.drawPerk("Double Points", count)
+            }
+        } else {
             this.drawPerk("Double Points", count)
-            count++
         }
         GAME_ENGINE.ctx.restore()
     }

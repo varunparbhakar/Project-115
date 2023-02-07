@@ -407,7 +407,7 @@ class Gun {
      */
     equip() {
         this.isSwitching = true
-        this.currentReloadTime = this.reloadTime * 0.5
+        this.currentReloadTime = this.reloadTime * 0.35
         this.currentRecoil = 0
         this.currentFireCooldown = 0
     }
@@ -551,7 +551,7 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
 
     equip() {
         super.equip();
-        this.currentReloadTime = this.reloadTime * this.magazineSize * 0.25
+        this.currentReloadTime = this.reloadTime * this.magazineSize * 0.225
         this.isShellReloading = false
     }
 }
@@ -1417,7 +1417,7 @@ class Gun_Gewehr extends Gun {
     constructor() {
         super(
             "Gewehr 43",
-            90, //dmg
+            100, //dmg
             10, //mag size
             120, //total ammo
             0.325, //fire cooldown
@@ -1792,7 +1792,7 @@ class Gun_Olympia extends Gun_T_Shotgun {
             2, //mag size
             38, //total ammo
             0.2, //fire cooldown
-            3.3, //reload time
+            2.7, //reload time
             MOVEMENT_PENALTY_MEDIUM, //movement penalty
             0.15, //recoil increase per fire
             0.3, //recoil decrease rate
