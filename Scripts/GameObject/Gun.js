@@ -10,8 +10,9 @@ class GunPNGCoords {
         this.map = new Map([
             //["Name", [xStart, yStart, width, height, isPaP]]
 
-            //Normal
             ["M1911", [0, 0, 16, 12, false]],
+            ["Mustang but no Sally :(", [0, 0, 16, 12, true]],
+
             ["Olympia", [108, 36, 53, 12, false]],
             ["M16", [55, 104, 45, 16, false]],
             ["L96A1", [300, 48, 59, 19, false]],
@@ -54,8 +55,6 @@ class GunPNGCoords {
             ["Wunderwaffe DG-2", [41, 145, 52, 22, false]], //TODO make
             ["AK-47", [354, 108, 47, 18, false]], //TODO stats and make
             ["PPSH", [26, 127, 41, 15, false]], //TODO stats and make
-
-            //PaP
         ])
 
         // let stringq = "MYSTERY_LOOT_TABLE = ["
@@ -74,8 +73,8 @@ const GUN_TEXTURE_MAP = new GunPNGCoords()
 const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
     switch (name) { //TODO add adjacent case and if for PaP guns and complete
         case "M1911":
-        case "Mustang and Sally":
-            return !isPaP ? new Gun_M1911() : new Gun_M1911() //TODO PaP version
+        case "Mustang but no Sally :(":
+            return !isPaP ? new Gun_M1911() : new Gun_M1911_PaP() //TODO PaP version
         case "M14":
             return !isPaP ? new Gun_M14() : new Gun_M14() //TODO PaP version
         case "Olympia":
@@ -149,6 +148,84 @@ const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
         case "M72 LAW":
             return !isPaP ? new Gun_Law() : new Gun_Law() //TODO PaP version
     }
+
+    // switch (name) { //TODO add adjacent case and if for PaP guns and complete
+    //     case "M1911":
+    //     case "Mustang but no Sally :(":
+    //         return !isPaP ? new Gun_M1911() : new Gun_M1911_PaP()
+    //     case "M14":
+    //         return !isPaP ? new Gun_M14() : new Gun_M14_PaP() //TODO PaP version
+    //     case "Olympia":
+    //         return !isPaP ? new Gun_Olympia() : new Gun_Olympia_PaP() //TODO PaP version
+    //     case "M16":
+    //         return !isPaP ? new Gun_M16() : new Gun_M16_PaP() //TODO PaP version
+    //     case "L96A1":
+    //         return !isPaP ? new Gun_L96A1() : new Gun_L96A1_PaP() //TODO PaP version
+    //     case "Ray Gun":
+    //         return !isPaP ? new Gun_RayGun() : new Gun_RayGun_PaP() //TODO PaP version
+    //     case "SPAS-12":
+    //         return !isPaP ? new Gun_SPAS12() : new Gun_SPAS12_PaP() //TODO PaP version
+    //     case "CZ75":
+    //         return !isPaP ? new Gun_CZ75() : new Gun_CZ75_PaP() //TODO PaP version
+    //     case "Python":
+    //         return !isPaP ? new Gun_Python() : new Gun_Python_PaP() //TODO PaP version
+    //     case "AUG":
+    //         return !isPaP ? new Gun_AUG() : new Gun_AUG_PaP() //TODO PaP version
+    //     case "Commando":
+    //         return !isPaP ? new Gun_Commando() : new Gun_Commando_PaP() //TODO PaP version
+    //     case "Famas":
+    //         return !isPaP ? new Gun_Famas() : new Gun_Famas_PaP() //TODO PaP version
+    //     case "FN-FAL":
+    //         return !isPaP ? new Gun_FAL() : new Gun_FAL_PaP() //TODO PaP version
+    //     case "G11":
+    //         return !isPaP ? new Gun_G11() : new Gun_G11_PaP() //TODO PaP version
+    //     case "Galil":
+    //         return !isPaP ? new Gun_Galil() : new Gun_Galil_PaP() //TODO PaP version
+    //     case "Gewehr 43":
+    //         return !isPaP ? new Gun_Gewehr() : new Gun_Gewehr_PaP() //TODO PaP version
+    //     case "M1 Carbine":
+    //         return !isPaP ? new Gun_M1Carbine() : new Gun_M1Carbine_PaP() //TODO PaP version
+    //     case "STG-44":
+    //         return !isPaP ? new Gun_STG44() : new Gun_STG44_PaP() //TODO PaP version
+    //     case "AK-74u":
+    //         return !isPaP ? new Gun_AK47u() : new Gun_AK47u_PaP() //TODO PaP version
+    //     case "MP5K":
+    //         return !isPaP ? new Gun_MP5k() : new Gun_MP5k_PaP() //TODO PaP version
+    //     case "MP40":
+    //         return !isPaP ? new Gun_MP40() : new Gun_MP40_PaP() //TODO PaP version
+    //     case "MPL":
+    //         return !isPaP ? new Gun_MPL() : new Gun_MPL_PaP() //TODO PaP version
+    //     case "PM63":
+    //         return !isPaP ? new Gun_PM63() : new Gun_PM63_PaP() //TODO PaP version
+    //     case "Spectre":
+    //         return !isPaP ? new Gun_Spectre() : new Gun_Spectre_PaP() //TODO PaP version
+    //     case "Thompson":
+    //         return !isPaP ? new Gun_Thomspon() : new Gun_Thomspon_PaP() //TODO PaP version
+    //     case "Type 100":
+    //         return !isPaP ? new Gun_Type100() : new Gun_Type100_PaP() //TODO PaP version
+    //     case "HK21":
+    //         return !isPaP ? new Gun_HK21() : new Gun_HK21_PaP() //TODO PaP version
+    //     case "RPK":
+    //         return !isPaP ? new Gun_RPK() : new Gun_RPK_PaP() //TODO PaP version
+    //     case "FG42":
+    //         return !isPaP ? new Gun_FG42() : new Gun_FG42_PaP() //TODO PaP version
+    //     case "Dragunov":
+    //         return !isPaP ? new Gun_Dragunov() : new Gun_Dragunov_PaP() //TODO PaP version
+    //     case "Kar98k":
+    //         return !isPaP ? new Gun_Kar98k() : new Gun_Kar98k_PaP() //TODO PaP version
+    //     case "HS-10":
+    //         return !isPaP ? new Gun_HS10() : new Gun_HS10_PaP() //TODO PaP version
+    //     case "Stakeout":
+    //         return !isPaP ? new Gun_Stakeout() : new Gun_Stakeout_PaP() //TODO PaP version
+    //     case "Double-Barrel":
+    //         return !isPaP ? new Gun_DoubleBarrel() : new Gun_DoubleBarrel_PaP() //TODO PaP version
+    //     case "M1897 Trench Gun":
+    //         return !isPaP ? new Gun_TrenchGun() : new Gun_TrenchGun_PaP() //TODO PaP version
+    //     case "China Lake":
+    //         return !isPaP ? new Gun_ChinaLake() : new Gun_ChinaLake_PaP() //TODO PaP version
+    //     case "M72 LAW":
+    //         return !isPaP ? new Gun_Law() : new Gun_Law_PaP() //TODO PaP version
+    // }
 }
 
 //******************* Super ********************************
@@ -646,13 +723,32 @@ class Gun_M1911 extends Gun {
             "M1911",
             20, //dmg
             7, //mag size
-            8-0, //total ammo
+            80, //total ammo
             0.15, //fire cooldown
-            1, //reload time
+            1.6, //reload time
             MOVEMENT_PENALTY_LIGHTEST, //movement penalty
             0.14, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
+            0.1,2.5,
+            GUN_Pistol //animation type
+        );
+    }
+}
+class Gun_M1911_PaP extends Gun_T_Explode {
+    constructor() {
+        super(
+            "Mustang but no Sally :(",
+            1500, //dmg
+            6, //mag size
+            50, //total ammo
+            0.3, //fire cooldown
+            1.6, //reload time
+            MOVEMENT_PENALTY_LIGHTEST, //movement penalty
+            0.14, //recoil increase per fire
+            0.6, //recoil decrease rate
+            2000, //bullets speedTerminal
+            150, //splash radius
             0.1,2.5,
             GUN_Pistol //animation type
         );
@@ -1339,11 +1435,14 @@ class Gun_RayGun extends Gun_T_Explode { //Pistol
             GUN_Pistol
         )
     }
-    shoot1(posX, posY, angle) { //handles recoil
-        GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
-        this.shoot2(posX, posY, angle)
-        this.currentRecoil += this.recoilIncreasePerClick;
-        this.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
+    // shoot1(posX, posY, angle) { //handles recoil
+    //     GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
+    //     this.shoot2(posX, posY, angle)
+    //     this.currentRecoil += this.recoilIncreasePerClick;
+    //     this.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
+    // }
 
+    spawnMuzzleFlash(posX, posY, angle, specialFlash = "Assets/Images/Items/Muzzle_Flash_RayGun.png", w = 0, h = 0) {
+        super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);
     }
 }
