@@ -828,6 +828,7 @@ class PerkMachine extends MapInteract {
             GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("No power")
             return false
         }
+        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk + " for " + this.cost)
         //already has the perk
         switch (this.perk) {
             case "Juggernog":
@@ -841,7 +842,6 @@ class PerkMachine extends MapInteract {
             case "Stamin-Up":
                 if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
         }
-        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk + " for " + this.cost)
     }
 
     givePerk() {

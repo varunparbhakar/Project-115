@@ -182,6 +182,7 @@ class HUDPointsFlyOut {
     }
 }
 
+HUDROUNDS_TEXT = ["a","b","c","d","e","ea","eb","ec","ed","ee"]
 class HUDRound {
     constructor() {
         this.time = 0
@@ -198,16 +199,17 @@ class HUDRound {
     }
 
     draw() {
-        //points
+        //rounds
         GAME_ENGINE.ctx.save()
-        GAME_ENGINE.ctx.font = 'bold 190px arial'
+
+        GAME_ENGINE.ctx.font = (GAME_ENGINE.camera.map.roundManager.curr_Round <= 10 ? 'bold 190px TallyMark' : 'bold 190px Arial')
         GAME_ENGINE.ctx.fillStyle = this.color
         GAME_ENGINE.ctx.textAlign = "left"
         GAME_ENGINE.ctx.shadowColor = "black"
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(GAME_ENGINE.camera.map.roundManager.curr_Round, 5, GAME_ENGINE.ctx.canvas.height - 10)
+        GAME_ENGINE.ctx.fillText((GAME_ENGINE.camera.map.roundManager.curr_Round <= 10 ? HUDROUNDS_TEXT[GAME_ENGINE.camera.map.roundManager.curr_Round-1] : GAME_ENGINE.camera.map.roundManager.curr_Round), 5, GAME_ENGINE.ctx.canvas.height - 10)
         GAME_ENGINE.ctx.restore()
     }
 }
