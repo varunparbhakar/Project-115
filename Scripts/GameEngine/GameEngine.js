@@ -208,7 +208,7 @@ class GameEngine {
             this.ent_Player = entity
         } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
             this.ent_Etc.push(entity)
-        } else if (entity instanceof HUD || entity instanceof MuzzleFlash) {
+        } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut || entity instanceof MuzzleFlash) {
             this.ent_HUD.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")

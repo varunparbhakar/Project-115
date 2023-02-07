@@ -14,6 +14,7 @@ class HUD {
         if (GAME_ENGINE.ent_Player == null) return
         this.bottomLeftGuns.update()
         this.bottomRightRound.update()
+        this.bottomRightPoints.update()
         // this.bottomMiddleInteract.update()
         // this.bottomRightGrenades.update()
         this.fullscreenRedHurt.update()
@@ -99,6 +100,15 @@ class HUDGun {
 class HUDPoints {
     constructor() {
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/points_underlay.png")
+        this.lastPlayerPoints = 500
+    }
+
+    update() {
+        //points event listener
+        if (GAME_ENGINE.ent_Player.points !== this.lastPlayerPoints) {
+            GAME_ENGINE.addEntity(new HUDPointsFlyOut(GAME_ENGINE.ent_Player.points - this.lastPlayerPoints, 25, GAME_ENGINE.ctx.canvas.height - 200))
+        }
+        this.lastPlayerPoints = GAME_ENGINE.ent_Player.points
     }
 
     draw() {
@@ -124,13 +134,50 @@ class HUDPoints {
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(GAME_ENGINE.ent_Player.points, 20, GAME_ENGINE.ctx.canvas.height - 165)
+        GAME_ENGINE.ctx.fillText(GAME_ENGINE.ent_Player.points, 40, GAME_ENGINE.ctx.canvas.height - 165)
         GAME_ENGINE.ctx.restore()
     }
 }
 
+HUDPOINTSFLYOUT_TIME = 0.7
 class HUDPointsFlyOut {
-    constructor() {
+    constructor(points, posX, posY) {
+        if (points < 0) {
+            this.text = points
+        } else {
+            this.text = "+" + points
+        }
+        this.decayTime = HUDPOINTSFLYOUT_TIME
+        this.posX = posX
+        this.posY = posY
+        this.velX = ((Math.random() * 2) - 1) * 30
+        this.velY = -80
+    }
+
+    update() {
+        if (this.decayTime > 0) {
+            this.decayTime -= GAME_ENGINE.clockTick
+        } else {
+            this.removeFromWorld = true
+        }
+
+        //movement
+        this.posX += this.velX * GAME_ENGINE.clockTick
+        this.posY += this.velY * GAME_ENGINE.clockTick
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 50px arial'
+        GAME_ENGINE.ctx.fillStyle = "yellow"
+        GAME_ENGINE.ctx.textAlign = "left"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 5
+        GAME_ENGINE.ctx.globalAlpha = Math.max(this.decayTime / HUDPOINTSFLYOUT_TIME,0)
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText(this.text, this.posX, this.posY)
+        GAME_ENGINE.ctx.restore()
 
     }
 }

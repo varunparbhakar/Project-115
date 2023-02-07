@@ -286,7 +286,6 @@ class Player extends GameObject {
         this.player_Collision_World_BB.drawBoundingBox()
         this.playerCollision_Zombies_C.drawBoundingCircle("Red")
         this.playerCollision_Vulnerable_C.drawBoundingCircle("Green")
-        console.log(this.hp)
     }
 
     saveLastBB() {
