@@ -5,6 +5,7 @@ class HUD {
         this.bottomRightGrenades = new HUDGrenade(this.bottomLeftGuns)
         this.bottomRightRound = new HUDRound()
         this.bottomMiddleInteract = new HUDInteract()
+        this.topMiddleStamina = new HUDStamina()
         this.topLeftPerks = new HUDPerks()
         this.topRightPerks = new HUDPowerUp()
         this.fullscreenRedHurt = new HUDHurt()
@@ -28,6 +29,7 @@ class HUD {
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
         this.bottomMiddleInteract.draw()
+        this.topMiddleStamina.draw()
         this.topLeftPerks.draw()
         this.bottomRightGrenades.draw()
         this.topRightPerks.draw()
@@ -106,7 +108,7 @@ class HUDPoints {
     update() {
         //points event listener
         if (GAME_ENGINE.ent_Player.points !== this.lastPlayerPoints) {
-            GAME_ENGINE.addEntity(new HUDPointsFlyOut(GAME_ENGINE.ent_Player.points - this.lastPlayerPoints, 25, GAME_ENGINE.ctx.canvas.height - 200))
+            GAME_ENGINE.addEntity(new HUDPointsFlyOut(GAME_ENGINE.ent_Player.points - this.lastPlayerPoints, 180, GAME_ENGINE.ctx.canvas.height - 165))
         }
         this.lastPlayerPoints = GAME_ENGINE.ent_Player.points
     }
@@ -150,8 +152,8 @@ class HUDPointsFlyOut {
         this.decayTime = HUDPOINTSFLYOUT_TIME
         this.posX = posX
         this.posY = posY
-        this.velX = ((Math.random() * 2) - 1) * 30
-        this.velY = -80
+        this.velX = 125
+        this.velY = ((Math.random() * 2) - 1) * 45
     }
 
     update() {
@@ -444,5 +446,29 @@ class HUDPowerUp {
             GAME_ENGINE.ctx.canvas.width - (22 * HUDPERKS_SCALE) - (22 * i * HUDPERKS_SCALE) - 5, 5,
             22 * HUDPERKS_SCALE, 24 * HUDPERKS_SCALE
         )
+    }
+}
+
+class HUDStamina {
+    constructor() {
+
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        let stamina = GAME_ENGINE.ent_Player.sprintStamina
+        let maxStamina = (GAME_ENGINE.ent_Player.perk_hasStaminUp ? PLAYER_STAMINA_UP_STAMINA_MAX : PLAYER_STAMINA_MAX)
+        let statminaPercent = stamina/maxStamina
+        if (statminaPercent >= 1) {return}
+
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.globalAlpha = 0.4
+        let width = GAME_ENGINE.ctx.canvas.width * statminaPercent
+        GAME_ENGINE.ctx.fillRect((GAME_ENGINE.ctx.canvas.width - width)/2,0,width,3)
+        GAME_ENGINE.ctx.restore()
     }
 }
