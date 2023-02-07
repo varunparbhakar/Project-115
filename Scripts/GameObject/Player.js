@@ -53,12 +53,10 @@ class Player extends GameObject {
 
         this.angle = 0;
 
-        //TODO adding animation list
-
         //Guns
         let startM1911 = new Gun_M1911()
         startM1911.currentTotalAmmo = 32
-        this.gunInventory = [startM1911, 0]; //[new Gun_M1911(), 0]
+        this.gunInventory = [startM1911, new Gun_Empty()]; //[startM1911, new Gun_Empty()]
         this.currentGunIndex = 0;
 
         //HP
@@ -70,7 +68,7 @@ class Player extends GameObject {
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
         //Points
-        this.points = 500 //500
+        this.points = 5000 //500
         //Knife
         this.knifeCooldownUntilAttack = 0
         this.isKnifing = false
@@ -189,21 +187,18 @@ class Player extends GameObject {
         }
         //Switching Guns
         if (GAME_ENGINE.key_switchGuns) { //TODO check nade count, cooldown via animations
-            if (this.gunInventory[this.currentGunIndex + 1] !== 0 && !this.isSwitching) {
-                this.currentGunIndex++
-                if (this.currentGunIndex === this.gunInventory.length) //loop back to start
-                    this.currentGunIndex = 0
-                this.isSwitching = true
-                this.animator.finishedAnimation = true
-                //TODO call gun on equip
-                this.gunInventory[this.currentGunIndex].equip()
-            }
+            this.switchGuns()
         } else {
             this.isSwitching = false
         }
 
         //Gun
-        this.gunInventory[this.currentGunIndex].update()
+        try {
+            this.gunInventory[this.currentGunIndex].update()
+        } catch (Error) {
+            this.gunInventory[this.currentGunIndex] = new Gun_Empty()
+        }
+
 
         if(this.animator.isDone()){
             this.state = ANIMATION_Idle
@@ -453,7 +448,7 @@ class Player extends GameObject {
     acceptNewGun(gun) {
         //check if space is available
         for (let i = 0; i < this.gunInventory.length; i++) {
-            if (this.gunInventory[i] === 0) {
+            if (this.gunInventory[i].name === "Empty") {
                 this.gunInventory[i] = gun
                 this.currentGunIndex = i //switch to
                 this.gunInventory[this.currentGunIndex].equip()
@@ -477,6 +472,16 @@ class Player extends GameObject {
         this.animator.finishedAnimation = true
         return 0
 
+    }
+
+    switchGuns() {
+        if (this.gunInventory[(this.currentGunIndex + 1) % this.gunInventory.length].name !== "Empty" && !this.isSwitching) {
+            this.currentGunIndex = (this.currentGunIndex + 1) % this.gunInventory.length
+            this.isSwitching = true
+            this.animator.finishedAnimation = true
+            //TODO call gun on equip
+            this.gunInventory[this.currentGunIndex].equip()
+        }
     }
 }
 

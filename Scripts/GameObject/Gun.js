@@ -9,6 +9,7 @@ class GunPNGCoords {
     constructor() {
         this.map = new Map([
             //["Name", [xStart, yStart, width, height, isPaP]]
+            ["Empty", 0,0,0,0, false],
 
             ["M1911", [0, 0, 16, 12, false]],
             ["Mustang but no Sally :(", [0, 0, 16, 12, true]],
@@ -33,8 +34,8 @@ class GunPNGCoords {
 
             ["Python TRASH", [79, 1, 21, 12, false]], //TODO make and stats
 
-            ["Python", [148, 0, 27, 14, false]],
-            ["Cobra", [148, 0, 27, 14, true]],
+            ["Python", [148, 0, 26, 14, false]],
+            ["Cobra", [148, 0, 26, 14, true]],
 
             ["AUG", [268, 106, 43, 18, false]],
             ["AUG-50M3", [268, 106, 43, 18, true]],
@@ -146,10 +147,13 @@ const GUN_TEXTURE_MAP = new GunPNGCoords()
 
 const CREATE_GUN_FROM_NAME = (name, isPaP=false) => {
     switch (name) { //TODO add adjacent case and if for PaP guns and complete
+        case "Empty":
+            return new Gun_Empty()
         case "M1911":
         case "Mustang but no Sally :(":
             return !isPaP ? new Gun_M1911() : new Gun_M1911_PaP()
         case "M14":
+        case "Mnesia":
             return !isPaP ? new Gun_M14() : new Gun_M14_PaP() //TODO PaP version
         case "Olympia":
         case "Hades":
@@ -771,7 +775,7 @@ class Gun_M1911_PaP extends Gun_T_Explode {
         super(
             "Mustang but no Sally :(",
             1500, //dmg
-            6, //mag size
+            8, //mag size
             50, //total ammo
             0.3, //fire cooldown
             1.6, //reload time
@@ -2159,5 +2163,24 @@ class Gun_RayGun_PaP extends Gun_T_Explode { //Pistol
 
     spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
         super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);
+    }
+}
+
+class Gun_Empty extends Gun {
+    constructor() {
+        super(
+            "Empty",
+            0, //dmg
+            0, //mag size
+            0, //total ammo
+            1, //fire cooldown
+            0.1, //reload time
+            1, //movement penalty
+            0, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0,0,
+            GUN_Pistol //animation type
+        );
     }
 }

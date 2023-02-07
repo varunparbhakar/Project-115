@@ -111,6 +111,9 @@ class WorldMap {
         ////////////Mystery Box////////////
         let mysterybox = new MysteryBox([[700, 472],[998, 608]], 1, this)
         GAME_ENGINE.addEntity(mysterybox)
+        ////////////PaP////////////
+        let pap = new PackAPunch(857, 468, this)
+        GAME_ENGINE.addEntity(pap)
 
         ////////////Power////////////
         this.powerSwitch = new PowerSwitch(824, 715, "W", this) //20 by 25 px
@@ -566,7 +569,7 @@ MYSTERYBOX_BB_WIDTH = 85
 MYSTERYBOX_BB_HEIGHT = 30
 MYSTERYBOX_ROLL_TIME = 5
 MYSTERYBOX_OFFER_TIME = 10
-MYSTERYBOX_SPAM_PREVENT_TIME = 3
+MYSTERYBOX_SPAM_PREVENT_TIME = 2
 MYSTERYBOX_COST = 950 //950
 MYSTERYBOX_IMG_PATH = "Assets/Images/Map/MysteryBox_Sprite.png"
 MYSTERYBOX_LOOT_TABLE = ["M1911","Olympia","M16","L96A1","Ray Gun","SPAS-12","CZ75","Python","AUG","Commando","Famas","FN FAL","G11","Galil","M14","Gewehr 43","M1 Carbine","STG-44","AK-74u","MP5K","MP40","MPL","PM63","Spectre","Thompson","Type 100","HK21","RPK","FG42","Dragunov","Kar98k","HS-10","Stakeout","Double-Barrel","M1897 Trench Gun","China Lake","M72 LAW"] //"Ballistic Knife","Crossbow","Wunderwaffe DG-2","AK-47","PPSH", "Python TRASH"
@@ -1043,6 +1046,160 @@ class PowerUp_Carpenter extends PowerUp {
 //     }
 // }
 
+PAP_WIDTH = 80
+PAP_HEIGHT = 50
+PAP_COST = 5000
+class PackAPunch extends MapInteract {
+    constructor(posX, posY, map) {
+        super()
+        this.bb = new BoundingBox(
+            posX * map.scale, posY * map.scale,
+            PAP_WIDTH * map.scale, PAP_HEIGHT * map.scale
+        )
+        this.bb_interact = new BoundingBox(
+            posX * map.scale, posY * map.scale,
+            PAP_WIDTH * map.scale, (PAP_HEIGHT + 15) * map.scale
+        )
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+        this.scale = map.scale
+
+        /**
+         * 0: waiting
+         * 1: taking in gun
+         * 2: gun disappears
+         * 3: guns comes out
+         * 4: offer gun
+         * 5: prevent spam
+         * 6: unbuilt
+         * @type {number}
+         */
+        this.state = 0
+        this.stateCooldown = 0
+
+        // this.animatorPaP = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, this.scale/3)
+        this.currGun = new Gun_M1911() //to avoid null pointer
+        this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
+    }
+
+    update() {
+        switch(this.state) {
+            case 0: //waiting
+                break
+            case 1: //taking in gun
+                if (this.stateCooldown <= 0) {
+                    this.stateCooldown = 2
+                    this.state++
+                }
+                break
+            case 2: //gun disappears
+                if (this.stateCooldown <= 0) {
+                    this.currGun = CREATE_GUN_FROM_NAME(this.currGun.name, true)
+                    this.stateCooldown = 2
+                    this.state++
+                }
+                break
+            case 3: //guns comes out
+                if (this.stateCooldown <= 0) {
+                    this.stateCooldown = 10
+                    this.state++
+                }
+                break
+            case 4: //offer gun
+                if (this.stateCooldown <= 0) {
+                    this.stateCooldown = 2
+                    this.state++
+                }
+                break
+            case 5: //prevent spam
+                if (this.stateCooldown <= 0) {
+                    this.state = 0
+                }
+                break
+        }
+    }
+
+    draw() {
+        if (this.stateCooldown > 0) {
+            this.stateCooldown -= GAME_ENGINE.clockTick
+        }
+        switch(this.state) {
+            case 0: //waiting
+                //pap
+                break
+            case 1: //taking in gun
+                this.drawGun(0)
+                //flashing lights
+                //pap
+                break
+            case 2: //gun disappears
+                //flashing lights
+                //pap
+                break
+            case 3: //guns comes out
+                this.drawGun(0)
+                //flashing lights
+                //pap
+                break
+            case 4: //offer gun
+                this.drawGun(0)
+                //flashing lights
+                //pap
+                break
+            case 5: //prevent spam
+                //pap
+                break
+        }
+
+        this.bb.drawBoundingBox()
+        this.bb_interact.drawBoundingBox("green")
+    }
+
+    drawGun(offsetY) {
+        let centerPos = this.bb.getCenteredPos()
+        this.animatorGun.xStart = this.currGun[0]
+        this.animatorGun.yStart = this.currGun[1]
+        this.animatorGun.width = this.currGun[2]
+        this.animatorGun.height = this.currGun[3]
+        this.animatorGun.drawFrame(centerPos[0] - (this.currGun[2]/2 * this.animatorGun.scale), centerPos[1] - (this.currGun[3]/2 * this.animatorGun.scale))
+    }
+
+    hudText() {
+        switch(this.state) {
+            case 0: //waiting
+                if (GAME_ENGINE.camera.map.powerSwitch.power) {//power
+                    if (!GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP) {//if no Pap yet
+                        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to upgrade current gun for " + PAP_COST)
+                    }
+                } else {
+                    GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("No power")
+                }
+                break
+            case 4: //offer gun
+                GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to pick up " + this.currGun.name)
+                break
+        }
+    }
+
+    use() {
+        if (!GAME_ENGINE.camera.map.powerSwitch.power || GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP) {return}
+        switch(this.state) {
+            case 0: //waiting
+                this.currGun = GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex]
+                GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()
+                GAME_ENGINE.ent_Player.switchGuns()
+                this.state++
+                this.stateCooldown = 2
+                break
+            case 4: //offering
+                GAME_ENGINE.ent_Player.acceptNewGun(this.currGun)
+                this.stateCooldown = 2
+                this.state++
+
+        }
+    }
+}
+
 //https://project-lazarus.fandom.com/wiki/Rounds they be using real formulas
 const ROUND_COUNT = [6,8,13,18,24,27,28,28,29,33,34,36,39,41,44,47,50,53,56,60,63]
 class RoundManager {
@@ -1069,7 +1226,7 @@ class RoundManager {
          * The amount of zombies this round. Will increase in next round
          * @type {number}
          */
-        this.thisRound_ZombiesThisRound = ROUND_COUNT[0] //6
+        this.curr_ZombiesLeft = ROUND_COUNT[0] //6
         this.inRound = false
         this.curr_ZombiesSpawned = 0
     }
@@ -1080,7 +1237,7 @@ class RoundManager {
     start() {
         this.curr_Round = 1
 
-        this.curr_ZombiesLeft = this.thisRound_ZombiesThisRound
+        // this.curr_ZombiesLeft = ROUND_COUNT[0]
         this.curr_ZombiesHealth = 50 + (100*this.curr_Round) //150
 
         // this.thisRound_ZombiesSpawnDelay = Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1)
@@ -1110,7 +1267,6 @@ class RoundManager {
         this.curr_Round++
 
         //TODO accuracy
-        this.thisRound_ZombiesThisRound += 6
         this.curr_ZombiesLeft = this.curr_Round < 20 ?
             ROUND_COUNT[this.curr_Round - 1] :
             Math.ceil(Math.min([0.09 * (this.curr_Round * this.curr_Round) - 0.0029 * this.curr_Round + 23.958]))
