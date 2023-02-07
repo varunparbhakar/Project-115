@@ -1050,10 +1050,11 @@ PAP_WIDTH = 80
 PAP_HEIGHT = 50
 PAP_COST = 5000
 PAP_STATECD_1 = 2
-PAP_STATECD_2 = 2
+PAP_STATECD_2 = 3
 PAP_STATECD_3 = 2
 PAP_STATECD_4 = 10
 PAP_STATECD_5 = 2
+PAP_OFFSETY = 75
 class PackAPunch extends MapInteract {
     constructor(posX, posY, map) {
         super()
@@ -1134,7 +1135,7 @@ class PackAPunch extends MapInteract {
                 //pap
                 break
             case 1: //taking in gun
-                this.drawGun(0)
+                this.drawGun((this.stateCooldown/PAP_STATECD_1) * PAP_OFFSETY)
                 //flashing lights
                 //pap
                 break
@@ -1143,12 +1144,12 @@ class PackAPunch extends MapInteract {
                 //pap
                 break
             case 3: //guns comes out
-                this.drawGunPaP(0)
+                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_1)) * PAP_OFFSETY)
                 //flashing lights
                 //pap
                 break
             case 4: //offer gun
-                this.drawGunPaP(0)
+                this.drawGunPaP(PAP_OFFSETY)
                 //flashing lights
                 //pap
                 break
@@ -1167,7 +1168,7 @@ class PackAPunch extends MapInteract {
         this.animatorGun.yStart = this.currGun.yStart
         this.animatorGun.width = this.currGun.width
         this.animatorGun.height = this.currGun.height
-        this.animatorGun.drawFrame(centerPos[0] - (this.animatorGun.width/2 * this.animatorGun.scale), centerPos[1] - (this.animatorGun.height/2 * this.animatorGun.scale))
+        this.animatorGun.drawFrame(centerPos[0] - (this.animatorGun.width/2 * this.animatorGun.scale), centerPos[1] + offsetY - (this.animatorGun.height/2 * this.animatorGun.scale))
     }
 
     drawGunPaP(offsetY) {
@@ -1176,7 +1177,7 @@ class PackAPunch extends MapInteract {
         this.animatorGunPaP.yStart = this.currGun.yStart
         this.animatorGunPaP.width = this.currGun.width
         this.animatorGunPaP.height = this.currGun.height
-        this.animatorGunPaP.drawFrame(centerPos[0] - (this.animatorGunPaP.width/2 * this.animatorGunPaP.scale), centerPos[1] - (this.animatorGunPaP.height/2 * this.animatorGunPaP.scale))
+        this.animatorGunPaP.drawFrame(centerPos[0] - (this.animatorGunPaP.width/2 * this.animatorGunPaP.scale), centerPos[1] + offsetY - (this.animatorGunPaP.height/2 * this.animatorGunPaP.scale))
     }
 
     hudText() {
