@@ -8,12 +8,12 @@ const PLAYER_IMAGE_ROTATION_OFFSET = -1.6
 // const PLAYER_FRICTION = 5000;
 const PLAYER_WALKING_SPEED = 400;
 const PLAYER_RUNNING_SPEED = 700;
-const PLAYER_STAMINA_MAX = 150;
-const PLAYER_STAMINA_RESTED_THRES = 100;
+const PLAYER_STAMINA_MAX = 50;
+const PLAYER_STAMINA_RESTED_THRES = 30;
 const PLAYER_STAMINA_USAGE_PER_SEC = 25;
 const PLAYER_STAMINA_HEAL_PER_SEC = 30;
 //Stamina Up Stats
-const PLAYER_STAMINA_UP_STAMINA_MAX = 250;
+const PLAYER_STAMINA_UP_STAMINA_MAX = 100;
 
 //Bounding Entities
 const PLAYER_BB_DIMENSION = 100;
@@ -123,7 +123,7 @@ class Player extends GameObject {
             } else {
                 this.sprintStamina = (this.perk_hasStaminUp ? PLAYER_STAMINA_UP_STAMINA_MAX: PLAYER_STAMINA_MAX)
             }
-            this.sprintRest = (this.sprintStamina < PLAYER_STAMINA_RESTED_THRES);
+            if (this.sprintStamina > PLAYER_STAMINA_RESTED_THRES) this.sprintRest = false //stop resting
         }
 
         //TODO Velocity based movement
