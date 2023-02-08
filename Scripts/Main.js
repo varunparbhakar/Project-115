@@ -48,6 +48,8 @@ ASSET_MANAGER.queueDownload("Assets/Images/Map/MysteryBox_Sprite.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/PowerSwitch_Sprite.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/Bloody_Screen.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Perks_Hud.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Map/Pack_A_Punch.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Map/Pack_A_Punch_Light.png")
 
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");

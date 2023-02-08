@@ -1047,14 +1047,16 @@ class PowerUp_Carpenter extends PowerUp {
 // }
 
 PAP_WIDTH = 80
-PAP_HEIGHT = 50
+PAP_HEIGHT = 35
 PAP_COST = 5000
 PAP_STATECD_1 = 2
-PAP_STATECD_2 = 3
+PAP_STATECD_2 = 2
 PAP_STATECD_3 = 2
 PAP_STATECD_4 = 10
 PAP_STATECD_5 = 2
 PAP_OFFSETY = 75
+PAP_IMG_PATH = "Assets/Images/Map/Pack_A_Punch.png"
+PAPLIGHT_IMG_PATH = "Assets/Images/Map/Pack_A_Punch_Light.png"
 class PackAPunch extends MapInteract {
     constructor(posX, posY, map) {
         super()
@@ -1069,6 +1071,7 @@ class PackAPunch extends MapInteract {
         this.bb.updateSides()
         this.bb_interact.updateSides()
         this.scale = map.scale
+        this.elapseTime = 0
 
         /**
          * 0: waiting
@@ -1083,7 +1086,8 @@ class PackAPunch extends MapInteract {
         this.state = 0
         this.stateCooldown = 0
 
-        // this.animatorPaP = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, this.scale/3)
+        this.animatorPaP = new Animator(ASSET_MANAGER.getAsset(PAP_IMG_PATH), 0,0, 221, 194, 1, 1, this.scale/3)
+        this.animatorPaPLight = new Animator(ASSET_MANAGER.getAsset(PAPLIGHT_IMG_PATH), 0,0, 221, 194, 1, 1, this.scale/3)
         this.currGun = new Gun_M1911() //to avoid null pointer
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
         this.animatorGunPaP = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUNPAP_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
@@ -1132,31 +1136,26 @@ class PackAPunch extends MapInteract {
         }
         switch(this.state) {
             case 0: //waiting
-                //pap
                 break
             case 1: //taking in gun
-                this.drawGun((this.stateCooldown/PAP_STATECD_1) * PAP_OFFSETY)
-                //flashing lights
-                //pap
+                this.drawGun((this.stateCooldown/PAP_STATECD_1) * PAP_OFFSETY + 20)
+                this.drawPaPLight()
                 break
             case 2: //gun disappears
-                //flashing lights
-                //pap
+                this.drawPaPLight()
                 break
             case 3: //guns comes out
-                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_3)) * PAP_OFFSETY)
-                //flashing lights
-                //pap
+                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_3)) * PAP_OFFSETY + 20)
+                this.drawPaPLight()
                 break
             case 4: //offer gun
-                this.drawGunPaP(PAP_OFFSETY)
-                //flashing lights
-                //pap
+                this.drawGunPaP(PAP_OFFSETY + 20)
+                this.drawPaPLight()
                 break
             case 5: //prevent spam
-                //pap
                 break
         }
+        this.drawPaP()
 
         this.bb.drawBoundingBox()
         this.bb_interact.drawBoundingBox("green")
@@ -1169,6 +1168,15 @@ class PackAPunch extends MapInteract {
         this.animatorGun.width = this.currGun.width
         this.animatorGun.height = this.currGun.height
         this.animatorGun.drawFrame(centerPos[0] - (this.animatorGun.width/2 * this.animatorGun.scale), centerPos[1] + offsetY - (this.animatorGun.height/2 * this.animatorGun.scale))
+    }
+
+    drawPaP() {
+        this.animatorPaP.drawFrame(this.bb.x, this.bb.y)
+    }
+
+    drawPaPLight() {
+        this.elapseTime =+ GAME_ENGINE.clockTick * 50
+        this.animatorPaPLight.drawFrame(this.bb.x, this.bb.y + 125, Math.random()*0.25 + 0.6) //
     }
 
     drawGunPaP(offsetY) {
@@ -1207,7 +1215,7 @@ class PackAPunch extends MapInteract {
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()
                 GAME_ENGINE.ent_Player.switchGuns()
                 this.state++
-                this.stateCooldown = PAP_STATECD_2
+                this.stateCooldown = PAP_STATECD_1
                 break
             case 4: //offering
                 GAME_ENGINE.ent_Player.acceptNewGun(this.currGun)

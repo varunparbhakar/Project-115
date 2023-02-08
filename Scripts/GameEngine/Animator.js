@@ -11,7 +11,7 @@ class Animator { //TODO add priority
         this.totalTime = frameCount * frameDuration;
     };
 
-    drawFrame(posX, posY) {
+    drawFrame(posX, posY, opacity=1) {
         this.elaspedTime += GAME_ENGINE.clockTick
         if(this.elaspedTime > this.totalTime) {
             this.elaspedTime = 0;
@@ -20,6 +20,7 @@ class Animator { //TODO add priority
         const frame = this.currentFrame();
 
         GAME_ENGINE.ctx.save();
+        GAME_ENGINE.ctx.globalAlpha = opacity
         //TODO Centered Scaling?
         GAME_ENGINE.ctx.scale(this.flippedX ? -1 : 1, this.flippedY ? -1 : 1);
         GAME_ENGINE.ctx.drawImage(

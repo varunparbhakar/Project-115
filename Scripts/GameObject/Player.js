@@ -68,7 +68,7 @@ class Player extends GameObject {
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
         //Points
-        this.points = 500 //500
+        this.points = 50000 //500
         //Knife
         this.knifeCooldownUntilAttack = 0
         this.isKnifing = false
@@ -434,15 +434,10 @@ class Player extends GameObject {
 
     earnPoints(points) {
         this.points += (this.powerup_hasDoublePointsTimer > 0 ? points * 2 : points)
-        // console.log("+" + points, this.points)
-        //TODO 2x Points
-        //TODO points number hud
     }
 
     losePoints(points) {
         this.points -= points
-        console.log("-" + points, this.points)
-        //TODO points number hud
     }
 
     acceptNewGun(gun) {
@@ -479,7 +474,6 @@ class Player extends GameObject {
             this.currentGunIndex = (this.currentGunIndex + 1) % this.gunInventory.length
             this.isSwitching = true
             this.animator.finishedAnimation = true
-            //TODO call gun on equip
             this.gunInventory[this.currentGunIndex].equip()
         }
     }
