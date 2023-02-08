@@ -1144,7 +1144,7 @@ class PackAPunch extends MapInteract {
                 //pap
                 break
             case 3: //guns comes out
-                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_1)) * PAP_OFFSETY)
+                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_3)) * PAP_OFFSETY)
                 //flashing lights
                 //pap
                 break
