@@ -15,7 +15,8 @@ ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/Map1.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/Map1_shadow.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/Map1_roof.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Barrier_Spritesheet.png")
-ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/Map2.png")
+// ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/Map2.png")
+ASSET_MANAGER.queueDownload("Assets/Images/Map/Levels/DLC1.png")
 
 //Loading Pistol
 ASSET_MANAGER.queueDownload("Assets/Images/Characters/Heroes/Animations/Idle/Pistol/idle.png")

@@ -145,15 +145,172 @@ class WorldMap {
     }
 
     level2() {
-        this.scale = 2.5
-        this.playerSpawnX = 500 * this.scale
-        this.playerSpawnY = 600 * this.scale
+        this.scale = 4.25
+        this.playerSpawnX = 1611 * this.scale
+        this.playerSpawnY = 972 * this.scale
         //MapLayers
-        let imagePath_back = "Assets/Images/Map/Levels/Map2.png"
+        let imagePath_back = "Assets/Images/Map/Levels/DLC1.png"
         let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
         GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
+        ////////////Top Left Near Double Tap/////////
+        GAME_ENGINE.addEntity(new MapBB(183, 491, 136, 262, this)) //A1 //TODO Player only
+        GAME_ENGINE.addEntity(new MapBB(684, 492, 439, 8, this)) //Top Fence
+        GAME_ENGINE.addEntity(new MapBB(1196, 492, 102, 9, this)) //Top Fence Right
+        GAME_ENGINE.addEntity(new MapBB(1212, 492, 54, 199, this)) //Top Fence Right Big
+        GAME_ENGINE.addEntity(new MapBB(686,493,10,258, this)) //Top Fence left big fence
 
-        ////////////PLayer///////////
+        GAME_ENGINE.addEntity(new MapBB(552, 756, 142, 57, this)) //Double Tap Bottom
+        GAME_ENGINE.addEntity(new MapBB(567, 812, 50, 171, this)) //Double Tap Bottom Car Trees
+        GAME_ENGINE.addEntity(new MapBB(609, 862, 34, 48, this)) //Double Tap Bottom Car
+        GAME_ENGINE.addEntity(new MapBB(614,913, 29,146, this)) //Double Tap Bottom Tree from bottom of red car
+        GAME_ENGINE.addEntity(new MapBB(641,952,75,85, this)) //Double Tap Bottom, from car to the right, tree
+        GAME_ENGINE.addEntity(new MapBB(640, 919,42,39, this)) //Double Tap Bottom
+        GAME_ENGINE.addEntity(new MapBB(713,981,29,51, this)) //Double Tap Bottom
+        GAME_ENGINE.addEntity(new MapBB(683,747,138,10, this)) //Double Tap bottom left
+
+
+        GAME_ENGINE.addEntity(new MapBB(828, 1018, 137,70, this)) //Middle Map
+        GAME_ENGINE.addEntity(new MapBB(913,971,48,217, this)) //Middle Map Boxes and Tree
+        GAME_ENGINE.addEntity(new MapBB(812,970,103,47, this)) //Middle Map, Tree
+        GAME_ENGINE.addEntity(new MapBB(951,1061, 37, 126, this)) //Middle Map, Boxes near PaP
+        GAME_ENGINE.addEntity(new MapBB(848,1084, 86,54, this)) //Middle Map, Bottom Middle Tree
+        GAME_ENGINE.addEntity(new MapBB(1004, 1100, 9,90, this)) //Middle Map, Fencer near the pap
+        GAME_ENGINE.addEntity(new MapBB(1004, 1100, 56,8, this)) //Middle Map, Fencer Top near PAp
+        GAME_ENGINE.addEntity(new MapBB(587,1018,11,255, this)) //Middle Map, Left Map Boundry
+        GAME_ENGINE.addEntity(new MapBB(587,1033, 56,25, this)) //Middle Map, Left Boundry Coverage Tree
+        GAME_ENGINE.addEntity(new MapBB(1083, 1133, 41,6, this)) //Middle Map, Fence Above Pap
+
+
+        GAME_ENGINE.addEntity(new MapBB(1193,692,38,43, this)) //Car
+        GAME_ENGINE.addEntity(new MapBB(1169,708,25,28, this)) //Car
+        GAME_ENGINE.addEntity(new MapBB(1145,719,24,26, this)) //Car
+        GAME_ENGINE.addEntity(new MapBB(1125,726,20,25, this)) //Car
+        GAME_ENGINE.addEntity(new MapBB(1113,734,12,61, this)) //Car
+        GAME_ENGINE.addEntity(new MapBB(1047,783,78,45, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1038,808,10,48, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1027,845,11,42, this)) //Rock
+
+        GAME_ENGINE.addEntity(new MapBB(1017,868,11,34, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1025,902,45,20, this)) //Rock
+        // GAME_ENGINE.addEntity(new MapBB(1013,922,33,104, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1060,936,112,22, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1077,959,68,13, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1090,972,34,9, this)) //Rock
+        // GAME_ENGINE.addEntity(new MapBB(1190,968,71,94, this)) //Boxes Bottom Right of Rock
+        // GAME_ENGINE.addEntity(new MapBB(1226,1054,42,37, this)) //Boxes Bottom Right of Rock
+
+        GAME_ENGINE.addEntity(new MapBB(939,540,10,281, this)) //Fence between Double Tap and the rock
+        GAME_ENGINE.addEntity(new MapBB(876,748,72,9, this)) //Fence between Double Tap and the rock
+
+        GAME_ENGINE.addEntity(new MapBB(1260,817,8,325, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1259,817,201,10, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1515,811,74,11, this)) //Jugg Wall Between 2 barriers
+        GAME_ENGINE.addEntity(new MapBB(1644,812,41,8, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1676,817,8,324, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1611,974,10,167, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1611,876,66,10, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1388,875,169,11, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1420,973,200,40, this)) //Juggernaut Room Boundry, Top of the barrier
+        GAME_ENGINE.addEntity(new MapBB(1420,1070,50,40, this)) //Juggernaut Room Boundry, Bottom of the barrier
+
+        GAME_ENGINE.addEntity(new MapBB(1357,1100,150,11, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1564,1100,51,9, this)) //Juggernaut Room Boundry
+        // GAME_ENGINE.addEntity(new MapBB(1261,1057,9,84, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1357,1100,9,40, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1324,1134,41,9, this)) //Juggernaut Room Boundry
+
+        GAME_ENGINE.addEntity(new MapBB(1676,1131,76,11, this)) //Right Side of Jugg near the lava
+        GAME_ENGINE.addEntity(new MapBB(1741,1131,7,90, this)) //Right side of jugg up to the barrier
+
+        GAME_ENGINE.addEntity(new MapBB(864,1208,16,11, this)) //taxi
+        GAME_ENGINE.addEntity(new MapBB(845,1200,20,17, this)) //taxi
+        GAME_ENGINE.addEntity(new MapBB(820,1188,25,30, this)) //taxi
+        GAME_ENGINE.addEntity(new MapBB(824,1216,63,43, this)) //taxi
+        GAME_ENGINE.addEntity(new MapBB(785,1172,35,10, this)) //taxi
+        GAME_ENGINE.addEntity(new MapBB(748,1182,79,75, this)) //fence and taxi
+        GAME_ENGINE.addEntity(new MapBB(604,1578,51,93, this)) //pool table
+        GAME_ENGINE.addEntity(new MapBB(843,1483,31,10, this)) //right wall of bar
+        GAME_ENGINE.addEntity(new MapBB(874,1444,11,232, this)) //right wall of bar
+        GAME_ENGINE.addEntity(new MapBB(850,1602,21,27, this, true)) //right bottom box of bar
+        GAME_ENGINE.addEntity(new MapBB(875,1270,10,102, this)) //top right wall of bar
+        GAME_ENGINE.addEntity(new MapBB(650,1313,169,11, this, true)) //top table of bar top chairs
+        GAME_ENGINE.addEntity(new MapBB(650,1356,170,12, this, true)) //top table of bar bottom chairs
+        GAME_ENGINE.addEntity(new MapBB(641,1324,188,31, this, true)) //top table of bar
+        GAME_ENGINE.addEntity(new MapBB(703,1271,67,42, this, true)) //top bench of bar
+        GAME_ENGINE.addEntity(new MapBB(675,1259,209,11, this)) //top wall of bar
+        GAME_ENGINE.addEntity(new MapBB(556,1260,80,11, this)) //top left wall of bar
+        GAME_ENGINE.addEntity(new MapBB(586,1260,11,89, this)) //top left wall of bar
+        GAME_ENGINE.addEntity(new MapBB(596,1484,32,10, this)) //left wall of bar protrude
+        GAME_ENGINE.addEntity(new MapBB(587,1404,10,121, this)) //left wall of bar
+        GAME_ENGINE.addEntity(new MapBB(587,1580,10,95, this)) //Wall left of pool
+        GAME_ENGINE.addEntity(new MapBB(588,1675,160,10, this)) //Wall behind Stam
+        GAME_ENGINE.addEntity(new MapBB(747,1676,10,168, this)) //Block behind Quick
+        GAME_ENGINE.addEntity(new MapBB(587,1836,106,80, this)) //Bushes behind Quick window
+        GAME_ENGINE.addEntity(new MapBB(812,1675,72,169, this)) //Block behind Quick
+
+        GAME_ENGINE.addEntity(new MapBB(1739,1275,10,112, this)) //middle right fences
+        GAME_ENGINE.addEntity(new MapBB(1649,1387,98,10, this)) //middle right fences
+        GAME_ENGINE.addEntity(new MapBB(1570,1312,61,10, this)) //museum Top white truck
+        GAME_ENGINE.addEntity(new MapBB(1523,1321,110,18, this)) //museum Top white truck
+        GAME_ENGINE.addEntity(new MapBB(1450,1334,185,18, this)) //museum Top white truck
+        GAME_ENGINE.addEntity(new MapBB(1430,1342,210,48, this)) //museum Top white truck
+        GAME_ENGINE.addEntity(new MapBB(1427,1387,225,42, this)) //museum Top white truck
+        GAME_ENGINE.addEntity(new MapBB(1204,1497,49,51, this)) //museum black car
+        GAME_ENGINE.addEntity(new MapBB(1142,1490,63,57, this)) //museum black car
+        GAME_ENGINE.addEntity(new MapBB(1118,1675,84,51, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1091,1666,27,25, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1067,1652,24,22, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1046,1637,25,19, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1081,1726,119,24, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1060,1705,36,21, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1043,1700,26,17, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1023,1690,27,19, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1006,1673,35,24, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1018,1651,23,22, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1028,1631,20,20, this)) //museum white truck
+        GAME_ENGINE.addEntity(new MapBB(1209,1432,22,27, this)) //museum top left box wall
+        GAME_ENGINE.addEntity(new MapBB(1205,1420,95,9, this)) //museum TOP left wall
+        GAME_ENGINE.addEntity(new MapBB(1195,1420,10,72, this)) //museum top LEFT wall
+        GAME_ENGINE.addEntity(new MapBB(1195,1548,10,129, this)) //Wall Speed
+        GAME_ENGINE.addEntity(new MapBB(1084,1750,116,53, this)) //White Truck in Bushes
+        GAME_ENGINE.addEntity(new MapBB(1200,1676,90,127, this)) //White Truck in Bushes
+        GAME_ENGINE.addEntity(new MapBB(1291,1740,10,63, this)) //White Truck in Bush Wall
+        GAME_ENGINE.addEntity(new MapBB(1050,1803,250,10, this)) //White Truck in Bush Fence
+        GAME_ENGINE.addEntity(new MapBB(1451,1506,64,93, this)) //Green Acid Statue
+        GAME_ENGINE.addEntity(new MapBB(1429,1598,86,16, this)) //Green Acid Statue Arm
+        GAME_ENGINE.addEntity(new MapBB(1410,1419,106,87, this)) //Green Acid Boxes
+        GAME_ENGINE.addEntity(new MapBB(1515,1420,10,232, this)) //Green Acid Wall
+        GAME_ENGINE.addEntity(new MapBB(1515,1739,128,10, this)) //Leaking Pipe Wall
+        GAME_ENGINE.addEntity(new MapBB(1643,1739,10,42, this)) //Leaking Pipe Wall
+        GAME_ENGINE.addEntity(new MapBB(1643,1868,9,160, this)) //Bushes Wall
+        GAME_ENGINE.addEntity(new MapBB(1252,1934,50,108, this)) //Bushes Wall
+        GAME_ENGINE.addEntity(new MapBB(1301,2027,351,10, this)) //Bushes Wall
+        GAME_ENGINE.addEntity(new MapBB(1564,1748,79,132, this)) //Cracked pipes //TODO Player only
+        GAME_ENGINE.addEntity(new MapBB(1300,1887,169,140, this)) //Bushes //TODO Player only
+        GAME_ENGINE.addEntity(new MapBB(1469,1879,176,149, this)) //Bushes //TODO Player only
+        GAME_ENGINE.addEntity(new MapBB(1291,1867,10,52, this)) //White Truck museum wall
+        GAME_ENGINE.addEntity(new MapBB(1249,1919,51,16, this)) //White Truck museum
+        GAME_ENGINE.addEntity(new MapBB(1232,1935,60,19, this)) //White Truck museum
+
+        GAME_ENGINE.addEntity(new MapBB(1059,1974,54,14, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1112,1962,19,26, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1130,1954,126,35, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(979,2017,41,19, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1020,1997,11,39, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(1031,1988,224,48, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(960,2036,346,112, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBB(873,1975,52,9, this)) //Blue Truck
+        GAME_ENGINE.addEntity(new MapBB(787,1961,58,10, this)) //Blue Truck
+        GAME_ENGINE.addEntity(new MapBB(783,1970,90,14, this)) //Blue Truck
+        GAME_ENGINE.addEntity(new MapBB(782,1981,182,84, this)) //Blue Truck
+        GAME_ENGINE.addEntity(new MapBB(724,1986,57,61, this)) //Orange Car
+        GAME_ENGINE.addEntity(new MapBB(671,1977,53,53, this)) //Orange Car
+        GAME_ENGINE.addEntity(new MapBB(595,1956,75,63, this)) //Orange Car
+        GAME_ENGINE.addEntity(new MapBB(586,1840,10,162, this)) //Fence left bottom most
+
+        GAME_ENGINE.addEntity(new Barrier(586, 1345, "E", this))
+
+        ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
         GAME_ENGINE.addEntity(this.player)
     }
