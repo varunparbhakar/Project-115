@@ -105,7 +105,7 @@ class WorldMap {
         let spawner2S = new SpawnerBarrier(1036, 1169, barrier2S, false, this)
         let room2Spawners = [spawner2N, spawner2E, spawner2S]
         //Connecting Door
-        let door2W = new Door(843, 626, 10, 60, 1500, room2Spawners, "Assets/Images/Characters/Boss/Panzer_Soldat.png", this)
+        let door2W = new Door(843, 626, 10, 60, 1500, room2Spawners, this)
         GAME_ENGINE.addEntity(door2W)
 
         ////////////Mystery Box////////////
@@ -146,8 +146,8 @@ class WorldMap {
 
     level2() {
         this.scale = 4.25
-        this.playerSpawnX = 1611 * this.scale
-        this.playerSpawnY = 972 * this.scale
+        this.playerSpawnX = 691 * this.scale
+        this.playerSpawnY = 1833 * this.scale
         //MapLayers
         let imagePath_back = "Assets/Images/Map/Levels/DLC1.png"
         let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
@@ -308,11 +308,57 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(595,1956,75,63, this)) //Orange Car
         GAME_ENGINE.addEntity(new MapBB(586,1840,10,162, this)) //Fence left bottom most
 
-        GAME_ENGINE.addEntity(new Barrier(586, 1345, "E", this))
+
+        ////////////Room: Spawn Area////////////
+        let barrier_SABar = new Barrier(691, 1833, "S", this)
+        GAME_ENGINE.addEntity(barrier_SABar)
+        let spawner_SABar = new SpawnerBarrier(570, 1706, barrier_SABar, true, this)
+
+        let spawners_SA = [spawner_SABar]
+
+        ////////////Room: Bar////////////
+        let barrier_BarTopW = new Barrier(586, 1345, "E", this)
+        GAME_ENGINE.addEntity(barrier_BarTopW)
+        let barrier_BarBottomW = new Barrier(588, 1522, "E", this)
+        GAME_ENGINE.addEntity(barrier_BarBottomW)
+
+        let spawner_BarTopW = new SpawnerBarrier(346, 1375, barrier_BarTopW, false, this)
+        let spawner_BarBottomW = new SpawnerBarrier(355, 1541, barrier_BarBottomW, false, this)
+        let spawners_Bar = [spawner_BarTopW, spawner_BarBottomW]
+
+        let door_BarN = new Door(635, 1258, 41, 12, 0, spawners_Bar, this)
+        GAME_ENGINE.addEntity(door_BarN)
+        let door_BarS = new Door(756, 1677, 56, 14, 0, spawners_Bar, this)
+        GAME_ENGINE.addEntity(door_BarS)
+        let door_BarE = new Door(874, 1372, 12, 71, 0, spawners_Bar, this)
+        GAME_ENGINE.addEntity(door_BarE)
+
+        ////////////Room: Museum////////////
+        let barrier_MuseumTopE = new Barrier(1516, 1650, "W", this)
+        GAME_ENGINE.addEntity(barrier_MuseumTopE)
+
+        let spawner_MuseumTopE = new SpawnerBarrier(1753, 1687, barrier_MuseumTopE, false, this)
+        let spawner_MuseumLeakPipe = new SpawnerDest(1800, 1813, 1559, 1821, false, this)
+        let spawner_MuseumBushesS = new SpawnerDest(1409, 1966, 1398, 1885, false, this)
+        let spawners_Museum = [spawner_MuseumTopE, spawner_MuseumLeakPipe, spawner_MuseumBushesS]
+
+        let door_MuseumW = new Door(1291, 1811, 9, 58, 0, spawners_Museum, this)
+        GAME_ENGINE.addEntity(door_MuseumW)
+        let door_MuseumN = new Door(1299, 1420, 57, 8, 0, spawners_Museum, this)
+        GAME_ENGINE.addEntity(door_MuseumN)
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
         GAME_ENGINE.addEntity(this.player)
+
+        ////////////HUD///////////
+        this.hud = new HUD();
+        GAME_ENGINE.addEntity(this.hud)
+
+        ////////////ROUND MANAGER////////////
+        this.roundManager = new RoundManager(spawners_SA)
+        GAME_ENGINE.addEntity(this.roundManager)
+        this.roundManager.start()
     }
 }
 
@@ -386,7 +432,7 @@ const BARRIER_IMAGE_DIMENSIONS = 260
 const BARRIER_IMAGE_FRAMES = 6
 const BARRIER_ADDITIONAL_INTERACT_SHORT = 14
 BARRIER_ADDITIONAL_INTERACT_LONG = 10
-const BARRIER_ARRIVAL_OFFSET = 20
+const BARRIER_ARRIVAL_OFFSET = 40
 const BARRIER_MAX_HP = 5 //in secs
 class Barrier {
     /**
@@ -561,7 +607,7 @@ class Door extends MapInteract {
      * @param imagePath
      * @param map
      */
-    constructor(posX, posY, width, height, cost, listOfSpawners, imagePath, map) {
+    constructor(posX, posY, width, height, cost, listOfSpawners, map) {
         super()
         //define bbs
         this.bb = new BoundingBox(
@@ -583,11 +629,8 @@ class Door extends MapInteract {
         this.cost = cost
         this.listOfSpawners = listOfSpawners
         this.isLocked = true //TODO remove if not needed
-        //TODO imagePath, render at center of bb (bb.getCentered - IMAGE_DIMENSION * Scale)
-        let tempImg = ASSET_MANAGER.getAsset(imagePath)
-        this.renderPosX = this.bb.getCenteredPos()[0] - tempImg.width / 2
-        this.renderPosY = this.bb.getCenteredPos()[1] - tempImg.height / 2
-        this.animator = new Animator(imagePath, 0, 0, tempImg.width, tempImg.height, 1, 1, map.scale)
+
+        //TODO make paired renderer
     }
 
     update() {
@@ -596,7 +639,6 @@ class Door extends MapInteract {
 
     draw() {
         if (this.isLocked) {
-            // this.animator.drawFrame(this.renderPosX, this.renderPosY) //TODO crashes when enabled
             this.bb.drawBoundingBox("red")
             this.bb_interact.drawBoundingBox("orange")
         }
@@ -633,6 +675,25 @@ class SpawnerBarrier {
 
     spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
         GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
+    }
+}
+
+class SpawnerDest {
+    constructor(posX, posY, destPosX, destPosY, isActive, map) {
+        Object.assign(this, {isActive})
+        this.posX = posX * map.scale
+        this.posY = posY * map.scale
+        this.pairedBarrier = new PairedBarrierDummy(destPosX * map.scale, destPosY * map.scale)
+    }
+
+    spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
+        GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
+    }
+}
+
+class PairedBarrierDummy {
+    constructor(destPosX, destPosY) {
+        this.zombieArrivalPoint = [destPosX, destPosY]
     }
 }
 
