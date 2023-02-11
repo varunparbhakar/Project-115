@@ -206,6 +206,7 @@ class GameEngine {
             this.ent_Zombies.push(entity)
         } else if (
             entity instanceof MapBB ||
+            entity instanceof MapBBPlayerOnly ||
             entity instanceof Barrier ||
             entity instanceof Door ||
             entity instanceof WallBuyTrigger ||

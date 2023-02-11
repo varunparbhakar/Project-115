@@ -285,9 +285,9 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1643,1868,9,160, this)) //Bushes Wall
         GAME_ENGINE.addEntity(new MapBB(1252,1934,50,108, this)) //Bushes Wall
         GAME_ENGINE.addEntity(new MapBB(1301,2027,351,10, this)) //Bushes Wall
-        GAME_ENGINE.addEntity(new MapBB(1564,1748,79,132, this)) //Cracked pipes //TODO Player only
-        GAME_ENGINE.addEntity(new MapBB(1300,1887,169,140, this)) //Bushes //TODO Player only
-        GAME_ENGINE.addEntity(new MapBB(1469,1879,176,149, this)) //Bushes //TODO Player only
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(1564,1748,79,132, this)) //Cracked pipes 
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(1300,1887,169,140, this)) //Bushes
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(1469,1879,176,149, this)) //Bushes
         GAME_ENGINE.addEntity(new MapBB(1291,1867,10,52, this)) //White Truck museum wall
         GAME_ENGINE.addEntity(new MapBB(1249,1919,51,16, this)) //White Truck museum
         GAME_ENGINE.addEntity(new MapBB(1232,1935,60,19, this)) //White Truck museum
