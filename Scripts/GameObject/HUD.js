@@ -9,6 +9,7 @@ class HUD {
         this.topLeftPerks = new HUDPerks()
         this.topRightPerks = new HUDPowerUp()
         this.fullscreenRedHurt = new HUDHurt()
+        this.topMiddleDebug = new HUDDebug()
     }
 
     update() {
@@ -20,6 +21,7 @@ class HUD {
         // this.bottomRightGrenades.update()
         this.fullscreenRedHurt.update()
         // this.topRightPerks.update()
+        // this.topMiddleDebug.update()
     }
 
     draw() {
@@ -33,6 +35,9 @@ class HUD {
         this.topLeftPerks.draw()
         this.bottomRightGrenades.draw()
         this.topRightPerks.draw()
+        if (GAME_ENGINE.options.drawDebug) {
+            this.topMiddleDebug.draw()
+        }
     }
 }
 
@@ -469,6 +474,32 @@ class HUDStamina {
         GAME_ENGINE.ctx.globalAlpha = 0.4
         let width = GAME_ENGINE.ctx.canvas.width * statminaPercent
         GAME_ENGINE.ctx.fillRect((GAME_ENGINE.ctx.canvas.width - width)/2,0,width,3)
+        GAME_ENGINE.ctx.restore()
+    }
+}
+
+class HUDDebug {
+    constructor() {
+
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        let scale = GAME_ENGINE.camera.map.scale
+        let text = Math.floor(GAME_ENGINE.getMouseWorldPosX() / scale) + "px, " +  Math.floor((GAME_ENGINE.getMouseWorldPosY()) / scale) + "px"
+
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 30px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.textAlign = "left"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 10
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText(text, 100, 100)
         GAME_ENGINE.ctx.restore()
     }
 }

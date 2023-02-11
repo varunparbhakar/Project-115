@@ -93,10 +93,12 @@ class AnimatorRotate {
             );
             tempCtx.restore();
 
-            tempCtx.save();
-            tempCtx.strokeStyle = "gray"
-            tempCtx.strokeRect(0,0, tempCanvas.width, tempCanvas.height)
-            tempCtx.restore();
+            if (GAME_ENGINE.options.drawDebug) { //debug temp canvas outline
+                tempCtx.save();
+                tempCtx.strokeStyle = "gray"
+                tempCtx.strokeRect(0, 0, tempCanvas.width, tempCanvas.height)
+                tempCtx.restore();
+            }
 
             this.canvas = tempCanvas
         }
@@ -155,10 +157,12 @@ class AnimatorRotateOnce {
         );
         tempCtx.restore();
 
-        tempCtx.save();//TODO remove debug
-        tempCtx.strokeStyle = "gray"
-        tempCtx.strokeRect(0,0, tempCanvas.width, tempCanvas.height)
-        tempCtx.restore();
+        if (GAME_ENGINE.options.drawDebug) { //debug temp canvas outline
+            tempCtx.save();
+            tempCtx.strokeStyle = "gray"
+            tempCtx.strokeRect(0,0, tempCanvas.width, tempCanvas.height)
+            tempCtx.restore();
+        }
 
         this.savedCanvas = tempCanvas
     }

@@ -305,8 +305,10 @@ class Player extends GameObject {
     }
 
     checkCollisions() {
-        this.player_Collision_World_BB.updateSides();
+        //if noclip mode
+        if (GAME_ENGINE.options.noclip) {return}
 
+        this.player_Collision_World_BB.updateSides();
         //MapObjects
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof MapBB || entity instanceof MapBBPlayerOnly) { //World collision
@@ -344,6 +346,8 @@ class Player extends GameObject {
     }
 
     takeDamage(damage) {
+        //if god mode
+        if (GAME_ENGINE.options.god) {return}
         //dmg
         this.hp -= damage
         GAME_ENGINE.camera.map.hud.fullscreenRedHurt.flash()

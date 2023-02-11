@@ -25,6 +25,9 @@ class BoundingCircle {
     }
 
     drawBoundingCircle(color="red") {
+        //dont draw if not debug
+        if (!GAME_ENGINE.options.drawDebug) {return}
+
         GAME_ENGINE.ctx.save();
         GAME_ENGINE.ctx.beginPath();
         GAME_ENGINE.ctx.strokeStyle = color;

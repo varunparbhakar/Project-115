@@ -219,7 +219,7 @@ class Explosive extends Projectile {
     }
 
     explode() {
-        GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange")) //TODO remove debug
+        if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange"))} //DebugBC
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
@@ -242,7 +242,7 @@ class ExplosiveQuickRevive extends Explosive {
     }
 
     explode() {
-        GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange")) //TODO remove debug
+        if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange"))} //debug
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
@@ -319,7 +319,8 @@ class Grenade extends Projectile {
     }
 
     explode() { //TODO inheritance (eww)
-        GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, GRANADE_RADIUS, 1, "orange")) //TODO remove debug
+        if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, GRANADE_RADIUS, 1, "orange"))} //DebugBC
+
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, GRANADE_RADIUS)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {

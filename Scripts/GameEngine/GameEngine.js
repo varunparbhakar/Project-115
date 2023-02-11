@@ -26,6 +26,9 @@ class GameEngine {
         // Options and the Details
         this.options = options || {
             debugging: false,
+            god: false,
+            noclip: false,
+            drawDebug: false,
         };
 
         this.camera = null; //Will be SceneManager
@@ -119,6 +122,18 @@ class GameEngine {
                 case "KeyQ":
                     this.key_switchGuns = true;
                     break;
+                case "KeyP":
+                    this.options.drawDebug = (this.options.drawDebug ? false : true)
+                    console.log("Draw Debug:", this.options.drawDebug)
+                    break
+                case "KeyO":
+                    this.options.noclip = (this.options.noclip ? false : true)
+                    console.log("No Clip:", this.options.noclip)
+                    break
+                case "KeyI":
+                    this.options.god = (this.options.god ? false : true)
+                    console.log("God:", this.options.god)
+                    break
             }
         }, false);
         this.ctx.canvas.addEventListener("keyup", (e) => {
