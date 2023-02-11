@@ -309,7 +309,7 @@ class Player extends GameObject {
 
         //MapObjects
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) { //World collision
+            if (entity instanceof MapBB || entity instanceof MapBBPlayerOnly) { //World collision
                 // this.playerCollion_World_R.updateSides()
                 // entity.bb.updateSides();
                 this.checkBBandPushOut(this.player_Collision_World_BB, this.last_collision_World_R, entity.bb)

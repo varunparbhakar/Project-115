@@ -406,6 +406,28 @@ class MapBB {
     }
 }
 
+class MapBBPlayerOnly {
+    constructor(posX, posY, width, height, map, projectilePasses = true) {
+        this.bb = new BoundingBox(
+            (map.posX + posX) * map.scale,
+            (map.posY + posY) * map.scale,
+            width * map.scale,
+            height * map.scale
+        )
+        this.projectilePasses = projectilePasses
+        this.bb.updateSides()
+    }
+
+    update() {
+        //NOTHING
+    }
+
+    draw() {
+        //TODO debug only
+        this.bb.drawBoundingBox()
+    }
+}
+
 /**
  * One way-able MapBB
  */
