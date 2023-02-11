@@ -65,8 +65,8 @@ class AStar {
                 open_list.splice(current_index, 1)
                 closed_list.push(current_node)
 
-                //Base: Goal Found, backtrack and ez
-                if (current_node.equals(end_node, grid_size)) {
+                //Base: Goal Found (or out of iterations), backtrack to find path
+                if (iterations === 0 || current_node.equals(end_node, grid_size)) {
                     let resultingPath = []
                     let curr = current_node
                     while (curr != null) {
@@ -77,7 +77,7 @@ class AStar {
                     return
                 }
 
-                //Otherwise, create childrens for each 8 adjacent
+                //Otherwise, create children for each 8 adjacent
                 let children = []
                 let eight_dirs = [[-grid_size, 0], [grid_size, 0], [0, -grid_size], [0, grid_size], [-grid_size, -grid_size], [-grid_size, grid_size], [grid_size, -grid_size], [grid_size, grid_size]]
                 for (let i = 0; i < eight_dirs.length; i++) {
@@ -156,7 +156,8 @@ class AStar {
                     open_list.push(child)
                 }
             }
-            console.log("No Path")
+            this.returnPath(closed_list[closed_list.length-1], end_node, grid_size)
+            // console.log("No Path") //TODO make it walk to what was calculated anyways, so that it can try to find better path
         }
     }
 }
