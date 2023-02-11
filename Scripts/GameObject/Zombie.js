@@ -133,7 +133,7 @@ class Zombie extends GameObject {
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie && entity != this) {
                 var intersectionDepth = this.bc_Movement.collide(entity.bc_Movement)
-                let intersectionDepthThreshold =  this.movementState === 2 ? -50 : 0 //Allows zombies to clump at window and get in
+                let intersectionDepthThreshold = (this.movementState == 2 ? -50 : 0) //Allows zombies to clump at window and get in
                 if (intersectionDepth < intersectionDepthThreshold) {
                     let unitV = getUnitVector(this.posX, this.posY, entity.posX, entity.posY)
                     this.posX += unitV[0] * intersectionDepth / 10
@@ -185,11 +185,13 @@ class Zombie extends GameObject {
                 this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
             }
             if (entity instanceof Barrier) { // With Barrier
-                if (entity.hp > 0) { //barrier alive, stop and attack
-                    if (this.movementState === 2 && this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
+                if (this.movementState == 2) { //barrier alive, stop and attack
+                    if (entity.hp > 0 && this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
                         entity.takeDamage()
                         this.changeAnimation(1) //swing
+                        this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
                     }
+                } else if (this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
                     this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
                 }
                 this.updateCollision()
@@ -266,7 +268,7 @@ class Zombie extends GameObject {
                     dy = (GAME_ENGINE.camera.player.posY) - (this.posY);
                     this.movementState = 0
                     this.canAttackPlayer = false
-                    console.log("pathing failed")
+                    // console.log("pathing failed")
                     break
                 }
                 dx = (dest[0]) - (this.posX); //282/2 Accounting for difference in center of thing.
@@ -281,7 +283,6 @@ class Zombie extends GameObject {
                 GAME_ENGINE.addEntity(new RaycastZombies(this)) //will make it movementState = 0 or 1
                 break
         }
-
         return (Math.atan2(dy, dx));
     }
 
