@@ -315,9 +315,10 @@ class WorldMap {
         ////////////Room: Spawn Area////////////
         let barrier_SABar = new Barrier(691, 1833, "S", this)
         GAME_ENGINE.addEntity(barrier_SABar)
-        let spawner_SABar = new SpawnerBarrier(570, 1706, barrier_SABar, true, this)
 
-        let spawners_SA = [spawner_SABar]
+        let spawner_SABar = new SpawnerBarrier(570, 1706, barrier_SABar, true, this)
+        let spawner_GroundCar = new SpawnerGroundDig(1080, 1834, true, this)
+        let spawners_SA = [spawner_SABar, spawner_GroundCar]
 
         ////////////Room: Bar////////////
         let barrier_BarTopW = new Barrier(586, 1345, "E", this)
@@ -767,11 +768,33 @@ class SpawnerGroundDig { //make super
 
     spawnZombie(speed = 0, hp, force=false) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
         if (force || this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
-            GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp))
+            GAME_ENGINE.addEntity(new SpawnerGroundDigParticle(this.posX,this.posY, new Zombie(this.posX, this.posY, speed, hp)))
             return 0
         } else {
             return -1
         }
+    }
+}
+
+const SPAWNERGROUNDDIG_DELAY = 3
+class SpawnerGroundDigParticle {
+    constructor(posX, posY, zombie) {
+        Object.assign(this, {posX, posY, zombie})
+        this.delayTimer = 3
+        this.animator = new Animator(ASSET_MANAGER.getAsset(WALLBUY_ASSET), 0,0,100,100) //TODO
+    }
+
+    update() {
+        if (this.delayTimer > 0) {
+            this.delayTimer -= GAME_ENGINE.clockTick
+        } else {
+            GAME_ENGINE.addEntity(this.zombie)
+            this.removeFromWorld = true
+        }
+    }
+
+    draw() {
+        this.animator.drawFrame(this.posX - (this.animator.width / 2), this.posY - (this.animator.height / 2))
     }
 }
 

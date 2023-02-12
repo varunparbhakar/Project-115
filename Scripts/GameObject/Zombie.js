@@ -58,7 +58,7 @@ class Zombie extends GameObject {
          * 3: unknown (default, will raycast. failed=1, success=0)
          * @type {null}
          */
-        this.movementState = this.pairedBarrier != null ? 2 : 3 //reference to Barrier to path to
+        this.movementState = this.pairedBarrier != null ? 2 : 1 //reference to Barrier to path to //TODO remove 3, doesnt work
         this.canAttackPlayer = true
         this.aStar = new AStar()
         this.raycastCooldown = ZOMBIE_RAYCAST_COOLDOWN
