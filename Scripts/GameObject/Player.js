@@ -94,7 +94,8 @@ class Player extends GameObject {
             posX,
             posY,
             PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE,
-            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE)
+            PLAYER_BB_DIMENSION * PLAYER_IMAGE_SCALE
+        )
         this.playerCollision_Vulnerable_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE * PLAYER_VULNERABLE_RADIUS_SCALE)
         this.playerCollision_Zombies_C = new BoundingCircle(posX, posY, PLAYER_BC_RADIUS * PLAYER_IMAGE_SCALE)
     };

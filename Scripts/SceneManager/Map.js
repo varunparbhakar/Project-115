@@ -721,27 +721,57 @@ class Door extends MapInteract {
  * Spawner that routes Zombie to Barrier
  */
 class SpawnerBarrier {
-    constructor(posX, posY, pairedBarrier, isActive, map) {
+    constructor(posX, posY, pairedBarrier, isActive, map, radius=1000) {
         Object.assign(this, {pairedBarrier, isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
+        this.bc = new BoundingCircle(this.posX, this.posY)
     }
 
-    spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
-        GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
+    spawnZombie(speed = 0, hp) {
+        if (this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
+            GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
+            return 0
+        } else {
+            return -1
+        }
     }
 }
 
 class SpawnerDest {
-    constructor(posX, posY, destPosX, destPosY, isActive, map) {
+    constructor(posX, posY, destPosX, destPosY, isActive, map, radius=1000) {
         Object.assign(this, {isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
+        this.bc = new BoundingCircle(this.posX, this.posY)
         this.pairedBarrier = new PairedBarrierDummy(destPosX * map.scale, destPosY * map.scale)
     }
 
     spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
-        GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
+        if (this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
+            GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
+            return 0
+        } else {
+            return -1
+        }
+    }
+}
+
+class SpawnerGroundDig {
+    constructor(posX, posY, isActive, map, radius=1000) {
+        Object.assign(this, {isActive})
+        this.posX = posX * map.scale
+        this.posY = posY * map.scale
+        this.bc = new BoundingCircle(this.posX, this.posY)
+    }
+
+    spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
+        if (this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
+            GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp))
+            return 0
+        } else {
+            return -1
+        }
     }
 }
 
