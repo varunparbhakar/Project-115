@@ -154,10 +154,11 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
-        GAME_ENGINE.addEntity(new MapBB(682, 492, 439, 8, this)) //Top Fence
+        GAME_ENGINE.addEntity(new MapBB(682, 492, 439, 8, this, true)) //Top Fence
         GAME_ENGINE.addEntity(new MapBB(1196, 492, 102, 9, this)) //Top Fence Right
         GAME_ENGINE.addEntity(new MapBB(1212, 492, 54, 199, this)) //Top Fence Right Big
         GAME_ENGINE.addEntity(new MapBB(686,493,10,258, this)) //Top Fence left big fence
+        GAME_ENGINE.addEntity(new MapBB(801,685,34,7, this, true)) //Small fence knob
 
         GAME_ENGINE.addEntity(new MapBB(552, 756, 142, 57, this)) //Double Tap Bottom
         GAME_ENGINE.addEntity(new MapBB(567, 812, 50, 171, this)) //Double Tap Bottom Car Trees
@@ -199,7 +200,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1188,966,23,24, this)) //Boxes Bottom Right of Rock
         GAME_ENGINE.addEntity(new MapBB(1171,918,88,48, this)) //Boxes Bottom Right of Rock
 
-        GAME_ENGINE.addEntity(new MapBB(939,540,10,281, this)) //Fence between Double Tap and the rock
+        GAME_ENGINE.addEntity(new MapBB(939,540,10,281, this, true)) //Fence between Double Tap and the rock
         GAME_ENGINE.addEntity(new MapBB(876,748,72,9, this)) //Fence between Double Tap and the rock
 
         GAME_ENGINE.addEntity(new MapBB(1260,817,8,325, this)) //Juggernaut Room Boundry
@@ -349,6 +350,10 @@ class WorldMap {
         let spawner_JugTopLeft = new SpawnerBarrier(1463, 602, barrier_JugTopLeft, false, this)
         let spawner_JugTopRight = new SpawnerBarrier(1682, 639, barrier_JugTopRight, false, this)
         let spawners_Jug = [spawner_JugCenter, spawner_JugTopLeft, spawner_JugTopRight]
+
+        ////////////Room: Park (DoubleTap)////////////
+        let spawner_ParkGlowTree = new SpawnerDest(753, 579, 817, 591, false, this)
+        let spawners_Park = [spawner_ParkGlowTree]
 
         ////////////Doors////////////
         let door_BarN = new Door(635, 1258, 41, 12, 0, spawners_Bar, this)
