@@ -153,8 +153,8 @@ class WorldMap {
         let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
         GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
         ////////////Top Left Near Double Tap/////////
-        GAME_ENGINE.addEntity(new MapBB(183, 491, 136, 262, this)) //A1 //TODO Player only
-        GAME_ENGINE.addEntity(new MapBB(684, 492, 439, 8, this)) //Top Fence
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
+        GAME_ENGINE.addEntity(new MapBB(682, 492, 439, 8, this)) //Top Fence
         GAME_ENGINE.addEntity(new MapBB(1196, 492, 102, 9, this)) //Top Fence Right
         GAME_ENGINE.addEntity(new MapBB(1212, 492, 54, 199, this)) //Top Fence Right Big
         GAME_ENGINE.addEntity(new MapBB(686,493,10,258, this)) //Top Fence left big fence
@@ -170,9 +170,9 @@ class WorldMap {
 
 
         GAME_ENGINE.addEntity(new MapBB(828, 1018, 137,70, this)) //Middle Map
-        GAME_ENGINE.addEntity(new MapBB(913,971,48,217, this)) //Middle Map Boxes and Tree
+        GAME_ENGINE.addEntity(new MapBB(913,971,48,160, this)) //Middle Map Boxes and Tree
         GAME_ENGINE.addEntity(new MapBB(812,970,103,47, this)) //Middle Map, Tree
-        GAME_ENGINE.addEntity(new MapBB(951,1061, 37, 126, this)) //Middle Map, Boxes near PaP
+        GAME_ENGINE.addEntity(new MapBB(965,1061, 24, 123, this)) //Middle Map, Boxes near PaP
         GAME_ENGINE.addEntity(new MapBB(848,1084, 86,54, this)) //Middle Map, Bottom Middle Tree
         GAME_ENGINE.addEntity(new MapBB(1004, 1100, 9,90, this)) //Middle Map, Fencer near the pap
         GAME_ENGINE.addEntity(new MapBB(1004, 1100, 56,8, this)) //Middle Map, Fencer Top near PAp
@@ -196,8 +196,8 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1060,936,112,22, this)) //Rock
         GAME_ENGINE.addEntity(new MapBB(1077,959,68,13, this)) //Rock
         GAME_ENGINE.addEntity(new MapBB(1090,972,34,9, this)) //Rock
-        // GAME_ENGINE.addEntity(new MapBB(1190,968,71,94, this)) //Boxes Bottom Right of Rock
-        // GAME_ENGINE.addEntity(new MapBB(1226,1054,42,37, this)) //Boxes Bottom Right of Rock
+        GAME_ENGINE.addEntity(new MapBB(1188,966,23,24, this)) //Boxes Bottom Right of Rock
+        GAME_ENGINE.addEntity(new MapBB(1171,918,88,48, this)) //Boxes Bottom Right of Rock
 
         GAME_ENGINE.addEntity(new MapBB(939,540,10,281, this)) //Fence between Double Tap and the rock
         GAME_ENGINE.addEntity(new MapBB(876,748,72,9, this)) //Fence between Double Tap and the rock
@@ -212,6 +212,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1388,875,169,11, this)) //Juggernaut Room Boundry
         GAME_ENGINE.addEntity(new MapBB(1420,973,200,40, this)) //Juggernaut Room Boundry, Top of the barrier
         GAME_ENGINE.addEntity(new MapBB(1420,1070,50,40, this)) //Juggernaut Room Boundry, Bottom of the barrier
+        GAME_ENGINE.addEntity(new MapBB(1391,964,25,59, this, true)) //Juggernaut Room weird table near barrier
 
         GAME_ENGINE.addEntity(new MapBB(1357,1100,150,11, this)) //Juggernaut Room Boundry
         GAME_ENGINE.addEntity(new MapBB(1564,1100,51,9, this)) //Juggernaut Room Boundry
@@ -236,7 +237,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(650,1313,169,11, this, true)) //top table of bar top chairs
         GAME_ENGINE.addEntity(new MapBB(650,1356,170,12, this, true)) //top table of bar bottom chairs
         GAME_ENGINE.addEntity(new MapBB(641,1324,188,31, this, true)) //top table of bar
-        GAME_ENGINE.addEntity(new MapBB(703,1271,67,42, this, true)) //top bench of bar
+        // GAME_ENGINE.addEntity(new MapBB(703,1271,67,42, this, true)) //top bench of bar
         GAME_ENGINE.addEntity(new MapBB(675,1259,209,11, this)) //top wall of bar
         GAME_ENGINE.addEntity(new MapBB(556,1260,80,11, this)) //top left wall of bar
         GAME_ENGINE.addEntity(new MapBB(586,1260,11,89, this)) //top left wall of bar
@@ -256,7 +257,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1430,1342,210,48, this)) //museum Top white truck
         GAME_ENGINE.addEntity(new MapBB(1427,1387,225,42, this)) //museum Top white truck
         GAME_ENGINE.addEntity(new MapBB(1204,1497,49,51, this)) //museum black car
-        GAME_ENGINE.addEntity(new MapBB(1142,1490,63,57, this)) //museum black car
+        GAME_ENGINE.addEntity(new MapBB(1142,1490,63,50, this)) //museum black car
         GAME_ENGINE.addEntity(new MapBB(1118,1675,84,51, this)) //museum white truck
         GAME_ENGINE.addEntity(new MapBB(1091,1666,27,25, this)) //museum white truck
         GAME_ENGINE.addEntity(new MapBB(1067,1652,24,22, this)) //museum white truck
@@ -271,6 +272,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1209,1432,22,27, this)) //museum top left box wall
         GAME_ENGINE.addEntity(new MapBB(1205,1420,95,9, this)) //museum TOP left wall
         GAME_ENGINE.addEntity(new MapBB(1195,1420,10,72, this)) //museum top LEFT wall
+        GAME_ENGINE.addEntity(new MapBB(1355,1418,169,11, this)) //museum top RIGHT wall
         GAME_ENGINE.addEntity(new MapBB(1195,1548,10,129, this)) //Wall Speed
         GAME_ENGINE.addEntity(new MapBB(1084,1750,116,53, this)) //White Truck in Bushes
         GAME_ENGINE.addEntity(new MapBB(1200,1676,90,127, this)) //White Truck in Bushes
@@ -278,7 +280,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1050,1803,250,10, this)) //White Truck in Bush Fence
         GAME_ENGINE.addEntity(new MapBB(1451,1506,64,93, this)) //Green Acid Statue
         GAME_ENGINE.addEntity(new MapBB(1429,1598,86,16, this)) //Green Acid Statue Arm
-        GAME_ENGINE.addEntity(new MapBB(1410,1419,106,87, this)) //Green Acid Boxes
+        GAME_ENGINE.addEntity(new MapBB(1457,1431,58,30, this)) //Green Acid Boxes
         GAME_ENGINE.addEntity(new MapBB(1515,1420,10,232, this)) //Green Acid Wall
         GAME_ENGINE.addEntity(new MapBB(1515,1739,128,10, this)) //Leaking Pipe Wall
         GAME_ENGINE.addEntity(new MapBB(1643,1739,10,42, this)) //Leaking Pipe Wall
@@ -326,13 +328,6 @@ class WorldMap {
         let spawner_BarBottomW = new SpawnerBarrier(355, 1541, barrier_BarBottomW, false, this)
         let spawners_Bar = [spawner_BarTopW, spawner_BarBottomW]
 
-        let door_BarN = new Door(635, 1258, 41, 12, 0, spawners_Bar, this)
-        GAME_ENGINE.addEntity(door_BarN)
-        let door_BarS = new Door(756, 1677, 56, 14, 0, spawners_Bar, this)
-        GAME_ENGINE.addEntity(door_BarS)
-        let door_BarE = new Door(874, 1372, 12, 71, 0, spawners_Bar, this)
-        GAME_ENGINE.addEntity(door_BarE)
-
         ////////////Room: Museum////////////
         let barrier_MuseumTopE = new Barrier(1516, 1650, "W", this)
         GAME_ENGINE.addEntity(barrier_MuseumTopE)
@@ -342,10 +337,36 @@ class WorldMap {
         let spawner_MuseumBushesS = new SpawnerDest(1409, 1966, 1398, 1885, false, this)
         let spawners_Museum = [spawner_MuseumTopE, spawner_MuseumLeakPipe, spawner_MuseumBushesS]
 
+        ////////////Room: Jug////////////
+        let barrier_JugCenter = new Barrier(1420, 1013, "W", this)
+        GAME_ENGINE.addEntity(barrier_JugCenter)
+        let barrier_JugTopLeft = new Barrier(1460, 813, "S", this)
+        GAME_ENGINE.addEntity(barrier_JugTopLeft)
+        let barrier_JugTopRight = new Barrier(1587, 812, "S", this)
+        GAME_ENGINE.addEntity(barrier_JugTopRight)
+
+        let spawner_JugCenter = new SpawnerBarrier(1545, 997, barrier_JugCenter, false, this)
+        let spawner_JugTopLeft = new SpawnerBarrier(1463, 602, barrier_JugTopLeft, false, this)
+        let spawner_JugTopRight = new SpawnerBarrier(1682, 639, barrier_JugTopRight, false, this)
+        let spawners_Jug = [spawner_JugCenter, spawner_JugTopLeft, spawner_JugTopRight]
+
+        ////////////Doors////////////
+        let door_BarN = new Door(635, 1258, 41, 12, 0, spawners_Bar, this)
+        GAME_ENGINE.addEntity(door_BarN)
+        let door_BarS = new Door(756, 1677, 56, 14, 0, spawners_Bar, this)
+        GAME_ENGINE.addEntity(door_BarS)
+        let door_BarE = new Door(874, 1372, 12, 71, 0, spawners_Bar, this)
+        GAME_ENGINE.addEntity(door_BarE)
+
         let door_MuseumW = new Door(1291, 1811, 9, 58, 0, spawners_Museum, this)
         GAME_ENGINE.addEntity(door_MuseumW)
         let door_MuseumN = new Door(1299, 1420, 57, 8, 0, spawners_Museum, this)
         GAME_ENGINE.addEntity(door_MuseumN)
+
+        let door_JugRight = new Door(1620, 971, 56, 14, 0, spawners_Jug, this)
+        GAME_ENGINE.addEntity(door_JugRight)
+        let door_JugLeft = new Door(1269, 1132, 54, 8, 0, spawners_Jug, this)
+        GAME_ENGINE.addEntity(door_JugLeft)
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
@@ -424,7 +445,7 @@ class MapBBPlayerOnly {
 
     draw() {
         //TODO debug only
-        this.bb.drawBoundingBox()
+        this.bb.drawBoundingBox("blue")
     }
 }
 
@@ -674,7 +695,13 @@ class Door extends MapInteract {
         //check player's money
         if (GAME_ENGINE.ent_Player.points >= this.cost) {
             GAME_ENGINE.ent_Player.losePoints(this.cost)
-            GAME_ENGINE.camera.map.roundManager.addActiveSpawners(this.listOfSpawners)
+            if (Array.isArray(this.listOfSpawners[0])) {
+                this.listOfSpawners.forEach((listOfSpawners) => {
+                    GAME_ENGINE.camera.map.roundManager.addActiveSpawners(listOfSpawners)
+                })
+            } else {
+                GAME_ENGINE.camera.map.roundManager.addActiveSpawners(this.listOfSpawners)
+            }
             this.isLocked = false //TODO remove if not needed
             this.removeFromWorld = true
         }
