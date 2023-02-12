@@ -21,7 +21,7 @@ class HUD {
         // this.bottomRightGrenades.update()
         this.fullscreenRedHurt.update()
         // this.topRightPerks.update()
-        // this.topMiddleDebug.update()
+        this.topMiddleDebug.update()
     }
 
     draw() {
@@ -480,16 +480,25 @@ class HUDStamina {
 
 class HUDDebug {
     constructor() {
-
+        this.bb = new BoundingBox(0,0,1,1)
     }
 
     update() {
-
+        this.bb.x = GAME_ENGINE.getMouseWorldPosX()
+        this.bb.y = GAME_ENGINE.getMouseWorldPosY()
     }
 
     draw() {
         let scale = GAME_ENGINE.camera.map.scale
-        let text = Math.floor(GAME_ENGINE.getMouseWorldPosX() / scale) + "px, " +  Math.floor((GAME_ENGINE.getMouseWorldPosY()) / scale) + "px"
+        let text = Math.floor(GAME_ENGINE.getMouseWorldPosX() / scale) + "px, " +  Math.floor(GAME_ENGINE.getMouseWorldPosY() / scale) + "px"
+        let text2 = "-, -"
+        GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+            if (entity instanceof MapBB) {
+                if (this.bb.collide(entity.bb)) {
+                    text2 = Math.floor(entity.bb.x / scale) + "px, " +  Math.floor(entity.bb.y / scale) + "px"
+                }
+            }
+        })
 
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.font = 'bold 30px arial'
@@ -500,6 +509,7 @@ class HUDDebug {
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
         GAME_ENGINE.ctx.fillText(text, 100, 100)
+        GAME_ENGINE.ctx.fillText(text2, 100, 130)
         GAME_ENGINE.ctx.restore()
     }
 }
