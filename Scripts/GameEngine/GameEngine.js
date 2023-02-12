@@ -29,6 +29,7 @@ class GameEngine {
             god: false,
             noclip: false,
             drawDebug: false,
+            drawSpawnProx: false,
         };
 
         this.camera = null; //Will be SceneManager
@@ -134,6 +135,10 @@ class GameEngine {
                     this.options.god = (this.options.god ? false : true)
                     console.log("God:", this.options.god)
                     break
+                case "KeyU":
+                    this.options.drawSpawnProx = (this.options.drawSpawnProx ? false : true)
+                    console.log("Draw Spawner Proximity:", this.options.drawSpawnProx)
+                    break
             }
         }, false);
         this.ctx.canvas.addEventListener("keyup", (e) => {
@@ -220,7 +225,7 @@ class GameEngine {
             this.ent_MapForeground.push(entity)
         } else if (entity instanceof Player) {
             this.ent_Player = entity
-        } else if (entity instanceof SpawnerBarrier || entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
+        } else if (entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
             this.ent_Etc.push(entity)
         } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut || entity instanceof MuzzleFlash) {
             this.ent_HUD.push(entity)

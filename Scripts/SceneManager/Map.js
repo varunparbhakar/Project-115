@@ -720,16 +720,16 @@ class Door extends MapInteract {
 /**
  * Spawner that routes Zombie to Barrier
  */
-class SpawnerBarrier {
-    constructor(posX, posY, pairedBarrier, isActive, map, radius=1000) {
+class SpawnerBarrier { //make super
+    constructor(posX, posY, pairedBarrier, isActive, map, radius=3000) {
         Object.assign(this, {pairedBarrier, isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
-        this.bc = new BoundingCircle(this.posX, this.posY)
+        this.bc = new BoundingCircle(this.posX, this.posY, radius)
     }
 
-    spawnZombie(speed = 0, hp) {
-        if (this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
+    spawnZombie(speed = 0, hp, force=false) {
+        if (force || this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
             return 0
         } else {
@@ -738,17 +738,17 @@ class SpawnerBarrier {
     }
 }
 
-class SpawnerDest {
-    constructor(posX, posY, destPosX, destPosY, isActive, map, radius=1000) {
+class SpawnerDest { //make super
+    constructor(posX, posY, destPosX, destPosY, isActive, map, radius=3000) {
         Object.assign(this, {isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
-        this.bc = new BoundingCircle(this.posX, this.posY)
+        this.bc = new BoundingCircle(this.posX, this.posY, radius)
         this.pairedBarrier = new PairedBarrierDummy(destPosX * map.scale, destPosY * map.scale)
     }
 
-    spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
-        if (this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
+    spawnZombie(speed = 0, hp, force=false) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
+        if (force || this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp, this.pairedBarrier))
             return 0
         } else {
@@ -757,16 +757,16 @@ class SpawnerDest {
     }
 }
 
-class SpawnerGroundDig {
-    constructor(posX, posY, isActive, map, radius=1000) {
+class SpawnerGroundDig { //make super
+    constructor(posX, posY, isActive, map, radius=3000) {
         Object.assign(this, {isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
-        this.bc = new BoundingCircle(this.posX, this.posY)
+        this.bc = new BoundingCircle(this.posX, this.posY, radius)
     }
 
-    spawnZombie(speed = 0, hp) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
-        if (this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
+    spawnZombie(speed = 0, hp, force=false) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
+        if (force || this.bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.addEntity(new Zombie(this.posX, this.posY, speed, hp))
             return 0
         } else {
@@ -1651,7 +1651,7 @@ class RoundManager {
             this.curr_ZombiesSpawnDelay -= GAME_ENGINE.clockTick
             if (this.curr_ZombiesLeft > 0 && this.curr_ZombiesSpawnDelay <= 0 && this.curr_ZombiesSpawned <= this.max_Zombies) { //spawn if no more cooldown
                 //Spawn
-                this.listOfEnabledSpawns[randomInt(this.listOfEnabledSpawns.length) ].spawnZombie(1, this.curr_ZombiesHealth) //TODO Zombie
+                this.spawn()
                 //Reset timer
                 this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
                 //round's zombie
@@ -1667,10 +1667,32 @@ class RoundManager {
                 this.nextRound()
             }
         }
+    }
 
+    spawn() {
+        let index = randomInt(this.listOfEnabledSpawns.length)
+        let success = false
+        for (let i = 0; i < this.listOfEnabledSpawns.length; i++) { //ten tries
+            let spawnResult = this.listOfEnabledSpawns[index].spawnZombie(1, this.curr_ZombiesHealth)
+            if (spawnResult >= 0) {
+                success = true
+                break
+            } else {
+                index = index + 1 % this.listOfEnabledSpawns.length
+            }
+        }
+        if (!success) {
+            console.log("Spawn was not proximity based!")
+            this.listOfEnabledSpawns[randomInt(this.listOfEnabledSpawns.length)].spawnZombie(1, this.curr_ZombiesHealth, true)
+        }
     }
 
     draw() {
-        //NOTHING
+        //debug
+        if (GAME_ENGINE.options.drawSpawnProx) {
+            this.listOfEnabledSpawns.forEach((spawner) => {
+                spawner.bc.drawBoundingCircle("green", true)
+            })
+        }
     }
 }
