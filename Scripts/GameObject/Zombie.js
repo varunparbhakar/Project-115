@@ -31,6 +31,10 @@ const ZOMBIE_POINTS_LETHAL_KNIFE = 100
 const ZOMBIE_POWERUP_CHANCE = 0.015
 const ZOMBIE_CRAWLER_CHANCE = 0.6
 
+const ZOMBIE_DESPAWN_TIME = 5
+const ZOMBIE_DESPAWN_RANGE = 150 //px
+const ZOMBIE_DESPAWN_ASTAR_LIMIT = 7
+
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
 class Zombie extends GameObject {
@@ -47,8 +51,6 @@ class Zombie extends GameObject {
         this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.1,1,0.68)
         this.animator = this.animation_Walking
 
-
-
         //movement
         this.pairedBarrier = pairedBarrier
         /**
@@ -63,7 +65,8 @@ class Zombie extends GameObject {
         this.aStar = new AStar()
         this.raycastCooldown = ZOMBIE_RAYCAST_COOLDOWN
         this.pathingGiveUpCooldown = ZOMBIE_PATHING_GIVEUP_COOLDOWN
-
+        this.despawnTimer = ZOMBIE_DESPAWN_TIME
+        this.despawnAStarTries = ZOMBIE_DESPAWN_ASTAR_LIMIT
 
         this.attack_currentCooldown = 0
         // this.attack_isSwinging = 0
@@ -74,6 +77,7 @@ class Zombie extends GameObject {
         this.bb = new BoundingBox(posX+ZOMBIE_BB_DIMENSION, posY+ZOMBIE_BB_DIMENSION, ZOMBIE_BB_DIMENSION, ZOMBIE_BB_DIMENSION)
         this.bc_Movement = new BoundingCircle(posX,posY,ZOMBIE_BC_MOVEMENT_RADIUS)
         this.bc_Attack = new BoundingCircle(posX,posY,ZOMBIE_BC_ATTACK_RADIUS)
+        this.bc_Despawn = new BoundingCircle(posX, posY, ZOMBIE_DESPAWN_RANGE)
         this.angle = 0;
     }
 
@@ -95,6 +99,9 @@ class Zombie extends GameObject {
         this.bc_Attack.x = this.posX
         this.bc_Attack.y = this.posY
 
+        this.bc_Despawn.x = this.posX
+        this.bc_Despawn.y = this.posY
+
         //bb
         this.bb.x = this.posX - (ZOMBIE_BB_DIMENSION/ 2)
         this.bb.y = this.posY - (ZOMBIE_BB_DIMENSION/ 2)
@@ -105,9 +112,27 @@ class Zombie extends GameObject {
         this.movementHandler()
         this.angle = this.rotateHandler();
 
+        this.despawnHandler()
+
         this.saveLastBB()
         this.updateCollision();
         this.checkCollisions()
+    }
+
+    despawnHandler() {
+        if (this.bc_Despawn.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
+            if (this.despawnTimer > 0) {
+                this.despawnTimer -= GAME_ENGINE.clockTick
+            }
+        } else {
+            this.despawnTimer = ZOMBIE_DESPAWN_TIME
+        }
+
+        if (this.despawnTimer <= 0 || this.despawnAStarTries <= 0) {
+            this.removeFromWorld = true
+            GAME_ENGINE.camera.map.roundManager.spawn()
+            console.log("respawning")
+        }
     }
 
     changeAnimation(state, totalTime=null) {
@@ -260,7 +285,13 @@ class Zombie extends GameObject {
                 break
             case 1: //A* next path
                 if (this.aStar.pathList.length <= 0) {
-                    this.aStar.createPathList(this.posX, this.posY, GAME_ENGINE.camera.player.posX, GAME_ENGINE.camera.player.posY)
+                    //try aStar and despawn if broken
+                    let aStarResult = this.aStar.createPathList(this.posX, this.posY, GAME_ENGINE.camera.player.posX, GAME_ENGINE.camera.player.posY)
+                    if (aStarResult >= 0) {
+                        this.despawnAStarTries = ZOMBIE_DESPAWN_ASTAR_LIMIT
+                    } else {
+                        this.despawnAStarTries--
+                    }
                 }
                 let dest = this.aStar.pathList[this.aStar.pathList.length - 1]
                 if (dest == null) {

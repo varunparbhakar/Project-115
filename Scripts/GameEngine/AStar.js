@@ -74,7 +74,7 @@ class AStar {
                         curr = curr.parent
                     }
                     this.pathList = resultingPath //.reverse()
-                    return
+                    return (iterations === 0 ? -1 : 0)
                 }
 
                 //Otherwise, create children for each 8 adjacent
@@ -157,6 +157,7 @@ class AStar {
                 }
             }
             // console.log("No Path")
+            return -1
         }
     }
 }

@@ -424,16 +424,16 @@ class WorldMap {
         let door_BL1 = new Door(884, 1631, 147, 56, 2000, spawners_BL, this)
         GAME_ENGINE.addEntity(door_BL1)
 
-        let door_Bar1 = new Door(756, 1676, 57, 15, 2500, [spawners_Swamp, spawners_Bar], this)
+        let door_Bar1 = new Door(635, 1258, 41, 12, 2500, [spawners_Swamp, spawners_Bar], this)
         GAME_ENGINE.addEntity(door_Bar1)
         let door_Bar2 = new Door(874, 1371, 11, 73, 5000, spawners_Bar, this)
         GAME_ENGINE.addEntity(door_Bar2)
         let door_Bar3 = new Door(756, 1676, 57, 15, 2500, [spawners_BL, spawners_Bar], this)
         GAME_ENGINE.addEntity(door_Bar3)
 
-        let door_Swamp1 = new Door(964, 938, 115, 61, 1250, spawners_Swamp, this)
+        let door_Swamp1 = new Door(964, 938, 115, 61, 2000, spawners_Swamp, this)
         GAME_ENGINE.addEntity(door_Swamp1)
-        let door_Swamp2 = new Door(859, 1122, 32, 91, 1250, spawners_Swamp, this)
+        let door_Swamp2 = new Door(859, 1122, 32, 91, 2000, spawners_Swamp, this)
         GAME_ENGINE.addEntity(door_Swamp2)
 
         let door_Double1 = new Door(941, 499, 6, 42, 2000, [spawners_Swamp, spawners_DoubleTap], this)
@@ -1843,6 +1843,13 @@ class RoundManager {
             this.listOfEnabledSpawns[index].spawnZombie(1, this.curr_ZombiesHealth, true)
         }
     }
+
+    // /**
+    //  * Zombie call to respawn closer to player
+    //  */
+    // respawn() {
+    //     this.spawn()
+    // }
 
     draw() {
         //debug

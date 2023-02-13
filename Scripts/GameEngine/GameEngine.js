@@ -139,6 +139,10 @@ class GameEngine {
                     this.options.drawSpawnProx = (this.options.drawSpawnProx ? false : true)
                     console.log("Draw Spawner Proximity:", this.options.drawSpawnProx)
                     break
+                case "KeyL":
+                    this.ent_Player.points = 100000
+                    console.log("Player Money")
+                    break
             }
         }, false);
         this.ctx.canvas.addEventListener("keyup", (e) => {
