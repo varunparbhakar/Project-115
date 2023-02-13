@@ -146,8 +146,8 @@ class WorldMap {
 
     level2() {
         this.scale = 4.25
-        this.playerSpawnX = 691 * this.scale
-        this.playerSpawnY = 1833 * this.scale
+        this.playerSpawnX = 873 * this.scale
+        this.playerSpawnY = 1771 * this.scale
         //MapLayers
         let imagePath_back = "Assets/Images/Map/Levels/DLC1.png"
         let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
@@ -312,67 +312,116 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(586,1840,10,162, this)) //Fence left bottom most
 
 
-        ////////////Room: Spawn Area////////////
-        let barrier_SABar = new Barrier(691, 1833, "S", this)
-        GAME_ENGINE.addEntity(barrier_SABar)
-
-        let spawner_SABar = new SpawnerBarrier(570, 1706, barrier_SABar, true, this)
-        let spawner_GroundCar = new SpawnerGroundDig(1080, 1834, true, this)
-        let spawners_SA = [spawner_SABar, spawner_GroundCar]
-
-        ////////////Room: Bar////////////
-        let barrier_BarTopW = new Barrier(586, 1345, "E", this)
-        GAME_ENGINE.addEntity(barrier_BarTopW)
-        let barrier_BarBottomW = new Barrier(588, 1522, "E", this)
-        GAME_ENGINE.addEntity(barrier_BarBottomW)
-
-        let spawner_BarTopW = new SpawnerBarrier(346, 1375, barrier_BarTopW, false, this)
-        let spawner_BarBottomW = new SpawnerBarrier(355, 1541, barrier_BarBottomW, false, this)
-        let spawners_Bar = [spawner_BarTopW, spawner_BarBottomW]
+        ////////////Room: Bottom Left////////////
+        //Barriers
+        let barrier_BLBar = new Barrier(691, 1833, "S", this)
+        GAME_ENGINE.addEntity(barrier_BLBar)
+        //Spawners
+        let spawner_BLBar = new SpawnerBarrier(570, 1706, barrier_BLBar, true, this)
+        let spawner_BLOrange1 = new SpawnerDest(419, 2211, 623, 1932, false, this)
+        let spawner_BLOrange2 = new SpawnerDest(528, 2335, 623, 1932, false, this)
+        let spawner_BLBlue1 = new SpawnerDest(703, 2302, 775, 1943, false, this)
+        let spawner_BLBlue2 = new SpawnerDest(875, 2297, 993, 1980, false, this)
+        let spawner_BLWhite1 = new SpawnerDest(1346, 2230, 16, 10, false, this)
+        let spawners_BL = [spawner_BLBar, spawner_BLOrange1, spawner_BLOrange2, spawner_BLBlue1, spawner_BLBlue2, spawner_BLWhite1]
 
         ////////////Room: Museum////////////
-        let barrier_MuseumTopE = new Barrier(1516, 1650, "W", this)
-        GAME_ENGINE.addEntity(barrier_MuseumTopE)
+        //Barriers
+        let barrier_MusLeakPipe = new Barrier(1645, 1780, "W", this)
+        let barrier_Statue = new Barrier(1516, 1651, "W", this)
+        GAME_ENGINE.addEntity(barrier_MusLeakPipe)
+        GAME_ENGINE.addEntity(barrier_Statue)
+        //Spawners
+        let spawner_MusBush1 = new SpawnerDest(1400, 1965, 1401, 1877, false, this)
+        let spawner_MusBush2 = new SpawnerDest(1561, 1949, 1547, 1869, false, this)
+        let spawner_MusLeakPipe1 = new SpawnerBarrier(1867, 1807, barrier_MusLeakPipe, false, this)
+        let spawner_MusLeakPipe2 = new SpawnerBarrier(1853, 1907, barrier_MusLeakPipe, false, this)
+        let spawner_MusStatue1 = new SpawnerBarrier(1833, 1584, barrier_Statue, false, this)
+        let spawner_MusStatue2 = new SpawnerBarrier(1850, 1668, barrier_Statue, false, this)
+        let spawner_MusStatueG = new SpawnerGroundDig(1436, 1473, false, this)
+        let spawners_Mus = [spawner_MusBush1, spawner_MusBush2, spawner_MusLeakPipe1, spawner_MusLeakPipe2, spawner_MusStatue1, spawner_MusStatue2, spawner_MusStatueG]
 
-        let spawner_MuseumTopE = new SpawnerBarrier(1753, 1687, barrier_MuseumTopE, false, this)
-        let spawner_MuseumLeakPipe = new SpawnerDest(1800, 1813, 1559, 1821, false, this)
-        let spawner_MuseumBushesS = new SpawnerDest(1409, 1966, 1398, 1885, false, this)
-        let spawners_Museum = [spawner_MuseumTopE, spawner_MuseumLeakPipe, spawner_MuseumBushesS]
+        ////////////Room: Bar////////////
+        //Barriers
+        let barrier_BarTop = new Barrier(588, 1348, "E", this)
+        let barrier_BarBottom = new Barrier(588, 1524, "E", this)
+        GAME_ENGINE.addEntity(barrier_BarTop)
+        GAME_ENGINE.addEntity(barrier_BarBottom)
+        //Spawners
+        let spawner_BarW1 = new SpawnerBarrier(249, 1260, barrier_BarTop, false, this)
+        let spawner_BarW2 = new SpawnerBarrier(213, 1357, barrier_BarTop, false, this)
+        let spawner_BarW3 = new SpawnerBarrier(211, 1467, barrier_BarBottom, false, this)
+        let spawner_BarW4 = new SpawnerBarrier(211, 1627, barrier_BarBottom, false, this)
+        let spawners_Bar = [spawner_BarW1, spawner_BarW2, spawner_BarW3, spawner_BarW4]
 
-        ////////////Room: Jug////////////
-        let barrier_JugCenter = new Barrier(1420, 1013, "W", this)
-        GAME_ENGINE.addEntity(barrier_JugCenter)
-        let barrier_JugTopLeft = new Barrier(1460, 813, "S", this)
+        ////////////Room: Spawn Area PaP////////////
+        //Barriers
+        let barrier_SpawnE = new Barrier(1741, 1221, "W", this)
+        let barrier_SpawnJug = new Barrier(1508, 1101, "S", this)
+        GAME_ENGINE.addEntity(barrier_SpawnE)
+        GAME_ENGINE.addEntity(barrier_SpawnJug)
+        //Spawners
+        let spawner_SpawnE1 = new SpawnerBarrier(1945, 1073, barrier_SpawnE, true, this)
+        let spawner_SpawnE2 = new SpawnerBarrier(1965, 1200, barrier_SpawnE, true, this)
+        let spawner_SpawnE3 = new SpawnerBarrier(1976, 1334, barrier_SpawnE, true, this)
+        let spawner_SpawnGWhite = new SpawnerGroundDig(1154, 1637, true, this)
+        let spawner_SpawnGLamp = new SpawnerGroundDig(916, 1557, true, this)
+        let spawner_SpawnGRockBox = new SpawnerGroundDig(1233, 977, true, this)
+        let spawner_SpawnJug = new SpawnerBarrier(1584, 1027, barrier_SpawnJug, true, this)
+        let spawners_Spawn = [spawner_SpawnE1, spawner_SpawnE2, spawner_SpawnE3, spawner_SpawnGWhite, spawner_SpawnGLamp, spawner_SpawnGRockBox, spawner_SpawnJug]
+
+        ////////////Room: Jug Room////////////
+        //Barriers
+        let barrier_JugBottom = new Barrier(1420, 1012, "W", this)
+        let barrier_JugTopLeft = new Barrier(1460, 812, "S", this)
+        let barrier_JugTopRight = new Barrier(1588, 812, "S", this)
+        GAME_ENGINE.addEntity(barrier_JugBottom)
         GAME_ENGINE.addEntity(barrier_JugTopLeft)
-        let barrier_JugTopRight = new Barrier(1587, 812, "S", this)
         GAME_ENGINE.addEntity(barrier_JugTopRight)
+        //Spawners
+        let spawner_JugBottom = new SpawnerBarrier(1513, 1020, barrier_JugBottom, false, this)
+        let spawner_JugTop1 = new SpawnerBarrier(1347, 656, barrier_JugTopLeft, false, this)
+        let spawner_JugTop2 = new SpawnerBarrier(1512, 697, barrier_JugTopLeft, false, this)
+        let spawner_JugTop3 = new SpawnerBarrier(1588, 718, barrier_JugTopRight, false, this)
+        let spawner_JugTop4 = new SpawnerBarrier(1713, 666, barrier_JugTopRight, false, this)
+        let spawners_Jug = [spawner_JugBottom, spawner_JugTop1, spawner_JugTop2, spawner_JugTop3, spawner_JugTop4]
 
-        let spawner_JugCenter = new SpawnerBarrier(1545, 997, barrier_JugCenter, false, this)
-        let spawner_JugTopLeft = new SpawnerBarrier(1463, 602, barrier_JugTopLeft, false, this)
-        let spawner_JugTopRight = new SpawnerBarrier(1682, 639, barrier_JugTopRight, false, this)
-        let spawners_Jug = [spawner_JugCenter, spawner_JugTopLeft, spawner_JugTopRight]
+        ////////////Room: Double Tap Room (Park)////////////
+        //Spawners
+        let spawner_DoubleTrees1 = new SpawnerDest(753, 534, 845, 563, false, this)
+        let spawner_DoubleTrees2 = new SpawnerDest(745, 648, 830, 653, false, this)
+        let spawners_DoubleTap = [spawner_DoubleTrees1, spawner_DoubleTrees2]
 
-        ////////////Room: Park (DoubleTap)////////////
-        let spawner_ParkGlowTree = new SpawnerDest(753, 579, 817, 591, false, this)
-        let spawners_Park = [spawner_ParkGlowTree]
+        ////////////Room: Swamp////////////
+        //Barriers
+        let barrier_SwampTopLeft = new Barrier(963, 494, "S", this)
+        let barrier_SwampTopRight = new Barrier(1123, 493, "S", this)
+        GAME_ENGINE.addEntity(barrier_SwampTopLeft)
+        GAME_ENGINE.addEntity(barrier_SwampTopRight)
+        //Spawners
+        let spawner_SwampTopLeft1 = new SpawnerBarrier(864, 218, barrier_SwampTopLeft, false, this)
+        let spawner_SwampTopLeft2 = new SpawnerBarrier(1046, 208, barrier_SwampTopLeft, false, this)
+        let spawner_SwampTopRight1 = new SpawnerBarrier(1198, 222, barrier_SwampTopRight, false, this)
+        let spawner_SwampTopRight2 = new SpawnerBarrier(1334, 280, barrier_SwampTopRight, false, this)
+        let spawner_SwampRight1 = new SpawnerDest(336, 822, 641, 857, false, this)
+        let spawner_SwampRight2 = new SpawnerDest(417, 651, 638, 855, false, this)
+        let spawner_SwampTreesLeft = new SpawnerGroundDig(653, 979, false, this)
+        let spawner_SwampTreesRight = new SpawnerGroundDig(899, 1050, false, this)
+        let spawner_SwampBottomLeft = new SpawnerGroundDig(586, 1212, false, this)
+        let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampRight1, spawner_SwampRight2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
-        ////////////Doors////////////
-        let door_BarN = new Door(635, 1258, 41, 12, 0, spawners_Bar, this)
-        GAME_ENGINE.addEntity(door_BarN)
-        let door_BarS = new Door(756, 1677, 56, 14, 0, spawners_Bar, this)
-        GAME_ENGINE.addEntity(door_BarS)
-        let door_BarE = new Door(874, 1372, 12, 71, 0, spawners_Bar, this)
-        GAME_ENGINE.addEntity(door_BarE)
+        ////////////Power////////////
+        this.powerSwitch = new PowerSwitch(595, 1430, "E", this)
+        GAME_ENGINE.addEntity(this.powerSwitch)
+        ////////////Perk Machines///////////
+        GAME_ENGINE.addEntity(new PerkMachine(888, 1805, 38, 40, "Quick Revive", this))
+        GAME_ENGINE.addEntity(new PerkMachine(671, 1646, 47, 25, "Stamin-Up", this))
+        GAME_ENGINE.addEntity(new PerkMachine(1206, 1618, 32, 50, "Speed Cola", this))
+        GAME_ENGINE.addEntity(new PerkMachine(1275, 822, 44, 46, "Juggernog", this))
+        GAME_ENGINE.addEntity(new PerkMachine(909, 674, 32, 47, "Double Tap", this))
 
-        let door_MuseumW = new Door(1291, 1811, 9, 58, 0, spawners_Museum, this)
-        GAME_ENGINE.addEntity(door_MuseumW)
-        let door_MuseumN = new Door(1299, 1420, 57, 8, 0, spawners_Museum, this)
-        GAME_ENGINE.addEntity(door_MuseumN)
-
-        let door_JugRight = new Door(1620, 971, 56, 14, 0, spawners_Jug, this)
-        GAME_ENGINE.addEntity(door_JugRight)
-        let door_JugLeft = new Door(1269, 1132, 54, 8, 0, spawners_Jug, this)
-        GAME_ENGINE.addEntity(door_JugLeft)
+        ////////////MysteryBox///////////
+        GAME_ENGINE.addEntity(new MysteryBox([[805, 1270], [866, 499], [1436, 881], [1231, 1428]], randomInt(4), this))
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
@@ -383,7 +432,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(this.hud)
 
         ////////////ROUND MANAGER////////////
-        this.roundManager = new RoundManager(spawners_SA)
+        this.roundManager = new RoundManager(spawners_Spawn)
         GAME_ENGINE.addEntity(this.roundManager)
         this.roundManager.start()
     }
@@ -726,7 +775,7 @@ class SpawnerBarrier { //make super
         Object.assign(this, {pairedBarrier, isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
-        this.bc = new BoundingCircle(this.posX, this.posY, radius)
+        this.bc = new BoundingCircle(this.posX, this.posY, radius * map.scale)
     }
 
     spawnZombie(speed = 0, hp, force=false) {
@@ -744,7 +793,7 @@ class SpawnerDest { //make super
         Object.assign(this, {isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
-        this.bc = new BoundingCircle(this.posX, this.posY, radius)
+        this.bc = new BoundingCircle(this.posX, this.posY, radius * map.scale)
         this.pairedBarrier = new PairedBarrierDummy(destPosX * map.scale, destPosY * map.scale)
     }
 
@@ -763,7 +812,7 @@ class SpawnerGroundDig { //make super
         Object.assign(this, {isActive})
         this.posX = posX * map.scale
         this.posY = posY * map.scale
-        this.bc = new BoundingCircle(this.posX, this.posY, radius)
+        this.bc = new BoundingCircle(this.posX, this.posY, radius * map.scale)
     }
 
     spawnZombie(speed = 0, hp, force=false) { //TODO if spawns too fast, Zombies push each other out of the way. Needs a queue or something to not exceed spawning
