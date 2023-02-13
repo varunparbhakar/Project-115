@@ -472,7 +472,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new WallBuyTrigger(1202, 649, 14, 55, "MP40", 1000, this))
         GAME_ENGINE.addEntity(new WallBuyImage(1202, 649, "W", "MP40", 3.5, this))
 
-        GAME_ENGINE.addEntity(new WallBuyTrigger(836, 608, 14, 54, "FG42", 1000, this))
+        GAME_ENGINE.addEntity(new WallBuyTrigger(836, 608, 14, 54, "FG42", 1500, this))
         GAME_ENGINE.addEntity(new WallBuyImage(836, 608, "E", "FG42", 3.5, this))
 
         ////////////Power////////////
@@ -1256,6 +1256,7 @@ class PerkMachine extends MapInteract {
         if (GAME_ENGINE.ent_Player.points >= this.cost) {
             if (this.givePerk()) {
                 GAME_ENGINE.ent_Player.losePoints(this.cost)
+                GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].equip()
             }
         }
     }
