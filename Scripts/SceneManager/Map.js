@@ -177,7 +177,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(848,1084, 86,54, this)) //Middle Map, Bottom Middle Tree
         GAME_ENGINE.addEntity(new MapBB(1004, 1100, 9,90, this)) //Middle Map, Fencer near the pap
         GAME_ENGINE.addEntity(new MapBB(1004, 1100, 56,8, this)) //Middle Map, Fencer Top near PAp
-        GAME_ENGINE.addEntity(new MapBB(587,1018,11,255, this)) //Middle Map, Left Map Boundry
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(560,1018,20,255, this)) //Middle Map, Left Map Boundry
         GAME_ENGINE.addEntity(new MapBB(587,1033, 56,25, this)) //Middle Map, Left Boundry Coverage Tree
         GAME_ENGINE.addEntity(new MapBB(1083, 1133, 41,6, this)) //Middle Map, Fence Above Pap
 
@@ -440,6 +440,40 @@ class WorldMap {
         GAME_ENGINE.addEntity(door_Double1)
         let door_Double2 = new Door(820, 748, 56, 9, 2000, [spawners_Swamp, spawners_DoubleTap], this)
         GAME_ENGINE.addEntity(door_Double2)
+
+        ////////////Wall Buys///////////
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1669, 1377, 53, 12, "M14", 500, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(1669, 1377, "S", "M14", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1391, 1110, 57, 14, "Olympia", 500, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(1391, 1110, "S", "Olympia", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(884, 1478, 12, 50, "Kar98k", 200, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(884, 1478, "E", "Kar98k", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1267, 970, 10, 40, "MP5K", 1000, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(1267, 970, "E", "MP5K", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1540, 957, 14, 55, "MPL", 1000, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(1540, 957, "S", "MPL", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1434, 1536, 12, 30, "FN FAL", 1200, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(1434, 1536, "W", "FN FAL", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(717, 1360, 46, 14, "M16", 1200, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(717, 1360, "S", "M16", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1085, 1809, 43, 12, "Stakeout", 1500, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(1085, 1809, "S", "Stakeout", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(580, 1099, 14, 30, "Thompson", 1200, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(580, 1099, "E", "Thompson", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1202, 649, 14, 55, "MP40", 1000, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(1202, 649, "W", "MP40", 3.5, this))
+
+        GAME_ENGINE.addEntity(new WallBuyTrigger(836, 608, 14, 54, "FG42", 1000, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(836, 608, "E", "FG42", 3.5, this))
 
         ////////////Power////////////
         this.powerSwitch = new PowerSwitch(595, 1430, "E", this)
