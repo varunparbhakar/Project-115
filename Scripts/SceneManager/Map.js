@@ -452,10 +452,10 @@ class WorldMap {
         GAME_ENGINE.addEntity(new PerkMachine(909, 674, 32, 47, "Double Tap", this))
 
         ////////////MysteryBox///////////
-        GAME_ENGINE.addEntity(new MysteryBox([[805, 1270], [866, 499], [1436, 881], [1231, 1428]], randomInt(4), this))
+        GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428]], 3, this))
 
         ///////////PaP///////////
-        GAME_ENGINE.addEntity(new PackAPunch(1078, 1144, this))
+        GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);
@@ -1003,9 +1003,9 @@ class MysteryBox extends MapInteract {
         this.changeLocation()
         this.setSpinsUntilTeddy()
 
-        this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, this.scale/3)
+        this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, 3.75/3)
         this.curr_GunTexture = new Gun_M1911() //to avoid null pointer
-        this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
+        this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,3.75,false, false)
     }
 
     setSpinsUntilTeddy() {
@@ -1013,8 +1013,8 @@ class MysteryBox extends MapInteract {
     }
 
     changeLocation() {
-        this.bb = new BoundingBox(this.curr_Pos[0] * this.scale , this.curr_Pos[1] * this.scale , MYSTERYBOX_BB_WIDTH * this.scale , MYSTERYBOX_BB_HEIGHT * this.scale)
-        this.bb_interact = new BoundingBox((this.curr_Pos[0] - 3)  * this.scale, (this.curr_Pos[1] - 3) * this.scale , (MYSTERYBOX_BB_WIDTH + 6) * this.scale , (MYSTERYBOX_BB_HEIGHT + 6) * this.scale)
+        this.bb = new BoundingBox(this.curr_Pos[0] * this.scale , this.curr_Pos[1] * this.scale , MYSTERYBOX_BB_WIDTH * 3.75 , MYSTERYBOX_BB_HEIGHT * 3.75)
+        this.bb_interact = new BoundingBox((this.curr_Pos[0] - 3)  * this.scale, (this.curr_Pos[1] - 3) * this.scale , (MYSTERYBOX_BB_WIDTH + 6) * 3.75 , (MYSTERYBOX_BB_HEIGHT + 6) * 3.75)
         this.bb.updateSides()
         this.bb_interact.updateSides()
     }
@@ -1471,11 +1471,11 @@ class PackAPunch extends MapInteract {
         super()
         this.bb = new BoundingBox(
             posX * map.scale, posY * map.scale,
-            PAP_WIDTH * map.scale, PAP_HEIGHT * map.scale
+            PAP_WIDTH * 3.75, PAP_HEIGHT * 3.75
         )
         this.bb_interact = new BoundingBox(
             posX * map.scale, posY * map.scale,
-            PAP_WIDTH * map.scale, (PAP_HEIGHT + 15) * map.scale
+            PAP_WIDTH * 3.75, (PAP_HEIGHT + 15) * 3.75
         )
         this.bb.updateSides()
         this.bb_interact.updateSides()
