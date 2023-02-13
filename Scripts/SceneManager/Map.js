@@ -146,8 +146,8 @@ class WorldMap {
 
     level2() {
         this.scale = 4.25
-        this.playerSpawnX = 873 * this.scale
-        this.playerSpawnY = 1771 * this.scale
+        this.playerSpawnX = 1175 * this.scale
+        this.playerSpawnY = 1244 * this.scale
         //MapLayers
         let imagePath_back = "Assets/Images/Map/Levels/DLC1.png"
         let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
