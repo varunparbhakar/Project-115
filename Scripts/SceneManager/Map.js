@@ -146,7 +146,7 @@ class WorldMap {
 
     level2() {
         this.scale = 4.25
-        this.playerSpawnX = 1175 * this.scale
+        this.playerSpawnX = 1200 * this.scale
         this.playerSpawnY = 1244 * this.scale
         //MapLayers
         let imagePath_back = "Assets/Images/Map/Levels/DLC1.png"
@@ -285,7 +285,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1515,1420,10,232, this)) //Green Acid Wall
         GAME_ENGINE.addEntity(new MapBB(1515,1739,128,10, this)) //Leaking Pipe Wall
         GAME_ENGINE.addEntity(new MapBB(1643,1739,10,42, this)) //Leaking Pipe Wall
-        GAME_ENGINE.addEntity(new MapBB(1643,1868,9,160, this)) //Bushes Wall
+        GAME_ENGINE.addEntity(new MapBB(1643,1840,9,190, this)) //Bushes Wall
         GAME_ENGINE.addEntity(new MapBB(1252,1934,50,108, this)) //Bushes Wall
         GAME_ENGINE.addEntity(new MapBB(1301,2027,351,10, this)) //Bushes Wall
         // GAME_ENGINE.addEntity(new MapBBPlayerOnly(1564,1748,79,132, this)) //Cracked pipes
@@ -298,19 +298,19 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1059,1974,54,14, this)) //Rock
         GAME_ENGINE.addEntity(new MapBB(1112,1962,19,26, this)) //Rock
         GAME_ENGINE.addEntity(new MapBB(1130,1954,126,35, this)) //Rock
-        GAME_ENGINE.addEntity(new MapBB(979,2017,41,19, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(979,2017,41,19, this)) //Rock
         GAME_ENGINE.addEntity(new MapBB(1020,1997,11,39, this)) //Rock
         GAME_ENGINE.addEntity(new MapBB(1031,1988,224,48, this)) //Rock
-        GAME_ENGINE.addEntity(new MapBB(960,2036,346,112, this)) //Rock
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(960,2036,346,112, this)) //Rock
         GAME_ENGINE.addEntity(new MapBB(873,1975,52,9, this)) //Blue Truck
         GAME_ENGINE.addEntity(new MapBB(787,1961,58,10, this)) //Blue Truck
         GAME_ENGINE.addEntity(new MapBB(783,1970,90,14, this)) //Blue Truck
-        GAME_ENGINE.addEntity(new MapBB(782,1981,182,84, this)) //Blue Truck
-        GAME_ENGINE.addEntity(new MapBB(724,1986,57,61, this)) //Orange Car
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(782,1981,182,84, this)) //Blue Truck
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(724,1986,57,61, this)) //Orange Car
         GAME_ENGINE.addEntity(new MapBB(671,1977,53,53, this)) //Orange Car
-        GAME_ENGINE.addEntity(new MapBB(595,1956,75,63, this)) //Orange Car
-        GAME_ENGINE.addEntity(new MapBB(586,1840,10,162, this)) //Fence left bottom most
-
+        GAME_ENGINE.addEntity(new MapBB(643,1962,47,62, this)) //Orange Car
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(589,1957,54,51, this)) //Orange Car
+        GAME_ENGINE.addEntity(new MapBB(586,1840,10,118, this)) //Fence left bottom most
 
         ////////////Room: Bottom Left////////////
         //Barriers
@@ -411,24 +411,24 @@ class WorldMap {
         let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampLeft1, spawner_SwampLeft2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
         ////////////Doors////////////
-        let door_Jug1 = new Door(1268, 1132, 56, 8, 1250, spawners_Jug, this)
+        let door_Jug1 = new Door(1268, 1132, 56, 8, 750, spawners_Jug, this)
         GAME_ENGINE.addEntity(door_Jug1)
-        let door_Jug2 = new Door(1621, 1128, 54, 11, 1250, spawners_Jug, this)
+        let door_Jug2 = new Door(1621, 1128, 54, 11, 750, spawners_Jug, this)
         GAME_ENGINE.addEntity(door_Jug2)
 
-        let door_Mus1 = new Door(1299, 1420, 56, 10, 1250, spawners_Mus, this)
+        let door_Mus1 = new Door(1299, 1420, 56, 10, 1000, spawners_Mus, this)
         GAME_ENGINE.addEntity(door_Mus1)
-        let door_Mus2 = new Door(1291, 1812, 10, 56, 1250, [spawners_Mus, spawners_BL], this)
+        let door_Mus2 = new Door(1291, 1812, 10, 56, 1000, [spawners_Mus, spawners_BL], this)
         GAME_ENGINE.addEntity(door_Mus2)
 
-        let door_BL1 = new Door(884, 1631, 147, 56, 1250, spawners_BL, this)
+        let door_BL1 = new Door(884, 1631, 147, 56, 2000, spawners_BL, this)
         GAME_ENGINE.addEntity(door_BL1)
 
-        let door_Bar1 = new Door(756, 1676, 57, 15, 1000, [spawners_Swamp, spawners_Bar], this)
+        let door_Bar1 = new Door(756, 1676, 57, 15, 2500, [spawners_Swamp, spawners_Bar], this)
         GAME_ENGINE.addEntity(door_Bar1)
-        let door_Bar2 = new Door(874, 1371, 11, 73, 2500, spawners_Bar, this)
+        let door_Bar2 = new Door(874, 1371, 11, 73, 5000, spawners_Bar, this)
         GAME_ENGINE.addEntity(door_Bar2)
-        let door_Bar3 = new Door(756, 1676, 57, 15, 1000, [spawners_BL, spawners_Bar], this)
+        let door_Bar3 = new Door(756, 1676, 57, 15, 2500, [spawners_BL, spawners_Bar], this)
         GAME_ENGINE.addEntity(door_Bar3)
 
         let door_Swamp1 = new Door(964, 938, 115, 61, 1250, spawners_Swamp, this)
@@ -486,13 +486,13 @@ class WorldMap {
         GAME_ENGINE.addEntity(new PerkMachine(909, 674, 32, 47, "Double Tap", this))
 
         ////////////MysteryBox///////////
-        GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428]], 3, this))
+        GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428]], randomInt(0), this))
 
         ///////////PaP///////////
         GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
 
         ////////////Player///////////
-        this.player = new Player(this.playerSpawnX,this.playerSpawnY);
+        this.player = new Player(this.playerSpawnX, this.playerSpawnY);
         GAME_ENGINE.addEntity(this.player)
 
         ////////////HUD///////////
@@ -773,7 +773,7 @@ class Door extends MapInteract {
      * @param imagePath
      * @param map
      */
-    constructor(posX, posY, width, height, cost, listOfSpawners, map) {
+    constructor(posX, posY, width, height, cost, listOfSpawners, map, mapInteractAnimator=null) {
         super()
         //define bbs
         this.bb = new BoundingBox(
@@ -796,7 +796,11 @@ class Door extends MapInteract {
         this.listOfSpawners = listOfSpawners
         this.isLocked = true //TODO remove if not needed
 
-        //TODO make paired renderer
+        if (mapInteractAnimator == null) {
+            this.animator = new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Characters/Boss/Panzer_Soldat.png"), 0,0, 200, 200), this.bb.x, this.bb.y)
+        } else {
+            this.animator = mapInteractAnimator
+        }
     }
 
     update() {
@@ -807,6 +811,7 @@ class Door extends MapInteract {
         if (this.isLocked) {
             this.bb.drawBoundingBox("red")
             this.bb_interact.drawBoundingBox("orange")
+            this.animator.draw()
         }
     }
 
@@ -832,6 +837,16 @@ class Door extends MapInteract {
 
     hudText() {
         GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to unlock for " + this.cost)
+    }
+}
+
+class MapInteractAnimator {
+    constructor(animator, posX, posY) {
+        Object.assign(this, {animator, posX, posY})
+    }
+
+    draw() {
+        this.animator.drawFrame(this.posX, this.posY)
     }
 }
 
