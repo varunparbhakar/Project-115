@@ -216,7 +216,8 @@ class GameEngine {
             entity instanceof Door ||
             entity instanceof WallBuyTrigger ||
             entity instanceof WallBuyImage ||
-            entity instanceof MapInteract
+            entity instanceof MapInteract ||
+            entity instanceof SpawnerGroundDigParticle
         ) {
             this.ent_MapObjects.push(entity)
         } else if (entity instanceof MapLayer_Background) {

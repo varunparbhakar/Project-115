@@ -52,6 +52,10 @@ ASSET_MANAGER.queueDownload("Assets/Images/Map/Perks_Hud.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Pack_A_Punch.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Pack_A_Punch_Light.png")
 
+
+//Zombie Spawn Dirt Effect
+ASSET_MANAGER.queueDownload("Assets/Images/Map/Zombie Dirt Spawning SpriteSheet.png")
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");

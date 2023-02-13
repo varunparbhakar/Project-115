@@ -780,8 +780,9 @@ const SPAWNERGROUNDDIG_DELAY = 3
 class SpawnerGroundDigParticle {
     constructor(posX, posY, zombie) {
         Object.assign(this, {posX, posY, zombie})
-        this.delayTimer = 3
-        this.animator = new Animator(ASSET_MANAGER.getAsset(WALLBUY_ASSET), 0,0,100,100) //TODO
+        this.scale = 0.4
+        this.delayTimer = 5
+        this.animator = new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Zombie Dirt Spawning SpriteSheet.png"), 0,0,600,600, 7,1,this.scale) //TODO
     }
 
     update() {
@@ -794,7 +795,7 @@ class SpawnerGroundDigParticle {
     }
 
     draw() {
-        this.animator.drawFrame(this.posX - (this.animator.width / 2), this.posY - (this.animator.height / 2))
+        this.animator.drawFrame(this.posX - (this.animator.width * this.scale / 2), this.posY - (this.animator.height * this.scale / 2))
     }
 }
 
