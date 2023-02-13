@@ -580,7 +580,7 @@ class Gun_T_Pierce extends Gun {
     }
 
     shoot2(posX, posY, angle) {
-        GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, 3))
+        GAME_ENGINE.addEntity(new BulletPierce(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, this.pierceCount))
     }
 }
 

@@ -394,11 +394,9 @@ class Player extends GameObject {
     powerUpHandler() {
         if (this.powerup_hasInstaKillTimer > 0) {
             this.powerup_hasInstaKillTimer -= GAME_ENGINE.clockTick
-            console.log("INSTA KILL", this.powerup_hasInstaKillTimer)
         }
         if (this.powerup_hasDoublePointsTimer > 0) {
             this.powerup_hasDoublePointsTimer -= GAME_ENGINE.clockTick
-            console.log("INSTA KILL", this.powerup_hasDoublePointsTimer)
         }
     }
 

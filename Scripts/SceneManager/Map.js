@@ -154,7 +154,8 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
-        GAME_ENGINE.addEntity(new MapBB(682, 492, 439, 8, this, true)) //Top Fence
+        GAME_ENGINE.addEntity(new MapBB(683, 491, 281, 10, this, true)) //Top Fence
+        GAME_ENGINE.addEntity(new MapBB(1019, 483, 104, 19, this)) //Top Rock
         GAME_ENGINE.addEntity(new MapBB(1196, 492, 102, 9, this)) //Top Fence Right
         GAME_ENGINE.addEntity(new MapBB(1212, 492, 54, 199, this)) //Top Fence Right Big
         GAME_ENGINE.addEntity(new MapBB(686,493,10,258, this)) //Top Fence left big fence
@@ -204,7 +205,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(876,748,72,9, this)) //Fence between Double Tap and the rock
 
         GAME_ENGINE.addEntity(new MapBB(1260,817,8,325, this)) //Juggernaut Room Boundry
-        GAME_ENGINE.addEntity(new MapBB(1259,817,201,10, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1259,811,201,10, this)) //Juggernaut Room Boundry
         GAME_ENGINE.addEntity(new MapBB(1515,811,74,11, this)) //Jugg Wall Between 2 barriers
         GAME_ENGINE.addEntity(new MapBB(1644,812,41,8, this)) //Juggernaut Room Boundry
         GAME_ENGINE.addEntity(new MapBB(1676,817,8,324, this)) //Juggernaut Room Boundry
@@ -237,7 +238,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(875,1270,10,102, this)) //top right wall of bar
         GAME_ENGINE.addEntity(new MapBB(650,1313,169,11, this, true)) //top table of bar top chairs
         GAME_ENGINE.addEntity(new MapBB(650,1356,170,12, this, true)) //top table of bar bottom chairs
-        GAME_ENGINE.addEntity(new MapBBPlayerOnly(641,1324,188,31, this, true)) //top table of bar
+        GAME_ENGINE.addEntity(new MapBB(641,1324,188,31, this, true)) //top table of bar
         // GAME_ENGINE.addEntity(new MapBB(703,1271,67,42, this, true)) //top bench of bar
         GAME_ENGINE.addEntity(new MapBB(675,1259,209,11, this)) //top wall of bar
         GAME_ENGINE.addEntity(new MapBB(556,1260,80,11, this)) //top left wall of bar
@@ -451,10 +452,10 @@ class WorldMap {
         GAME_ENGINE.addEntity(new WallBuyTrigger(884, 1478, 12, 50, "Kar98k", 200, this))
         GAME_ENGINE.addEntity(new WallBuyImage(884, 1478, "E", "Kar98k", 3.5, this))
 
-        GAME_ENGINE.addEntity(new WallBuyTrigger(1267, 970, 10, 40, "MP5K", 1000, this))
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1267, 970, 10, 20, "MP5K", 1000, this))
         GAME_ENGINE.addEntity(new WallBuyImage(1267, 970, "E", "MP5K", 3.5, this))
 
-        GAME_ENGINE.addEntity(new WallBuyTrigger(1540, 957, 14, 55, "MPL", 1000, this))
+        GAME_ENGINE.addEntity(new WallBuyTrigger(1540, 957, 20, 12, "MPL", 1000, this))
         GAME_ENGINE.addEntity(new WallBuyImage(1540, 957, "S", "MPL", 3.5, this))
 
         GAME_ENGINE.addEntity(new WallBuyTrigger(1434, 1536, 12, 30, "FN FAL", 1200, this))

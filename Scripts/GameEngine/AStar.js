@@ -13,7 +13,7 @@ ASTAR_BB_SIZE = [70, 50, 50]
  * Amount of iterations before giving up
  * @type {number}
  */
-ASTAR_ITERATIONS = [500, 0, 0] //TODO iterations based on player distance
+ASTAR_ITERATIONS = [150, 0, 0] //TODO iterations based on player distance
 // ASTAR_ITERATION_OFFSET = [[0,0], [50,0], [-50, 25]]
 class AStar {
     constructor() {
@@ -74,6 +74,7 @@ class AStar {
                         curr = curr.parent
                     }
                     this.pathList = resultingPath //.reverse()
+                    // console.log("iteration left:", iterations)
                     return (iterations === 0 ? -1 : 0)
                 }
 
