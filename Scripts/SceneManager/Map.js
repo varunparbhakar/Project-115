@@ -288,7 +288,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1643,1868,9,160, this)) //Bushes Wall
         GAME_ENGINE.addEntity(new MapBB(1252,1934,50,108, this)) //Bushes Wall
         GAME_ENGINE.addEntity(new MapBB(1301,2027,351,10, this)) //Bushes Wall
-        GAME_ENGINE.addEntity(new MapBBPlayerOnly(1564,1748,79,132, this)) //Cracked pipes 
+        // GAME_ENGINE.addEntity(new MapBBPlayerOnly(1564,1748,79,132, this)) //Cracked pipes
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(1300,1887,169,140, this)) //Bushes
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(1469,1879,176,149, this)) //Bushes
         GAME_ENGINE.addEntity(new MapBB(1291,1867,10,52, this)) //White Truck museum wall
@@ -317,12 +317,12 @@ class WorldMap {
         let barrier_BLBar = new Barrier(691, 1833, "S", this)
         GAME_ENGINE.addEntity(barrier_BLBar)
         //Spawners
-        let spawner_BLBar = new SpawnerBarrier(570, 1706, barrier_BLBar, true, this)
-        let spawner_BLOrange1 = new SpawnerDest(419, 2211, 623, 1932, false, this)
-        let spawner_BLOrange2 = new SpawnerDest(528, 2335, 623, 1932, false, this)
-        let spawner_BLBlue1 = new SpawnerDest(703, 2302, 775, 1943, false, this)
-        let spawner_BLBlue2 = new SpawnerDest(875, 2297, 993, 1980, false, this)
-        let spawner_BLWhite1 = new SpawnerDest(1346, 2230, 16, 10, false, this)
+        let spawner_BLBar = new SpawnerBarrier(570, 1706, barrier_BLBar, false, this, 620)
+        let spawner_BLOrange1 = new SpawnerDest(419, 2211, 623, 1932, false, this, 630)
+        let spawner_BLOrange2 = new SpawnerDest(528, 2335, 623, 1932, false, this, 630)
+        let spawner_BLBlue1 = new SpawnerDest(703, 2302, 775, 1943, false, this, 600)
+        let spawner_BLBlue2 = new SpawnerDest(875, 2297, 993, 1980, false, this, 600)
+        let spawner_BLWhite1 = new SpawnerDest(1346, 2230, 16, 10, false, this, 520)
         let spawners_BL = [spawner_BLBar, spawner_BLOrange1, spawner_BLOrange2, spawner_BLBlue1, spawner_BLBlue2, spawner_BLWhite1]
 
         ////////////Room: Museum////////////
@@ -332,13 +332,13 @@ class WorldMap {
         GAME_ENGINE.addEntity(barrier_MusLeakPipe)
         GAME_ENGINE.addEntity(barrier_Statue)
         //Spawners
-        let spawner_MusBush1 = new SpawnerDest(1400, 1965, 1401, 1877, false, this)
-        let spawner_MusBush2 = new SpawnerDest(1561, 1949, 1547, 1869, false, this)
-        let spawner_MusLeakPipe1 = new SpawnerBarrier(1867, 1807, barrier_MusLeakPipe, false, this)
-        let spawner_MusLeakPipe2 = new SpawnerBarrier(1853, 1907, barrier_MusLeakPipe, false, this)
-        let spawner_MusStatue1 = new SpawnerBarrier(1833, 1584, barrier_Statue, false, this)
-        let spawner_MusStatue2 = new SpawnerBarrier(1850, 1668, barrier_Statue, false, this)
-        let spawner_MusStatueG = new SpawnerGroundDig(1436, 1473, false, this)
+        let spawner_MusBush1 = new SpawnerDest(1400, 1965, 1401, 1877, false, this, 550)
+        let spawner_MusBush2 = new SpawnerDest(1561, 1949, 1547, 1869, false, this, 550)
+        let spawner_MusLeakPipe1 = new SpawnerBarrier(1867, 1807, barrier_MusLeakPipe, false, this, 800)
+        let spawner_MusLeakPipe2 = new SpawnerBarrier(1853, 1907, barrier_MusLeakPipe, false, this, 800)
+        let spawner_MusStatue1 = new SpawnerBarrier(1833, 1584, barrier_Statue, false, this, 800)
+        let spawner_MusStatue2 = new SpawnerBarrier(1850, 1668, barrier_Statue, false, this, 800)
+        let spawner_MusStatueG = new SpawnerGroundDig(1436, 1473, false, this, 550)
         let spawners_Mus = [spawner_MusBush1, spawner_MusBush2, spawner_MusLeakPipe1, spawner_MusLeakPipe2, spawner_MusStatue1, spawner_MusStatue2, spawner_MusStatueG]
 
         ////////////Room: Bar////////////
@@ -348,10 +348,10 @@ class WorldMap {
         GAME_ENGINE.addEntity(barrier_BarTop)
         GAME_ENGINE.addEntity(barrier_BarBottom)
         //Spawners
-        let spawner_BarW1 = new SpawnerBarrier(249, 1260, barrier_BarTop, false, this)
-        let spawner_BarW2 = new SpawnerBarrier(213, 1357, barrier_BarTop, false, this)
-        let spawner_BarW3 = new SpawnerBarrier(211, 1467, barrier_BarBottom, false, this)
-        let spawner_BarW4 = new SpawnerBarrier(211, 1627, barrier_BarBottom, false, this)
+        let spawner_BarW1 = new SpawnerBarrier(249, 1260, barrier_BarTop, false, this, 700)
+        let spawner_BarW2 = new SpawnerBarrier(213, 1357, barrier_BarTop, false, this, 700)
+        let spawner_BarW3 = new SpawnerBarrier(211, 1467, barrier_BarBottom, false, this, 700)
+        let spawner_BarW4 = new SpawnerBarrier(211, 1627, barrier_BarBottom, false, this, 700)
         let spawners_Bar = [spawner_BarW1, spawner_BarW2, spawner_BarW3, spawner_BarW4]
 
         ////////////Room: Spawn Area PaP////////////
@@ -361,13 +361,13 @@ class WorldMap {
         GAME_ENGINE.addEntity(barrier_SpawnE)
         GAME_ENGINE.addEntity(barrier_SpawnJug)
         //Spawners
-        let spawner_SpawnE1 = new SpawnerBarrier(1945, 1073, barrier_SpawnE, true, this)
-        let spawner_SpawnE2 = new SpawnerBarrier(1965, 1200, barrier_SpawnE, true, this)
-        let spawner_SpawnE3 = new SpawnerBarrier(1976, 1334, barrier_SpawnE, true, this)
-        let spawner_SpawnGWhite = new SpawnerGroundDig(1154, 1637, true, this)
-        let spawner_SpawnGLamp = new SpawnerGroundDig(916, 1557, true, this)
-        let spawner_SpawnGRockBox = new SpawnerGroundDig(1233, 977, true, this)
-        let spawner_SpawnJug = new SpawnerBarrier(1584, 1027, barrier_SpawnJug, true, this)
+        let spawner_SpawnE1 = new SpawnerBarrier(1945, 1073, barrier_SpawnE, true, this, 800)
+        let spawner_SpawnE2 = new SpawnerBarrier(1965, 1200, barrier_SpawnE, true, this, 800)
+        let spawner_SpawnE3 = new SpawnerBarrier(1976, 1334, barrier_SpawnE, true, this, 800)
+        let spawner_SpawnGWhite = new SpawnerGroundDig(1154, 1637, true, this, 600)
+        let spawner_SpawnGLamp = new SpawnerGroundDig(916, 1557, true, this, 600)
+        let spawner_SpawnGRockBox = new SpawnerGroundDig(1233, 977, true, this, 600)
+        let spawner_SpawnJug = new SpawnerBarrier(1584, 1027, barrier_SpawnJug, true, this, 600)
         let spawners_Spawn = [spawner_SpawnE1, spawner_SpawnE2, spawner_SpawnE3, spawner_SpawnGWhite, spawner_SpawnGLamp, spawner_SpawnGRockBox, spawner_SpawnJug]
 
         ////////////Room: Jug Room////////////
@@ -379,11 +379,11 @@ class WorldMap {
         GAME_ENGINE.addEntity(barrier_JugTopLeft)
         GAME_ENGINE.addEntity(barrier_JugTopRight)
         //Spawners
-        let spawner_JugBottom = new SpawnerBarrier(1513, 1020, barrier_JugBottom, false, this)
-        let spawner_JugTop1 = new SpawnerBarrier(1347, 656, barrier_JugTopLeft, false, this)
-        let spawner_JugTop2 = new SpawnerBarrier(1512, 697, barrier_JugTopLeft, false, this)
-        let spawner_JugTop3 = new SpawnerBarrier(1588, 718, barrier_JugTopRight, false, this)
-        let spawner_JugTop4 = new SpawnerBarrier(1713, 666, barrier_JugTopRight, false, this)
+        let spawner_JugBottom = new SpawnerBarrier(1513, 1020, barrier_JugBottom, false, this, 380)
+        let spawner_JugTop1 = new SpawnerBarrier(1347, 656, barrier_JugTopLeft, false, this, 400)
+        let spawner_JugTop2 = new SpawnerBarrier(1512, 697, barrier_JugTopLeft, false, this, 440)
+        let spawner_JugTop3 = new SpawnerBarrier(1588, 718, barrier_JugTopRight, false, this, 440)
+        let spawner_JugTop4 = new SpawnerBarrier(1713, 666, barrier_JugTopRight, false, this, 700)
         let spawners_Jug = [spawner_JugBottom, spawner_JugTop1, spawner_JugTop2, spawner_JugTop3, spawner_JugTop4]
 
         ////////////Room: Double Tap Room (Park)////////////
@@ -399,16 +399,16 @@ class WorldMap {
         GAME_ENGINE.addEntity(barrier_SwampTopLeft)
         GAME_ENGINE.addEntity(barrier_SwampTopRight)
         //Spawners
-        let spawner_SwampTopLeft1 = new SpawnerBarrier(864, 218, barrier_SwampTopLeft, false, this)
-        let spawner_SwampTopLeft2 = new SpawnerBarrier(1046, 208, barrier_SwampTopLeft, false, this)
-        let spawner_SwampTopRight1 = new SpawnerBarrier(1198, 222, barrier_SwampTopRight, false, this)
-        let spawner_SwampTopRight2 = new SpawnerBarrier(1334, 280, barrier_SwampTopRight, false, this)
-        let spawner_SwampRight1 = new SpawnerDest(336, 822, 641, 857, false, this)
-        let spawner_SwampRight2 = new SpawnerDest(417, 651, 638, 855, false, this)
-        let spawner_SwampTreesLeft = new SpawnerGroundDig(653, 979, false, this)
-        let spawner_SwampTreesRight = new SpawnerGroundDig(899, 1050, false, this)
-        let spawner_SwampBottomLeft = new SpawnerGroundDig(586, 1212, false, this)
-        let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampRight1, spawner_SwampRight2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
+        let spawner_SwampTopLeft1 = new SpawnerBarrier(864, 218, barrier_SwampTopLeft, false, this, 850)
+        let spawner_SwampTopLeft2 = new SpawnerBarrier(1046, 208, barrier_SwampTopLeft, false, this, 850)
+        let spawner_SwampTopRight1 = new SpawnerBarrier(1198, 222, barrier_SwampTopRight, false, this, 850)
+        let spawner_SwampTopRight2 = new SpawnerBarrier(1334, 280, barrier_SwampTopRight, false, this, 850)
+        let spawner_SwampLeft1 = new SpawnerDest(336, 822, 641, 857, false, this, 600)
+        let spawner_SwampLeft2 = new SpawnerDest(417, 651, 638, 855, false, this, 600)
+        let spawner_SwampTreesLeft = new SpawnerGroundDig(653, 979, false, this, 300)
+        let spawner_SwampTreesRight = new SpawnerGroundDig(899, 1050, false, this, 300)
+        let spawner_SwampBottomLeft = new SpawnerGroundDig(586, 1212, false, this, 500)
+        let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampLeft1, spawner_SwampLeft2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
         ////////////Doors////////////
         let door_Jug1 = new Door(1268, 1132, 56, 8, 1250, spawners_Jug, this)
@@ -1779,13 +1779,13 @@ class RoundManager {
     spawn() {
         let index = randomInt(this.listOfEnabledSpawns.length)
         let success = false
-        for (let i = 0; i < this.listOfEnabledSpawns.length; i++) { //ten tries
+        for (let i = 0; i < this.listOfEnabledSpawns.length; i++) {
             let spawnResult = this.listOfEnabledSpawns[index].spawnZombie(1, this.curr_ZombiesHealth)
             if (spawnResult >= 0) {
                 success = true
                 break
             } else {
-                index = index + 1 % this.listOfEnabledSpawns.length
+                index = ((index + 1) % this.listOfEnabledSpawns.length)
             }
         }
         if (!success) {
