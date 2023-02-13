@@ -161,18 +161,18 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(801,685,34,7, this, true)) //Small fence knob
 
         GAME_ENGINE.addEntity(new MapBB(552, 756, 142, 57, this)) //Double Tap Bottom
-        GAME_ENGINE.addEntity(new MapBB(567, 812, 50, 171, this)) //Double Tap Bottom Car Trees
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(567, 812, 50, 171, this)) //Double Tap Bottom Car Trees
         GAME_ENGINE.addEntity(new MapBB(609, 862, 34, 48, this)) //Double Tap Bottom Car
         GAME_ENGINE.addEntity(new MapBB(614,913, 29,146, this)) //Double Tap Bottom Tree from bottom of red car
-        GAME_ENGINE.addEntity(new MapBB(641,952,75,85, this)) //Double Tap Bottom, from car to the right, tree
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(641,952,75,85, this)) //Double Tap Bottom, from car to the right, tree
         GAME_ENGINE.addEntity(new MapBB(640, 919,42,39, this)) //Double Tap Bottom
-        GAME_ENGINE.addEntity(new MapBB(713,981,29,51, this)) //Double Tap Bottom
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(713,981,29,51, this)) //Double Tap Bottom
         GAME_ENGINE.addEntity(new MapBB(683,747,138,10, this)) //Double Tap bottom left
 
 
-        GAME_ENGINE.addEntity(new MapBB(828, 1018, 137,70, this)) //Middle Map
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(828, 1018, 137,70, this)) //Middle Map
         GAME_ENGINE.addEntity(new MapBB(913,971,48,160, this)) //Middle Map Boxes and Tree
-        GAME_ENGINE.addEntity(new MapBB(812,970,103,47, this)) //Middle Map, Tree
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(812,970,103,47, this)) //Middle Map, Tree
         GAME_ENGINE.addEntity(new MapBB(965,1061, 24, 123, this)) //Middle Map, Boxes near PaP
         GAME_ENGINE.addEntity(new MapBB(848,1084, 86,54, this)) //Middle Map, Bottom Middle Tree
         GAME_ENGINE.addEntity(new MapBB(1004, 1100, 9,90, this)) //Middle Map, Fencer near the pap
@@ -237,7 +237,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(875,1270,10,102, this)) //top right wall of bar
         GAME_ENGINE.addEntity(new MapBB(650,1313,169,11, this, true)) //top table of bar top chairs
         GAME_ENGINE.addEntity(new MapBB(650,1356,170,12, this, true)) //top table of bar bottom chairs
-        GAME_ENGINE.addEntity(new MapBB(641,1324,188,31, this, true)) //top table of bar
+        GAME_ENGINE.addEntity(new MapBBPlayerOnly(641,1324,188,31, this, true)) //top table of bar
         // GAME_ENGINE.addEntity(new MapBB(703,1271,67,42, this, true)) //top bench of bar
         GAME_ENGINE.addEntity(new MapBB(675,1259,209,11, this)) //top wall of bar
         GAME_ENGINE.addEntity(new MapBB(556,1260,80,11, this)) //top left wall of bar
@@ -410,6 +410,37 @@ class WorldMap {
         let spawner_SwampBottomLeft = new SpawnerGroundDig(586, 1212, false, this)
         let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampRight1, spawner_SwampRight2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
+        ////////////Doors////////////
+        let door_Jug1 = new Door(1268, 1132, 56, 8, 1250, spawners_Jug, this)
+        GAME_ENGINE.addEntity(door_Jug1)
+        let door_Jug2 = new Door(1621, 1128, 54, 11, 1250, spawners_Jug, this)
+        GAME_ENGINE.addEntity(door_Jug2)
+
+        let door_Mus1 = new Door(1299, 1420, 56, 10, 1250, spawners_Mus, this)
+        GAME_ENGINE.addEntity(door_Mus1)
+        let door_Mus2 = new Door(1291, 1812, 10, 56, 1250, [spawners_Mus, spawners_BL], this)
+        GAME_ENGINE.addEntity(door_Mus2)
+
+        let door_BL1 = new Door(884, 1631, 147, 56, 1250, spawners_BL, this)
+        GAME_ENGINE.addEntity(door_BL1)
+
+        let door_Bar1 = new Door(756, 1676, 57, 15, 1000, [spawners_Swamp, spawners_Bar], this)
+        GAME_ENGINE.addEntity(door_Bar1)
+        let door_Bar2 = new Door(874, 1371, 11, 73, 2500, spawners_Bar, this)
+        GAME_ENGINE.addEntity(door_Bar2)
+        let door_Bar3 = new Door(756, 1676, 57, 15, 1000, [spawners_BL, spawners_Bar], this)
+        GAME_ENGINE.addEntity(door_Bar3)
+
+        let door_Swamp1 = new Door(964, 938, 115, 61, 1250, spawners_Swamp, this)
+        GAME_ENGINE.addEntity(door_Swamp1)
+        let door_Swamp2 = new Door(859, 1122, 32, 91, 1250, spawners_Swamp, this)
+        GAME_ENGINE.addEntity(door_Swamp2)
+
+        let door_Double1 = new Door(941, 499, 6, 42, 2000, [spawners_Swamp, spawners_DoubleTap], this)
+        GAME_ENGINE.addEntity(door_Double1)
+        let door_Double2 = new Door(820, 748, 56, 9, 2000, [spawners_Swamp, spawners_DoubleTap], this)
+        GAME_ENGINE.addEntity(door_Double2)
+
         ////////////Power////////////
         this.powerSwitch = new PowerSwitch(595, 1430, "E", this)
         GAME_ENGINE.addEntity(this.powerSwitch)
@@ -422,6 +453,9 @@ class WorldMap {
 
         ////////////MysteryBox///////////
         GAME_ENGINE.addEntity(new MysteryBox([[805, 1270], [866, 499], [1436, 881], [1231, 1428]], randomInt(4), this))
+
+        ///////////PaP///////////
+        GAME_ENGINE.addEntity(new PackAPunch(1078, 1144, this))
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX,this.playerSpawnY);

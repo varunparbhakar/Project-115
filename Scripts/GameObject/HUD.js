@@ -493,7 +493,7 @@ class HUDDebug {
         let text = Math.floor(GAME_ENGINE.getMouseWorldPosX() / scale) + "px, " +  Math.floor(GAME_ENGINE.getMouseWorldPosY() / scale) + "px"
         let text2 = "-, -"
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
-            if (entity instanceof MapBB) {
+            if (entity instanceof MapBB || entity instanceof MapBBPlayerOnly || entity instanceof MapInteract) {
                 if (this.bb.collide(entity.bb)) {
                     text2 = Math.floor(entity.bb.x / scale) + "px, " +  Math.floor(entity.bb.y / scale) + "px"
                 }

@@ -156,8 +156,7 @@ class AStar {
                     open_list.push(child)
                 }
             }
-            this.returnPath(closed_list[closed_list.length-1], end_node, grid_size)
-            // console.log("No Path") //TODO make it walk to what was calculated anyways, so that it can try to find better path
+            // console.log("No Path")
         }
     }
 }
