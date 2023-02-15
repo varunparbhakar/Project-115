@@ -13,7 +13,7 @@ ASTAR_BB_SIZE = [70, 50, 50]
  * Amount of iterations before giving up
  * @type {number}
  */
-ASTAR_ITERATIONS = [150, 0, 0] //TODO iterations based on player distance
+ASTAR_ITERATIONS = [500, 0, 0] //TODO iterations based on player distance
 // ASTAR_ITERATION_OFFSET = [[0,0], [50,0], [-50, 25]]
 class AStar {
     constructor() {
@@ -146,7 +146,7 @@ class AStar {
                     tempBool = false
                     for (let j = 0; j < open_list.length; j++) {
                         let open_node = open_list[j]
-                        if (!tempBool && child.equals(open_node, grid_size) && child.g > open_node.g) {
+                        if (!tempBool && child.equals(open_node, grid_size)) { //&& child.g > open_node.g
                             tempBool = true
                             break
                         }
