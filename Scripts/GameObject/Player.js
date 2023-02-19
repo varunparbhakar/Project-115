@@ -443,6 +443,7 @@ class Player extends GameObject {
     }
 
     losePoints(points) {
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/accept.mp3", MIXER_CASH_ACCEPT))
         this.points -= points
     }
 

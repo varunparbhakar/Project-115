@@ -753,6 +753,7 @@ class Barrier {
             GAME_ENGINE.camera.startShake(0.1, 5)
             GAME_ENGINE.ent_Player.earnPoints(10) //TODO round cap
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.50, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/accept.mp3", MIXER_CASH_ACCEPT))
         }
     }
 
@@ -1538,9 +1539,9 @@ class PowerUp_Carpenter extends PowerUp {
 PAP_WIDTH = 80
 PAP_HEIGHT = 35
 PAP_COST = 5000
-PAP_STATECD_1 = 2
+PAP_STATECD_1 = 1
 PAP_STATECD_2 = 2
-PAP_STATECD_3 = 2
+PAP_STATECD_3 = 1
 PAP_STATECD_4 = 10
 PAP_STATECD_5 = 2
 PAP_OFFSETY = 75
@@ -1627,18 +1628,18 @@ class PackAPunch extends MapInteract {
             case 0: //waiting
                 break
             case 1: //taking in gun
-                this.drawGun((this.stateCooldown/PAP_STATECD_1) * PAP_OFFSETY + 20)
+                this.drawGun((this.stateCooldown/PAP_STATECD_1) * PAP_OFFSETY + 50)
                 this.drawPaPLight()
                 break
             case 2: //gun disappears
                 this.drawPaPLight()
                 break
             case 3: //guns comes out
-                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_3)) * PAP_OFFSETY + 20)
+                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_3)) * PAP_OFFSETY + 50)
                 this.drawPaPLight()
                 break
             case 4: //offer gun
-                this.drawGunPaP(PAP_OFFSETY + 20)
+                this.drawGunPaP(PAP_OFFSETY + 50)
                 this.drawPaPLight()
                 break
             case 5: //prevent spam
@@ -1665,7 +1666,7 @@ class PackAPunch extends MapInteract {
 
     drawPaPLight() {
         this.elapseTime =+ GAME_ENGINE.clockTick * 50
-        this.animatorPaPLight.drawFrame(this.bb.x, this.bb.y + 125, Math.random()*0.25 + 0.6) //
+        this.animatorPaPLight.drawFrame(this.bb.x, this.bb.y + 125, (Math.random() * 0.25) + 0.6) //
     }
 
     drawGunPaP(offsetY) {
@@ -1699,6 +1700,7 @@ class PackAPunch extends MapInteract {
         switch(this.state) {
             case 0: //waiting
                 if (GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP || GAME_ENGINE.ent_Player.points < PAP_COST) {return}
+                GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PerkJingles/PaP/PaP_use.mp3", 1, this.bb.x, this.bb.y, 1500))
                 GAME_ENGINE.ent_Player.losePoints(PAP_COST)
                 this.currGun = GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex]
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()

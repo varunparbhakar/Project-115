@@ -1706,7 +1706,7 @@ class Gun_Dragunov extends Gun_T_Pierce {
             2.95, //reload time
             MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.36, //recoil increase per fire
-            1, //recoil decrease rate
+            0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             3, //pierce count
             0.1,10, //shake
@@ -1725,7 +1725,7 @@ class Gun_Dragunov_PaP extends Gun_T_Pierce {
             2.95, //reload time
             MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.36, //recoil increase per fire
-            1, //recoil decrease rate
+            0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             3, //pierce count
             0.1,10, //shake
