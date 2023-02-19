@@ -52,9 +52,7 @@ ASSET_MANAGER.queueDownload("Assets/Images/Map/Perks_Hud.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Pack_A_Punch.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Pack_A_Punch_Light.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Items/Grenade.png")
-
-
-//Zombie Spawn Dirt Effect
+ASSET_MANAGER.queueDownload("Assets/Images/Items/Glow.png")
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Zombie Dirt Spawning SpriteSheet.png")
 
 

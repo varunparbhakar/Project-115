@@ -227,7 +227,7 @@ class GameEngine {
             this.ent_MapObjects.push(entity)
         } else if (entity instanceof MapLayer_Background) {
             this.ent_MapBackground = entity
-        } else if (entity instanceof MapLayer_Foreground) {
+        } else if (entity instanceof MapLayer_Foreground || entity instanceof Glow) {
             this.ent_MapForeground.push(entity)
         } else if (entity instanceof Player) {
             this.ent_Player = entity

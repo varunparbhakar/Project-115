@@ -1068,6 +1068,9 @@ class MysteryBox extends MapInteract {
 
         this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, 3.75/3)
         this.curr_GunTexture = new Gun_M1911() //to avoid null pointer
+        let center = this.bb.getCenteredPos()
+        this.glow = new Glow(center[0], center[1], 7, rgb(131, 173, 204), 0.4)
+        GAME_ENGINE.addEntity(this.glow)
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,3.75,false, false)
     }
 
@@ -1080,6 +1083,12 @@ class MysteryBox extends MapInteract {
         this.bb_interact = new BoundingBox((this.curr_Pos[0] - 3)  * this.scale, (this.curr_Pos[1] - 3) * this.scale , (MYSTERYBOX_BB_WIDTH + 6) * 3.75 , (MYSTERYBOX_BB_HEIGHT + 6) * 3.75)
         this.bb.updateSides()
         this.bb_interact.updateSides()
+
+        if (this.glow != null) {
+            let center = this.bb.getCenteredPos()
+            this.glow.posX = center[0]
+            this.glow.posY = center[1]
+        }
     }
 
     update() {
@@ -1196,6 +1205,21 @@ class MysteryBox extends MapInteract {
     }
 }
 
+class Glow {
+    constructor(posX, posY, scale=1, color="white", alpha=1) {
+        Object.assign(this, {posX, posY})
+        this.animator = new AnimatorTintedGlow(scale, color, alpha)
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        this.animator.drawFrame(this.posX, this.posY)
+    }
+}
+
 POWERSWITCH_INTERACT_SIZE = 4
 POWERSWITCH_IMG_PATH = "Assets/Images/Map/PowerSwitch_Sprite.png"
 POWERSWITCH_IMG_WIDTH = 178
@@ -1235,12 +1259,17 @@ class PowerSwitch extends MapInteract {
 
     use() {
         if (!this.power) {
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/power.mp3", 0.6, this.bb.x, this.bb.y, 2000))
-            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
             console.log("power turned on")
             this.power = true
             this.animator.xStart = this.animator.width
-            //TODO trigger audio and other effects
+
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/power.mp3", 0.6, this.bb.x, this.bb.y, 2000))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
+            GAME_ENGINE.ent_MapObjects.forEach((entity) => {
+                if (entity instanceof PerkMachine) {
+                    entity.onPower()
+                }
+            })
         }
     }
 
@@ -1264,7 +1293,7 @@ class PowerSwitch extends MapInteract {
 
 PERKMACHINE_INTERACT_SIZE = 4
 class PerkMachine extends MapInteract {
-    constructor(posX, posY, width, height, name, cost, pathSndJingle, stingerTime, volume, map) {
+    constructor(posX, posY, width, height, name, cost, pathSndJingle, stingerTime, volume, glowColor, map) {
         super()
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
@@ -1286,6 +1315,8 @@ class PerkMachine extends MapInteract {
         this.stingerTime = stingerTime
         // this.jingleTimer = 0
         this.resetJingleTime()
+        this.glow = null
+        this.glowColor = glowColor
     }
 
     use() {
@@ -1345,11 +1376,17 @@ class PerkMachine extends MapInteract {
     resetJingleTime() {
         this.jingleTimer = randomInt(30) + 60
     }
+
+    onPower() {
+        let center = this.bb.getCenteredPos()
+        this.glow = new Glow(center[0], center[1], 10, this.glowColor, 0.4)
+        GAME_ENGINE.addEntity(this.glow)
+    }
 }
 
 class PerkMachine_Jug extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Juggernog", 2500, "Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3", 26, 1, map)
+        super(posX, posY, width, height, "Juggernog", 2500, "Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3", 26, 1, "red", map)
     }
 
     checkAlreadyHavePerk() {
@@ -1368,7 +1405,7 @@ class PerkMachine_Jug extends PerkMachine {
 
 class PerkMachine_Speed extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Speed Cola", 3000, "Assets/Audio/PerkJingles/Speed Cola/Call of Duty_ Zombies - Speed Cola Song.mp3", 25.5, 1, map)
+        super(posX, posY, width, height, "Speed Cola", 3000, "Assets/Audio/PerkJingles/Speed Cola/Call of Duty_ Zombies - Speed Cola Song.mp3", 25.5, 1, "green", map)
     }
 
     checkAlreadyHavePerk() {
@@ -1387,7 +1424,7 @@ class PerkMachine_Speed extends PerkMachine {
 
 class PerkMachine_DoubleTap extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Double Tap", 2000, "Assets/Audio/PerkJingles/Double Tap/Call of Duty_ Zombies - Double Tap Song.mp3", 31, 1, map)
+        super(posX, posY, width, height, "Double Tap", 2000, "Assets/Audio/PerkJingles/Double Tap/Call of Duty_ Zombies - Double Tap Song.mp3", 31, 1, "yellow", map)
     }
 
     checkAlreadyHavePerk() {
@@ -1406,7 +1443,7 @@ class PerkMachine_DoubleTap extends PerkMachine {
 
 class PerkMachine_StaminUp extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Stamin-Up", 2000, "Assets/Audio/PerkJingles/Stamina Up/Stamina Up.mp3", 51, 0.5, map)
+        super(posX, posY, width, height, "Stamin-Up", 2000, "Assets/Audio/PerkJingles/Stamina Up/Stamina Up.mp3", 51, 0.5, "orange", map)
     }
 
     checkAlreadyHavePerk() {
@@ -1425,7 +1462,7 @@ class PerkMachine_StaminUp extends PerkMachine {
 
 class PerkMachine_QRevive extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Quick Revive", 500, "Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3", 19, 1, map)
+        super(posX, posY, width, height, "Quick Revive", 500, "Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3", 19, 1, "blue", map)
     }
 
     checkAlreadyHavePerk() {
