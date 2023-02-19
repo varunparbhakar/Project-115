@@ -1113,7 +1113,7 @@ class MysteryBox extends MapInteract {
                 break
             case 3: //prevent spam
                 if (this.stateCooldownTimer <= 0) {
-                    GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/MysteryBox/MysteryBox_Close.mp3", 1, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 500))
+                    GAME_ENGINE.addEntity(new MysteryBoxSound("Assets/Audio/MysteryBox/MysteryBox_Close.mp3", this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1]))
                     this.state = 0
                 }
                 break
@@ -1156,7 +1156,7 @@ class MysteryBox extends MapInteract {
                     return
                 }
                 GAME_ENGINE.ent_Player.losePoints(MYSTERYBOX_COST)
-                GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/MysteryBox/MysteryBox_Use.mp3", 1, this.bb.x, this.bb.y, 500))
+                GAME_ENGINE.addEntity(new MysteryBoxSound("Assets/Audio/MysteryBox/MysteryBox_Use.mp3", this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1]))
                 this.spinCooldownTimer = 0
                 this.state = 1
                 this.stateCooldownTimer = MYSTERYBOX_ROLL_TIME

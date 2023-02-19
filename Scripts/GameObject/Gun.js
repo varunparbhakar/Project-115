@@ -494,6 +494,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
         let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
 
         GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle))
+        GAME_ENGINE.addEntity(new GunSound(this.shootSndPath))
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
             this.shoot2(posX, posY, angle)
         }
