@@ -15,6 +15,7 @@ class GameEngine {
         this.ent_MapForeground = []
         this.ent_HUD = []
         this.ent_Etc = []
+        this.ent_Sound = []
 
         // Information on the input
         this.click = false;
@@ -252,6 +253,7 @@ class GameEngine {
         this.draw1(this.ent_MapForeground)
         this.draw1(this.ent_HUD)
         this.draw1(this.ent_Etc)
+        this.draw1(this.ent_Sound)
     }
 
     draw1(entities) {
@@ -275,6 +277,7 @@ class GameEngine {
         this.update1(this.ent_MapForeground)
         this.update1(this.ent_HUD)
         this.update1(this.ent_Etc)
+        this.update1(this.ent_Sound)
     }
 
     update1(entities) {

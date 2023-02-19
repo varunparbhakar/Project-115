@@ -8,11 +8,11 @@ const GUN_Shotgun = 2
 class GunPNGCoords {
     constructor() {
         this.map = new Map([
-            //["Name", [xStart, yStart, width, height, isPaP]]
+            //["Name", [xStart, yStart, width, height, isPaP, reloadSndPath, shootSndPath]]
             ["Empty", 0,0,0,0, false],
 
-            ["M1911", [0, 0, 16, 12, false]],
-            ["Mustang but no Sally :(", [0, 0, 16, 12, true]],
+            ["M1911", [0, 0, 16, 12, false, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3", "Assets/Audio/SFX/Guns/M1911/m1911_shooting.mp3"]],
+            ["Mustang but no Sally :(", [0, 0, 16, 12, true, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3", null]],
 
             ["Olympia", [108, 36, 53, 12, false]],
             ["Hades", [108, 36, 53, 12, true]],
@@ -308,6 +308,22 @@ class Gun {
         this.width = spritesheetCoords[2]
         this.height = spritesheetCoords[3]
         this.isPaP = spritesheetCoords[4]
+        //Snd
+        if (spritesheetCoords[5] != null) {
+            this.reloadSndPath = spritesheetCoords[5]
+        } else {
+            console.log(this.name, "failed to grab reload sound, defaulting to M1911's")
+            this.reloadSndPath = "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3"
+        }
+        if (spritesheetCoords[6] != null) {
+            this.shootSndPath = spritesheetCoords[6]
+        } else {
+            if (this.isPaP) { //if not defined
+                this.shootSndPath = "Assets/Audio/SFX/Guns/M1911/m1911_shooting.mp3"
+            } else {
+                this.shootSndPath = "Assets/Audio/SFX/Guns/Pap Firing/papGUN_Shooting.mp3"
+            }
+        }
     }
 
     update() {
@@ -360,6 +376,7 @@ class Gun {
 
     shoot2(posX, posY, angle) { //shooy the bullet
         GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
+        GAME_ENGINE.addEntity(new GunSound(this.shootSndPath))
     }
 
     getSpreadAngle(angle) {
@@ -385,6 +402,7 @@ class Gun {
         this.currentMagazineAmmo += withdraw
         this.currentTotalAmmo -= withdraw
         // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
+        GAME_ENGINE.addEntity(new GunSound(this.reloadSndPath))
         return true
     }
 

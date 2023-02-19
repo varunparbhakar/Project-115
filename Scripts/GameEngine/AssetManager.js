@@ -66,7 +66,7 @@ class AssetManager {
 
                     aud.src = path;
                     aud.load();
-                    this.cache[path] = aud;
+                    // this.cache[path] = aud;
                     break;
             }
         }
