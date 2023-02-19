@@ -24,7 +24,7 @@ class GunPNGCoords {
             ["L115 Isolator", [300, 48, 59, 19, true]],
 
             ["Ray Gun", [127, 0, 21, 14, false, "Assets/Audio/SFX/Guns/RayGun/Ray Gun_Reloading.mp3", "Assets/Audio/SFX/Guns/RayGun/Ray Gun.mp3"]],
-            ["Porter's X2 Ray Gun", [127, 0, 21, 14, true]],
+            ["Porter's X2 Ray Gun", [127, 0, 21, 14, true, "Assets/Audio/SFX/Guns/RayGun/Ray Gun_Reloading.mp3", null]],
 
             ["SPAS-12", [199, 31, 46, 15, false]],
             ["SPAZ-24", [199, 31, 46, 15, true]],
