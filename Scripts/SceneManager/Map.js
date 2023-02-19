@@ -842,6 +842,7 @@ class Door extends MapInteract {
             } else {
                 GAME_ENGINE.camera.map.roundManager.addActiveSpawners(this.listOfSpawners)
             }
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/lightning_l.mp3", 0.5, this.bb.x, this.bb.y, 3000))
             this.isLocked = false //TODO remove if not needed
             this.removeFromWorld = true
         }
@@ -980,6 +981,7 @@ class WallBuyTrigger {
             let acceptResponse = GAME_ENGINE.ent_Player.acceptNewGun(CREATE_GUN_FROM_NAME(this.gunName, false))
             if (acceptResponse === 0) { //bought gun
                 GAME_ENGINE.ent_Player.losePoints(this.cost)
+                GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/weapon.mp3", 0.5))
             } else if (acceptResponse === 1) { //bought ammo
                 GAME_ENGINE.ent_Player.losePoints(this.cost/2)
             }
@@ -1262,7 +1264,7 @@ class PowerSwitch extends MapInteract {
 
 PERKMACHINE_INTERACT_SIZE = 4
 class PerkMachine extends MapInteract {
-    constructor(posX, posY, width, height, name, cost, map) {
+    constructor(posX, posY, width, height, name, cost, pathSndJingle, stingerTime, volume, map) {
         super()
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
@@ -1280,6 +1282,10 @@ class PerkMachine extends MapInteract {
         this.bb_interact.updateSides()
         this.perk = name
         this.cost = cost
+        this.aud = new WorldSound(pathSndJingle, volume, this.bb.x, this.bb.y, 1700, false, 0, false)
+        this.stingerTime = stingerTime
+        // this.jingleTimer = 0
+        this.resetJingleTime()
     }
 
     use() {
@@ -1288,12 +1294,24 @@ class PerkMachine extends MapInteract {
             if (this.givePerk()) {
                 GAME_ENGINE.ent_Player.losePoints(this.cost)
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].equip()
+                this.aud.jumpToAndPlay(this.stingerTime)
+                this.resetJingleTime()
+                GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3", 0.5))
             }
         }
     }
 
     update() {
+        if (!GAME_ENGINE.camera.map.powerSwitch.power) {return}
 
+        this.aud.update()
+
+        if (this.jingleTimer > 0) {
+            this.jingleTimer -= GAME_ENGINE.clockTick
+        } else {
+            this.aud.resetAndPlay()
+            this.resetJingleTime()
+        }
     }
 
     draw() {
@@ -1319,58 +1337,19 @@ class PerkMachine extends MapInteract {
         // //try to give the perk if not have
         // if (!GAME_ENGINE.ent_Player.perk_hasJug) {
         //     GAME_ENGINE.ent_Player.perk_hasJug = true
-        //     ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
-        //     ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
         //     return true
         // }
         // return false
+    }
 
-        // switch (this.perk) {
-        //     case "Juggernog":
-        //         if (!GAME_ENGINE.ent_Player.perk_hasJug) {
-        //             GAME_ENGINE.ent_Player.perk_hasJug = true
-        //             ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
-        //             ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
-        //             return true
-        //         }
-        //         return false
-        //     case "Speed Cola":
-        //         if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
-        //             GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
-        //             return true
-        //         }
-        //         return false
-        //     case "Double Tap":
-        //         if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
-        //             GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
-        //             return true
-        //         }
-        //         return false
-        //     case "Quick Revive":
-        //         if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
-        //             GAME_ENGINE.ent_Player.perk_hasQuickRev = true
-        //             //Play the perk jingle
-        //             ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3",18, 0);
-        //             ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3",0,1);
-        //             return true
-        //         }
-        //         return false
-        //     case "Stamin-Up":
-        //         if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
-        //             GAME_ENGINE.ent_Player.perk_hasStaminUp = true
-        //             return true
-        //         }
-        //         return false
-        //     default:
-        //         console.log(this.perk, "is an invalid perk!")
-        //         return false
-        // }
+    resetJingleTime() {
+        this.jingleTimer = randomInt(30) + 60
     }
 }
 
 class PerkMachine_Jug extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Juggernog", 2500, map)
+        super(posX, posY, width, height, "Juggernog", 2500, "Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3", 26, 1, map)
     }
 
     checkAlreadyHavePerk() {
@@ -1389,7 +1368,7 @@ class PerkMachine_Jug extends PerkMachine {
 
 class PerkMachine_Speed extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Speed Cola", 3000, map)
+        super(posX, posY, width, height, "Speed Cola", 3000, "Assets/Audio/PerkJingles/Speed Cola/Call of Duty_ Zombies - Speed Cola Song.mp3", 25.5, 1, map)
     }
 
     checkAlreadyHavePerk() {
@@ -1408,7 +1387,7 @@ class PerkMachine_Speed extends PerkMachine {
 
 class PerkMachine_DoubleTap extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Double Tap", 2000, map)
+        super(posX, posY, width, height, "Double Tap", 2000, "Assets/Audio/PerkJingles/Double Tap/Call of Duty_ Zombies - Double Tap Song.mp3", 31, 1, map)
     }
 
     checkAlreadyHavePerk() {
@@ -1427,7 +1406,7 @@ class PerkMachine_DoubleTap extends PerkMachine {
 
 class PerkMachine_StaminUp extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Stamin-Up", 2000, map)
+        super(posX, posY, width, height, "Stamin-Up", 2000, "Assets/Audio/PerkJingles/Stamina Up/Stamina Up.mp3", 51, 0.5, map)
     }
 
     checkAlreadyHavePerk() {
@@ -1446,7 +1425,7 @@ class PerkMachine_StaminUp extends PerkMachine {
 
 class PerkMachine_QRevive extends PerkMachine {
     constructor(posX, posY, width, height, map) {
-        super(posX, posY, width, height, "Quick Revive", 500, map)
+        super(posX, posY, width, height, "Quick Revive", 500, "Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3", 19, 1, map)
     }
 
     checkAlreadyHavePerk() {
