@@ -58,8 +58,8 @@ class GunPNGCoords {
             ["M14", [0, 105, 55, 14, false, "Assets/Audio/SFX/Guns/M14/m14_Reload.mp3", "Assets/Audio/SFX/Guns/M14/m14_Shoot.mp3"]], //TODO snd
             ["Mnesia", [0, 105, 55, 14, true, "Assets/Audio/SFX/Guns/M14/m14_Reload.mp3"]],
 
-            ["Gewehr 43", [59, 86, 57, 15, false]], //TODO snd
-            ["G115 Compressor", [59, 86, 57, 15, true]],
+            ["Gewehr 43", [59, 86, 57, 15, false, "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Reload.mp3", "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Reload.mp3"]], //TODO snd
+            ["G115 Compressor", [59, 86, 57, 15, true, "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Reload.mp3"]],
 
             ["M1 Carbine", [117, 86, 52, 15, false, "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Reload.mp3", "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Shoot.mp3"]], //TODO snd
             ["Widdershins RC-1", [117, 86, 52, 15, true, "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Reload.mp3"]],
@@ -79,38 +79,38 @@ class GunPNGCoords {
             ["MPL", [177, 128, 24, 17, false, "Assets/Audio/SFX/Guns/MPL/MPL_Reload.mp3", "Assets/Audio/SFX/Guns/MPL/MPL_Shoot.mp3"]], //TODO snd
             ["MPL-LF", [177, 128, 24, 17, true, "Assets/Audio/SFX/Guns/MPL/MPL_Reload.mp3"]],
 
-            ["PM63", [152, 127, 23, 12, false, ]], //TODO snd
-            ["Tokyo but no Rose", [152, 127, 23, 12, true]],
+            ["PM63", [152, 127, 23, 12, false, "Assets/Audio/SFX/Guns/PM63/PM_63_Reload.mp3", "Assets/Audio/SFX/Guns/PM63/PM_63_Shoot.mp3"]], //TODO snd
+            ["Tokyo but no Rose", [152, 127, 23, 12, true, "Assets/Audio/SFX/Guns/PM63/PM_63_Reload.mp3"]],
 
-            ["Spectre", [259, 128, 22, 14, false]], //TODO snd
-            ["Phantom", [259, 128, 22, 14, true]],
+            ["Spectre", [259, 128, 22, 14, false, "Assets/Audio/SFX/Guns/Spectre/Spectre_Reload.mp3", "Assets/Audio/SFX/Guns/Spectre/Spectre_Shoot.mp3"]], //TODO snd
+            ["Phantom", [259, 128, 22, 14, true, "Assets/Audio/SFX/Guns/Spectre/Spectre_Reload.mp3"]],
 
-            ["Thompson", [110, 127, 39, 14, false]], //TODO snd
-            ["Gibs-O-Matic", [110, 127, 39, 14, true]],
+            ["Thompson", [110, 127, 39, 14, false, "Assets/Audio/SFX/Guns/Thompson/Thompson_Reload.mp3", "Assets/Audio/SFX/Guns/Thompson/Thompson_Shoot.mp3"]], //TODO snd
+            ["Gibs-O-Matic", [110, 127, 39, 14, true, "Assets/Audio/SFX/Guns/Thompson/Thompson_Reload.mp3"]],
 
-            ["Type 100", [68, 127, 41, 13, false]], //TODO snd
-            ["1001 Samurais", [68, 127, 41, 13, true]],
+            ["Type 100", [68, 127, 41, 13, false, "Assets/Audio/SFX/Guns/Type 100/Type100_Reload.mp3", "Assets/Audio/SFX/Guns/Type 100/Type100_Shoot.mp3"]], //TODO snd
+            ["1001 Samurais", [68, 127, 41, 13, true, "Assets/Audio/SFX/Guns/Type 100/Type100_Reload.mp3"]],
 
-            ["HK21", [237, 66, 57, 22, false]], //TODO snd
-            ["H115 Oscillator", [237, 66, 57, 22, true]],
+            ["HK21", [237, 66, 57, 22, false, "Assets/Audio/SFX/Guns/HK21/HK21_Reload.mp3", "Assets/Audio/SFX/Guns/HK21/HK21_Shoot.mp3"]], //TODO snd
+            ["H115 Oscillator", [237, 66, 57, 22, true, "Assets/Audio/SFX/Guns/HK21/HK21_Reload.mp3"]],
 
-            ["RPK", [180, 65, 54, 22, false]], //TODO snd
-            ["R115 Resonator", [180, 65, 54, 22, true]],
+            ["RPK", [180, 65, 54, 22, false, "Assets/Audio/SFX/Guns/RPK/RPK_Reload.mp3", "Assets/Audio/SFX/Guns/RPK/RPK_Shoot.mp3"]], //TODO snd
+            ["R115 Resonator", [180, 65, 54, 22, true, "Assets/Audio/SFX/Guns/RPK/RPK_Reload.mp3"]],
 
-            ["FG42", [63, 70, 58, 13, false]], //TODO snd
-            ["420 Impeller", [63, 70, 58, 13, true]],
+            ["FG42", [63, 70, 58, 13, false, "Assets/Audio/SFX/Guns/FG42/FG42_Reload.mp3", "Assets/Audio/SFX/Guns/FG42/FG42_Shoot.mp3"]], //TODO snd
+            ["420 Impeller", [63, 70, 58, 13, true, "Assets/Audio/SFX/Guns/FG42/FG42_Reload.mp3"]],
 
-            ["Dragunov", [234, 48, 66, 17, false]], //TODO snd
-            ["D115 Disassembler", [234, 48, 66, 17, true]],
+            ["Dragunov", [234, 48, 66, 17, false, "Assets/Audio/SFX/Guns/RPK/RPK_Reload.mp3", "Assets/Audio/SFX/Guns/RPK/RPK_Shoot.mp3"]], //TODO snd
+            ["D115 Disassembler", [234, 48, 66, 17, true, "Assets/Audio/SFX/Guns/RPK/RPK_Reload.mp3"]],
 
-            ["Kar98k", [0, 50, 57, 14, false]], //TODO snd
-            ["Armageddon", [0, 50, 57, 14, true]],
+            ["Kar98k", [0, 50, 57, 14, false, "Assets/Audio/SFX/Guns/Kar98/Kar98_Reload.mp3", "Assets/Audio/SFX/Guns/Kar98/Kar98_Shoot.mp3"]], //TODO snd
+            ["Armageddon", [0, 50, 57, 14, true, "Assets/Audio/SFX/Guns/Kar98/Kar98_Reload.mp3"]],
 
-            ["HS-10", [246, 30, 35, 18, false]], //TODO snd
-            ["Typhoid but no Mary", [246, 30, 35, 18, true]],
+            ["HS-10", [246, 30, 35, 18, false, "Assets/Audio/SFX/Guns/HS-10/HS-10_Reload.mp3", "Assets/Audio/SFX/Guns/HS-10/HS-10_Shoot.mp3"]], //TODO snd
+            ["Typhoid but no Mary", [246, 30, 35, 18, true, "Assets/Audio/SFX/Guns/HS-10/HS-10_Reload.mp3"]],
 
-            ["Stakeout", [163, 34, 35, 13, false]], //TODO snd
-            ["Raid", [163, 34, 35, 13, true]],
+            ["Stakeout", [163, 34, 35, 13, false, "Assets/Audio/SFX/Guns/Stakeout/Stakeout_Reload.mp3", "Assets/Audio/SFX/Guns/Stakeout/Stakeout_Shoot.mp3"]], //TODO snd
+            ["Raid", [163, 34, 35, 13, true, "Assets/Audio/SFX/Guns/Stakeout/Stakeout_Reload.mp3"]],
 
             ["Double-Barrel", [53, 36, 55, 12, false]], //TODO snd
             ["24 Bore Long Range", [53, 36, 55, 12, true]],
@@ -118,11 +118,11 @@ class GunPNGCoords {
             ["M1897 Trench Gun", [0, 36, 53, 12, false]], //TODO snd
             ["Gut Shot", [0, 36, 53, 12, true]],
 
-            ["China Lake", [249, 145, 45, 17, false]], //TODO snd
-            ["China Beach", [249, 145, 45, 17, true]],
+            ["China Lake", [249, 145, 45, 17, false, "Assets/Audio/SFX/Guns/China Lake/China Lake_Reload.mp3", "Assets/Audio/SFX/Guns/China Lake/China Lake_Shoot.mp3"]], //TODO snd
+            ["China Beach", [249, 145, 45, 17, true, "Assets/Audio/SFX/Guns/China Lake/China Lake_Reload.mp3"]],
 
-            ["M72 LAW", [205, 149, 43, 11, false]], //TODO snd
-            ["M72 Anarchy", [205, 149, 43, 11, true]],
+            ["M72 LAW", [205, 149, 43, 11, false, "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Reload.mp3", "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Shoot.mp3"]], //TODO snd
+            ["M72 Anarchy", [205, 149, 43, 11, true, "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Reload.mp3"]],
 
             ["Ballistic Knife", [192, 2, 26, 12, false]], //TODO make
             ["Crossbow", [94, 149, 42, 13, false]], //TODO make
