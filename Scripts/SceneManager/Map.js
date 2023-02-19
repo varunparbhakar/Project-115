@@ -1460,7 +1460,7 @@ class PerkMachine_StaminUp extends PerkMachine {
     }
 }
 
-class PerkMachine_QRevive extends PerkMachine {
+class PerkMachine_QRevive extends PerkMachine { //TODO bad inheritance, super must do a power check or something
     constructor(posX, posY, width, height, map) {
         super(posX, posY, width, height, "Quick Revive", 500, "Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3", 19, 1, "blue", map)
         this.usesLeft = 3
