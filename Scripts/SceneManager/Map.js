@@ -690,10 +690,14 @@ class Barrier {
         // this.animator = new AnimatorRotateOnce(this.asset, 0,0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, this.angle, 6, this.scale)
 
         this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 6, 1, 1, 1) //TODO this is hard coded scale based on img size of 260
+
+        this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.3, this.bb.x, this.bb.y, 700, false, 0, false)
+        this.hoverSound2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, this.bb.x, this.bb.y, 1000, false, 0, false)
     }
 
     update() {
-
+        this.hoverSound1.update()
+        this.hoverSound2.update()
     }
 
     draw() {
@@ -741,11 +745,14 @@ class Barrier {
         this.hp += GAME_ENGINE.clockTick
         if (this.hp > BARRIER_MAX_HP) { //clamp
             this.hp = BARRIER_MAX_HP
+        } else {
+            this.hoverSound1.tryPlayOnlyIfPaused()
+            this.hoverSound2.tryPlayOnlyIfPaused()
         }
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
             GAME_ENGINE.camera.startShake(0.1, 5)
             GAME_ENGINE.ent_Player.earnPoints(10) //TODO round cap
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.35, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.50, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
         }
     }
 
@@ -1225,6 +1232,8 @@ class PowerSwitch extends MapInteract {
 
     use() {
         if (!this.power) {
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/power.mp3", 0.6, this.bb.x, this.bb.y, 2000))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
             console.log("power turned on")
             this.power = true
             this.animator.xStart = this.animator.width
@@ -1435,9 +1444,14 @@ class PowerUp {
         if (this.bb_interact.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
             this.givePowerUp()
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.15, this.posX, this.posY, 2000))
+            this.playGrabAudio()
             this.loopSound.aud.pause()
             this.removeFromWorld = true
         }
+    }
+
+    playGrabAudio() {
+
     }
 
     givePowerUp() { //Abstract

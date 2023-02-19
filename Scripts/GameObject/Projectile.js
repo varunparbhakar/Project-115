@@ -220,6 +220,7 @@ class Explosive extends Projectile {
 
     explode() {
         if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange"))} //DebugBC
+        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 5000))
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
@@ -260,7 +261,7 @@ GRANADE_TIMER = 2
 GRANADE_RADIUS = 300
 class Grenade extends Projectile {
     constructor(posX, posY, angle) {
-        super(posX,posY,"Assets/Images/Items/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
+        super(posX,posY,"Assets/Images/Items/Grenade.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, GRANADE_SPEED_INIT, BULLET_DESPAWN_TIME)
         this.timer = GRANADE_TIMER
         this.xdirection = 1
         this.ydirection = 1
@@ -321,6 +322,7 @@ class Grenade extends Projectile {
     explode() { //TODO inheritance (eww)
         if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, GRANADE_RADIUS, 1, "orange"))} //DebugBC
 
+        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 7000))
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, GRANADE_RADIUS)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {

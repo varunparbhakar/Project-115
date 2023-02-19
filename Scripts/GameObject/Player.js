@@ -184,6 +184,7 @@ class Player extends GameObject {
         //Grenades
         if (GAME_ENGINE.key_grenade && this.grenades > 0 && (this.state === ANIMATION_Walking || this.state === ANIMATION_Idle)) { //TODO cooldown via GRENADE animations
             this.changeAnimation(ANIMATION_Melee)
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Explode/pin.mp3", 0.2))
             this.grenades--
             GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
         }
