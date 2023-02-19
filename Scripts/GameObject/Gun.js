@@ -70,8 +70,8 @@ class GunPNGCoords {
             ["AK-74u", [201, 128, 35, 17, false, "Assets/Audio/SFX/Guns/AK-74u/AK-74u_Reload.mp3", "Assets/Audio/SFX/Guns/AK-74u/AK-74u_Shoot.mp3"]], //TODO snd
             ["AK-74fu2", [201, 128, 35, 17, true, "Assets/Audio/SFX/Guns/AK-74u/AK-74u_Reload.mp3"]],
 
-            ["MP5K", [237, 128, 21, 17, false, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3", "Assets/Audio/SFX/Guns/M1911/m1911_Shoot.mp3"]], //TODO snd
-            ["MP115 Kollider", [237, 128, 21, 17, true, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3"]],
+            ["MP5K", [237, 128, 21, 17, false, "Assets/Audio/SFX/Guns/MP5/MP5_Reload.mp3", "Assets/Audio/SFX/Guns/MP5/MP5_Shoot.mp3"]], //TODO snd
+            ["MP115 Kollider", [237, 128, 21, 17, true, "Assets/Audio/SFX/Guns/MP5/MP5_Reload.mp3"]],
 
             ["MP40", [1, 127, 25, 17, false, "Assets/Audio/SFX/Guns/MP40/MP40_Reload.mp3", "Assets/Audio/SFX/Guns/MP40/MP40_Shoot.mp3"]], //TODO snd
             ["The Afterburner", [1, 127, 25, 17, true, "Assets/Audio/SFX/Guns/MP40/MP40_Reload.mp3"]],
@@ -118,10 +118,10 @@ class GunPNGCoords {
             ["M1897 Trench Gun", [0, 36, 53, 12, false]], //TODO snd
             ["Gut Shot", [0, 36, 53, 12, true]],
 
-            ["China Lake", [249, 145, 45, 17, false, "Assets/Audio/SFX/Guns/China Lake/China Lake_Reload.mp3", "Assets/Audio/SFX/Guns/China Lake/China Lake_Shoot.mp3"]], //TODO snd
+            ["China Lake", [249, 145, 45, 17, false, "Assets/Audio/SFX/Guns/China Lake/China Lake_Reload.mp3", "Assets/Audio/SFX/Guns/China Lake/China Lake_Shoot.mp3"]],
             ["China Beach", [249, 145, 45, 17, true, "Assets/Audio/SFX/Guns/China Lake/China Lake_Reload.mp3"]],
 
-            ["M72 LAW", [205, 149, 43, 11, false, "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Reload.mp3", "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Shoot.mp3"]], //TODO snd
+            ["M72 LAW", [205, 149, 43, 11, false, "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Reload.mp3", "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Shoot.mp3"]],
             ["M72 Anarchy", [205, 149, 43, 11, true, "Assets/Audio/SFX/Guns/M72 Law/M72 Law_Reload.mp3"]],
 
             ["Ballistic Knife", [192, 2, 26, 12, false]], //TODO make
