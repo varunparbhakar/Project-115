@@ -548,6 +548,9 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
                     this.currentReloadTime = this.reloadTime
                     this.currentMagazineAmmo++
                     this.currentTotalAmmo--
+                    if (this.currentMagazineAmmo != this.magazineSize) {
+                        GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, 1))
+                    }
                 }
             }
         }
@@ -565,12 +568,16 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
         }
 
         //otherwise, reset stats
-        this.isShellReloading = true
-        this.currentReloadTime = this.reloadTime
-        this.currentRecoil = 0
-        this.currentFireCooldown = 0
+        if (this.currentReloadTime <= 0) {
+            this.isShellReloading = true
+            this.currentReloadTime = this.reloadTime
+            this.currentRecoil = 0
+            this.currentFireCooldown = 0
+            GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, 1))
+            return true
+        }
 
-        return true
+        return false
     }
 
     equip() {
