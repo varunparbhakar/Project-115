@@ -26,13 +26,16 @@ class WorldSound {
         this.aud.load();
 
         if (autorepeat) {
-            this.aud.addEventListener("ended", function () {
+            this.aud.addEventListener("ended",  () => {
                 this.aud.play();
             })
         }
 
+        this.volume = volume
         this.aud.volume = volume
         this.aud.currentTime = startTime
+
+        this.aud.play()
     }
 
     getVolume() {
@@ -41,23 +44,29 @@ class WorldSound {
 
     setVolume(vol) {
         if (vol < 0) {
+            console.log("Error: Volume" + vol)
             this.aud.volume = 0
         } else if (vol > 1) {
+            console.log("Error: Volume" + vol)
             this.aud.volume = 1
         } else {
             this.aud.volume = vol
         }
     }
 
-    getDistance() {
+    getDistanceToPlayer() {
         let x = GAME_ENGINE.ent_Player.posX
         let y = GAME_ENGINE.ent_Player.posY
         let distance = Math.sqrt(((this.posX - x) * (this.posX - x)) + ((this.posY - y) * (this.posY - y)))
         return distance;
     }
 
+    getVolumeToPlayer() { // https://physics.stackexchange.com/questions/175579/eqation-between-sound-intensity-and-distance
+        return Math.pow( this.radius - this.getDistanceToPlayer(), 3) / Math.pow(this.radius,3)
+    }
+
     update() {
-        this.setVolume((this.radius - this.getDistance()) / this.radius)
+        this.setVolume(this.getVolumeToPlayer() * this.volume)
         if (this.aud.ended) {
             this.removeFromWorld = true;
         }
@@ -71,13 +80,18 @@ class WorldSound {
 class Sound extends WorldSound {
     constructor(path, volume=1, autorepeat=false, startime=0) {
         super(path, volume, 0,0,0, autorepeat, startime)
-        this.aud.play()
     }
 
     update() {
         if (this.aud.ended) {
             this.removeFromWorld = true;
         }
+    }
+}
+
+class MysteryBoxSound extends WorldSound {
+    constructor(path, posX, posY) {
+        super(path, 0.7, posX, posY, 2000)
     }
 }
 
@@ -89,7 +103,6 @@ class GunSound extends Sound {
 
 class SoundTest extends WorldSound {
     constructor() {
-        super("Assets/Audio/SFX/Guns/Ray Gun.mp3", 1, GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, 1000)
-        this.aud.play()
+        super("Assets/Audio/SFX/Guns/Ray Gun.mp3", 1, GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, 2000)
     }
 }

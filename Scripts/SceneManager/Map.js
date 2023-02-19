@@ -723,11 +723,14 @@ class Barrier {
      * Call each frame in hurtbox to start damaging
      */
     takeDamage() {
+        this.oldBarrierHP = Math.floor(this.hp)
         this.hp -= GAME_ENGINE.clockTick
         if (this.hp < 0) { //clamp
             this.hp = 0
         }
-        // console.log(this.hp)
+        if (Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/snap_0" + randomInt(6) + ".mp3", 0.6, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 3000))
+        }
     }
 
     /**
@@ -742,7 +745,7 @@ class Barrier {
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
             GAME_ENGINE.camera.startShake(0.1, 5)
             GAME_ENGINE.ent_Player.earnPoints(10) //TODO round cap
-            //TODO audio trigger
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.35, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
         }
     }
 
@@ -1113,6 +1116,7 @@ class MysteryBox extends MapInteract {
                 break
             case 3: //prevent spam
                 if (this.stateCooldownTimer <= 0) {
+                    GAME_ENGINE.addEntity(new MysteryBoxSound("Assets/Audio/MysteryBox/MysteryBox_Close.mp3", this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1]))
                     this.state = 0
                 }
                 break
@@ -1155,6 +1159,7 @@ class MysteryBox extends MapInteract {
                     return
                 }
                 GAME_ENGINE.ent_Player.losePoints(MYSTERYBOX_COST)
+                GAME_ENGINE.addEntity(new MysteryBoxSound("Assets/Audio/MysteryBox/MysteryBox_Use.mp3", this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1]))
                 this.spinCooldownTimer = 0
                 this.state = 1
                 this.stateCooldownTimer = MYSTERYBOX_ROLL_TIME
@@ -1388,15 +1393,18 @@ class PowerUp {
         this.aliveTimer = 30
         this.bb_interact = new BoundingBox(posX - 25, posY - 25, 50, 50)
         this.bb_interact.updateSides()
+
+        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/spawn.mp3", 0.1, this.posX, this.posY, 2000))
+        this.loopSound = new WorldSound("Assets/Audio/PowerUp/loop.mp3", 0.05, this.posX, this.posY, 2000, true)
     }
 
     update() {
         if (this.aliveTimer > 0) {
             this.aliveTimer -= GAME_ENGINE.clockTick
         } else {
+            this.loopSound.aud.pause()
             this.removeFromWorld = true
         }
-
         this.checkCollision()
     }
 
@@ -1426,6 +1434,8 @@ class PowerUp {
         if (GAME_ENGINE.ent_Player === null) return
         if (this.bb_interact.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
             this.givePowerUp()
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.15, this.posX, this.posY, 2000))
+            this.loopSound.aud.pause()
             this.removeFromWorld = true
         }
     }
