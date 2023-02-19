@@ -119,15 +119,15 @@ class WorldMap {
         this.powerSwitch = new PowerSwitch(824, 715, "W", this) //20 by 25 px
         GAME_ENGINE.addEntity(this.powerSwitch)
         ////////////Perks////////////
-        let perkJug = new PerkMachine(852, 838, 47, 39, "Juggernog", this)
+        let perkJug = new PerkMachine_Jug(852, 838, 47, 39, this)
         GAME_ENGINE.addEntity(perkJug)
-        let perkSpeed = new PerkMachine(988, 702, 35, 31, "Speed Cola", this)
+        let perkSpeed = new PerkMachine_Speed(988, 702, 35, 31, this)
         GAME_ENGINE.addEntity(perkSpeed)
-        let perkStam = new PerkMachine(526, 846, 31, 30, "Stamin-Up", this)
+        let perkStam = new PerkMachine_StaminUp(526, 846, 31, 30,  this)
         GAME_ENGINE.addEntity(perkStam)
-        let perk2x = new PerkMachine(435, 490, 32, 32, "Double Tap", this)
+        let perk2x = new PerkMachine_DoubleTap(435, 490, 32, 32, this)
         GAME_ENGINE.addEntity(perk2x)
-        let perkQuick = new PerkMachine(607, 614, 37, 38, "Quick Revive", this)
+        let perkQuick = new PerkMachine_DoubleTap(607, 614, 37, 38, this)
         GAME_ENGINE.addEntity(perkQuick)
 
         ////////////Player///////////
@@ -480,11 +480,11 @@ class WorldMap {
         this.powerSwitch = new PowerSwitch(595, 1430, "E", this)
         GAME_ENGINE.addEntity(this.powerSwitch)
         ////////////Perk Machines///////////
-        GAME_ENGINE.addEntity(new PerkMachine(888, 1805, 38, 40, "Quick Revive", this))
-        GAME_ENGINE.addEntity(new PerkMachine(671, 1646, 47, 25, "Stamin-Up", this))
-        GAME_ENGINE.addEntity(new PerkMachine(1206, 1618, 32, 50, "Speed Cola", this))
-        GAME_ENGINE.addEntity(new PerkMachine(1275, 822, 44, 46, "Juggernog", this))
-        GAME_ENGINE.addEntity(new PerkMachine(909, 674, 32, 47, "Double Tap", this))
+        GAME_ENGINE.addEntity(new PerkMachine_QRevive(888, 1805, 38, 40, this))
+        GAME_ENGINE.addEntity(new PerkMachine_StaminUp(671, 1646, 47, 25, this))
+        GAME_ENGINE.addEntity(new PerkMachine_Speed(1206, 1618, 32, 50, this))
+        GAME_ENGINE.addEntity(new PerkMachine_Jug(1275, 822, 44, 46, this))
+        GAME_ENGINE.addEntity(new PerkMachine_DoubleTap(909, 674, 32, 47, this))
 
         ////////////MysteryBox///////////
         GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428]], randomInt(0), this))
@@ -1262,9 +1262,8 @@ class PowerSwitch extends MapInteract {
 
 PERKMACHINE_INTERACT_SIZE = 4
 class PerkMachine extends MapInteract {
-    constructor(posX, posY, width, height, perk="Juggernog", map) {
+    constructor(posX, posY, width, height, name, cost, map) {
         super()
-        Object.assign(this, {perk})
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
             (map.posY + posY) * map.scale,
@@ -1279,7 +1278,8 @@ class PerkMachine extends MapInteract {
         )
         this.bb.updateSides()
         this.bb_interact.updateSides()
-        this.perkSetup()
+        this.perk = name
+        this.cost = cost
     }
 
     use() {
@@ -1308,89 +1308,158 @@ class PerkMachine extends MapInteract {
         }
         GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk + " for " + this.cost)
         //already has the perk
-        switch (this.perk) {
-            case "Juggernog":
-                if (GAME_ENGINE.ent_Player.perk_hasJug) return true
-            case "Speed Cola":
-                if (GAME_ENGINE.ent_Player.perk_hasSpeedCola) return true
-            case "Double Tap":
-                if (GAME_ENGINE.ent_Player.perk_hasDoubleTap) return true
-            case "Quick Revive":
-                if (GAME_ENGINE.ent_Player.perk_hasQuickRev) return true
-            case "Stamin-Up":
-                if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
-        }
+        return this.checkAlreadyHavePerk()
+    }
+
+    checkAlreadyHavePerk() {
+        // if (GAME_ENGINE.ent_Player.perk_hasJug) return true
+    }
+
+    givePerk() {
+        // //try to give the perk if not have
+        // if (!GAME_ENGINE.ent_Player.perk_hasJug) {
+        //     GAME_ENGINE.ent_Player.perk_hasJug = true
+        //     ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
+        //     ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
+        //     return true
+        // }
+        // return false
+
+        // switch (this.perk) {
+        //     case "Juggernog":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasJug) {
+        //             GAME_ENGINE.ent_Player.perk_hasJug = true
+        //             ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
+        //             ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
+        //             return true
+        //         }
+        //         return false
+        //     case "Speed Cola":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
+        //             GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
+        //             return true
+        //         }
+        //         return false
+        //     case "Double Tap":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
+        //             GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
+        //             return true
+        //         }
+        //         return false
+        //     case "Quick Revive":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
+        //             GAME_ENGINE.ent_Player.perk_hasQuickRev = true
+        //             //Play the perk jingle
+        //             ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3",18, 0);
+        //             ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3",0,1);
+        //             return true
+        //         }
+        //         return false
+        //     case "Stamin-Up":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
+        //             GAME_ENGINE.ent_Player.perk_hasStaminUp = true
+        //             return true
+        //         }
+        //         return false
+        //     default:
+        //         console.log(this.perk, "is an invalid perk!")
+        //         return false
+        // }
+    }
+}
+
+class PerkMachine_Jug extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Juggernog", 2500, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasJug) return true
     }
 
     givePerk() {
         //try to give the perk if not have
-        switch (this.perk) {
-            case "Juggernog":
-                if (!GAME_ENGINE.ent_Player.perk_hasJug) {
-                    GAME_ENGINE.ent_Player.perk_hasJug = true
-                    ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
-                    ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
-                    return true
-                }
-                return false
-            case "Speed Cola":
-                if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
-                    GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
-                    return true
-                }
-                return false
-            case "Double Tap":
-                if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
-                    GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
-                    return true
-                }
-                return false
-            case "Quick Revive":
-                if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
-                    GAME_ENGINE.ent_Player.perk_hasQuickRev = true
-                    //Play the perk jingle
-                    ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3",18, 0);
-                    ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3",0,1);
-                    return true
-                }
-                return false
-            case "Stamin-Up":
-                if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
-                    GAME_ENGINE.ent_Player.perk_hasStaminUp = true
-                    return true
-                }
-                return false
-            default:
-                console.log(this.perk, "is an invalid perk!")
-                return false
+        if (!GAME_ENGINE.ent_Player.perk_hasJug) {
+            GAME_ENGINE.ent_Player.perk_hasJug = true
+            return true
         }
+        return false
+    }
+}
+
+class PerkMachine_Speed extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Speed Cola", 3000, map)
     }
 
-    perkSetup() {
-        switch (this.perk) {
-            case "Juggernog":
-                //TODO red glow
-                this.cost = 2500
-                break
-            case "Speed Cola":
-                //TODO green glow
-                this.cost = 2500
-                break
-            case "Double Tap":
-                //TODO orange glow
-                this.cost = 2000
-                break
-            case "Quick Revive":
-                //TODO blue glow
-                this.cost = 500
-                break
-            case "Stamin-Up":
-                //TODO yellow glow
-                this.cost = 2000
-                break
-            default:
-                console.log(this.perk, "is an invalid perk!")
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasSpeedCola) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
+            GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
+            return true
         }
+        return false
+    }
+}
+
+class PerkMachine_DoubleTap extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Double Tap", 2000, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasDoubleTap) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
+            GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
+            return true
+        }
+        return false
+    }
+}
+
+class PerkMachine_StaminUp extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Stamin-Up", 2000, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
+            GAME_ENGINE.ent_Player.perk_hasStaminUp = true
+            return true
+        }
+        return false
+    }
+}
+
+class PerkMachine_QRevive extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Quick Revive", 500, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasQuickRev) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
+            GAME_ENGINE.ent_Player.perk_hasQuickRev = true
+            return true
+        }
+        return false
     }
 }
 
