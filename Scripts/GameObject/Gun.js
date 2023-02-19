@@ -320,9 +320,9 @@ class Gun {
             this.shootSndPath = spritesheetCoords[6]
         } else { //if not defined
             if (this.isPaP) {
-                this.shootSndPath = "Assets/Audio/SFX/Guns/Pap Firing/papGUN_Shooting.mp3"
-            } else {
                 this.shootSndPath = "Assets/Audio/SFX/Guns/M1911/m1911_shooting.mp3"
+            } else {
+                this.shootSndPath = "Assets/Audio/SFX/Guns/Pap Firing/papGUN_Shooting.mp3"
             }
         }
     }
