@@ -308,17 +308,18 @@ class Gun {
         this.width = spritesheetCoords[2]
         this.height = spritesheetCoords[3]
         this.isPaP = spritesheetCoords[4]
-        //Snd
+        //Snd reload
         if (spritesheetCoords[5] != null) {
             this.reloadSndPath = spritesheetCoords[5]
-        } else {
+        } else { //if not defined
             console.log(this.name, "failed to grab reload sound, defaulting to M1911's")
             this.reloadSndPath = "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3"
         }
+        //Snd shoot
         if (spritesheetCoords[6] != null) {
             this.shootSndPath = spritesheetCoords[6]
-        } else {
-            if (this.isPaP) { //if not defined
+        } else { //if not defined
+            if (this.isPaP) {
                 this.shootSndPath = "Assets/Audio/SFX/Guns/M1911/m1911_shooting.mp3"
             } else {
                 this.shootSndPath = "Assets/Audio/SFX/Guns/Pap Firing/papGUN_Shooting.mp3"
@@ -372,11 +373,11 @@ class Gun {
         this.shoot2(posX, posY, angle)
         this.currentRecoil += this.getRecoilPerClick();
         this.spawnMuzzleFlash(posX, posY, angle)
+        GAME_ENGINE.addEntity(new GunSound(this.shootSndPath))
     }
 
     shoot2(posX, posY, angle) { //shooy the bullet
         GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
-        GAME_ENGINE.addEntity(new GunSound(this.shootSndPath))
     }
 
     getSpreadAngle(angle) {

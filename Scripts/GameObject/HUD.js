@@ -10,6 +10,7 @@ class HUD {
         this.topRightPerks = new HUDPowerUp()
         this.fullscreenRedHurt = new HUDHurt()
         this.topMiddleDebug = new HUDDebug()
+        this.topRightFPS = new HUDFps()
     }
 
     update() {
@@ -22,6 +23,7 @@ class HUD {
         this.fullscreenRedHurt.update()
         // this.topRightPerks.update()
         this.topMiddleDebug.update()
+        this.topRightFPS.update()
     }
 
     draw() {
@@ -35,6 +37,7 @@ class HUD {
         this.topLeftPerks.draw()
         this.bottomRightGrenades.draw()
         this.topRightPerks.draw()
+        this.topRightFPS.draw()
         if (GAME_ENGINE.options.drawDebug) {
             this.topMiddleDebug.draw()
         }
@@ -510,6 +513,29 @@ class HUDDebug {
         GAME_ENGINE.ctx.shadowOffsetY = 5;
         GAME_ENGINE.ctx.fillText(text, 100, 100)
         GAME_ENGINE.ctx.fillText(text2, 100, 130)
+        GAME_ENGINE.ctx.restore()
+    }
+}
+
+class HUDFps {
+    constructor() {
+
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 20px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.textAlign = "right"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 10
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText(Math.floor(1/GAME_ENGINE.clockTick) + "FPS", GAME_ENGINE.ctx.canvas.width - 5, 50)
         GAME_ENGINE.ctx.restore()
     }
 }
