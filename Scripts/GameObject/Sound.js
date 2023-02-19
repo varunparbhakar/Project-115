@@ -26,7 +26,7 @@ class WorldSound {
         this.aud.load();
 
         if (autorepeat) {
-            this.aud.addEventListener("ended", function () {
+            this.aud.addEventListener("ended",  () => {
                 this.aud.play();
             })
         }

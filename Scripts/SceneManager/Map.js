@@ -1390,15 +1390,18 @@ class PowerUp {
         this.aliveTimer = 30
         this.bb_interact = new BoundingBox(posX - 25, posY - 25, 50, 50)
         this.bb_interact.updateSides()
+
+        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/spawn.mp3", 0.1, this.posX, this.posY, 2000))
+        this.loopSound = new WorldSound("Assets/Audio/PowerUp/loop.mp3", 0.05, this.posX, this.posY, 2000, true)
     }
 
     update() {
         if (this.aliveTimer > 0) {
             this.aliveTimer -= GAME_ENGINE.clockTick
         } else {
+            this.loopSound.aud.pause()
             this.removeFromWorld = true
         }
-
         this.checkCollision()
     }
 
@@ -1428,6 +1431,8 @@ class PowerUp {
         if (GAME_ENGINE.ent_Player === null) return
         if (this.bb_interact.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
             this.givePowerUp()
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.15, this.posX, this.posY, 2000))
+            this.loopSound.aud.pause()
             this.removeFromWorld = true
         }
     }

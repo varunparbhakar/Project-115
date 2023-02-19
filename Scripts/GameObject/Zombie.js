@@ -28,7 +28,7 @@ const ZOMBIE_POINTS_NONLETHAL = 10
 const ZOMBIE_POINTS_LETHAL = 60
 const ZOMBIE_POINTS_LETHAL_KNIFE = 100
 
-const ZOMBIE_POWERUP_CHANCE = 0.015
+const ZOMBIE_POWERUP_CHANCE = 0.02
 const ZOMBIE_CRAWLER_CHANCE = 0.6
 
 const ZOMBIE_DESPAWN_TIME = 5
@@ -190,7 +190,9 @@ class Zombie extends GameObject {
                 if (this.attack_currentCooldown <= 0) {
                     entity.takeDamage(ZOMBIE_ATTACK_DAMAGE)
                     this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
-                    console.log("attacked player for " + ZOMBIE_ATTACK_DAMAGE) //TODO remove debug
+                    let hitSnd = ["Assets/Audio/Zombie/Hit/swipe_00.mp3", "Assets/Audio/Zombie/Hit/swipe_01.mp3", "Assets/Audio/Zombie/Hit/swipe_04.mp3"]
+                    GAME_ENGINE.addEntity(new Sound(hitSnd[randomInt(hitSnd.length)], 0.5))
+                    console.log("attacked player for " + ZOMBIE_ATTACK_DAMAGE)
                 }
             }
             //Movement Zombie
