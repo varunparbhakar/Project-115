@@ -14,114 +14,114 @@ class GunPNGCoords {
             ["M1911", [0, 0, 16, 12, false, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3", "Assets/Audio/SFX/Guns/M1911/m1911_shooting.mp3"]],
             ["Mustang but no Sally :(", [0, 0, 16, 12, true, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3", null]],
 
-            ["Olympia", [108, 36, 53, 12, false]],
-            ["Hades", [108, 36, 53, 12, true]],
+            ["Olympia", [108, 36, 53, 12, false, "Assets/Audio/SFX/Guns/Olympia/Olympia_Reload.mp3", "Assets/Audio/SFX/Guns/Olympia/Olympia_Shoot.mp3"]], //TODO snd
+            ["Hades", [108, 36, 53, 12, true, "Assets/Audio/SFX/Guns/Olympia/Olympia_Reload.mp3", null]],
 
-            ["M16", [55, 104, 45, 16, false]],
-            ["Skullcrusher", [55, 104, 45, 16, true]],
+            ["M16", [55, 104, 45, 16, false, "Assets/Audio/SFX/Guns/m16/m16_Reload.mp3", "Assets/Audio/SFX/Guns/m16/m16_Shoot.mp3"]], //TODO snd
+            ["Skullcrusher", [55, 104, 45, 16, true, "Assets/Audio/SFX/Guns/m16/m16_Reload.mp3", null]],
 
-            ["L96A1", [300, 48, 59, 19, false]],
-            ["L115 Isolator", [300, 48, 59, 19, true]],
+            ["L96A1", [300, 48, 59, 19, false,"Assets/Audio/SFX/Guns/l96a1/l96a1 _Reload.mp3", "Assets/Audio/SFX/Guns/l96a1/l96a1_Shoot.mp3"]], //TODO snd
+            ["L115 Isolator", [300, 48, 59, 19, true, "Assets/Audio/SFX/Guns/l96a1/l96a1 _Reload.mp3", null]],
 
             ["Ray Gun", [127, 0, 21, 14, false, "Assets/Audio/SFX/Guns/RayGun/Ray Gun_Reloading.mp3", "Assets/Audio/SFX/Guns/RayGun/Ray Gun.mp3"]],
             ["Porter's X2 Ray Gun", [127, 0, 21, 14, true, "Assets/Audio/SFX/Guns/RayGun/Ray Gun_Reloading.mp3", null]],
 
-            ["SPAS-12", [199, 31, 46, 15, false]],
-            ["SPAZ-24", [199, 31, 46, 15, true]],
+            ["SPAS-12", [199, 31, 46, 15, false, "Assets/Audio/SFX/Guns/Spas 12/Spas_12_Reload.mp3", "Assets/Audio/SFX/Guns/Spas 12/Spas_12_Shoot.mp3"]], //TODO snd
+            ["SPAZ-24", [199, 31, 46, 15, true, "Assets/Audio/SFX/Guns/Spas 12/Spas_12_Reload.mp3", null]],
 
-            ["CZ75", [174, 2, 16, 11, false]],
-            ["Calamity", [174, 2, 16, 11, true]],
+            ["CZ75", [174, 2, 16, 11, false, "Assets/Audio/SFX/Guns/CZ75/CZ75_Reload.mp3", "Assets/Audio/SFX/Guns/CZ75/CZ75_Shoot.mp3"]], //TODO snd
+            ["Calamity", [174, 2, 16, 11, true, "Assets/Audio/SFX/Guns/CZ75/CZ75_Reload.mp3", null]],
 
             ["Python TRASH", [79, 1, 21, 12, false]], //TODO make and stats
 
-            ["Python", [148, 0, 26, 14, false]],
-            ["Cobra", [148, 0, 26, 14, true]],
+            ["Python", [148, 0, 26, 14, false, "Assets/Audio/SFX/Guns/Python/Python_Reload.mp3", "Assets/Audio/SFX/Guns/Python/Python_Shoot.mp3"]], //TODO snd
+            ["Cobra", [148, 0, 26, 14, true, "Assets/Audio/SFX/Guns/Python/Python_Reload.mp3", null]],
 
-            ["AUG", [268, 106, 43, 18, false]],
-            ["AUG-50M3", [268, 106, 43, 18, true]],
+            ["AUG", [268, 106, 43, 18, false, "Assets/Audio/SFX/Guns/AUG/AUG_Reload.mp3", "Assets/Audio/SFX/Guns/AUG/AUG_Shoot.mp3"]], //TODO snd
+            ["AUG-50M3", [268, 106, 43, 18, true, "Assets/Audio/SFX/Guns/AUG/AUG_Reload.mp3", null]],
 
-            ["Commando", [101, 106, 36, 17, false]],
-            ["Predator", [101, 106, 36, 17, true]],
+            ["Commando", [101, 106, 36, 17, false, "Assets/Audio/SFX/Guns/Commando/Commando Reload.mp3", "Assets/Audio/SFX/Guns/Commando/Commando Shooting.mp3"]], //TODO snd
+            ["Predator", [101, 106, 36, 17, true, "Assets/Audio/SFX/Guns/Commando/Commando Reload.mp3", null]],
 
-            ["Famas", [311, 107, 42, 19, false]],
-            ["G16-GL35", [311, 107, 42, 19, true]],
+            ["Famas", [311, 107, 42, 19, false, "Assets/Audio/SFX/Guns/Famas/Famas_Reload.mp3", "Assets/Audio/SFX/Guns/Famas/Famas_Shoot.mp3"]], //TODO snd
+            ["G16-GL35", [311, 107, 42, 19, true, "Assets/Audio/SFX/Guns/Famas/Famas_Reload.mp3", null]],
 
-            ["FN FAL", [185, 107, 48, 16, false]],
-            ["EPC WN", [185, 107, 48, 16, true]],
+            ["FN FAL", [185, 107, 48, 16, false, "Assets/Audio/SFX/Guns/Famas/Famas_Reload.mp3", "Assets/Audio/SFX/Guns/Famas/Famas_Shoot.mp3"]], //TODO snd
+            ["EPC WN", [185, 107, 48, 16, true, "Assets/Audio/SFX/Guns/Famas/Famas_Reload.mp3"]],
 
-            ["G11", [233, 106, 35, 18, false]],
-            ["G115 Generator", [233, 106, 35, 18, true]],
+            ["G11", [233, 106, 35, 18, false, "Assets/Audio/SFX/Guns/G11/G11_Reload.mp3", "Assets/Audio/SFX/Guns/G11/G11_Shoot.mp3"]], //TODO snd
+            ["G115 Generator", [233, 106, 35, 18, true, "Assets/Audio/SFX/Guns/G11/G11_Reload.mp3"]],
 
-            ["Galil", [137, 107, 48, 18, false]],
-            ["Lamentation", [137, 107, 48, 18, true]],
+            ["Galil", [137, 107, 48, 18, false, "Assets/Audio/SFX/Guns/Galil/Galil_Reload.mp3", "Assets/Audio/SFX/Guns/Galil/Galil_Shoot.mp3"]], //TODO snd
+            ["Lamentation", [137, 107, 48, 18, true, "Assets/Audio/SFX/Guns/Galil/Galil_Reload.mp3"]],
 
-            ["M14", [0, 105, 55, 14, false]],
-            ["Mnesia", [0, 105, 55, 14, true]],
+            ["M14", [0, 105, 55, 14, false, "Assets/Audio/SFX/Guns/M14/m14_Reload.mp3", "Assets/Audio/SFX/Guns/M14/m14_Shoot.mp3"]], //TODO snd
+            ["Mnesia", [0, 105, 55, 14, true, "Assets/Audio/SFX/Guns/M14/m14_Reload.mp3"]],
 
-            ["Gewehr 43", [59, 86, 57, 15, false]],
+            ["Gewehr 43", [59, 86, 57, 15, false]], //TODO snd
             ["G115 Compressor", [59, 86, 57, 15, true]],
 
-            ["M1 Carbine", [117, 86, 52, 15, false]],
-            ["Widdershins RC-1", [117, 86, 52, 15, true]],
+            ["M1 Carbine", [117, 86, 52, 15, false, "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Reload.mp3", "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Shoot.mp3"]], //TODO snd
+            ["Widdershins RC-1", [117, 86, 52, 15, true, "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Reload.mp3"]],
 
-            ["STG-44", [171, 88, 40, 17, false]],
-            ["Spatz-447 +", [171, 88, 40, 17, true]],
+            ["STG-44", [171, 88, 40, 17, false, "Assets/Audio/SFX/Guns/STG-44/STG-44_Reload.mp3", "Assets/Audio/SFX/Guns/STG-44/STG-44_Shoot.mp3"]], //TODO snd
+            ["Spatz-447 +", [171, 88, 40, 17, true ,"Assets/Audio/SFX/Guns/STG-44/STG-44_Reload.mp3"]],
 
-            ["AK-74u", [201, 128, 35, 17, false]],
-            ["AK-74fu2", [201, 128, 35, 17, true]],
+            ["AK-74u", [201, 128, 35, 17, false, "Assets/Audio/SFX/Guns/AK-74u/AK-74u_Reload.mp3", "Assets/Audio/SFX/Guns/AK-74u/AK-74u_Shoot.mp3"]], //TODO snd
+            ["AK-74fu2", [201, 128, 35, 17, true, "Assets/Audio/SFX/Guns/AK-74u/AK-74u_Reload.mp3"]],
 
-            ["MP5K", [237, 128, 21, 17, false]],
-            ["MP115 Kollider", [237, 128, 21, 17, true]],
+            ["MP5K", [237, 128, 21, 17, false, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3", "Assets/Audio/SFX/Guns/M1911/m1911_Shoot.mp3"]], //TODO snd
+            ["MP115 Kollider", [237, 128, 21, 17, true, "Assets/Audio/SFX/Guns/M1911/m1911_Reload.mp3"]],
 
-            ["MP40", [1, 127, 25, 17, false]],
-            ["The Afterburner", [1, 127, 25, 17, true]],
+            ["MP40", [1, 127, 25, 17, false, "Assets/Audio/SFX/Guns/MP40/MP40_Reload.mp3", "Assets/Audio/SFX/Guns/MP40/MP40_Shoot.mp3"]], //TODO snd
+            ["The Afterburner", [1, 127, 25, 17, true, "Assets/Audio/SFX/Guns/MP40/MP40_Reload.mp3"]],
 
-            ["MPL", [177, 128, 24, 17, false]],
-            ["MPL-LF", [177, 128, 24, 17, true]],
+            ["MPL", [177, 128, 24, 17, false, "Assets/Audio/SFX/Guns/MPL/MPL_Reload.mp3", "Assets/Audio/SFX/Guns/MPL/MPL_Shoot.mp3"]], //TODO snd
+            ["MPL-LF", [177, 128, 24, 17, true, "Assets/Audio/SFX/Guns/MPL/MPL_Reload.mp3"]],
 
-            ["PM63", [152, 127, 23, 12, false]],
+            ["PM63", [152, 127, 23, 12, false, ]], //TODO snd
             ["Tokyo but no Rose", [152, 127, 23, 12, true]],
 
-            ["Spectre", [259, 128, 22, 14, false]],
+            ["Spectre", [259, 128, 22, 14, false]], //TODO snd
             ["Phantom", [259, 128, 22, 14, true]],
 
-            ["Thompson", [110, 127, 39, 14, false]],
+            ["Thompson", [110, 127, 39, 14, false]], //TODO snd
             ["Gibs-O-Matic", [110, 127, 39, 14, true]],
 
-            ["Type 100", [68, 127, 41, 13, false]],
+            ["Type 100", [68, 127, 41, 13, false]], //TODO snd
             ["1001 Samurais", [68, 127, 41, 13, true]],
 
-            ["HK21", [237, 66, 57, 22, false]],
+            ["HK21", [237, 66, 57, 22, false]], //TODO snd
             ["H115 Oscillator", [237, 66, 57, 22, true]],
 
-            ["RPK", [180, 65, 54, 22, false]],
+            ["RPK", [180, 65, 54, 22, false]], //TODO snd
             ["R115 Resonator", [180, 65, 54, 22, true]],
 
-            ["FG42", [63, 70, 58, 13, false]],
+            ["FG42", [63, 70, 58, 13, false]], //TODO snd
             ["420 Impeller", [63, 70, 58, 13, true]],
 
-            ["Dragunov", [234, 48, 66, 17, false]],
+            ["Dragunov", [234, 48, 66, 17, false]], //TODO snd
             ["D115 Disassembler", [234, 48, 66, 17, true]],
 
-            ["Kar98k", [0, 50, 57, 14, false]],
+            ["Kar98k", [0, 50, 57, 14, false]], //TODO snd
             ["Armageddon", [0, 50, 57, 14, true]],
 
-            ["HS-10", [246, 30, 35, 18, false]],
+            ["HS-10", [246, 30, 35, 18, false]], //TODO snd
             ["Typhoid but no Mary", [246, 30, 35, 18, true]],
 
-            ["Stakeout", [163, 34, 35, 13, false]],
+            ["Stakeout", [163, 34, 35, 13, false]], //TODO snd
             ["Raid", [163, 34, 35, 13, true]],
 
-            ["Double-Barrel", [53, 36, 55, 12, false]],
+            ["Double-Barrel", [53, 36, 55, 12, false]], //TODO snd
             ["24 Bore Long Range", [53, 36, 55, 12, true]],
 
-            ["M1897 Trench Gun", [0, 36, 53, 12, false]],
+            ["M1897 Trench Gun", [0, 36, 53, 12, false]], //TODO snd
             ["Gut Shot", [0, 36, 53, 12, true]],
 
-            ["China Lake", [249, 145, 45, 17, false]],
+            ["China Lake", [249, 145, 45, 17, false]], //TODO snd
             ["China Beach", [249, 145, 45, 17, true]],
 
-            ["M72 LAW", [205, 149, 43, 11, false]],
+            ["M72 LAW", [205, 149, 43, 11, false]], //TODO snd
             ["M72 Anarchy", [205, 149, 43, 11, true]],
 
             ["Ballistic Knife", [192, 2, 26, 12, false]], //TODO make
