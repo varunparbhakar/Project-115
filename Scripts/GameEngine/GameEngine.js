@@ -235,6 +235,8 @@ class GameEngine {
             this.ent_Etc.push(entity)
         } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut || entity instanceof MuzzleFlash) {
             this.ent_HUD.push(entity)
+        } else if (entity instanceof WorldSound) {
+            this.ent_Sound.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
             this.ent_Etc.push(entity)
