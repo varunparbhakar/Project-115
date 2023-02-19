@@ -1552,6 +1552,7 @@ class PowerUp_Nuke extends PowerUp {
             zombie.takeDamage(zombie.hp, ZOMBIE_DMG_NOPOINTS)
         })
         GAME_ENGINE.ent_Player.earnPoints(400)
+        GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3)
     }
 }
 

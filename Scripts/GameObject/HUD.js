@@ -5,10 +5,12 @@ class HUD {
         this.bottomRightGrenades = new HUDGrenade(this.bottomLeftGuns)
         this.bottomRightRound = new HUDRound()
         this.bottomMiddleInteract = new HUDInteract()
-        this.topMiddleStamina = new HUDStamina()
+        this.topStamina = new HUDStamina()
+        this.bottomStamina = new HUDHealth()
         this.topLeftPerks = new HUDPerks()
         this.topRightPerks = new HUDPowerUp()
         this.fullscreenRedHurt = new HUDHurt()
+        this.fullscreenFlash = new HUDFlash()
         this.topMiddleDebug = new HUDDebug()
         this.topRightFPS = new HUDFps()
     }
@@ -20,7 +22,9 @@ class HUD {
         this.bottomRightPoints.update()
         // this.bottomMiddleInteract.update()
         // this.bottomRightGrenades.update()
+        // this.bottomStamina.update()
         this.fullscreenRedHurt.update()
+        this.fullscreenFlash.update()
         // this.topRightPerks.update()
         this.topMiddleDebug.update()
         this.topRightFPS.update()
@@ -29,11 +33,13 @@ class HUD {
     draw() {
         if (GAME_ENGINE.ent_Player == null) return
         this.fullscreenRedHurt.draw()
+        this.fullscreenFlash.draw()
         this.bottomLeftGuns.draw()
         this.bottomRightPoints.draw()
         this.bottomRightRound.draw()
         this.bottomMiddleInteract.draw()
-        this.topMiddleStamina.draw()
+        this.topStamina.draw()
+        this.bottomStamina.draw()
         this.topLeftPerks.draw()
         this.bottomRightGrenades.draw()
         this.topRightPerks.draw()
@@ -329,6 +335,36 @@ class HUDHurt {
     }
 }
 
+class HUDFlash {
+    constructor() {
+        this.flashDecay = 0
+        this.flashDecayMax = 0
+        this.color = "white"
+    }
+
+    update() {
+        if (this.flashDecay > 0) {
+            this.flashDecay -= GAME_ENGINE.clockTick
+        }
+    }
+
+    flash(sec, color="white") {
+        this.flashDecay = sec
+        this.flashDecayMax = sec
+        this.color = color
+    }
+
+    draw() {
+        if (this.flashDecay > 0) {
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = this.color
+            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / this.flashDecayMax);
+            GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.restore()
+        }
+    }
+}
+
 HUDPERKS_SCALE = 2.5
 HUDPERKS_PATH = "Assets/Images/Map/Perks_Hud.png"
 class HUDPerks {
@@ -474,9 +510,33 @@ class HUDStamina {
 
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = "white"
-        GAME_ENGINE.ctx.globalAlpha = 0.4
+        GAME_ENGINE.ctx.globalAlpha = 0.7
         let width = GAME_ENGINE.ctx.canvas.width * statminaPercent
         GAME_ENGINE.ctx.fillRect((GAME_ENGINE.ctx.canvas.width - width)/2,0,width,3)
+        GAME_ENGINE.ctx.restore()
+    }
+}
+
+class HUDHealth {
+    constructor() {
+
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        let hp = GAME_ENGINE.ent_Player.hp
+        let maxHP = (GAME_ENGINE.ent_Player.perk_hasJug ? PLAYER_HP_JUGG_MAX : PLAYER_HP_MAX)
+        let hpPercent = hp/maxHP
+        if (hpPercent >= 1) {return}
+
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = "red"
+        GAME_ENGINE.ctx.globalAlpha = 0.7
+        let width = GAME_ENGINE.ctx.canvas.width * hpPercent
+        GAME_ENGINE.ctx.fillRect((GAME_ENGINE.ctx.canvas.width - width)/2, GAME_ENGINE.ctx.canvas.height - 3 , width,3)
         GAME_ENGINE.ctx.restore()
     }
 }
@@ -535,7 +595,7 @@ class HUDFps {
         GAME_ENGINE.ctx.shadowBlur = 10
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(Math.floor(1/GAME_ENGINE.clockTick) + "FPS", GAME_ENGINE.ctx.canvas.width - 5, 150)
+        GAME_ENGINE.ctx.fillText(Math.floor(1/GAME_ENGINE.clockTick) + " FPS", GAME_ENGINE.ctx.canvas.width - 5, 150)
         GAME_ENGINE.ctx.restore()
     }
 }

@@ -367,6 +367,7 @@ class Player extends GameObject {
             this.perk_hasDoubleTap = false
             //explode
             let explosive = new ExplosiveQuickRevive(this.posX, this.posY,this.angle, 10000000, 0, 5000)
+            GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3, rgb(154, 248, 248))
             GAME_ENGINE.addEntity(explosive)
             explosive.explode()
             GAME_ENGINE.camera.startShake(5, 25)
