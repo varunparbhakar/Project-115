@@ -119,15 +119,15 @@ class WorldMap {
         this.powerSwitch = new PowerSwitch(824, 715, "W", this) //20 by 25 px
         GAME_ENGINE.addEntity(this.powerSwitch)
         ////////////Perks////////////
-        let perkJug = new PerkMachine(852, 838, 47, 39, "Juggernog", this)
+        let perkJug = new PerkMachine_Jug(852, 838, 47, 39, this)
         GAME_ENGINE.addEntity(perkJug)
-        let perkSpeed = new PerkMachine(988, 702, 35, 31, "Speed Cola", this)
+        let perkSpeed = new PerkMachine_Speed(988, 702, 35, 31, this)
         GAME_ENGINE.addEntity(perkSpeed)
-        let perkStam = new PerkMachine(526, 846, 31, 30, "Stamin-Up", this)
+        let perkStam = new PerkMachine_StaminUp(526, 846, 31, 30,  this)
         GAME_ENGINE.addEntity(perkStam)
-        let perk2x = new PerkMachine(435, 490, 32, 32, "Double Tap", this)
+        let perk2x = new PerkMachine_DoubleTap(435, 490, 32, 32, this)
         GAME_ENGINE.addEntity(perk2x)
-        let perkQuick = new PerkMachine(607, 614, 37, 38, "Quick Revive", this)
+        let perkQuick = new PerkMachine_DoubleTap(607, 614, 37, 38, this)
         GAME_ENGINE.addEntity(perkQuick)
 
         ////////////Player///////////
@@ -480,11 +480,11 @@ class WorldMap {
         this.powerSwitch = new PowerSwitch(595, 1430, "E", this)
         GAME_ENGINE.addEntity(this.powerSwitch)
         ////////////Perk Machines///////////
-        GAME_ENGINE.addEntity(new PerkMachine(888, 1805, 38, 40, "Quick Revive", this))
-        GAME_ENGINE.addEntity(new PerkMachine(671, 1646, 47, 25, "Stamin-Up", this))
-        GAME_ENGINE.addEntity(new PerkMachine(1206, 1618, 32, 50, "Speed Cola", this))
-        GAME_ENGINE.addEntity(new PerkMachine(1275, 822, 44, 46, "Juggernog", this))
-        GAME_ENGINE.addEntity(new PerkMachine(909, 674, 32, 47, "Double Tap", this))
+        GAME_ENGINE.addEntity(new PerkMachine_QRevive(888, 1805, 38, 40, this))
+        GAME_ENGINE.addEntity(new PerkMachine_StaminUp(671, 1646, 47, 25, this))
+        GAME_ENGINE.addEntity(new PerkMachine_Speed(1206, 1618, 32, 50, this))
+        GAME_ENGINE.addEntity(new PerkMachine_Jug(1275, 822, 44, 46, this))
+        GAME_ENGINE.addEntity(new PerkMachine_DoubleTap(909, 674, 32, 47, this))
 
         ////////////MysteryBox///////////
         GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428]], randomInt(0), this))
@@ -690,10 +690,14 @@ class Barrier {
         // this.animator = new AnimatorRotateOnce(this.asset, 0,0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, this.angle, 6, this.scale)
 
         this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 6, 1, 1, 1) //TODO this is hard coded scale based on img size of 260
+
+        this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.3, this.bb.x, this.bb.y, 700, false, 0, false)
+        this.hoverSound2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, this.bb.x, this.bb.y, 1000, false, 0, false)
     }
 
     update() {
-
+        this.hoverSound1.update()
+        this.hoverSound2.update()
     }
 
     draw() {
@@ -741,11 +745,15 @@ class Barrier {
         this.hp += GAME_ENGINE.clockTick
         if (this.hp > BARRIER_MAX_HP) { //clamp
             this.hp = BARRIER_MAX_HP
+        } else {
+            this.hoverSound1.tryPlayOnlyIfPaused()
+            this.hoverSound2.tryPlayOnlyIfPaused()
         }
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
             GAME_ENGINE.camera.startShake(0.1, 5)
             GAME_ENGINE.ent_Player.earnPoints(10) //TODO round cap
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.35, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.50, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/accept.mp3", MIXER_CASH_ACCEPT))
         }
     }
 
@@ -1225,6 +1233,8 @@ class PowerSwitch extends MapInteract {
 
     use() {
         if (!this.power) {
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/power.mp3", 0.6, this.bb.x, this.bb.y, 2000))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
             console.log("power turned on")
             this.power = true
             this.animator.xStart = this.animator.width
@@ -1252,9 +1262,8 @@ class PowerSwitch extends MapInteract {
 
 PERKMACHINE_INTERACT_SIZE = 4
 class PerkMachine extends MapInteract {
-    constructor(posX, posY, width, height, perk="Juggernog", map) {
+    constructor(posX, posY, width, height, name, cost, map) {
         super()
-        Object.assign(this, {perk})
         this.bb = new BoundingBox(
             (map.posX + posX) * map.scale,
             (map.posY + posY) * map.scale,
@@ -1269,7 +1278,8 @@ class PerkMachine extends MapInteract {
         )
         this.bb.updateSides()
         this.bb_interact.updateSides()
-        this.perkSetup()
+        this.perk = name
+        this.cost = cost
     }
 
     use() {
@@ -1298,89 +1308,158 @@ class PerkMachine extends MapInteract {
         }
         GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk + " for " + this.cost)
         //already has the perk
-        switch (this.perk) {
-            case "Juggernog":
-                if (GAME_ENGINE.ent_Player.perk_hasJug) return true
-            case "Speed Cola":
-                if (GAME_ENGINE.ent_Player.perk_hasSpeedCola) return true
-            case "Double Tap":
-                if (GAME_ENGINE.ent_Player.perk_hasDoubleTap) return true
-            case "Quick Revive":
-                if (GAME_ENGINE.ent_Player.perk_hasQuickRev) return true
-            case "Stamin-Up":
-                if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
-        }
+        return this.checkAlreadyHavePerk()
+    }
+
+    checkAlreadyHavePerk() {
+        // if (GAME_ENGINE.ent_Player.perk_hasJug) return true
+    }
+
+    givePerk() {
+        // //try to give the perk if not have
+        // if (!GAME_ENGINE.ent_Player.perk_hasJug) {
+        //     GAME_ENGINE.ent_Player.perk_hasJug = true
+        //     ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
+        //     ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
+        //     return true
+        // }
+        // return false
+
+        // switch (this.perk) {
+        //     case "Juggernog":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasJug) {
+        //             GAME_ENGINE.ent_Player.perk_hasJug = true
+        //             ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
+        //             ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
+        //             return true
+        //         }
+        //         return false
+        //     case "Speed Cola":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
+        //             GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
+        //             return true
+        //         }
+        //         return false
+        //     case "Double Tap":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
+        //             GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
+        //             return true
+        //         }
+        //         return false
+        //     case "Quick Revive":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
+        //             GAME_ENGINE.ent_Player.perk_hasQuickRev = true
+        //             //Play the perk jingle
+        //             ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3",18, 0);
+        //             ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3",0,1);
+        //             return true
+        //         }
+        //         return false
+        //     case "Stamin-Up":
+        //         if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
+        //             GAME_ENGINE.ent_Player.perk_hasStaminUp = true
+        //             return true
+        //         }
+        //         return false
+        //     default:
+        //         console.log(this.perk, "is an invalid perk!")
+        //         return false
+        // }
+    }
+}
+
+class PerkMachine_Jug extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Juggernog", 2500, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasJug) return true
     }
 
     givePerk() {
         //try to give the perk if not have
-        switch (this.perk) {
-            case "Juggernog":
-                if (!GAME_ENGINE.ent_Player.perk_hasJug) {
-                    GAME_ENGINE.ent_Player.perk_hasJug = true
-                    ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
-                    ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
-                    return true
-                }
-                return false
-            case "Speed Cola":
-                if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
-                    GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
-                    return true
-                }
-                return false
-            case "Double Tap":
-                if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
-                    GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
-                    return true
-                }
-                return false
-            case "Quick Revive":
-                if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
-                    GAME_ENGINE.ent_Player.perk_hasQuickRev = true
-                    //Play the perk jingle
-                    ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3",18, 0);
-                    ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3",0,1);
-                    return true
-                }
-                return false
-            case "Stamin-Up":
-                if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
-                    GAME_ENGINE.ent_Player.perk_hasStaminUp = true
-                    return true
-                }
-                return false
-            default:
-                console.log(this.perk, "is an invalid perk!")
-                return false
+        if (!GAME_ENGINE.ent_Player.perk_hasJug) {
+            GAME_ENGINE.ent_Player.perk_hasJug = true
+            return true
         }
+        return false
+    }
+}
+
+class PerkMachine_Speed extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Speed Cola", 3000, map)
     }
 
-    perkSetup() {
-        switch (this.perk) {
-            case "Juggernog":
-                //TODO red glow
-                this.cost = 2500
-                break
-            case "Speed Cola":
-                //TODO green glow
-                this.cost = 2500
-                break
-            case "Double Tap":
-                //TODO orange glow
-                this.cost = 2000
-                break
-            case "Quick Revive":
-                //TODO blue glow
-                this.cost = 500
-                break
-            case "Stamin-Up":
-                //TODO yellow glow
-                this.cost = 2000
-                break
-            default:
-                console.log(this.perk, "is an invalid perk!")
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasSpeedCola) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
+            GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
+            return true
         }
+        return false
+    }
+}
+
+class PerkMachine_DoubleTap extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Double Tap", 2000, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasDoubleTap) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
+            GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
+            return true
+        }
+        return false
+    }
+}
+
+class PerkMachine_StaminUp extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Stamin-Up", 2000, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasStaminUp) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
+            GAME_ENGINE.ent_Player.perk_hasStaminUp = true
+            return true
+        }
+        return false
+    }
+}
+
+class PerkMachine_QRevive extends PerkMachine {
+    constructor(posX, posY, width, height, map) {
+        super(posX, posY, width, height, "Quick Revive", 500, map)
+    }
+
+    checkAlreadyHavePerk() {
+        if (GAME_ENGINE.ent_Player.perk_hasQuickRev) return true
+    }
+
+    givePerk() {
+        //try to give the perk if not have
+        if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
+            GAME_ENGINE.ent_Player.perk_hasQuickRev = true
+            return true
+        }
+        return false
     }
 }
 
@@ -1435,9 +1514,14 @@ class PowerUp {
         if (this.bb_interact.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
             this.givePowerUp()
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.15, this.posX, this.posY, 2000))
+            this.playGrabAudio()
             this.loopSound.aud.pause()
             this.removeFromWorld = true
         }
+    }
+
+    playGrabAudio() {
+
     }
 
     givePowerUp() { //Abstract
@@ -1524,9 +1608,9 @@ class PowerUp_Carpenter extends PowerUp {
 PAP_WIDTH = 80
 PAP_HEIGHT = 35
 PAP_COST = 5000
-PAP_STATECD_1 = 2
+PAP_STATECD_1 = 1
 PAP_STATECD_2 = 2
-PAP_STATECD_3 = 2
+PAP_STATECD_3 = 1
 PAP_STATECD_4 = 10
 PAP_STATECD_5 = 2
 PAP_OFFSETY = 75
@@ -1613,18 +1697,18 @@ class PackAPunch extends MapInteract {
             case 0: //waiting
                 break
             case 1: //taking in gun
-                this.drawGun((this.stateCooldown/PAP_STATECD_1) * PAP_OFFSETY + 20)
+                this.drawGun((this.stateCooldown/PAP_STATECD_1) * PAP_OFFSETY + 50)
                 this.drawPaPLight()
                 break
             case 2: //gun disappears
                 this.drawPaPLight()
                 break
             case 3: //guns comes out
-                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_3)) * PAP_OFFSETY + 20)
+                this.drawGunPaP((1 - (this.stateCooldown/PAP_STATECD_3)) * PAP_OFFSETY + 50)
                 this.drawPaPLight()
                 break
             case 4: //offer gun
-                this.drawGunPaP(PAP_OFFSETY + 20)
+                this.drawGunPaP(PAP_OFFSETY + 50)
                 this.drawPaPLight()
                 break
             case 5: //prevent spam
@@ -1651,7 +1735,7 @@ class PackAPunch extends MapInteract {
 
     drawPaPLight() {
         this.elapseTime =+ GAME_ENGINE.clockTick * 50
-        this.animatorPaPLight.drawFrame(this.bb.x, this.bb.y + 125, Math.random()*0.25 + 0.6) //
+        this.animatorPaPLight.drawFrame(this.bb.x, this.bb.y + 125, (Math.random() * 0.25) + 0.6) //
     }
 
     drawGunPaP(offsetY) {
@@ -1685,6 +1769,7 @@ class PackAPunch extends MapInteract {
         switch(this.state) {
             case 0: //waiting
                 if (GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP || GAME_ENGINE.ent_Player.points < PAP_COST) {return}
+                GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PerkJingles/PaP/PaP_use.mp3", 1, this.bb.x, this.bb.y, 1500))
                 GAME_ENGINE.ent_Player.losePoints(PAP_COST)
                 this.currGun = GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex]
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()

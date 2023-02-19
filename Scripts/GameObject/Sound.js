@@ -2,13 +2,15 @@
 MIXER_MASTER = 1
 MIXER_MUSIC_VOL = 1
 MIXER_GUNSHOT_VOL = 1
+MIXER_CASH_ACCEPT = 0.2
 
 
 class WorldSound {
     constructor(path, volume=1,
                 posX=0, posY=0,
                 radius=1000, autorepeat=false,
-                startTime = 0) {
+                startTime = 0,
+                playNow=true) {
         //Path, x, y, volume, auto repeat
         this.posX = posX;
         this.posY = posY;
@@ -35,7 +37,15 @@ class WorldSound {
         this.aud.volume = volume
         this.aud.currentTime = startTime
 
-        this.aud.play()
+        if (playNow) {
+            this.aud.play()
+        }
+    }
+
+    tryPlayOnlyIfPaused() {
+        if (this.aud.paused || this.aud.ended) {
+            this.aud.play()
+        }
     }
 
     getVolume() {
@@ -44,10 +54,10 @@ class WorldSound {
 
     setVolume(vol) {
         if (vol < 0) {
-            console.log("Error: Volume" + vol)
+            // console.log("Error: Volume" + vol)
             this.aud.volume = 0
         } else if (vol > 1) {
-            console.log("Error: Volume" + vol)
+            // console.log("Error: Volume" + vol)
             this.aud.volume = 1
         } else {
             this.aud.volume = vol
@@ -78,8 +88,8 @@ class WorldSound {
 }
 
 class Sound extends WorldSound {
-    constructor(path, volume=1, autorepeat=false, startime=0) {
-        super(path, volume, 0,0,0, autorepeat, startime)
+    constructor(path, volume=1, autorepeat=false, startime=0, playNow=true) {
+        super(path, volume, 0,0,0, autorepeat, startime, playNow)
     }
 
     update() {

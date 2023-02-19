@@ -320,9 +320,9 @@ class Gun {
             this.shootSndPath = spritesheetCoords[6]
         } else { //if not defined
             if (this.isPaP) {
-                this.shootSndPath = "Assets/Audio/SFX/Guns/M1911/m1911_shooting.mp3"
-            } else {
                 this.shootSndPath = "Assets/Audio/SFX/Guns/Pap Firing/papGUN_Shooting.mp3"
+            } else {
+                this.shootSndPath = "Assets/Audio/SFX/Guns/M1911/m1911_shooting.mp3"
             }
         }
     }
@@ -1706,7 +1706,7 @@ class Gun_Dragunov extends Gun_T_Pierce {
             2.95, //reload time
             MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.36, //recoil increase per fire
-            1, //recoil decrease rate
+            0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             3, //pierce count
             0.1,10, //shake
@@ -1725,7 +1725,7 @@ class Gun_Dragunov_PaP extends Gun_T_Pierce {
             2.95, //reload time
             MOVEMENT_PENALTY_HEAVY, //movement penalty
             0.36, //recoil increase per fire
-            1, //recoil decrease rate
+            0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             3, //pierce count
             0.1,10, //shake
