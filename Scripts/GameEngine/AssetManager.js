@@ -76,15 +76,25 @@ class AssetManager {
         return this.cache[path];
     };
 
-    playAsset(path) {
-        let audio = this.cache[path];
-        audio.currentTime = 0;
-        audio.play();
-    };
+    // playAsset(path) {
+    //     let audio = this.cache[path];
+    //     audio.currentTime = 0;
+    //     audio.play();
+    // };
+    //Play Asset have a trail method
 
-    playAsset(path, startTime) {
-        let audio = this.cache[path];
-        audio.currentTime = startTime; //untested
-        audio.play();
-    };
+    playAsset(path, startTime = 0, volume = 1) {
+        let audio = this.cache[path]
+        audio.pause()
+        audio.volume = volume
+        audio.currentTime = startTime
+        audio.play()
+    }
+
+    autoRepeat(path) {
+        var aud = this.cache[path];
+        aud.addEventListener("ended", function () {
+            aud.play();
+        })
+    }
 };

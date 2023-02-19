@@ -1313,6 +1313,8 @@ class PerkMachine extends MapInteract {
             case "Juggernog":
                 if (!GAME_ENGINE.ent_Player.perk_hasJug) {
                     GAME_ENGINE.ent_Player.perk_hasJug = true
+                    ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3",26);
+                    ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3");
                     return true
                 }
                 return false
@@ -1331,6 +1333,9 @@ class PerkMachine extends MapInteract {
             case "Quick Revive":
                 if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
                     GAME_ENGINE.ent_Player.perk_hasQuickRev = true
+                    //Play the perk jingle
+                    ASSET_MANAGER.playAsset("Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3",18, 0);
+                    ASSET_MANAGER.playAsset("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3",0,1);
                     return true
                 }
                 return false

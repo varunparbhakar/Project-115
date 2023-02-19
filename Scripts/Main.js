@@ -56,6 +56,13 @@ ASSET_MANAGER.queueDownload("Assets/Images/Map/Pack_A_Punch_Light.png")
 //Zombie Spawn Dirt Effect
 ASSET_MANAGER.queueDownload("Assets/Images/Map/Zombie Dirt Spawning SpriteSheet.png")
 
+
+
+//Zombies Perk Jingles
+ASSET_MANAGER.queueDownload("Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3")
+ASSET_MANAGER.queueDownload("Assets/Audio/PerkJingles/Juggernaut/Call of Duty_ Zombies - Juggernog Song.mp3")
+//Sound Effects
+ASSET_MANAGER.queueDownload("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3")
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
