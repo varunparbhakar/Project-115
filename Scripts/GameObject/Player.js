@@ -171,6 +171,7 @@ class Player extends GameObject {
                 this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.45
                 this.changeAnimation(ANIMATION_Melee, PLAYER_KNIFE_COOLDOWN)
                 this.isKnifing = true
+                GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife.mp3", 0.4))
             }
         }
         if (this.isKnifing && this.knifeCooldownUntilAttack <= 0) {
@@ -423,6 +424,7 @@ class Player extends GameObject {
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie && !hasKnifed) {
                 if (knifeBC.collide(entity.bc_Movement) < 0) {
+                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife_hit.mp3", 0.35))
                     entity.takeDamage(PLAYER_KNIFE_DMG, ZOMBIE_DMG_KNIFE)
                     hasKnifed = true
                     GAME_ENGINE.camera.startShake(0.1, 7)

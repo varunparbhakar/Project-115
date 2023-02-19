@@ -723,11 +723,14 @@ class Barrier {
      * Call each frame in hurtbox to start damaging
      */
     takeDamage() {
+        this.oldBarrierHP = Math.floor(this.hp)
         this.hp -= GAME_ENGINE.clockTick
         if (this.hp < 0) { //clamp
             this.hp = 0
         }
-        // console.log(this.hp)
+        if (Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/snap_0" + randomInt(6) + ".mp3", 0.6, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 3000))
+        }
     }
 
     /**
@@ -742,7 +745,7 @@ class Barrier {
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
             GAME_ENGINE.camera.startShake(0.1, 5)
             GAME_ENGINE.ent_Player.earnPoints(10) //TODO round cap
-            //TODO audio trigger
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.35, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
         }
     }
 
