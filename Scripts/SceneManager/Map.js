@@ -1463,6 +1463,42 @@ class PerkMachine_StaminUp extends PerkMachine {
 class PerkMachine_QRevive extends PerkMachine {
     constructor(posX, posY, width, height, map) {
         super(posX, posY, width, height, "Quick Revive", 500, "Assets/Audio/PerkJingles/Quick Reviee/Call of Duty_ Zombies - Quick Revive Song.mp3", 19, 1, "blue", map)
+        this.usesLeft = 3
+        this.perk = "Quick Revive (uses: " + this.usesLeft + ")"
+        let center = this.bb.getCenteredPos()
+        this.glow = new Glow(center[0], center[1], 10, this.glowColor, 0.4)
+        GAME_ENGINE.addEntity(this.glow)
+    }
+
+    update() {
+        if (this.usesLeft <= 0) {return}
+
+        this.aud.update()
+
+        if (this.jingleTimer > 0) {
+            this.jingleTimer -= GAME_ENGINE.clockTick
+        } else {
+            this.aud.resetAndPlay()
+            this.resetJingleTime()
+        }
+    }
+
+    use() {
+        if (GAME_ENGINE.ent_Player.points >= this.cost) {
+            if (this.givePerk()) {
+                GAME_ENGINE.ent_Player.losePoints(this.cost)
+                GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].equip()
+                this.aud.jumpToAndPlay(this.stingerTime)
+                this.resetJingleTime()
+                GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3", 0.5))
+            }
+        }
+    }
+
+    hudText() {
+        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("F to purchase " + this.perk + " for " + this.cost)
+        //already has the perk
+        return this.checkAlreadyHavePerk()
     }
 
     checkAlreadyHavePerk() {
@@ -1471,11 +1507,19 @@ class PerkMachine_QRevive extends PerkMachine {
 
     givePerk() {
         //try to give the perk if not have
-        if (!GAME_ENGINE.ent_Player.perk_hasQuickRev) {
+        if (!GAME_ENGINE.ent_Player.perk_hasQuickRev && this.usesLeft > 0) {
             GAME_ENGINE.ent_Player.perk_hasQuickRev = true
+            this.usesLeft--
+            if (this.usesLeft <= 0) {
+                this.glow.removeFromWorld = true
+            }
             return true
         }
         return false
+    }
+
+    onPower() {
+
     }
 }
 
