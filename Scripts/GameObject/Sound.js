@@ -48,6 +48,18 @@ class WorldSound {
         }
     }
 
+    jumpToAndPlay(sec) {
+        this.aud.pause()
+        this.aud.currentTime = sec
+        this.aud.play()
+    }
+
+    resetAndPlay() {
+        this.aud.pause()
+        this.aud.currentTime = 0
+        this.aud.play()
+    }
+
     getVolume() {
         return this.aud.volume
     }
@@ -101,7 +113,7 @@ class Sound extends WorldSound {
 
 class MysteryBoxSound extends WorldSound {
     constructor(path, posX, posY) {
-        super(path, 0.7, posX, posY, 2000)
+        super(path, 0.5, posX, posY, 3000)
     }
 }
 
