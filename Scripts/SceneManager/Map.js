@@ -1374,7 +1374,7 @@ class PerkMachine extends MapInteract {
     }
 
     resetJingleTime() {
-        this.jingleTimer = randomInt(30) + 60
+        this.jingleTimer = randomInt(30) + 120
     }
 
     onPower() {
@@ -1711,11 +1711,24 @@ class PackAPunch extends MapInteract {
         this.currGun = new Gun_M1911() //to avoid null pointer
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
         this.animatorGunPaP = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUNPAP_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
+
+        this.aud = new WorldSound("Assets/Audio/PerkJingles/PaP/mus_packapunch_jingle.mp3", 0.325, this.bb.x, this.bb.y, 2000, false, 0, false)
+        //this.jingleTimer
+        this.resetJingleTimer()
     }
 
     update() {
         switch(this.state) {
             case 0: //waiting
+                if (GAME_ENGINE.camera.map.powerSwitch.power) {
+                    this.aud.update()
+                    if (this.jingleTimer > 0) {
+                        this.jingleTimer -= GAME_ENGINE.clockTick
+                    } else {
+                        this.aud.resetAndPlay()
+                        this.resetJingleTimer()
+                    }
+                }
                 break
             case 1: //taking in gun
                 if (this.stateCooldown <= 0) {
@@ -1748,6 +1761,10 @@ class PackAPunch extends MapInteract {
                 }
                 break
         }
+    }
+
+    resetJingleTimer() {
+        this.jingleTimer = randomInt(30) + 120
     }
 
     draw() {
@@ -1835,6 +1852,7 @@ class PackAPunch extends MapInteract {
                 this.currGun = GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex]
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()
                 GAME_ENGINE.ent_Player.switchGuns()
+                this.aud.aud.pause()
                 this.state++
                 this.stateCooldown = PAP_STATECD_1
                 break
