@@ -2,7 +2,7 @@ const GAME_ENGINE = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 
-fetch('./allAssets.txt')
+fetch('./Scripts/allAssets.txt')
 	.then(response => response.text())
 	.then(data => {
 		const lines = data.split('\n');
