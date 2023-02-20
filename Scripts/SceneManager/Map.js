@@ -504,6 +504,10 @@ class WorldMap {
         this.roundManager = new RoundManager(spawners_Spawn)
         GAME_ENGINE.addEntity(this.roundManager)
         this.roundManager.start()
+
+        ////////////BGM////////////
+        this.bgmPlayer = new BGMPlayer()
+        this.bgmPlayer.playAmb()
     }
 }
 
@@ -2039,4 +2043,32 @@ class RoundManager {
             })
         }
     }
+}
+
+class BGMPlayer {
+    constructor() {
+        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 1, 1, 0, false)
+        // this.musAud = new Sound()
+    }
+
+    playAmb() {
+        this.ambAud.resetAndPlay()
+    }
+
+    stopAmb() {
+        //TODO fade out
+        this.ambAud.aud.pause()
+    }
+
+    playMusic() {
+
+    }
+
+    // update() {
+    //
+    // }
+    //
+    // draw() {
+    //
+    // }
 }
