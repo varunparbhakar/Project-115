@@ -597,6 +597,7 @@ class HUDFps {
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
         GAME_ENGINE.ctx.fillText(Math.floor(1/GAME_ENGINE.clockTick) + " FPS", GAME_ENGINE.ctx.canvas.width - 5, 150)
+        GAME_ENGINE.ctx.fillText(GAME_ENGINE.clockTick * 1000 + " ms", GAME_ENGINE.ctx.canvas.width - 5, 175)
         GAME_ENGINE.ctx.restore()
     }
 }
