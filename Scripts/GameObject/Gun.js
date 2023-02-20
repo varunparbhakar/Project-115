@@ -373,7 +373,7 @@ class Gun {
         this.shoot2(posX, posY, angle)
         this.currentRecoil += this.getRecoilPerClick();
         this.spawnMuzzleFlash(posX, posY, angle)
-        GAME_ENGINE.addEntity(new GunSound(this.shootSndPath))
+        GAME_ENGINE.addEntity(new Sound(this.shootSndPath, MIXER_GUNSHOT_VOL))
     }
 
     shoot2(posX, posY, angle) { //shooy the bullet
@@ -403,7 +403,7 @@ class Gun {
         this.currentMagazineAmmo += withdraw
         this.currentTotalAmmo -= withdraw
         // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
-        GAME_ENGINE.addEntity(new GunSound(this.reloadSndPath))
+        GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, MIXER_GUNRELOAD_VOL))
         return true
     }
 
@@ -494,7 +494,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
         let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
 
         GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle))
-        GAME_ENGINE.addEntity(new GunSound(this.shootSndPath))
+        GAME_ENGINE.addEntity(new Sound(this.shootSndPath, MIXER_GUNSHOT_VOL))
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
             this.shoot2(posX, posY, angle)
         }
@@ -549,7 +549,7 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
                     this.currentMagazineAmmo++
                     this.currentTotalAmmo--
                     if (this.currentMagazineAmmo != this.magazineSize) {
-                        GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, 1))
+                        GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, MIXER_GUNRELOAD_VOL))
                     }
                 }
             }
@@ -573,7 +573,7 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
             this.currentReloadTime = this.reloadTime
             this.currentRecoil = 0
             this.currentFireCooldown = 0
-            GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, 1))
+            GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, MIXER_GUNRELOAD_VOL))
             return true
         }
 
