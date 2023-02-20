@@ -33,6 +33,7 @@ class GameEngine {
             drawSpawnProx: false,
         };
 
+        this.globalVolume = 1
         this.camera = null; //Will be SceneManager
     };
 
@@ -143,6 +144,21 @@ class GameEngine {
                 case "KeyL":
                     this.ent_Player.points = 100000
                     console.log("Player Money")
+                    break
+                case "KeyB":
+                    this.ctx.canvas.width = 1080
+                    this.ctx.canvas.height = 1080
+                    this.ctx.imageSmoothingEnabled = false
+                    break
+                case "KeyN":
+                    this.ctx.canvas.width = 1920
+                    this.ctx.canvas.height = 1080
+                    this.ctx.imageSmoothingEnabled = false
+                    break
+                case "KeyM":
+                    this.ctx.canvas.width = 2560
+                    this.ctx.canvas.height = 1440
+                    this.ctx.imageSmoothingEnabled = false
                     break
             }
         }, false);
@@ -271,6 +287,7 @@ class GameEngine {
     }
 
     update() {
+        this.globalVolume = document.getElementById("volume").value
         this.update1(this.ent_MapBackground)
         this.update1(this.ent_MapObjects)
         this.update1(this.ent_Projectiles)

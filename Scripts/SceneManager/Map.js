@@ -149,9 +149,10 @@ class WorldMap {
         this.playerSpawnX = 1200 * this.scale
         this.playerSpawnY = 1244 * this.scale
         //MapLayers
-        let imagePath_back = "Assets/Images/Map/Levels/DLC1.png"
-        let asset_back = ASSET_MANAGER.getAsset(imagePath_back)
+        let asset_back = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1.png")
         GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
+        let asset_light = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_light.png")
+        GAME_ENGINE.addEntity(new MapLayer_Foreground(new Animator(asset_light, 0, 0, asset_light.width, asset_light.height, 1, 1, this.scale)))
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
         GAME_ENGINE.addEntity(new MapBB(683, 491, 281, 10, this, true)) //Top Fence
@@ -1378,12 +1379,12 @@ class PerkMachine extends MapInteract {
     }
 
     resetJingleTime() {
-        this.jingleTimer = randomInt(30) + 120
+        this.jingleTimer = randomInt(120) + 120
     }
 
     onPower() {
         let center = this.bb.getCenteredPos()
-        this.glow = new Glow(center[0], center[1], 10, this.glowColor, 0.4)
+        this.glow = new Glow(center[0], center[1], 10, this.glowColor, 0.25)
         GAME_ENGINE.addEntity(this.glow)
     }
 }
@@ -1539,6 +1540,8 @@ class PowerUp {
 
         GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/spawn.mp3", 0.1, this.posX, this.posY, 2000))
         this.loopSound = new WorldSound("Assets/Audio/PowerUp/loop.mp3", 0.05, this.posX, this.posY, 2000, true)
+
+        this.glow = new Glow(posX - 25, posY - 25, 1, "green", 1)
     }
 
     update() {
@@ -1554,7 +1557,7 @@ class PowerUp {
     draw() {
         let pos = this.bb_interact.getCenteredPos()
         //green glow
-        //TODO
+        this.glow.draw()
         //perk
         if (this.aliveTimer <= 5) {
             if (Math.ceil(this.aliveTimer * 8) % 2 !== 0) {
@@ -1768,7 +1771,7 @@ class PackAPunch extends MapInteract {
     }
 
     resetJingleTimer() {
-        this.jingleTimer = randomInt(30) + 120
+        this.jingleTimer = randomInt(120) + 120
     }
 
     draw() {

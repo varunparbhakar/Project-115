@@ -328,7 +328,8 @@ class HUDHurt {
             GAME_ENGINE.ctx.globalAlpha = Math.min(0.8 * (1-GAME_ENGINE.ent_Player.hp / PLAYER_HP_MAX), 0.4)
             GAME_ENGINE.ctx.drawImage(
                 this.asset,
-                0,0
+                0,0,
+                GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height
             )
             GAME_ENGINE.ctx.restore()
         }
