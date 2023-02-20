@@ -755,10 +755,13 @@ class Barrier {
             this.hoverSound2.tryPlayOnlyIfPaused()
         }
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
-            GAME_ENGINE.camera.startShake(0.1, 5)
-            GAME_ENGINE.ent_Player.earnPoints(10) //TODO round cap
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.50, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
-            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/accept.mp3", MIXER_CASH_ACCEPT))
+            let budgetResult = GAME_ENGINE.camera.map.roundManager.useBarrierBudget()
+            if (budgetResult != -1) {
+                GAME_ENGINE.camera.startShake(0.1, 5)
+                GAME_ENGINE.ent_Player.earnPoints(10)
+                GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/accept.mp3", MIXER_CASH_ACCEPT))
+            }
         }
     }
 
@@ -1924,6 +1927,7 @@ class RoundManager {
         this.curr_ZombiesLeft = ROUND_COUNT[0] //6
         this.inRound = false
         this.curr_ZombiesSpawned = 0
+        this.barrierBudget = 40
     }
 
     /**
@@ -1938,6 +1942,8 @@ class RoundManager {
         // this.thisRound_ZombiesSpawnDelay = Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1)
         this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
         this.curr_betweenRoundDelay = this.thisRound_betweenRoundDelay
+
+        this.barrierBudget = Math.min(40 + (50 * (this.curr_Round - 1)), 490)
 
         this.curr_roundsUntilNextDog = randomInt(3) + 5
 
@@ -1973,6 +1979,8 @@ class RoundManager {
         this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
         this.thisRound_betweenRoundDelay = Math.max(this.thisRound_betweenRoundDelay * 0.9, 5)
         this.curr_betweenRoundDelay = this.thisRound_betweenRoundDelay
+
+        this.barrierBudget = Math.min(40 + (50 * (this.curr_Round - 1)), 490)
 
         this.curr_roundsUntilNextDog--
 
@@ -2075,6 +2083,15 @@ class RoundManager {
             this.listOfEnabledSpawns.forEach((spawner) => {
                 spawner.bc.drawBoundingCircle("green", true)
             })
+        }
+    }
+
+    useBarrierBudget() {
+        if (this.barrierBudget <= 0) {
+            return -1
+        } else {
+            this.barrierBudget -= 10
+            return 10
         }
     }
 }
