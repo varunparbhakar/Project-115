@@ -2,6 +2,7 @@
 MIXER_MASTER = 1
 MIXER_MUSIC_VOL = 1
 MIXER_GUNSHOT_VOL = 1
+MIXER_GUNRELOAD_VOL = 0.2
 MIXER_CASH_ACCEPT = 0.2
 
 
@@ -83,7 +84,7 @@ class WorldSound {
         return distance;
     }
 
-    getVolumeToPlayer() { // https://physics.stackexchange.com/questions/175579/eqation-between-sound-intensity-and-distance
+    getVolumeToPlayer() {
         return Math.pow( this.radius - this.getDistanceToPlayer(), 3) / Math.pow(this.radius,3)
     }
 
@@ -117,11 +118,11 @@ class MysteryBoxSound extends WorldSound {
     }
 }
 
-class GunSound extends Sound {
-    constructor(path, volume=1) {
-        super(path, volume * MIXER_GUNSHOT_VOL);
-    }
-}
+// class GunSound extends Sound {
+//     constructor(path, volume=1) {
+//         super(path, volume * MIXER_GUNSHOT_VOL);
+//     }
+// }
 
 class SoundTest extends WorldSound {
     constructor() {
