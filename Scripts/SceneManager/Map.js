@@ -1870,6 +1870,30 @@ class PackAPunch extends MapInteract {
 
 //https://project-lazarus.fandom.com/wiki/Rounds they be using real formulas
 const ROUND_COUNT = [6,8,13,18,24,27,28,28,29,33,34,36,39,41,44,47,50,53,56,60,63]
+const ROUND_SPEED = [
+    [0], //1
+    [0,0,0,1], //2
+    [0,0,1], //3
+    [0,1], //4
+    [0,1,1], // 5
+    [1,1,1,2], //6
+    [1,1,2], //7
+    [1,2], //8
+    [1,2,2], //9
+    [2], //10
+    [2], //11
+    [2], //12
+    [2], //13
+    [2], //14
+    [2], //15
+    [2,2,2,3], //16
+    [2,2,2,3], //17
+    [2,2,3], //18
+    [2,3], //19
+    [2,3,3], //20
+    [2,3,3,3], //21
+    [3], //22
+]
 class RoundManager {
     constructor(listOfEnabledSpawns) {
         /**
@@ -2014,7 +2038,7 @@ class RoundManager {
         let index = randomInt(this.listOfEnabledSpawns.length)
         let success = false
         for (let i = 0; i < this.listOfEnabledSpawns.length; i++) {
-            let spawnResult = this.listOfEnabledSpawns[index].spawnZombie(1, this.curr_ZombiesHealth)
+            let spawnResult = this.listOfEnabledSpawns[index].spawnZombie(this.getSpawnSpeedForCurrRound(), this.curr_ZombiesHealth)
             if (spawnResult >= 0) {
                 success = true
                 break
@@ -2026,6 +2050,13 @@ class RoundManager {
             console.log("Spawn was not proximity based!")
             this.listOfEnabledSpawns[index].spawnZombie(1, this.curr_ZombiesHealth, true)
         }
+    }
+
+    getSpawnSpeedForCurrRound() {
+        if (this.curr_Round < ROUND_SPEED.length) {
+            return ROUND_SPEED[this.curr_Round - 1][randomInt(ROUND_SPEED[this.curr_Round - 1].length)]
+        }
+        return ROUND_SPEED[ROUND_SPEED.length - 1][randomInt(ROUND_SPEED[ROUND_SPEED.length - 1].length)]
     }
 
     // /**
