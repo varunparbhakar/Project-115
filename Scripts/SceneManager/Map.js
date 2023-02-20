@@ -1544,7 +1544,7 @@ class PowerUp {
         GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/spawn.mp3", 0.1, this.posX, this.posY, 2000))
         this.loopSound = new WorldSound("Assets/Audio/PowerUp/loop.mp3", 0.05, this.posX, this.posY, 2000, true)
 
-        this.glow = new Glow(posX - 25, posY - 25, 1, "green", 1)
+        this.glow = new Glow(posX, posY, 2, "green", 0.5)
     }
 
     update() {
