@@ -174,6 +174,7 @@ class Zombie extends GameObject {
             let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
             if (intersectionDepth < 0) {
                 if (this.attack_currentCooldown == ZOMBIE_ATTACK_COOLDOWN) {
+                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife.mp3", 0.2)) //TODO swing sound
                     this.animator.finishedAnimation = false
                     this.animator.elaspedTime = 0
                 }
