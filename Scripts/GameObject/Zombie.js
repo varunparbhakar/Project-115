@@ -86,7 +86,7 @@ class Zombie extends GameObject {
 
         //vox
         this.voxTimer = randomInt(ZOMBIE_VOX_TIMER)
-        this.aud = new WorldSound("/", 1, 0,0, ZOMBIE_VOX_RADIUS)
+        this.aud = new WorldSound("Assets/Audio/silence.mp3", 1, 0,0, ZOMBIE_VOX_RADIUS)
     }
 
     saveLastBB() {
@@ -444,6 +444,7 @@ class Zombie extends GameObject {
             minimumIntegerDigits: 2,
             useGrouping: false
         })
+        this.aud.aud.pause()
         this.aud.aud.src = "Assets/Audio/Vox/Zombies/zombie_" + formattedNumber + ".mp3"
     }
 }
