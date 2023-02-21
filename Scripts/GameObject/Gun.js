@@ -2211,3 +2211,22 @@ class Gun_Empty extends Gun {
         );
     }
 }
+
+class Gun_NoiseMaker extends Gun {
+    constructor() {
+        super(
+            "Empty",
+            0, //dmg
+            1000000000000000000000000000000000000000, //mag size
+            100000000000000000000000000000000000000000, //total ammo
+            0.0000000000000001, //fire cooldown
+            0.1, //reload time
+            1, //movement penalty
+            0, //recoil increase per fire
+            1, //recoil decrease rate
+            2000, //bullets speedTerminal
+            0,0,
+            GUN_Pistol //animation type
+        );
+    }
+}

@@ -21,7 +21,7 @@ class WorldSound {
 
         this.aud.addEventListener("ended", () => {
             this.aud.pause();
-            this.aud.currentTime = 0;
+            // this.aud.currentTime = 0;
         });
 
         this.aud.src = path;
@@ -99,6 +99,9 @@ class WorldSound {
     update() {
         this.setVolume(this.getVolumeToPlayer() * this.volume)
         if (this.aud.ended) {
+            console.log("del Sound")
+            this.aud.srcObject = null
+            this.aud.remove()
             this.removeFromWorld = true;
         }
     }
@@ -115,6 +118,8 @@ class Sound extends WorldSound {
 
     update() {
         if (this.aud.ended) {
+            this.aud.srcObject = null
+            this.aud.remove()
             this.removeFromWorld = true;
         }
     }

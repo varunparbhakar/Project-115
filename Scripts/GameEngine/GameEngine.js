@@ -297,6 +297,7 @@ class GameEngine {
         this.update1(this.ent_HUD)
         this.update1(this.ent_Etc)
         this.update1(this.ent_Sound)
+        console.log("Sound:", this.ent_Sound.length)
     }
 
     update1(entities) {
