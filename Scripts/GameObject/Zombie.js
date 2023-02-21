@@ -35,6 +35,9 @@ const ZOMBIE_DESPAWN_TIME = 5
 const ZOMBIE_DESPAWN_RANGE = 150 //px
 const ZOMBIE_DESPAWN_ASTAR_LIMIT = 7
 
+const ZOMBIE_VOX_TIMER = 5
+const ZOMBIE_VOX_TIMER_RANDOM = 15
+
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
 class Zombie extends GameObject {
@@ -79,6 +82,9 @@ class Zombie extends GameObject {
         this.bc_Attack = new BoundingCircle(posX,posY,ZOMBIE_BC_ATTACK_RADIUS)
         this.bc_Despawn = new BoundingCircle(posX, posY, ZOMBIE_DESPAWN_RANGE)
         this.angle = 0;
+
+        //vox
+        this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
     }
 
     saveLastBB() {
@@ -117,6 +123,8 @@ class Zombie extends GameObject {
         this.saveLastBB()
         this.updateCollision();
         this.checkCollisions()
+
+        this.voxHandler()
     }
 
     despawnHandler() {
@@ -411,6 +419,21 @@ class Zombie extends GameObject {
                 break
         }
 
+    }
+
+    voxHandler() {
+        if (this.removeFromWorld) {return}
+        if (this.voxTimer > 0) {
+            this.voxTimer -= GAME_ENGINE.clockTick
+        } else { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
+            let formattedNumber = randomInt(10).toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false
+            })
+            console.log(formattedNumber)
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Vox/Zombies/zombie_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, this.posX, this.posY, 4000))
+            this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
+        }
     }
 }
 

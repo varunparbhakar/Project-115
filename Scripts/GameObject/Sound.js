@@ -5,6 +5,7 @@ const MIXER_GUNSHOT_VOL = 0.9
 const MIXER_GUNRELOAD_VOL = 0.2
 const MIXER_CASH_ACCEPT = 0.2
 const MIXER_POWERUP = 0.4
+const MIXER_ZOMBIE_VOX = 0.8
 
 class WorldSound {
     constructor(path, volume=1,
