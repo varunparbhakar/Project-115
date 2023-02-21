@@ -491,7 +491,8 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428], [1160, 1815]], randomInt(5), this))
 
         ///////////PaP///////////
-        GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
+        // GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
+        GAME_ENGINE.addEntity(new PaPBuildable(1069, 1142, [[1064, 522], [758, 1969], [1392, 983], [1443, 1624]], this))
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX, this.playerSpawnY);
@@ -582,8 +583,8 @@ class MapBBPlayerOnly {
  * One way-able MapBB
  */
 // class MapBBSided extends MapBB {
-//     constructor(posX, posY, width, height, map, sides=["N","E","S","W"]) {
-//         super(posX, posY, width, height, map)
+//     constructor(posXOriginal, posYOriginal, width, height, map, sides=["N","E","S","W"]) {
+//         super(posXOriginal, posYOriginal, width, height, map)
 //         this.sides = sides
 //         this.isCurrentlyIn = false
 //         this.bb.updateSides()
@@ -714,8 +715,8 @@ class Barrier {
         //     this.asset,
         //     Math.ceil(5 - this.hp) * BARRIER_IMAGE_DIMENSIONS, 0,
         //     BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS,
-        //     this.bb.x - GAME_ENGINE.camera.posX,
-        //     this.bb.y - GAME_ENGINE.camera.posY,
+        //     this.bb.x - GAME_ENGINE.camera.posXOriginal,
+        //     this.bb.y - GAME_ENGINE.camera.posYOriginal,
         //     this.scale * BARRIER_IMAGE_DIMENSIONS, this.scale * BARRIER_IMAGE_DIMENSIONS
         // )
         // GAME_ENGINE.ctx.restore();
@@ -778,6 +779,14 @@ class Barrier {
 class MapInteract {
     constructor() {
         //NOTHING
+    }
+
+    use() {
+        throw new Error("MISSING use()")
+    }
+
+    hudText() {
+        throw new Error("MISSING hudText()")
     }
 }
 
@@ -1673,8 +1682,8 @@ class PowerUp_Carpenter extends PowerUp {
 
 //TODO Sprite Z cash
 // class PowerUp_BonusPoints extends PowerUp {
-//     constructor(posX, posY) {
-//         super(posX, posY, 91, 165, 23, 25)
+//     constructor(posXOriginal, posYOriginal) {
+//         super(posXOriginal, posYOriginal, 91, 165, 23, 25)
 //     }
 //
 //     givePowerUp() {
@@ -2107,6 +2116,92 @@ class RoundManager {
             return 10
         }
     }
+}
+
+PAP_BUILDABLE_TEX_PATH_LIST = ["Assets/Images/Items/Bullet.png", "Assets/Images/Items/Bullet.png"]
+PAP_BUILDABLE_TEX_SCALE = 1
+class PaPBuildable extends MapInteract {
+    constructor(posX, posY, listOfPartsPos, map) {
+        super()
+        this.posXOriginal = posX
+        this.posYOriginal = posY
+        this.bb = new BoundingBox(
+            posX * map.scale, posY * map.scale,
+            PAP_WIDTH * 3.75, PAP_HEIGHT * 3.75
+        )
+        this.bb_interact = new BoundingBox(
+            (posX - 2) * map.scale, (posY - 2) * map.scale,
+            (PAP_WIDTH + 4)  * 3.75, (PAP_HEIGHT + 4) * 3.75
+        )
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+        this.scale = map.scale
+
+        this.partsLeft = listOfPartsPos.length
+
+        //Put down parts
+        for (let i = 0; i < listOfPartsPos.length; i++) {
+            let anim = new Animator(PAP_BUILDABLE_TEX_PATH_LIST[i % listOfPartsPos.length], 0,0,100, 100, 1, 1, PAP_BUILDABLE_TEX_SCALE)
+            GAME_ENGINE.addEntity(new PaPBuildablePart((listOfPartsPos[i][0] - 10) * this.scale, (listOfPartsPos[i][1] - 10) * this.scale, anim, this))
+        }
+    }
+
+    hudText() {
+        if (this.partsLeft > 0) {
+            GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("Missing Parts: " + this.partsLeft + " left")
+        } else {
+            GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("Press F to create the Pack-a-Punch")
+        }
+    }
+
+    pickupPart() {
+        this.partsLeft--
+    }
+
+    use() {
+        if (this.partsLeft <= 0) {
+            this.createPaP()
+        }
+    }
+
+    createPaP() {
+        GAME_ENGINE.addEntity(new PackAPunch(this.posXOriginal, this.posYOriginal, GAME_ENGINE.camera.map))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/zmb_build_completed.mp3", 0.7))
+        this.removeFromWorld = true
+    }
+
+    draw() {
+        this.bb.drawBoundingBox()
+        this.bb_interact.drawBoundingBox("green")
+    }
+    update(){}
+}
+
+class PaPBuildablePart extends MapInteract {
+    constructor(posX, posY, pairedAnimator, pairedPaPBuildable) {
+        super()
+        Object.assign(this, {posX, posY, pairedAnimator, pairedPaPBuildable})
+        this.bb = new BoundingBox(0, 0, 1, 1)
+        this.bb_interact = new BoundingBox(this.posX, this.posY, 50, 50)
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+    }
+
+    use() {
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/zmb_build_add.mp3", 0.7))
+        this.pairedPaPBuildable.pickupPart()
+        this.removeFromWorld = true
+    }
+
+    hudText() {
+        GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText("Press F to pick up a Pack-a-Punch part")
+    }
+
+    draw() {
+        // this.pairedAnimator.drawFrame(this.posXOriginal, this.posYOriginal)
+        this.bb_interact.drawBoundingBox("green")
+    }
+    update() {}
 }
 
 class BGMPlayer {

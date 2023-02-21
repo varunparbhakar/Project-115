@@ -111,7 +111,7 @@ class Player extends GameObject {
         //Mouse
         this.angle = this.mouseRotationHandler() ;
 
-        //this.currentGun.shoot(GAME_ENGINE.camera.player.posX,GAME_ENGINE.camera.player.posY, this.angle)
+        //this.currentGun.shoot(GAME_ENGINE.camera.player.posXOriginal,GAME_ENGINE.camera.player.posYOriginal, this.angle)
         // console.log(this.sprintStamina + "\n" + this.sprintRest)
 
         //Sprint
@@ -515,8 +515,8 @@ class Player extends GameObject {
 //         this.type = type
 //         this.damage = damage
 //         //get rotation
-//         let dx = destPos[0] - this.posX
-//         let dy = destPos[1] - this.posY
+//         let dx = destPos[0] - this.posXOriginal
+//         let dy = destPos[1] - this.posYOriginal
 //         this.angle = Math.atan2(dy, dx)
 //     }
 //
@@ -524,12 +524,12 @@ class Player extends GameObject {
 //         //move (dont deltatime)
 //         var unitx = Math.cos(this.angle);
 //         var unity = Math.sin(this.angle);
-//         this.posX += unitx * this.size * 2
-//         this.posY += unity * this.size * 2
+//         this.posXOriginal += unitx * this.size * 2
+//         this.posYOriginal += unity * this.size * 2
 //
 //         //update collision
-//         this.bb.x = this.posX - (this.size/2)
-//         this.bb.y = this.posY - (this.size/2)
+//         this.bb.x = this.posXOriginal - (this.size/2)
+//         this.bb.y = this.posYOriginal - (this.size/2)
 //         this.bb.updateSides()
 //
 //         //check collide
@@ -542,7 +542,7 @@ class Player extends GameObject {
 //         })
 //
 //         //check if at destination
-//         if (Math.abs(this.posX - this.destPos[0]) < this.size * 2 && Math.abs(this.posY - this.destPos[1]) < this.size * 2) {
+//         if (Math.abs(this.posXOriginal - this.destPos[0]) < this.size * 2 && Math.abs(this.posYOriginal - this.destPos[1]) < this.size * 2) {
 //             this.pairedZombie.takeDamage(this.damage, this.type)
 //             this.removeFromWorld = true
 //         }

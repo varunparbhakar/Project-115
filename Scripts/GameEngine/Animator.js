@@ -1,6 +1,9 @@
 class Animator { //TODO add priority
     constructor(spritesheet, xStart, yStart, width, height, frameCount=1, frameDuration=1, scale=1, flippedX=false, flippedY=false) {
         Object.assign(this, {spritesheet, xStart, yStart, width, height, frameCount, frameDuration, scale, flippedX, flippedY});
+        if (!spritesheet instanceof Image) {
+            this.spritesheet = ASSET_MANAGER.getAsset(spritesheet)
+        }
 
         if (this.frameCount < 2) { //Static Image
             frameDuration = 1;

@@ -109,11 +109,11 @@ const BULLET_IMAGE_HEIGHT = 44
 const BULLET_DESPAWN_TIME = 10
 class Bullet extends Projectile {
     constructor(posX, posY, angle, damage, bulletspeed) {
-        // console.log("CONSTRUCTUR BULLET: " + posX + " " +  posY)
+        // console.log("CONSTRUCTUR BULLET: " + posXOriginal + " " +  posYOriginal)
         super(posX,posY, bulletImage, 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
 
-        // console.log(posX, posY)
-        // console.log(this.posX, this.posY)
+        // console.log(posXOriginal, posYOriginal)
+        // console.log(this.posXOriginal, this.posYOriginal)
 
         this.damage = damage
 
@@ -226,7 +226,7 @@ class Explosive extends Projectile {
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
                 GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, this.damage))
-                // entity.takeDamageExplosive(this.damage, [this.posX, this.posY])
+                // entity.takeDamageExplosive(this.damage, [this.posXOriginal, this.posYOriginal])
             }
         })
 
@@ -250,7 +250,7 @@ class ExplosiveQuickRevive extends Explosive {
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
                 GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, this.damage, ZOMBIE_DMG_NOPOINTS))
-                // entity.takeDamageExplosive(this.damage, [this.posX, this.posY])
+                // entity.takeDamageExplosive(this.damage, [this.posXOriginal, this.posYOriginal])
             }
         })
     }
@@ -329,7 +329,7 @@ class Grenade extends Projectile {
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
                 GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, GRANADE_DAMAGE, ZOMBIE_DMG_GRENADE))
-                // entity.takeDamageExplosive(GRANADE_DAMAGE, [this.posX, this.posY])
+                // entity.takeDamageExplosive(GRANADE_DAMAGE, [this.posXOriginal, this.posYOriginal])
             }
         })
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
@@ -448,8 +448,8 @@ class MuzzleFlash {
         }
 
         // //position randomness
-        // this.posX += (Math.random() * 2 - 1) * 5
-        // this.posY += (Math.random() * 2 - 1) * 5
+        // this.posXOriginal += (Math.random() * 2 - 1) * 5
+        // this.posYOriginal += (Math.random() * 2 - 1) * 5
     }
 
     update() {

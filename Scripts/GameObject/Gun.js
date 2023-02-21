@@ -2151,11 +2151,11 @@ class Gun_RayGun extends Gun_T_Explode { //Pistol
             GUN_Pistol
         )
     }
-    // shoot1(posX, posY, angle) { //handles recoil
+    // shoot1(posXOriginal, posYOriginal, angle) { //handles recoil
     //     GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
-    //     this.shoot2(posX, posY, angle)
+    //     this.shoot2(posXOriginal, posYOriginal, angle)
     //     this.currentRecoil += this.recoilIncreasePerClick;
-    //     this.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
+    //     this.spawnMuzzleFlash(posXOriginal, posYOriginal, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
     // }
 
     spawnMuzzleFlash(posX, posY, angle, specialFlash = "Assets/Images/Items/Muzzle_Flash_RayGun.png", w = 0, h = 0) {
@@ -2181,11 +2181,11 @@ class Gun_RayGun_PaP extends Gun_T_Explode { //Pistol
             GUN_Pistol
         )
     }
-    // shoot1(posX, posY, angle) { //handles recoil
+    // shoot1(posXOriginal, posYOriginal, angle) { //handles recoil
     //     GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
-    //     this.shoot2(posX, posY, angle)
+    //     this.shoot2(posXOriginal, posYOriginal, angle)
     //     this.currentRecoil += this.recoilIncreasePerClick;
-    //     this.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
+    //     this.spawnMuzzleFlash(posXOriginal, posYOriginal, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
     // }
 
     spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {

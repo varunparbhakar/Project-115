@@ -11,7 +11,7 @@ class GameObject { //Abstract
     // }
     //
     // draw() {
-    //     this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posX, this.posY);
+    //     this.animator.drawFrame(GAME_ENGINE.clockTick, GAME_ENGINE.ctx, this.posXOriginal, this.posYOriginal);
     // }
 
 }

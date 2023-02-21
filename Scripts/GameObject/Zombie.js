@@ -514,8 +514,8 @@ class RaycastZombies {
 //         this.type = type
 //         this.damage = damage
 //         //get rotation
-//         let dx = destPos[0] - this.posX
-//         let dy = destPos[1] - this.posY
+//         let dx = destPos[0] - this.posXOriginal
+//         let dy = destPos[1] - this.posYOriginal
 //         this.angle = Math.atan2(dy, dx)
 //     }
 //
@@ -523,12 +523,12 @@ class RaycastZombies {
 //         //move (dont deltatime)
 //         var unitx = Math.cos(this.angle);
 //         var unity = Math.sin(this.angle);
-//         this.posX += unitx * this.size
-//         this.posY += unity * this.size
+//         this.posXOriginal += unitx * this.size
+//         this.posYOriginal += unity * this.size
 //
 //         //update collision
-//         this.bb.x = this.posX - (this.size/2)
-//         this.bb.y = this.posY - (this.size/2)
+//         this.bb.x = this.posXOriginal - (this.size/2)
+//         this.bb.y = this.posYOriginal - (this.size/2)
 //         this.bb.updateSides()
 //
 //         //check collide
@@ -541,7 +541,7 @@ class RaycastZombies {
 //         })
 //
 //         //check if at destination
-//         if (Math.abs(this.posX - this.destPos[0]) < this.size * 2 && Math.abs(this.posY - this.destPos[1]) < this.size * 2) {
+//         if (Math.abs(this.posXOriginal - this.destPos[0]) < this.size * 2 && Math.abs(this.posYOriginal - this.destPos[1]) < this.size * 2) {
 //             this.pairedZombie.takeDamage(this.damage, this.type)
 //             this.removeFromWorld = true
 //         }
