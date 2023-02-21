@@ -1750,7 +1750,7 @@ class Gun_Kar98k extends Gun_T_Pierce {
             1, //fire cooldown
             2.5, //reload time
             MOVEMENT_PENALTY_LIGHT, //movement penalty
-            0.9, //recoil increase per fire
+            0.75, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             2, //Pierce count
@@ -1769,7 +1769,7 @@ class Gun_Kar98k_PaP extends Gun_T_Pierce {
             1, //fire cooldown
             2.5, //reload time
             MOVEMENT_PENALTY_LIGHT, //movement penalty
-            0.9, //recoil increase per fire
+            0.65, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
             2, //Pierce count
