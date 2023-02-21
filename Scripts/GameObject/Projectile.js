@@ -232,6 +232,7 @@ class Explosive extends Projectile {
 
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, this.damage))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Explode/tinitus.mp3", 0.15))
             // GAME_ENGINE.ent_Player.takeDamage(this.damage)
         }
     }
@@ -333,6 +334,7 @@ class Grenade extends Projectile {
         })
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
             GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Explode/tinitus.mp3", 0.9))
             // GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
             GAME_ENGINE.camera.startShake(5, 20)
         }

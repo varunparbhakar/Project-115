@@ -413,9 +413,9 @@ class WorldMap {
         let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampLeft1, spawner_SwampLeft2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
         ////////////Doors////////////
-        let door_Jug1 = new Door(1268, 1132, 56, 8, 750, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Door.png"), 0,0, 228, 114), 1268, 1128, this))
+        let door_Jug1 = new Door(1268, 1132, 56, 8, 1000, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Door.png"), 0,0, 228, 114), 1268, 1128, this))
         GAME_ENGINE.addEntity(door_Jug1)
-        let door_Jug2 = new Door(1621, 1128, 54, 11, 750, spawners_Jug, this)
+        let door_Jug2 = new Door(1621, 1128, 54, 11, 1000, spawners_Jug, this)
         GAME_ENGINE.addEntity(door_Jug2)
 
         let door_Mus1 = new Door(1299, 1420, 56, 10, 1000, spawners_Mus, this)
@@ -423,19 +423,19 @@ class WorldMap {
         let door_Mus2 = new Door(1291, 1812, 10, 56, 1000, [spawners_Mus, spawners_BL], this)
         GAME_ENGINE.addEntity(door_Mus2)
 
-        let door_BL1 = new Door(884, 1631, 147, 56, 2000, spawners_BL, this)
+        let door_BL1 = new Door(884, 1631, 147, 56, 1000, spawners_BL, this)
         GAME_ENGINE.addEntity(door_BL1)
 
-        let door_Bar1 = new Door(635, 1258, 41, 12, 2500, [spawners_Swamp, spawners_Bar], this)
+        let door_Bar1 = new Door(635, 1258, 41, 12, 1000, [spawners_Swamp, spawners_Bar], this)
         GAME_ENGINE.addEntity(door_Bar1)
-        let door_Bar2 = new Door(874, 1371, 11, 73, 5000, spawners_Bar, this)
+        let door_Bar2 = new Door(874, 1371, 11, 73, 2500, spawners_Bar, this)
         GAME_ENGINE.addEntity(door_Bar2)
-        let door_Bar3 = new Door(756, 1676, 57, 15, 2500, [spawners_BL, spawners_Bar], this)
+        let door_Bar3 = new Door(756, 1676, 57, 15, 1000, [spawners_BL, spawners_Bar], this)
         GAME_ENGINE.addEntity(door_Bar3)
 
-        let door_Swamp1 = new Door(964, 938, 115, 61, 2000, spawners_Swamp, this)
+        let door_Swamp1 = new Door(964, 938, 115, 61, 1000, spawners_Swamp, this)
         GAME_ENGINE.addEntity(door_Swamp1)
-        let door_Swamp2 = new Door(859, 1122, 32, 91, 2000, spawners_Swamp, this)
+        let door_Swamp2 = new Door(859, 1122, 32, 91, 1000, spawners_Swamp, this)
         GAME_ENGINE.addEntity(door_Swamp2)
 
         let door_Double1 = new Door(941, 499, 6, 42, 2000, [spawners_Swamp, spawners_DoubleTap], this)
@@ -488,7 +488,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new PerkMachine_DoubleTap(909, 674, 32, 47, this))
 
         ////////////MysteryBox///////////
-        GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428]], randomInt(0), this))
+        GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428], [1160, 1815]], randomInt(5), this))
 
         ///////////PaP///////////
         GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
@@ -757,8 +757,8 @@ class Barrier {
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.50, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
             let budgetResult = GAME_ENGINE.camera.map.roundManager.useBarrierBudget()
+            GAME_ENGINE.camera.startShake(0.1, 5)
             if (budgetResult != -1) {
-                GAME_ENGINE.camera.startShake(0.1, 5)
                 GAME_ENGINE.ent_Player.earnPoints(10)
                 GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/accept.mp3", MIXER_CASH_ACCEPT))
             }
@@ -1648,6 +1648,7 @@ class PowerUp_Nuke extends PowerUp {
         })
         GAME_ENGINE.ent_Player.earnPoints(400)
         GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3)
+        GAME_ENGINE.camera.map.roundManager.curr_ZombiesSpawnDelay = 5
     }
 }
 
