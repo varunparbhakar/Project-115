@@ -60,6 +60,14 @@ class WorldSound {
         this.aud.play()
     }
 
+    resumePlay() {
+        if (this.aud.paused) {
+            this.aud.play()
+        } else if (this.aud.ended) {
+            this.resetAndPlay()
+        }
+    }
+
     getVolume() {
         return this.aud.volume * GAME_ENGINE.globalVolume
     }

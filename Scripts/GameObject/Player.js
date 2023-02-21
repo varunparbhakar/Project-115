@@ -56,7 +56,7 @@ class Player extends GameObject {
         //Guns
         let startM1911 = new Gun_M1911()
         startM1911.currentTotalAmmo = 32
-        this.gunInventory = [startM1911, new Gun_RayGun()]; //[startM1911, new Gun_Empty()]
+        this.gunInventory = [startM1911]; //[startM1911, new Gun_Empty()]
         this.currentGunIndex = 0;
 
         //HP

@@ -1962,6 +1962,7 @@ class RoundManager {
         this.inRound = false
         this.curr_roundsUntilNextDog--
         console.log("ROUND ENDED")
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundEnd1.mp3"))
     }
 
     nextRound() {
@@ -1990,6 +1991,7 @@ class RoundManager {
         console.log("ROUND " + this.curr_Round)
         console.log("Z count: " + this.curr_ZombiesLeft)
         console.log("Z hp: " + this.curr_ZombiesHealth)
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundStart1.mp3"))
     }
 
     startDogRound() {
@@ -2020,6 +2022,7 @@ class RoundManager {
     }
 
     update() {
+        GAME_ENGINE.camera.map.bgmPlayer.resumeAmb()//TODO remove this call (after implementing title screen
         if (this.curr_Round === 0) return
         if (this.listOfEnabledSpawns.length === 0) return
         //Spawn Zombie
@@ -2104,6 +2107,10 @@ class BGMPlayer {
 
     playAmb() {
         this.ambAud.resetAndPlay()
+    }
+
+    resumeAmb() {
+        this.ambAud.resumePlay()
     }
 
     stopAmb() {
