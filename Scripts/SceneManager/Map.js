@@ -2105,7 +2105,7 @@ class RoundManager {
 
 class BGMPlayer {
     constructor() {
-        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 1, 1, 0, false)
+        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.925, 1, 0, false)
         // this.musAud = new Sound()
     }
 

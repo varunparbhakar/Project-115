@@ -58,7 +58,7 @@ class GunPNGCoords {
             ["M14", [0, 105, 55, 14, false, "Assets/Audio/SFX/Guns/M14/m14_Reload.mp3", "Assets/Audio/SFX/Guns/M14/m14_Shoot.mp3"]], //TODO snd
             ["Mnesia", [0, 105, 55, 14, true, "Assets/Audio/SFX/Guns/M14/m14_Reload.mp3"]],
 
-            ["Gewehr 43", [59, 86, 57, 15, false, "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Reload.mp3", "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Reload.mp3"]], //TODO snd
+            ["Gewehr 43", [59, 86, 57, 15, false, "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Reload.mp3", "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Shoot.mp3"]], //TODO snd
             ["G115 Compressor", [59, 86, 57, 15, true, "Assets/Audio/SFX/Guns/Gewehr 43/Gewehr_Reload.mp3"]],
 
             ["M1 Carbine", [117, 86, 52, 15, false, "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Reload.mp3", "Assets/Audio/SFX/Guns/M1-Carbine/M1-Carbine_Shoot.mp3"]], //TODO snd

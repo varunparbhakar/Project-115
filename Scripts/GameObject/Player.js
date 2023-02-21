@@ -32,6 +32,9 @@ const PLAYER_KNIFE_DISTANCE = 125;
 const PLAYER_KNIFE_RADIUS = 75;
 const PLAYER_KNIFE_DMG = 150;
 
+const PLAYER_FOOTSTEP_WALK = 0.5
+const PLAYER_FOOTSTEP_RUN = 0.26
+
 class Player extends GameObject {
     constructor(posX, posY) {
         super(posX, posY,
@@ -74,6 +77,8 @@ class Player extends GameObject {
         this.isKnifing = false
         //Grenade
         this.grenades = 2
+        //Footstep snd
+        this.footStepTimer = PLAYER_FOOTSTEP_WALK
 
         //Perks
         this.perk_hasJug = false
@@ -134,6 +139,8 @@ class Player extends GameObject {
             if (this.state !== ANIMATION_Reloading && this.state !== ANIMATION_Shooting && this.state !== ANIMATION_Melee) { //not while reloading or shooting
                 this.changeAnimation(ANIMATION_Walking)
             }
+            //footstep sound
+            this.footstepHandler()
         }
         //TODO fix diagonal being faster
         let movementVector = [0,0]
@@ -433,6 +440,20 @@ class Player extends GameObject {
                 }
             }
         })
+    }
+
+    footstepHandler() {
+        if (this.footStepTimer > 0) {
+            this.footStepTimer -= GAME_ENGINE.clockTick
+        } else {
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Footstep/ladder" + randomInt(5) + ".ogg", 0.15))
+            if (GAME_ENGINE.key_run) {
+                this.footStepTimer = PLAYER_FOOTSTEP_RUN
+            } else {
+                this.footStepTimer = PLAYER_FOOTSTEP_WALK
+            }
+            this.footStepTimer += (Math.random() - 0.5) * 0.05
+        }
     }
 
     addGrenades(amount) {
