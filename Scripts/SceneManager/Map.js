@@ -527,6 +527,19 @@ class MapLayer {
     }
 }
 
+class MapLayer_Power extends MapLayer {
+    constructor(animator, animatorPowerOff) {
+        super(animator)
+        this.animatorPowerOff = animatorPowerOff
+    }
+}
+
+class MapLayer_BackgroundPower extends MapLayer_Power {
+    constructor(animator, animatorOff) {
+        super(animator, animatorOff)
+    }
+}
+
 class MapLayer_Background extends MapLayer {
     constructor(animator) { super(animator)}
 }
