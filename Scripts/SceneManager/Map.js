@@ -696,7 +696,7 @@ class Barrier {
 
         this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 6, 1, 1, 1) //TODO this is hard coded scale based on img size of 260
 
-        this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.3, this.bb.x, this.bb.y, 700, false, 0, false)
+        this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.2, this.bb.x, this.bb.y, 700, false, 0, false)
         this.hoverSound2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, this.bb.x, this.bb.y, 1000, false, 0, false)
     }
 
