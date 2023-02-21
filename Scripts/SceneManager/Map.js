@@ -1587,7 +1587,7 @@ class PowerUp {
         if (GAME_ENGINE.ent_Player === null) return
         if (this.bb_interact.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
             this.givePowerUp()
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.15, this.posX, this.posY, 2000))
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.2, this.posX, this.posY, 2000))
             this.playGrabAudio()
             this.loopSound.aud.pause()
             this.removeFromWorld = true
@@ -1610,6 +1610,7 @@ class PowerUp_InstaKill extends PowerUp {
 
     givePowerUp() {
         GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer = 30 //secs
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill.mp3", MIXER_POWERUP * 0.7))
     }
 }
 
@@ -1620,6 +1621,7 @@ class PowerUp_DoublePoints extends PowerUp {
 
     givePowerUp() {
         GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer = 30 //secs
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints.mp3", MIXER_POWERUP * 0.7))
     }
 }
 
@@ -1634,6 +1636,7 @@ class PowerUp_MaxAmmo extends PowerUp {
             gun.currentTotalAmmo = gun.totalAmmo
         })
         GAME_ENGINE.ent_Player.grenades = 4
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/maxammo.mp3", MIXER_POWERUP))
     }
 }
 
@@ -1648,7 +1651,8 @@ class PowerUp_Nuke extends PowerUp {
         })
         GAME_ENGINE.ent_Player.earnPoints(400)
         GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3)
-        GAME_ENGINE.camera.map.roundManager.curr_ZombiesSpawnDelay = 5
+        GAME_ENGINE.camera.map.roundManager.curr_ZombiesSpawnDelay = 10
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke.mp3", MIXER_POWERUP))
     }
 }
 
@@ -1663,6 +1667,7 @@ class PowerUp_Carpenter extends PowerUp {
                 entity.hp = BARRIER_MAX_HP
             }
         })
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/carpenter.mp3", MIXER_POWERUP))
     }
 }
 
