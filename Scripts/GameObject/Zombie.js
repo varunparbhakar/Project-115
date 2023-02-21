@@ -37,6 +37,7 @@ const ZOMBIE_DESPAWN_ASTAR_LIMIT = 7
 
 const ZOMBIE_VOX_TIMER = 5
 const ZOMBIE_VOX_TIMER_RANDOM = 15
+const ZOMBIE_VOX_RADIUS = 3000
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
@@ -84,7 +85,8 @@ class Zombie extends GameObject {
         this.angle = 0;
 
         //vox
-        this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
+        this.voxTimer = randomInt(ZOMBIE_VOX_TIMER)
+        this.aud = new WorldSound("/", 1, 0,0, ZOMBIE_VOX_RADIUS)
     }
 
     saveLastBB() {
@@ -137,6 +139,7 @@ class Zombie extends GameObject {
         }
 
         if (this.despawnTimer <= 0 || this.despawnAStarTries <= 0) {
+            this.aud.soundDeleteGarbageCollect()
             this.removeFromWorld = true
             GAME_ENGINE.camera.map.roundManager.spawn()
             console.log("respawning")
@@ -378,6 +381,7 @@ class Zombie extends GameObject {
             }
             this.trySpawnPowerUp()
             GAME_ENGINE.camera.map.roundManager.reportKill()
+            this.aud.soundDeleteGarbageCollect()
             this.removeFromWorld = true
         } else { //else non lethal hit
             switch (type) {
@@ -422,18 +426,25 @@ class Zombie extends GameObject {
     }
 
     voxHandler() {
-        if (this.removeFromWorld) {return}
+        this.aud.posX = this.posX
+        this.aud.posY = this.posY
+        this.aud.update()
         if (this.voxTimer > 0) {
             this.voxTimer -= GAME_ENGINE.clockTick
-        } else { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
-            let formattedNumber = randomInt(10).toLocaleString('en-US', {
-                minimumIntegerDigits: 2,
-                useGrouping: false
-            })
-            console.log(formattedNumber)
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Vox/Zombies/zombie_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, this.posX, this.posY, 4000))
+        } else {
+            this.voxSetupNewSrc()
+            this.aud.resetAndPlay()
             this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
         }
+    }
+
+    voxSetupNewSrc() {
+        //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
+        let formattedNumber = randomInt(10).toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false
+        })
+        this.aud.aud.src = "Assets/Audio/Vox/Zombies/zombie_" + formattedNumber + ".mp3"
     }
 }
 

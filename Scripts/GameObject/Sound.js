@@ -101,15 +101,18 @@ class WorldSound {
     update() {
         this.setVolume(this.getVolumeToPlayer() * this.volume)
         if (this.aud.ended) {
-            console.log("del Sound")
-            this.aud.srcObject = null
-            this.aud.remove()
+            this.soundDeleteGarbageCollect()
             this.removeFromWorld = true;
         }
     }
 
     draw() {
 
+    }
+
+    soundDeleteGarbageCollect() {
+        this.aud.srcObject = null
+        this.aud.remove()
     }
 }
 
@@ -120,8 +123,7 @@ class Sound extends WorldSound {
 
     update() {
         if (this.aud.ended) {
-            this.aud.srcObject = null
-            this.aud.remove()
+            this.soundDeleteGarbageCollect()
             this.removeFromWorld = true;
         }
     }
@@ -143,4 +145,9 @@ class SoundTest extends WorldSound {
     constructor() {
         super("Assets/Audio/SFX/Guns/Ray Gun.mp3", 1, GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, 2000)
     }
+}
+
+const soundDeleteGarbageCollect = (sound) => {
+    sound.srcObject = null
+    sound.aud.remove()
 }
