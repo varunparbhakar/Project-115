@@ -413,7 +413,7 @@ class WorldMap {
         let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampLeft1, spawner_SwampLeft2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
         ////////////Doors////////////
-        let door_Jug1 = new Door(1268, 1132, 56, 8, 750, spawners_Jug, this)
+        let door_Jug1 = new Door(1268, 1132, 56, 8, 750, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Items/Door.png"), 0,0, 228, 114), 1268, 1128, this))
         GAME_ENGINE.addEntity(door_Jug1)
         let door_Jug2 = new Door(1621, 1128, 54, 11, 750, spawners_Jug, this)
         GAME_ENGINE.addEntity(door_Jug2)
@@ -817,7 +817,7 @@ class Door extends MapInteract {
         this.isLocked = true //TODO remove if not needed
 
         if (mapInteractAnimator == null) {
-            this.animator = new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Characters/Boss/Panzer_Soldat.png"), 0,0, 200, 200), this.bb.x, this.bb.y)
+            this.animator = new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Items/Door.png"), 0,0, 228, 114), this.bb.x, this.bb.y, null)
         } else {
             this.animator = mapInteractAnimator
         }
@@ -862,8 +862,12 @@ class Door extends MapInteract {
 }
 
 class MapInteractAnimator {
-    constructor(animator, posX, posY) {
+    constructor(animator, posX, posY, map) {
         Object.assign(this, {animator, posX, posY})
+        if (map != null) {
+            this.posX = posX * map.scale
+            this.posY = posY * map.scale
+        }
     }
 
     draw() {

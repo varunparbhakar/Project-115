@@ -2,7 +2,8 @@ const GAME_ENGINE = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 
-var lines = ["Assets/Images/Characters/Boss/Panzer_Soldat.png",
+var lines = [
+	"Assets/Images/Characters/Boss/Panzer_Soldat.png",
 "Assets/Images/Characters/Heroes/Animations/Gernade/Gernade Animation.png",
 "Assets/Images/Characters/Heroes/Animations/Idle/AR/Rifle_IDLE.png",
 "Assets/Images/Characters/Heroes/Animations/Idle/Pistol/idle.png",
