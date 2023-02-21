@@ -52,7 +52,8 @@ var lines = [
 "Assets/Images/Map/PowerSwitch_Sprite.png",
 "Assets/Images/Map/Zombie Dirt Spawning SpriteSheet.png",
 "Assets/Images/Map/barrierLow.png",
-"Assets/Images/Map/Levels/DLC1_light.png"]
+"Assets/Images/Map/Levels/DLC1_light.png",
+"Assets/Images/Map/Door.png", ]
 
 for (let i = 0; i < lines.length; i++) {
 	ASSET_MANAGER.queueDownload(lines[i])
