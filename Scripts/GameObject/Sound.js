@@ -6,6 +6,7 @@ const MIXER_GUNRELOAD_VOL = 0.2
 const MIXER_CASH_ACCEPT = 0.2
 const MIXER_POWERUP = 0.4
 const MIXER_ZOMBIE_VOX = 0.8
+const MIXER_MAXIMUM_PAN = 0.8
 
 class WorldSound {
     constructor(path, volume=1,
@@ -38,6 +39,41 @@ class WorldSound {
         this.volume = this.setVolume(volume) //for getDistance to player
         this.aud.volume = this.volume
         this.aud.currentTime = startTime
+
+        //panning
+        this.audCtx = new AudioContext()
+        this.audCtx.listener.positionX.value = 0
+        this.audCtx.listener.positionY.value = 0
+        this.audCtx.listener.forwardX.value = 0;
+        this.audCtx.listener.forwardY.value = 0;
+        this.audCtx.listener.forwardZ.value = -1;
+        this.audCtx.listener.upX.value = 0;
+        this.audCtx.listener.upY.value = 1;
+        this.audCtx.listener.upZ.value = 0;
+        this.panner = new PannerNode(this.audCtx, {
+            panningModel: "HRTF",
+            distanceModel: "linear",
+            positionX: 0,
+            positionY: 0,
+            positionZ: 50,
+            orientationX: 0.0,
+            orientationY: 0.0,
+            orientationZ: -1.0,
+            refDistance: 1,
+            maxDistance: 20000,
+            rolloffFactor: 10,
+            coneInnerAngle: 40,
+            coneOuterAngle: 90,
+            coneOuterGain: 0.4,
+        })
+        this.track = new MediaElementAudioSourceNode(this.audCtx, {
+            mediaElement: this.aud,
+        });
+        this.track
+            .connect(this.panner)
+            .connect(this.audCtx.destination)
+
+        this.audCtx.resume()
 
         if (playNow) {
             this.aud.play()
@@ -91,19 +127,32 @@ class WorldSound {
         let x = GAME_ENGINE.ent_Player.posX
         let y = GAME_ENGINE.ent_Player.posY
         let distance = Math.sqrt(((this.posX - x) * (this.posX - x)) + ((this.posY - y) * (this.posY - y)))
-        return distance;
+        return distance
     }
+
+    getDistanceToPlayerXY() {
+        let x = GAME_ENGINE.ent_Player.posX
+        let y = GAME_ENGINE.ent_Player.posY
+        return [-1 * (this.posX - x) * 0.2, (this.posY - y)] //yes, x is inverted
+    }
+
 
     getVolumeToPlayer() {
         return Math.pow( this.radius - this.getDistanceToPlayer(), 3) / Math.pow(this.radius,3)
     }
 
     update() {
-        this.setVolume(this.getVolumeToPlayer() * this.volume)
+        this.setPan(this.getDistanceToPlayerXY())
+        // this.setVolume(this.getVolumeToPlayer() * this.volume)
         if (this.aud.ended) {
             this.soundDeleteGarbageCollect()
             this.removeFromWorld = true;
         }
+    }
+
+    setPan(posXY) {
+        this.audCtx.listener.positionX.value = posXY[0]
+        this.audCtx.listener.positionY.value = posXY[1]
     }
 
     draw() {
@@ -111,6 +160,9 @@ class WorldSound {
     }
 
     soundDeleteGarbageCollect() {
+        if (this.audCtx != null) {
+            this.audCtx.close()
+        }
         this.aud.srcObject = null
         this.aud.remove()
     }
