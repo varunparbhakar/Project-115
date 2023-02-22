@@ -471,7 +471,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new WallBuyTrigger(1434, 1536, 12, 30, "FN FAL", 1200, this))
         GAME_ENGINE.addEntity(new WallBuyImage(1434, 1536, "W", "FN FAL", 3.5, this))
 
-        GAME_ENGINE.addEntity(new WallBuyTrigger(717, 1360, 46, 14, "M16", 1200, this))
+        GAME_ENGINE.addEntity(new WallBuyTrigger(823, 1271, 46, 14, "M16", 1200, this))
         GAME_ENGINE.addEntity(new WallBuyImage(823, 1271, "S", "M16", 3.5, this))
 
         GAME_ENGINE.addEntity(new WallBuyTrigger(1085, 1809, 43, 12, "Stakeout", 1500, this))
@@ -497,7 +497,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new PerkMachine_DoubleTap(909, 674, 32, 47, this))
 
         ////////////MysteryBox///////////
-        GAME_ENGINE.addEntity(new MysteryBox([[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]], randomInt(4) + 1, this))
+        GAME_ENGINE.addEntity(new MysteryBox([[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]], randomInt(4) + 1, this)) //[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]
 
         ///////////PaP///////////
         // GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
@@ -1098,8 +1098,8 @@ class WallBuyImage {
 MYSTERYBOX_SPINS_UNTIL_TEDDY = 15 //15
 MYSTERYBOX_BB_WIDTH = 85
 MYSTERYBOX_BB_HEIGHT = 30
-MYSTERYBOX_ROLL_TIME = 5
-MYSTERYBOX_OFFER_TIME = 10
+MYSTERYBOX_ROLL_TIME = 5 //5
+MYSTERYBOX_OFFER_TIME = 10 //10
 MYSTERYBOX_SPAM_PREVENT_TIME = 2
 MYSTERYBOX_COST = 950 //950
 MYSTERYBOX_IMG_PATH = "Assets/Images/Map/MysteryBox_Sprite.png"
@@ -1135,11 +1135,11 @@ class MysteryBox extends MapInteract {
     }
 
     setSpinsUntilTeddy() {
-        this.curr_spinsUntilTeddy = 0//MYSTERYBOX_SPINS_UNTIL_TEDDY - randomInt(6)
+        this.curr_spinsUntilTeddy = MYSTERYBOX_SPINS_UNTIL_TEDDY - randomInt(6)
     }
 
     changeLocation() {
-        this.bb = new BoundingBox(this.curr_Pos[0] * this.scale , this.curr_Pos[1] * this.scale , MYSTERYBOX_BB_WIDTH * 3.75 , MYSTERYBOX_BB_HEIGHT * 3.75)
+        this.bb = new BoundingBox(this.curr_Pos[0] * this.scale , this.curr_Pos[1] * this.scale, MYSTERYBOX_BB_WIDTH * 3.75 , MYSTERYBOX_BB_HEIGHT * 3.75)
         this.bb_interact = new BoundingBox((this.curr_Pos[0] - 3)  * this.scale, (this.curr_Pos[1] - 3) * this.scale , (MYSTERYBOX_BB_WIDTH + 6) * 3.75 , (MYSTERYBOX_BB_HEIGHT + 6) * 3.75)
         this.bb.updateSides()
         this.bb_interact.updateSides()
@@ -1181,6 +1181,8 @@ class MysteryBox extends MapInteract {
                             } while ((nameOfGunsInInventory.includes(this.curr_GunOffer.name) ))
                         }
                     } else {
+                        let center = this.bb.getCenteredPos()
+                        GAME_ENGINE.addEntity(new Sound("Assets/Audio/MysteryBox/child.mp3", 0.45))
                         this.state = 4
                         this.curr_GunOffer = null
                     }
@@ -1200,8 +1202,15 @@ class MysteryBox extends MapInteract {
                 break
             case 4: //teddy
                 if (this.stateCooldownTimer <= 0) {
-                    this.curr_Pos = this.locationsPos[this.cuur_PosIndex + ((randomInt(this.locationsPos.length - 1) + 1) % this.locationsPos.length)]
-                    this.setSpinsUntilTeddy()
+                    let center = this.bb.getCenteredPos()
+                    GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/MysteryBox/poof_00.mp3", 0.5, center[0], center[1], 2000))
+                    // this.curr_Pos = this.locationsPos[(this.cuur_PosIndex + randomInt(this.locationsPos.length - 1) + 1) % (this.locationsPos.length)]
+                    let nextIndex = 0
+                    do {
+                        nextIndex = randomInt(this.locationsPos.length)
+                    } while(this.cuur_PosIndex == nextIndex)
+                    this.cuur_PosIndex = nextIndex
+                    this.curr_Pos = this.locationsPos[this.cuur_PosIndex]
                     this.changeLocation()
                     this.state = 0
                 }
