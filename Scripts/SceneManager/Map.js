@@ -518,6 +518,7 @@ class WorldMap {
 
         ////////////BGM////////////
         this.bgmPlayer = new BGMPlayer()
+        GAME_ENGINE.addEntity(this.bgmPlayer)
         this.bgmPlayer.playAmb()
     }
 }
@@ -1321,8 +1322,10 @@ class PowerSwitch extends MapInteract {
             this.power = true
             this.animator.xStart = this.animator.width
 
-            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power.mp3", 0.75))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power.mp3", 0.6))
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/powerOn.mp3", 1))
+            GAME_ENGINE.camera.map.bgmPlayer.duckAmbForSec(20)
 
             GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(1)
 
@@ -2267,6 +2270,9 @@ class BGMPlayer {
     constructor() {
         this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.925, 1, 0, false)
         // this.musAud = new Sound()
+
+        this.duckTimer = 0
+        this.duckMax = 0
     }
 
     playAmb() {
@@ -2286,11 +2292,19 @@ class BGMPlayer {
 
     }
 
-    // update() {
-    //
-    // }
-    //
-    // draw() {
-    //
-    // }
+    duckAmbForSec(sec) {
+        this.duckTimer = sec
+        this.duckTimerMax = sec
+    }
+
+    update() {
+        if (this.duckTimer > 0) {
+            this.duckTimer -= GAME_ENGINE.clockTick
+            this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume)
+        }
+    }
+
+    draw() {
+
+    }
 }

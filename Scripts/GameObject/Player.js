@@ -136,7 +136,7 @@ class Player extends GameObject {
 
         //WASD Move
         if(GAME_ENGINE.key_up || GAME_ENGINE.key_down || GAME_ENGINE.key_left || GAME_ENGINE.key_right) {
-            if (this.state !== ANIMATION_Reloading && this.state !== ANIMATION_Shooting && this.state !== ANIMATION_Melee) { //not while reloading or shooting
+            if (this.state !== ANIMATION_Reloading && this.state !== ANIMATION_Shooting && this.state !== ANIMATION_Melee && this.state !== ANIMATION_Grenade) { //not while reloading or shooting
                 this.changeAnimation(ANIMATION_Walking)
             }
             //footstep sound
@@ -161,19 +161,19 @@ class Player extends GameObject {
         this.posY += movementVector[1] * this.speed * GAME_ENGINE.clockTick;
 
         //Shoot
-        if (GAME_ENGINE.left_click) {
+        if (GAME_ENGINE.left_click && this.state !== ANIMATION_Grenade && this.state != ANIMATION_Melee) {
             if (this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)) {
                 this.changeAnimation(ANIMATION_Shooting, this.gunInventory[this.currentGunIndex].maxFireCooldown)
             }
         }
         //Reload
-        if (GAME_ENGINE.key_reload) {
+        if (GAME_ENGINE.key_reload && this.state !== ANIMATION_Grenade && this.state != ANIMATION_Melee) {
             if (this.gunInventory[this.currentGunIndex].reload()) {
                 this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].getReloadCooldown())
             }
         }
         //Knifing
-        if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee && this.state != ANIMATION_Shooting) {
+        if (GAME_ENGINE.right_click && this.state !== ANIMATION_Reloading && this.state != ANIMATION_Melee && this.state != ANIMATION_Shooting && this.state != ANIMATION_Grenade) {
             if (this.state !== ANIMATION_Melee) {
                 this.knifeCooldownUntilAttack = PLAYER_KNIFE_COOLDOWN - 0.45
                 this.changeAnimation(ANIMATION_Melee, PLAYER_KNIFE_COOLDOWN)
@@ -190,7 +190,7 @@ class Player extends GameObject {
         //key_use is embedded in places that needs it to avoid always checking on update
         //Grenades
         if (GAME_ENGINE.key_grenade && this.grenades > 0 && (this.state === ANIMATION_Walking || this.state === ANIMATION_Idle)) { //TODO cooldown via GRENADE animations
-            this.changeAnimation(ANIMATION_Melee)
+            this.changeAnimation(ANIMATION_Grenade)
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Explode/pin.mp3", 0.2))
             this.grenades--
             GAME_ENGINE.addEntity(new Grenade(this.posX, this.posY, this.angle))
@@ -259,6 +259,12 @@ class Player extends GameObject {
                 this.state = ANIMATION_Melee
                 // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Melee]
                 this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex].animationType][ANIMATION_Melee]
+                this.animator.finishedAnimation = false
+                break
+            case(ANIMATION_Grenade) :
+                this.state = ANIMATION_Grenade
+                // this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex]][ANIMATION_Melee]
+                this.animator = this.animationMatrix[this.gunInventory[this.currentGunIndex].animationType][ANIMATION_Grenade]
                 this.animator.finishedAnimation = false
                 break
         }
