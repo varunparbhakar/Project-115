@@ -149,10 +149,18 @@ class WorldMap {
         this.playerSpawnX = 1200 * this.scale
         this.playerSpawnY = 1244 * this.scale
         //MapLayers
-        let asset_back = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1.png")
-        GAME_ENGINE.addEntity(new MapLayer_Background(new Animator(asset_back, 0, 0, asset_back.width, asset_back.height, 1, 1, this.scale)))
-        let asset_light = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_light.png")
-        GAME_ENGINE.addEntity(new MapLayer_Foreground(new Animator(asset_light, 0, 0, asset_light.width, asset_light.height, 1, 1, this.scale)))
+        let asset_backPowerOn = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1.png")
+        let anim_backPowerOn = new Animator(asset_backPowerOn, 0, 0, asset_backPowerOn.width, asset_backPowerOn.height, 1, 1, this.scale)
+        let asset_backPowerOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/Map1.png")
+        let anim_backPowerOff = new Animator(asset_backPowerOff, 0, 0, asset_backPowerOff.width, asset_backPowerOff.height, 1, 1, this.scale)
+        GAME_ENGINE.addEntity(new MapLayer_BackgroundPower(anim_backPowerOn, anim_backPowerOff)) //Background
+
+        let asset_lightPowerOn = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_light.png")
+        let anim_lightPowerOn = new Animator(asset_lightPowerOn, 0, 0, asset_lightPowerOn.width, asset_lightPowerOn.height, 1, 1, this.scale)
+        let asset_lightPowerOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_light.png")
+        let anim_lightPowerOff = new Animator(asset_lightPowerOff, 0, 0, asset_lightPowerOff.width, asset_lightPowerOff.height, 1, 1, this.scale)
+        GAME_ENGINE.addEntity(new MapLayer_ForegroundPower(anim_lightPowerOn, anim_lightPowerOff)) //Foreground
+
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
         GAME_ENGINE.addEntity(new MapBB(683, 491, 281, 10, this, true)) //Top Fence
@@ -528,15 +536,26 @@ class MapLayer {
 }
 
 class MapLayer_Power extends MapLayer {
-    constructor(animator, animatorPowerOff) {
-        super(animator)
-        this.animatorPowerOff = animatorPowerOff
+    constructor(animatorPowerOn, animatorPowerOff) {
+        super(animatorPowerOff)
+        this.animatorPowerOn = animatorPowerOn
+    }
+
+    onPower() {
+        console.log("REACHED MAP")
+        this.animator = this.animatorPowerOn
     }
 }
 
 class MapLayer_BackgroundPower extends MapLayer_Power {
-    constructor(animator, animatorOff) {
-        super(animator, animatorOff)
+    constructor(animatorPowerOn, animatorPowerOff) {
+        super(animatorPowerOn, animatorPowerOff)
+    }
+}
+
+class MapLayer_ForegroundPower extends MapLayer_Power {
+    constructor(animatorPowerOn, animatorPowerOff) {
+        super(animatorPowerOn, animatorPowerOff)
     }
 }
 
@@ -1299,8 +1318,16 @@ class PowerSwitch extends MapInteract {
 
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/power.mp3", 0.6, this.bb.x, this.bb.y, 2000))
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
+
+            //onPower()
             GAME_ENGINE.ent_MapObjects.forEach((entity) => {
                 if (entity instanceof PerkMachine) {
+                    entity.onPower()
+                }
+            })
+            GAME_ENGINE.ent_MapBackground.onPower()
+            GAME_ENGINE.ent_MapForeground.forEach((entity) => {
+                if (entity instanceof MapLayer_Power) {
                     entity.onPower()
                 }
             })

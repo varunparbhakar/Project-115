@@ -241,9 +241,9 @@ class GameEngine {
             entity instanceof SpawnerGroundDigParticle
         ) {
             this.ent_MapObjects.push(entity)
-        } else if (entity instanceof MapLayer_Background) {
+        } else if (entity instanceof MapLayer_Background || entity instanceof MapLayer_BackgroundPower) {
             this.ent_MapBackground = entity
-        } else if (entity instanceof MapLayer_Foreground || entity instanceof Glow) {
+        } else if (entity instanceof MapLayer_Foreground || entity instanceof MapLayer_ForegroundPower || entity instanceof Glow) {
             this.ent_MapForeground.push(entity)
         } else if (entity instanceof Player) {
             this.ent_Player = entity
