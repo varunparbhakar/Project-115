@@ -1131,10 +1131,11 @@ class MysteryBox extends MapInteract {
         this.glow = new Glow(center[0], center[1], 15, rgb(255, 255, 255), 0.3)
         GAME_ENGINE.addEntity(this.glow)
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,3.75,false, false)
+        this.animatorTeddy = new Animator(ASSET_MANAGER.getAsset("Assets/Images/Items/Just_Cartoon_Teddy.png"), 0,0, 232, 340, 1, 1, 0.35)
     }
 
     setSpinsUntilTeddy() {
-        this.curr_spinsUntilTeddy = MYSTERYBOX_SPINS_UNTIL_TEDDY - randomInt(6)
+        this.curr_spinsUntilTeddy = 0//MYSTERYBOX_SPINS_UNTIL_TEDDY - randomInt(6)
     }
 
     changeLocation() {
@@ -1181,7 +1182,6 @@ class MysteryBox extends MapInteract {
                         }
                     } else {
                         this.state = 4
-                        this.curr_GunTexture = [0,0,100,100] //TODO teddy image
                         this.curr_GunOffer = null
                     }
                 }
@@ -1198,7 +1198,7 @@ class MysteryBox extends MapInteract {
                     this.state = 0
                 }
                 break
-            case 4:
+            case 4: //teddy
                 if (this.stateCooldownTimer <= 0) {
                     this.curr_Pos = this.locationsPos[this.cuur_PosIndex + ((randomInt(this.locationsPos.length - 1) + 1) % this.locationsPos.length)]
                     this.setSpinsUntilTeddy()
@@ -1218,12 +1218,14 @@ class MysteryBox extends MapInteract {
         switch (this.state) {
             case 1:
             case 2:
-            case 4:
                 this.animatorGun.xStart = this.curr_GunTexture[0]
                 this.animatorGun.yStart = this.curr_GunTexture[1]
                 this.animatorGun.width = this.curr_GunTexture[2]
                 this.animatorGun.height = this.curr_GunTexture[3]
                 this.animatorGun.drawFrame(centerPos[0] - (this.curr_GunTexture[2]/2 * this.animatorGun.scale), centerPos[1] - (this.curr_GunTexture[3]/2 * this.animatorGun.scale))
+                break
+            case 4:
+                this.animatorTeddy.drawFrame(centerPos[0] - (this.animatorTeddy.width/2 * this.animatorTeddy.scale), centerPos[1] - (this.animatorTeddy.height/2 * this.animatorTeddy.scale))
                 break
         }
        this.bb.drawBoundingBox("red")
@@ -2273,6 +2275,8 @@ class BGMPlayer {
 
         this.duckTimer = 0
         this.duckMax = 0
+
+        // this.eePartsLeft = 3
     }
 
     playAmb() {
@@ -2307,4 +2311,11 @@ class BGMPlayer {
     draw() {
 
     }
+
+    // pickUpEEPart() {
+    //     this.eePartsLeft--
+    //     if (this.eePartsLeft <= 0) {
+    //         // this.
+    //     }
+    // }
 }

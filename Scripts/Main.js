@@ -59,6 +59,7 @@ var lines = [
 	"Assets/Images/Map/Pack_A_Punch_part_2.png",
 	"Assets/Images/Map/Pack_A_Punch_part_3.png",
 	"Assets/Images/Map/Pack_A_Punch_part_4.png",
+	"Assets/Images/Items/Just_Cartoon_Teddy.png",
 "Assets/Images/Map/Door.png", ]
 
 for (let i = 0; i < lines.length; i++) {
