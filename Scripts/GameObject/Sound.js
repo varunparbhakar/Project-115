@@ -6,7 +6,7 @@ const MIXER_GUNRELOAD_VOL = 0.2
 const MIXER_CASH_ACCEPT = 0.2
 const MIXER_POWERUP = 0.4
 const MIXER_ZOMBIE_VOX = 0.8
-const MIXER_MAXIMUM_PAN = 0.8
+const MIXER_MAXIMUM_PAN_DISTANCE = 550 //passing this px, it will go pan
 
 class WorldSound {
     constructor(path, volume=1,
@@ -42,29 +42,33 @@ class WorldSound {
 
         //panning
         this.audCtx = new AudioContext()
-        this.audCtx.listener.positionX.value = 0
-        this.audCtx.listener.positionY.value = 0
-        this.audCtx.listener.forwardX.value = 0;
-        this.audCtx.listener.forwardY.value = 0;
-        this.audCtx.listener.forwardZ.value = -1;
-        this.audCtx.listener.upX.value = 0;
-        this.audCtx.listener.upY.value = 1;
-        this.audCtx.listener.upZ.value = 0;
-        this.panner = new PannerNode(this.audCtx, {
-            panningModel: "HRTF",
-            distanceModel: "linear",
-            positionX: 0,
-            positionY: 0,
-            positionZ: 50,
-            orientationX: 0.0,
-            orientationY: 0.0,
-            orientationZ: -1.0,
-            refDistance: 1,
-            maxDistance: 20000,
-            rolloffFactor: 10,
-            coneInnerAngle: 40,
-            coneOuterAngle: 90,
-            coneOuterGain: 0.4,
+        // this.audCtx.listener.positionX.value = 0
+        // this.audCtx.listener.positionY.value = 0
+        // this.audCtx.listener.forwardX.value = 0;
+        // this.audCtx.listener.forwardY.value = 0;
+        // this.audCtx.listener.forwardZ.value = -1;
+        // this.audCtx.listener.upX.value = 0;
+        // this.audCtx.listener.upY.value = 1;
+        // this.audCtx.listener.upZ.value = 0;
+        // this.panner = new PannerNode(this.audCtx, {
+        //     panningModel: "HRTF",
+        //     distanceModel: "linear",
+        //     // positionX: 0,
+        //     // positionY: 0,
+        //     // positionZ: 50,
+        //     // orientationX: 0.0,
+        //     // orientationY: 0.0,
+        //     // orientationZ: 0.0,
+        //     // refDistance: 1,
+        //     // maxDistance: 2000,
+        //     // rolloffFactor: 10,
+        //     // coneInnerAngle: 40,
+        //     // coneOuterAngle: 90,
+        //     // coneOuterGain: 0.4,
+        // })
+        this.panner = new StereoPannerNode(this.audCtx, {
+            channelCount: 2,
+            channelInterpretation: "discrete"
         })
         this.track = new MediaElementAudioSourceNode(this.audCtx, {
             mediaElement: this.aud,
@@ -133,7 +137,9 @@ class WorldSound {
     getDistanceToPlayerXY() {
         let x = GAME_ENGINE.ent_Player.posX
         let y = GAME_ENGINE.ent_Player.posY
-        return [-1 * (this.posX - x) * 0.5, (this.posY - y)] //yes, x is inverted
+        console.log(-1 * ((this.posX - x) / 1000))
+        return [(this.posX - x), (this.posY - y)] //yes, x is inverted
+        // return [-1 * ((this.posX - x) / 1000), (this.posY - y)] //yes, x is inverted
     }
 
 
@@ -142,8 +148,8 @@ class WorldSound {
     }
 
     update() {
+        this.setVolume(this.getVolumeToPlayer() * this.volume)
         this.setPan(this.getDistanceToPlayerXY())
-        // this.setVolume(this.getVolumeToPlayer() * this.volume)
         if (this.aud.ended) {
             this.soundDeleteGarbageCollect()
             this.removeFromWorld = true;
@@ -151,8 +157,10 @@ class WorldSound {
     }
 
     setPan(posXY) {
-        this.audCtx.listener.positionX.value = posXY[0]
-        this.audCtx.listener.positionY.value = posXY[1]
+        // this.audCtx.listener.positionX.value = -1 * posXY[0]
+        // this.audCtx.listener.positionY.value = posXY[1]
+
+        this.panner.pan.value = Math.max(Math.min(posXY[0] / MIXER_MAXIMUM_PAN_DISTANCE, -1), 1)
     }
 
     draw() {
