@@ -148,18 +148,19 @@ class WorldMap {
         this.scale = 4.25
         this.playerSpawnX = 1200 * this.scale
         this.playerSpawnY = 1244 * this.scale
-        //MapLayers
-        let asset_backPowerOn = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1.png")
-        let anim_backPowerOn = new Animator(asset_backPowerOn, 0, 0, asset_backPowerOn.width, asset_backPowerOn.height, 1, 1, this.scale)
-        let asset_backPowerOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1.png")
-        let anim_backPowerOff = new Animator(asset_backPowerOff, 0, 0, asset_backPowerOff.width, asset_backPowerOff.height, 1, 1, this.scale)
-        GAME_ENGINE.addEntity(new MapLayer_BackgroundPower(anim_backPowerOn, anim_backPowerOff)) //Background
 
-        let asset_lightPowerOn = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_light.png")
-        let anim_lightPowerOn = new Animator(asset_lightPowerOn, 0, 0, asset_lightPowerOn.width, asset_lightPowerOn.height, 1, 1, this.scale)
-        let asset_lightPowerOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_light.png")
-        let anim_lightPowerOff = new Animator(asset_lightPowerOff, 0, 0, asset_lightPowerOff.width, asset_lightPowerOff.height, 1, 1, this.scale)
-        GAME_ENGINE.addEntity(new MapLayer_ForegroundPower(anim_lightPowerOn, anim_lightPowerOff)) //Foreground
+        //MapLayers
+        let asset_BackOn = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_BackOn.png")
+        let anim_BackOn = new Animator(asset_BackOn, 0, 0, asset_BackOn.width, asset_BackOn.height, 1, 1, this.scale)
+        let asset_BackOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_BackOn.png")
+        let anim_BackOff = new Animator(asset_BackOff, 0, 0, asset_BackOff.width, asset_BackOff.height, 1, 1, this.scale)
+        GAME_ENGINE.addEntity(new MapLayer_BackgroundPower(anim_BackOn, anim_BackOff)) //Background
+
+        let asset_ForeOn = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_ForeOn.png")
+        let anim_ForeOn = new Animator(asset_ForeOn, 0, 0, asset_ForeOn.width, asset_ForeOn.height, 1, 1, this.scale)
+        let asset_ForeOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_ForeOff.png")
+        let anim_ForeOff = new Animator(asset_ForeOff, 0, 0, asset_ForeOff.width, asset_ForeOff.height, 1, 1, this.scale)
+        GAME_ENGINE.addEntity(new MapLayer_ForegroundPower(anim_ForeOn, anim_ForeOff)) //Foreground
 
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
@@ -471,7 +472,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new WallBuyImage(1434, 1536, "W", "FN FAL", 3.5, this))
 
         GAME_ENGINE.addEntity(new WallBuyTrigger(717, 1360, 46, 14, "M16", 1200, this))
-        GAME_ENGINE.addEntity(new WallBuyImage(717, 1360, "S", "M16", 3.5, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(823, 1271, "S", "M16", 3.5, this))
 
         GAME_ENGINE.addEntity(new WallBuyTrigger(1085, 1809, 43, 12, "Stakeout", 1500, this))
         GAME_ENGINE.addEntity(new WallBuyImage(1085, 1809, "S", "Stakeout", 3.5, this))
@@ -496,11 +497,11 @@ class WorldMap {
         GAME_ENGINE.addEntity(new PerkMachine_DoubleTap(909, 674, 32, 47, this))
 
         ////////////MysteryBox///////////
-        GAME_ENGINE.addEntity(new MysteryBox([[797, 1270], [861, 498], [1431, 881], [1226, 1428], [1160, 1815]], randomInt(5), this))
+        GAME_ENGINE.addEntity(new MysteryBox([[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]], randomInt(4) + 1, this))
 
         ///////////PaP///////////
         // GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
-        GAME_ENGINE.addEntity(new PaPBuildable(1069, 1142, [[1064, 522], [758, 1969], [1392, 983], [1443, 1624]], this))
+        GAME_ENGINE.addEntity(new PaPBuildable(1069, 1142, [[654, 884], [758, 1969], [1392, 983], [1430, 1595]], this))
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX, this.playerSpawnY);
@@ -1122,7 +1123,7 @@ class MysteryBox extends MapInteract {
         this.animatorBase = new Animator(ASSET_MANAGER.getAsset(MYSTERYBOX_IMG_PATH), 0,0, 256, 120, 1, 1, 3.75/3)
         this.curr_GunTexture = new Gun_M1911() //to avoid null pointer
         let center = this.bb.getCenteredPos()
-        this.glow = new Glow(center[0], center[1], 7, rgb(131, 173, 204), 0.4)
+        this.glow = new Glow(center[0], center[1], 15, rgb(255, 255, 255), 0.3)
         GAME_ENGINE.addEntity(this.glow)
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,3.75,false, false)
     }
@@ -1318,6 +1319,8 @@ class PowerSwitch extends MapInteract {
 
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/power.mp3", 0.6, this.bb.x, this.bb.y, 2000))
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
+
+            GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(1)
 
             //onPower()
             GAME_ENGINE.ent_MapObjects.forEach((entity) => {
@@ -1772,8 +1775,8 @@ class PackAPunch extends MapInteract {
          * 6: unbuilt
          * @type {number}
          */
-        this.state = 0
-        this.stateCooldown = 0
+        this.state = 5
+        this.stateCooldown = 4
 
         this.animatorPaP = new Animator(ASSET_MANAGER.getAsset(PAP_IMG_PATH), 0,0, 221, 194, 1, 1, this.scale/3)
         this.animatorPaPLight = new Animator(ASSET_MANAGER.getAsset(PAPLIGHT_IMG_PATH), 0,0, 221, 194, 1, 1, this.scale/3)
@@ -2166,8 +2169,8 @@ class RoundManager {
     }
 }
 
-PAP_BUILDABLE_TEX_PATH_LIST = ["Assets/Images/Items/Bullet.png", "Assets/Images/Items/Bullet.png"]
-PAP_BUILDABLE_TEX_SCALE = 1
+PAP_BUILDABLE_TEX_PATH_LIST = ["Assets/Images/Map/Pack_A_Punch_part_1.png", "Assets/Images/Map/Pack_A_Punch_part_2.png", "Assets/Images/Map/Pack_A_Punch_part_3.png", "Assets/Images/Map/Pack_A_Punch_part_4.png"]
+PAP_BUILDABLE_TEX_SCALE = 1.15
 class PaPBuildable extends MapInteract {
     constructor(posX, posY, listOfPartsPos, map) {
         super()
@@ -2189,7 +2192,7 @@ class PaPBuildable extends MapInteract {
 
         //Put down parts
         for (let i = 0; i < listOfPartsPos.length; i++) {
-            let anim = new Animator(PAP_BUILDABLE_TEX_PATH_LIST[i % listOfPartsPos.length], 0,0,100, 100, 1, 1, PAP_BUILDABLE_TEX_SCALE)
+            let anim = new Animator(ASSET_MANAGER.getAsset(PAP_BUILDABLE_TEX_PATH_LIST[i % listOfPartsPos.length]), 0,0,221, 194, 1, 1, PAP_BUILDABLE_TEX_SCALE)
             GAME_ENGINE.addEntity(new PaPBuildablePart((listOfPartsPos[i][0] - 10) * this.scale, (listOfPartsPos[i][1] - 10) * this.scale, anim, this))
         }
     }
@@ -2230,7 +2233,7 @@ class PaPBuildablePart extends MapInteract {
         super()
         Object.assign(this, {posX, posY, pairedAnimator, pairedPaPBuildable})
         this.bb = new BoundingBox(0, 0, 1, 1)
-        this.bb_interact = new BoundingBox(this.posX, this.posY, 50, 50)
+        this.bb_interact = new BoundingBox(this.posX, this.posY, 150, 150)
         this.bb.updateSides()
         this.bb_interact.updateSides()
     }
@@ -2246,7 +2249,7 @@ class PaPBuildablePart extends MapInteract {
     }
 
     draw() {
-        // this.pairedAnimator.drawFrame(this.posXOriginal, this.posYOriginal)
+        this.pairedAnimator.drawFrame(this.posX - 30, this.posY - 20)
         this.bb_interact.drawBoundingBox("green")
     }
     update() {}
