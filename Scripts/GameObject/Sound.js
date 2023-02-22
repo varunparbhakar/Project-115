@@ -133,7 +133,7 @@ class WorldSound {
     getDistanceToPlayerXY() {
         let x = GAME_ENGINE.ent_Player.posX
         let y = GAME_ENGINE.ent_Player.posY
-        return [-1 * (this.posX - x) * 0.2, (this.posY - y)] //yes, x is inverted
+        return [-1 * (this.posX - x) * 0.5, (this.posY - y)] //yes, x is inverted
     }
 
 
