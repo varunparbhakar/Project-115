@@ -32,7 +32,7 @@ const PLAYER_KNIFE_DISTANCE = 125;
 const PLAYER_KNIFE_RADIUS = 75;
 const PLAYER_KNIFE_DMG = 150;
 
-const PLAYER_FOOTSTEP_WALK = 0.5
+const PLAYER_FOOTSTEP_WALK = 0.45
 const PLAYER_FOOTSTEP_RUN = 0.26
 
 class Player extends GameObject {
@@ -446,7 +446,7 @@ class Player extends GameObject {
         if (this.footStepTimer > 0) {
             this.footStepTimer -= GAME_ENGINE.clockTick
         } else {
-            GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Footstep/ladder" + randomInt(5) + ".ogg", 0.15))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Footstep/ladder" + randomInt(5) + ".ogg", MIXER_FOOTSTEP_VOL))
             if (GAME_ENGINE.key_run) {
                 this.footStepTimer = PLAYER_FOOTSTEP_RUN
             } else {

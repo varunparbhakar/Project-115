@@ -37,7 +37,6 @@ const ZOMBIE_DESPAWN_ASTAR_LIMIT = 7
 
 const ZOMBIE_VOX_TIMER = 5
 const ZOMBIE_VOX_TIMER_RANDOM = 15
-const ZOMBIE_VOX_RADIUS = 3000
 
 // const ZOMBIE_ASSET_WALKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Walking/ZombieWalking.png")
 // const ZOMBIE_ASSET_ATTACKING = ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png")
@@ -86,7 +85,7 @@ class Zombie extends GameObject {
 
         //vox
         this.voxTimer = randomInt(ZOMBIE_VOX_TIMER)
-        this.aud = new WorldSound("Assets/Audio/silence.mp3", 1, 0,0, ZOMBIE_VOX_RADIUS)
+        this.aud = new WorldSound("Assets/Audio/silence.mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, false)
     }
 
     saveLastBB() {
@@ -439,13 +438,19 @@ class Zombie extends GameObject {
     }
 
     voxSetupNewSrc() {
-        //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
-        let formattedNumber = randomInt(10).toLocaleString('en-US', {
-            minimumIntegerDigits: 2,
-            useGrouping: false
-        })
         this.aud.aud.pause()
-        this.aud.aud.src = "Assets/Audio/Vox/Zombies/zombie_" + formattedNumber + ".mp3"
+        //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
+        // let formattedNumber = randomInt(10).toLocaleString('en-US', {
+        //     minimumIntegerDigits: 2,
+        //     useGrouping: false
+        // })
+        // this.aud.aud.src = "Assets/Audio/Vox/Zombies/zombie_" + formattedNumber + ".mp3"
+
+        if (this.speed <= ZOMBIE_SPEEDS[2]) {
+            this.aud.aud.src = "Assets/Audio/Vox/Zombies/Calm_" + randomInt(6) + ".mp3"
+        } else {
+            this.aud.aud.src = "Assets/Audio/Vox/Zombies/Calm_" + randomInt(6) + ".mp3" //TODO not calm
+        }
     }
 }
 

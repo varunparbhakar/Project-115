@@ -5,20 +5,24 @@ const MIXER_GUNSHOT_VOL = 0.9
 const MIXER_GUNRELOAD_VOL = 0.2
 const MIXER_CASH_ACCEPT = 0.2
 const MIXER_POWERUP = 0.4
-const MIXER_ZOMBIE_VOX = 0.8
-const MIXER_MAXIMUM_PAN_DISTANCE = 550 //passing this px, it will go pan
+const MIXER_ZOMBIE_VOX = 0.55
+const ZOMBIE_VOX_RADIUS = 3000
+const MIXER_FOOTSTEP_VOL = 0.155
+const MIXER_MAXIMUM_PAN_DISTANCE = 1000 //passing this px, it will go pan
 
 class WorldSound {
     constructor(path, volume=1,
                 posX=0, posY=0,
                 radius=1000, autorepeat=false,
                 startTime = 0,
-                playNow=true) {
+                playNow=true,
+                autoDelete = true) {
         //Path, x, y, volume, auto repeat
         this.posX = posX;
         this.posY = posY;
         this.radius = radius
         this.startTime = startTime;
+        this.autoDelete = autoDelete
 
         this.aud = new Audio();
 
@@ -38,7 +42,7 @@ class WorldSound {
 
         this.volume = this.setVolume(volume) //for getDistance to player
         this.aud.volume = this.volume
-        this.aud.currentTime = startTime
+        this.aud.currentTime = this.startTime
 
         //panning
         this.audCtx = new AudioContext()
@@ -149,7 +153,7 @@ class WorldSound {
     update() {
         this.setVolume(this.getVolumeToPlayer() * this.volume)
         this.setPan(this.getDistanceToPlayerXY())
-        if (this.aud.ended) {
+        if (this.aud.ended && this.autoDelete) {
             this.soundDeleteGarbageCollect()
             this.removeFromWorld = true;
         }
@@ -168,7 +172,11 @@ class WorldSound {
 
     soundDeleteGarbageCollect() {
         if (this.audCtx != null) {
-            this.audCtx.close()
+            try {
+                this.audCtx.close()
+            } catch (Error) {
+                //TODO suppress
+            }
             this.panner.disconnect()
             this.track.disconnect()
         }

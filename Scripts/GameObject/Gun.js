@@ -783,7 +783,7 @@ class Gun_M1911 extends Gun {
     constructor() {
         super(
             "M1911",
-            20, //dmg
+            30, //dmg
             7, //mag size
             80, //total ammo
             0.15, //fire cooldown

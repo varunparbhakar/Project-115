@@ -1659,7 +1659,7 @@ class PowerUp_InstaKill extends PowerUp {
 
     givePowerUp() {
         GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer = 30 //secs
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill.mp3", MIXER_POWERUP * 0.7))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill.mp3", MIXER_POWERUP * 0.5))
     }
 }
 
@@ -1670,7 +1670,7 @@ class PowerUp_DoublePoints extends PowerUp {
 
     givePowerUp() {
         GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer = 30 //secs
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints.mp3", MIXER_POWERUP * 0.7))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints.mp3", MIXER_POWERUP * 0.5))
     }
 }
 
