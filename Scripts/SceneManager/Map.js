@@ -517,7 +517,7 @@ class WorldMap {
         this.roundManager.start()
 
         ////////////BGM////////////
-        this.bgmPlayer = new BGMPlayer()
+        this.bgmPlayer = new BGMPlayer([[1200, 1200]], this)
         GAME_ENGINE.addEntity(this.bgmPlayer)
         this.bgmPlayer.playAmb()
     }
@@ -2278,14 +2278,19 @@ class PaPBuildablePart extends MapInteract {
 }
 
 class BGMPlayer {
-    constructor() {
+    constructor(eePartsPosList = null, map) {
         this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.925, 1, 0, false)
-        // this.musAud = new Sound()
+        this.musAud = new Sound("Assets/Audio/Vox/Zombies/zombie_00.mp3", 1, 0, 0, false) //TODO
 
         this.duckTimer = 0
-        this.duckMax = 0
+        this.duckTimerMax = 0
 
-        // this.eePartsLeft = 3
+        if (eePartsPosList != null) {
+            this.eePartsLeft = eePartsPosList.length
+            for (let i = 0; i < eePartsPosList.length; i++) {
+                GAME_ENGINE.addEntity(new BGMEEPart(eePartsPosList[0][0], eePartsPosList[0][1], map))
+            }
+        }
     }
 
     playAmb() {
@@ -2321,10 +2326,56 @@ class BGMPlayer {
 
     }
 
-    // pickUpEEPart() {
-    //     this.eePartsLeft--
-    //     if (this.eePartsLeft <= 0) {
-    //         // this.
-    //     }
-    // }
+    pickUpEEPart() {
+        this.eePartsLeft--
+        if (this.eePartsLeft <= 0) {
+            this.musAud.resetAndPlay()
+        }
+    }
+}
+
+class BGMEEPart extends MapInteract {
+    constructor(posX, posY, map) {
+        super()
+        Object.assign(this, {posX, posY})
+        this.active = true
+
+        this.anim = new Animator("Assets/Images/Items/Bullet.png", 0,0,200, 200)
+
+        this.bb = new BoundingBox(0,0,1,1)
+        this.bb_interact = new BoundingBox(posX * map.scale, posY * map.scale, 50, 50)
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+
+        let center = this.bb_interact.getCenteredPos()
+        this.aud = new WorldSound("Assets/Audio/EE Music/meteor_loop.mp3", 0.25, center[0], center[1], 1500, true, 0, true, false)
+    }
+
+    use() {
+        if (this.active) {
+            GAME_ENGINE.camera.map.bgmPlayer.pickUpEEPart()
+            this.active = false
+            this.aud.soundDeleteGarbageCollect()
+            this.aud = null
+            let center = this.bb_interact.getCenteredPos()
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/EE Music/meteor_affirm.mp3", 0.25, center[0], center[1]))
+        }
+    }
+
+    hudText() {
+
+    }
+
+    update() {
+        if (this.active) {
+            this.aud.resumePlay()
+            this.aud.update()
+        }
+    }
+
+
+    draw() {
+        this.anim.drawFrame(this.bb_interact.x, this.bb_interact.y)
+        this.bb_interact.drawBoundingBox("green")
+    }
 }
