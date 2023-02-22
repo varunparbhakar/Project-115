@@ -137,7 +137,6 @@ class WorldSound {
     getDistanceToPlayerXY() {
         let x = GAME_ENGINE.ent_Player.posX
         let y = GAME_ENGINE.ent_Player.posY
-        console.log(-1 * ((this.posX - x) / 1000))
         return [(this.posX - x), (this.posY - y)] //yes, x is inverted
         // return [-1 * ((this.posX - x) / 1000), (this.posY - y)] //yes, x is inverted
     }
@@ -160,7 +159,7 @@ class WorldSound {
         // this.audCtx.listener.positionX.value = -1 * posXY[0]
         // this.audCtx.listener.positionY.value = posXY[1]
 
-        this.panner.pan.value = Math.max(Math.min(posXY[0] / MIXER_MAXIMUM_PAN_DISTANCE, -1), 1)
+        this.panner.pan.value = Math.min(Math.max(posXY[0] / MIXER_MAXIMUM_PAN_DISTANCE, -1), 1)
     }
 
     draw() {
@@ -170,6 +169,8 @@ class WorldSound {
     soundDeleteGarbageCollect() {
         if (this.audCtx != null) {
             this.audCtx.close()
+            this.panner.disconnect()
+            this.track.disconnect()
         }
         this.aud.srcObject = null
         this.aud.remove()
