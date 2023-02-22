@@ -438,7 +438,11 @@ class Zombie extends GameObject {
     }
 
     voxSetupNewSrc() {
-        this.aud.aud.pause()
+        try {
+            this.aud.aud.pause()
+        } catch (Error) {
+            //suppress dumb error
+        }
         //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
         // let formattedNumber = randomInt(10).toLocaleString('en-US', {
         //     minimumIntegerDigits: 2,
