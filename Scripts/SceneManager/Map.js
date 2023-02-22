@@ -730,8 +730,9 @@ class Barrier {
 
         this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 6, 1, 1, 1) //TODO this is hard coded scale based on img size of 260
 
-        this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.2, this.bb.x, this.bb.y, 700, false, 0, false)
-        this.hoverSound2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, this.bb.x, this.bb.y, 1000, false, 0, false)
+        let center = this.bb.getCenteredPos()
+        this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.2, center[0], center[1], 700, false, 0, false)
+        this.hoverSound2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, center[0], center[1], 1000, false, 0, false)
     }
 
     update() {
@@ -772,7 +773,8 @@ class Barrier {
             this.hp = 0
         }
         if (Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/snap_0" + randomInt(6) + ".mp3", 0.6, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 3000))
+            let center = this.bb.getCenteredPos()
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/snap_0" + randomInt(6) + ".mp3", 0.6, center[0], center[1], 3000))
         }
     }
 
@@ -789,7 +791,8 @@ class Barrier {
             this.hoverSound2.tryPlayOnlyIfPaused()
         }
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.50, this.bb.getCenteredPos()[0], this.bb.getCenteredPos()[1], 2000))
+            let center = this.bb.getCenteredPos()
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/Barrier/slam_0" + randomInt(6) + ".mp3", 0.50, center[0], center[1], 2000))
             let budgetResult = GAME_ENGINE.camera.map.roundManager.useBarrierBudget()
             GAME_ENGINE.camera.startShake(0.1, 5)
             if (budgetResult != -1) {
@@ -892,7 +895,8 @@ class Door extends MapInteract {
             } else {
                 GAME_ENGINE.camera.map.roundManager.addActiveSpawners(this.listOfSpawners)
             }
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/lightning_l.mp3", 0.5, this.bb.x, this.bb.y, 3000))
+            let center = this.bb.getCenteredPos()
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/lightning_l.mp3", 0.5, center[0], center[1], 3000))
             this.isLocked = false //TODO remove if not needed
             this.removeFromWorld = true
         }
@@ -1317,7 +1321,7 @@ class PowerSwitch extends MapInteract {
             this.power = true
             this.animator.xStart = this.animator.width
 
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/power.mp3", 0.6, this.bb.x, this.bb.y, 2000))
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power.mp3", 0.75))
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
 
             GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(1)
@@ -1375,7 +1379,8 @@ class PerkMachine extends MapInteract {
         this.bb_interact.updateSides()
         this.perk = name
         this.cost = cost
-        this.aud = new WorldSound(pathSndJingle, volume, this.bb.x, this.bb.y, 1700, false, 0, false)
+        let center = this.bb.getCenteredPos()
+        this.aud = new WorldSound(pathSndJingle, volume, center[0], center[1], 1700, false, 0, false)
         this.stingerTime = stingerTime
         // this.jingleTimer = 0
         this.resetJingleTime()
@@ -1597,8 +1602,8 @@ class PowerUp {
         this.bb_interact = new BoundingBox(posX - 25, posY - 25, 50, 50)
         this.bb_interact.updateSides()
 
-        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/spawn.mp3", 0.1, this.posX, this.posY, 2000))
-        this.loopSound = new WorldSound("Assets/Audio/PowerUp/loop.mp3", 0.05, this.posX, this.posY, 2000, true)
+        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/spawn.mp3", 0.1, this.posX, this.posY, 2000)) //already centered
+        this.loopSound = new WorldSound("Assets/Audio/PowerUp/loop.mp3", 0.05, this.posX, this.posY, 2000, true) //already centered
 
         this.glow = new Glow(posX, posY, 2, "green", 0.5)
     }
@@ -1639,7 +1644,8 @@ class PowerUp {
         if (GAME_ENGINE.ent_Player === null) return
         if (this.bb_interact.collide(GAME_ENGINE.ent_Player.player_Collision_World_BB)) {
             this.givePowerUp()
-            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.2, this.posX, this.posY, 2000))
+            let center = this.bb_interact.getCenteredPos()
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/grab.mp3", 0.2, center[0], center[1], 2000))
             this.playGrabAudio()
             this.loopSound.aud.pause()
             this.removeFromWorld = true
@@ -1784,7 +1790,8 @@ class PackAPunch extends MapInteract {
         this.animatorGun = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUN_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
         this.animatorGunPaP = new Animator(ASSET_MANAGER.getAsset(ANIMATORGUNPAP_IMG_PATH), 0,0,0,0,1,1,this.scale,false, false)
 
-        this.aud = new WorldSound("Assets/Audio/PerkJingles/PaP/mus_packapunch_jingle.mp3", 0.325, this.bb.x, this.bb.y, 2000, false, 0, false)
+        let center = this.bb.getCenteredPos()
+        this.aud = new WorldSound("Assets/Audio/PerkJingles/PaP/mus_packapunch_jingle.mp3", 0.325, center[0], center[1], 2000, false, 0, false)
         //this.jingleTimer
         this.resetJingleTimer()
     }
@@ -1919,7 +1926,8 @@ class PackAPunch extends MapInteract {
         switch(this.state) {
             case 0: //waiting
                 if (GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP || GAME_ENGINE.ent_Player.points < PAP_COST) {return}
-                GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PerkJingles/PaP/PaP_use.mp3", 1, this.bb.x, this.bb.y, 1500))
+                let center = this.bb.getCenteredPos()
+                GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PerkJingles/PaP/PaP_use.mp3", 1, center[0], center[1], 1500))
                 GAME_ENGINE.ent_Player.losePoints(PAP_COST)
                 this.currGun = GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex]
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex] = new Gun_Empty()
