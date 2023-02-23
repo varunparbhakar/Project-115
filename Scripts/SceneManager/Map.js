@@ -186,8 +186,8 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(812,970,103,47, this)) //Middle Map, Tree
         GAME_ENGINE.addEntity(new MapBB(965,1061, 24, 123, this)) //Middle Map, Boxes near PaP
         GAME_ENGINE.addEntity(new MapBB(848,1084, 86,54, this)) //Middle Map, Bottom Middle Tree
-        GAME_ENGINE.addEntity(new MapBB(1004, 1100, 9,90, this)) //Middle Map, Fencer near the pap
-        GAME_ENGINE.addEntity(new MapBB(1004, 1100, 56,8, this)) //Middle Map, Fencer Top near PAp
+        GAME_ENGINE.addEntity(new MapBB(1004, 1100, 9,90, this, true)) //Middle Map, Fencer near the pap
+        GAME_ENGINE.addEntity(new MapBB(1004, 1100, 56,8, this, true)) //Middle Map, Fencer Top near PAp
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(560,1018,20,255, this)) //Middle Map, Left Map Boundry
         GAME_ENGINE.addEntity(new MapBB(587,1033, 56,25, this)) //Middle Map, Left Boundry Coverage Tree
         GAME_ENGINE.addEntity(new MapBB(1083, 1133, 41,6, this)) //Middle Map, Fence Above Pap
@@ -233,15 +233,15 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1357,1100,9,40, this)) //Juggernaut Room Boundry
         GAME_ENGINE.addEntity(new MapBB(1324,1134,41,9, this)) //Juggernaut Room Boundry
 
-        GAME_ENGINE.addEntity(new MapBB(1676,1131,76,11, this)) //Right Side of Jugg near the lava
-        GAME_ENGINE.addEntity(new MapBB(1741,1131,7,90, this)) //Right side of jugg up to the barrier
+        GAME_ENGINE.addEntity(new MapBB(1676,1131,76,11, this, true)) //Right Side of Jugg near the lava
+        GAME_ENGINE.addEntity(new MapBB(1741,1131,7,90, this, true)) //Right side of jugg up to the barrier
 
         GAME_ENGINE.addEntity(new MapBB(864,1208,16,11, this)) //taxi
         GAME_ENGINE.addEntity(new MapBB(845,1200,20,17, this)) //taxi
         GAME_ENGINE.addEntity(new MapBB(820,1188,25,30, this)) //taxi
         GAME_ENGINE.addEntity(new MapBB(824,1216,63,43, this)) //taxi
         GAME_ENGINE.addEntity(new MapBB(785,1172,35,10, this)) //taxi
-        GAME_ENGINE.addEntity(new MapBB(748,1182,79,75, this)) //fence and taxi
+        GAME_ENGINE.addEntity(new MapBB(748,1182,79,75, this, true)) //fence and taxi
         GAME_ENGINE.addEntity(new MapBB(604,1578,51,93, this)) //pool table
         GAME_ENGINE.addEntity(new MapBB(843,1483,31,10, this)) //right wall of bar
         GAME_ENGINE.addEntity(new MapBB(874,1444,11,232, this)) //right wall of bar
@@ -259,11 +259,11 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(587,1580,10,95, this)) //Wall left of pool
         GAME_ENGINE.addEntity(new MapBB(588,1675,160,10, this)) //Wall behind Stam
         GAME_ENGINE.addEntity(new MapBB(747,1676,10,168, this)) //Block behind Quick
-        GAME_ENGINE.addEntity(new MapBB(587,1836,106,80, this)) //Bushes behind Quick window
+        GAME_ENGINE.addEntity(new MapBB(587,1836,106,80, this, true)) //Bushes behind Quick window
         GAME_ENGINE.addEntity(new MapBB(812,1675,72,169, this)) //Block behind Quick
 
-        GAME_ENGINE.addEntity(new MapBB(1739,1275,10,112, this)) //middle right fences
-        GAME_ENGINE.addEntity(new MapBB(1649,1387,98,10, this)) //middle right fences
+        GAME_ENGINE.addEntity(new MapBB(1739,1275,10,112, this, true)) //middle right fences
+        GAME_ENGINE.addEntity(new MapBB(1649,1387,98,10, this, true)) //middle right fences
         GAME_ENGINE.addEntity(new MapBB(1570,1312,61,10, this)) //museum Top white truck
         GAME_ENGINE.addEntity(new MapBB(1523,1321,110,18, this)) //museum Top white truck
         GAME_ENGINE.addEntity(new MapBB(1450,1334,185,18, this)) //museum Top white truck
@@ -290,7 +290,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1084,1750,116,53, this)) //White Truck in Bushes
         GAME_ENGINE.addEntity(new MapBB(1200,1676,90,127, this)) //White Truck in Bushes
         GAME_ENGINE.addEntity(new MapBB(1291,1740,10,63, this)) //White Truck in Bush Wall
-        GAME_ENGINE.addEntity(new MapBB(1050,1803,250,10, this)) //White Truck in Bush Fence
+        GAME_ENGINE.addEntity(new MapBB(1050,1803,250,10, this, true)) //White Truck in Bush Fence
         GAME_ENGINE.addEntity(new MapBB(1451,1506,64,93, this)) //Green Acid Statue
         GAME_ENGINE.addEntity(new MapBB(1429,1598,86,16, this)) //Green Acid Statue Arm
         GAME_ENGINE.addEntity(new MapBB(1457,1431,58,30, this)) //Green Acid Boxes
