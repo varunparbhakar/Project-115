@@ -2325,6 +2325,8 @@ class BGMPlayer {
             this.duckTimer -= GAME_ENGINE.clockTick
             this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume)
         }
+        this.ambAud.update()
+        this.musAud.update()
     }
 
     draw() {

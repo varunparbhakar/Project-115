@@ -192,6 +192,7 @@ class Sound extends WorldSound {
     }
 
     update() {
+        this.setVolume(this.volume)
         if (this.aud.ended) {
             this.soundDeleteGarbageCollect()
             this.removeFromWorld = true;
