@@ -164,7 +164,7 @@ class WorldMap {
 
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
-        GAME_ENGINE.addEntity(new MapBB(683, 491, 281, 10, this, true)) //Top Fence
+        GAME_ENGINE.addEntity(new MapBB(683, 491, 270, 10, this, true)) //Top Fence
         GAME_ENGINE.addEntity(new MapBB(1019, 483, 104, 19, this)) //Top Rock
         GAME_ENGINE.addEntity(new MapBB(1196, 492, 102, 9, this)) //Top Fence Right
         GAME_ENGINE.addEntity(new MapBB(1212, 492, 54, 199, this)) //Top Fence Right Big
@@ -211,7 +211,8 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1188,966,23,24, this)) //Boxes Bottom Right of Rock
         GAME_ENGINE.addEntity(new MapBB(1171,918,88,48, this)) //Boxes Bottom Right of Rock
 
-        GAME_ENGINE.addEntity(new MapBB(939,540,10,281, this, true)) //Fence between Double Tap and the rock
+        GAME_ENGINE.addEntity(new MapBB(939,636,10,185, this, true)) //Fence between Double Tap and the rock
+        GAME_ENGINE.addEntity(new MapBB(939, 492, 9, 58, this, true))
         GAME_ENGINE.addEntity(new MapBB(876,748,72,9, this)) //Fence between Double Tap and the rock
 
         GAME_ENGINE.addEntity(new MapBB(1260,817,8,325, this)) //Juggernaut Room Boundry
@@ -294,6 +295,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(1429,1598,86,16, this)) //Green Acid Statue Arm
         GAME_ENGINE.addEntity(new MapBB(1457,1431,58,30, this)) //Green Acid Boxes
         GAME_ENGINE.addEntity(new MapBB(1515,1420,10,232, this)) //Green Acid Wall
+        GAME_ENGINE.addEntity(new MapBB(1515,1707,11,42, this)) //Leaking Pipe Wall
         GAME_ENGINE.addEntity(new MapBB(1515,1739,128,10, this)) //Leaking Pipe Wall
         GAME_ENGINE.addEntity(new MapBB(1643,1739,10,42, this)) //Leaking Pipe Wall
         GAME_ENGINE.addEntity(new MapBB(1643,1840,9,190, this)) //Bushes Wall
@@ -405,7 +407,7 @@ class WorldMap {
 
         ////////////Room: Swamp////////////
         //Barriers
-        let barrier_SwampTopLeft = new Barrier(963, 494, "S", this)
+        let barrier_SwampTopLeft = new Barrier(949, 492, "S", this)
         let barrier_SwampTopRight = new Barrier(1123, 493, "S", this)
         GAME_ENGINE.addEntity(barrier_SwampTopLeft)
         GAME_ENGINE.addEntity(barrier_SwampTopRight)
@@ -447,7 +449,7 @@ class WorldMap {
         let door_Swamp2 = new Door(859, 1122, 32, 91, 1000, spawners_Swamp, this)
         GAME_ENGINE.addEntity(door_Swamp2)
 
-        let door_Double1 = new Door(941, 499, 6, 42, 2000, [spawners_Swamp, spawners_DoubleTap], this)
+        let door_Double1 = new Door(939, 549, 10, 89, 2000, [spawners_Swamp, spawners_DoubleTap], this)
         GAME_ENGINE.addEntity(door_Double1)
         let door_Double2 = new Door(820, 748, 56, 9, 2000, [spawners_Swamp, spawners_DoubleTap], this)
         GAME_ENGINE.addEntity(door_Double2)
