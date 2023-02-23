@@ -357,6 +357,11 @@ class Player extends GameObject {
                         entity.use()
                     }
                 }
+            } else if (entity instanceof LavaBB) {
+                if (this.player_Collision_World_BB.collide(entity.bb)) {
+                    //touching lava resets healing cooldown
+                    this.takeLavaDamage()
+                }
             }
         })
     }
@@ -393,6 +398,16 @@ class Player extends GameObject {
         GAME_ENGINE.camera.startShake(0.5, 15)
         //reset heal cooldown
         this.heal_currentCooldown = PLAYER_HEAL_COOLDOWN;
+    }
+
+    takeLavaDamage() {
+        this.heal_currentCooldown = PLAYER_HEAL_COOLDOWN;
+        if (this.hp >= 0) {
+            this.hp -= GAME_ENGINE.clockTick * 0.25
+        } else {
+            this.takeDamage(1)
+        }
+        GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(1, "orange", 0.1)
     }
 
     healHandler() {

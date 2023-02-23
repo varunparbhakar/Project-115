@@ -356,9 +356,9 @@ class HUDFlash {
         }
     }
 
-    flash(sec, color="white") {
+    flash(sec, color="white", alpha=1) {
         this.flashDecay = sec
-        this.flashDecayMax = sec
+        this.flashDecayMax = sec / alpha
         this.color = color
     }
 

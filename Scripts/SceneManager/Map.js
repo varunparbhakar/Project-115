@@ -324,6 +324,82 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(643,1962,47,62, this)) //Orange Car
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(589,1957,54,51, this)) //Orange Car
         GAME_ENGINE.addEntity(new MapBB(586,1840,10,118, this, true)) //Fence left bottom most
+        ////////////Lava/////////////
+        GAME_ENGINE.addEntity(new LavaBB(1050, 1120, 139, 93, this))
+        GAME_ENGINE.addEntity(new LavaBB(1084, 1086, 69, 35, this))
+        GAME_ENGINE.addEntity(new LavaBB(991, 1187, 36, 90, this))
+        GAME_ENGINE.addEntity(new LavaBB(1026, 1185, 123, 62, this))
+        GAME_ENGINE.addEntity(new LavaBB(1054, 1247, 39, 91, this))
+        GAME_ENGINE.addEntity(new LavaBB(1093, 1247, 33, 68, this))
+        GAME_ENGINE.addEntity(new LavaBB(1125, 1274, 52, 41, this))
+        GAME_ENGINE.addEntity(new LavaBB(1148, 1284, 40, 54, this))
+
+        GAME_ENGINE.addEntity(new LavaBB(961, 1395, 46, 57, this))
+        GAME_ENGINE.addEntity(new LavaBB(890, 1252, 40, 95, this))
+        GAME_ENGINE.addEntity(new LavaBB(929, 1445, 34, 34, this))
+        GAME_ENGINE.addEntity(new LavaBB(947, 1433, 37, 42, this))
+        GAME_ENGINE.addEntity(new LavaBB(888, 1533, 41, 68, this))
+        GAME_ENGINE.addEntity(new LavaBB(888, 1533, 41, 68, this))
+        GAME_ENGINE.addEntity(new LavaBB(920, 1517, 28, 28, this))
+        GAME_ENGINE.addEntity(new LavaBB(1007, 1405, 43, 32, this))
+        GAME_ENGINE.addEntity(new LavaBB(924, 1338, 29, 30, this))
+        GAME_ENGINE.addEntity(new LavaBB(949, 1364, 29, 30, this))
+        GAME_ENGINE.addEntity(new LavaBB(1061, 1437, 56, 36, this))
+        GAME_ENGINE.addEntity(new LavaBB(1040, 1424, 27, 29, this))
+        GAME_ENGINE.addEntity(new LavaBB(737, 1216, 159, 40, this))
+        GAME_ENGINE.addEntity(new LavaBB(837, 1181, 24, 38, this))
+
+        GAME_ENGINE.addEntity(new LavaBB(1372, 1115, 128, 41, this))
+        GAME_ENGINE.addEntity(new LavaBB(1468, 1186, 36, 56, this))
+        GAME_ENGINE.addEntity(new LavaBB(1503, 1244, 62, 101, this))
+        GAME_ENGINE.addEntity(new LavaBB(1474, 1278, 44, 69, this))
+        GAME_ENGINE.addEntity(new LavaBB(1440, 1311, 34, 31, this))
+        GAME_ENGINE.addEntity(new LavaBB(1457, 1293, 17, 18, this))
+        GAME_ENGINE.addEntity(new LavaBB(1443, 1156, 35, 30, this))
+        GAME_ENGINE.addEntity(new LavaBB(1565, 1274, 60, 57, this))
+        GAME_ENGINE.addEntity(new LavaBB(1624, 1309, 65, 73, this))
+        GAME_ENGINE.addEntity(new LavaBB(1689, 1344, 38, 38, this))
+        GAME_ENGINE.addEntity(new LavaBB(1625, 1291, 20, 18, this))
+        GAME_ENGINE.addEntity(new LavaBB(1564, 1260, 16, 14, this))
+        GAME_ENGINE.addEntity(new LavaBB(1689, 1322, 18, 22, this))
+        GAME_ENGINE.addEntity(new LavaBB(1478, 1177, 23, 9, this))
+        GAME_ENGINE.addEntity(new LavaBB(1479, 1233, 40, 21, this))
+        GAME_ENGINE.addEntity(new LavaBB(1427, 1156, 16, 14, this))
+
+        GAME_ENGINE.addEntity(new LavaBB(670, 1029, 37, 56, this))
+        GAME_ENGINE.addEntity(new LavaBB(640, 1091, 33, 61, this))
+        GAME_ENGINE.addEntity(new LavaBB(656, 1078, 34, 22, this))
+        GAME_ENGINE.addEntity(new LavaBB(579, 1109, 61, 46, this))
+        GAME_ENGINE.addEntity(new LavaBB(581, 1086, 28, 23, this))
+
+        GAME_ENGINE.addEntity(new LavaBB(961, 828, 76, 37, this))
+        GAME_ENGINE.addEntity(new LavaBB(1021, 802, 44, 119, this))
+        GAME_ENGINE.addEntity(new LavaBB(1053, 927, 69, 62, this))
+        GAME_ENGINE.addEntity(new LavaBB(1154, 918, 97, 46, this))
+        GAME_ENGINE.addEntity(new LavaBB(1151, 943, 36, 50, this))
+        GAME_ENGINE.addEntity(new LavaBB(1098, 765, 123, 62, this))
+        GAME_ENGINE.addEntity(new LavaBB(1120, 703, 132, 30, this))
+        GAME_ENGINE.addEntity(new LavaBB(1152, 670, 104, 32, this))
+        GAME_ENGINE.addEntity(new LavaBB(1138, 691, 10, 10, this))
+        GAME_ENGINE.addEntity(new LavaBB(1165, 663, 89, 6, this))
+        GAME_ENGINE.addEntity(new LavaBB(1029, 511, 121, 36, this))
+        GAME_ENGINE.addEntity(new LavaBB(1116, 527, 47, 45, this))
+        GAME_ENGINE.addEntity(new LavaBB(1132, 539, 105, 42, this))
+
+        GAME_ENGINE.addEntity(new LavaBB(738, 1949, 84, 63, this))
+        GAME_ENGINE.addEntity(new LavaBB(866, 1950, 27, 39, this))
+        GAME_ENGINE.addEntity(new LavaBB(931, 1951, 1951, 43, this))
+        GAME_ENGINE.addEntity(new LavaBB(995, 1977, 54, 32, this))
+        GAME_ENGINE.addEntity(new LavaBB(1057, 1950, 37, 26, this))
+        GAME_ENGINE.addEntity(new LavaBB(1085, 1921, 38, 26, this))
+        GAME_ENGINE.addEntity(new LavaBB(1124, 1943, 165, 30, this))
+        GAME_ENGINE.addEntity(new LavaBB(1185, 1888, 61, 61, this))
+        GAME_ENGINE.addEntity(new LavaBB(1246, 1914, 36, 34, this))
+        GAME_ENGINE.addEntity(new LavaBB(597, 1905, 20, 65, this))
+        GAME_ENGINE.addEntity(new LavaBB(619, 1947, 48, 38, this))
+
+        GAME_ENGINE.addEntity(new LavaBB(593, 1535, 22, 57, this))
+        GAME_ENGINE.addEntity(new LavaBB(616, 1561, 15, 15, this))
 
         ////////////Room: Bottom Left////////////
         //Barriers
@@ -549,8 +625,8 @@ class MapLayer_Power extends MapLayer {
     }
 
     onPower() {
-        console.log("REACHED MAP")
         this.animator = this.animatorPowerOn
+        console.log(this.animator.spritesheetas)
     }
 }
 
@@ -613,7 +689,26 @@ class MapBBPlayerOnly {
     }
 
     draw() {
-        //TODO debug only
+        this.bb.drawBoundingBox("blue")
+    }
+}
+
+class LavaBB {
+    constructor(posX, posY, width, height, map) {
+        this.bb = new BoundingBox(
+            (map.posX + posX) * map.scale,
+            (map.posY + posY) * map.scale,
+            width * map.scale,
+            height * map.scale
+        )
+        this.bb.updateSides()
+    }
+
+    update() {
+
+    }
+
+    draw() {
         this.bb.drawBoundingBox("blue")
     }
 }

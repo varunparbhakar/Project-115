@@ -238,7 +238,8 @@ class GameEngine {
             entity instanceof WallBuyTrigger ||
             entity instanceof WallBuyImage ||
             entity instanceof MapInteract ||
-            entity instanceof SpawnerGroundDigParticle
+            entity instanceof SpawnerGroundDigParticle ||
+            entity instanceof LavaBB
         ) {
             this.ent_MapObjects.push(entity)
         } else if (entity instanceof MapLayer_Background || entity instanceof MapLayer_BackgroundPower) {
