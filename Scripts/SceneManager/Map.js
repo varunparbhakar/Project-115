@@ -520,6 +520,9 @@ class WorldMap {
         this.bgmPlayer = new BGMPlayer([[1200, 1200], [1300, 1200]], this)
         GAME_ENGINE.addEntity(this.bgmPlayer)
         this.bgmPlayer.playAmb()
+
+        ////////////Radios///////////
+        GAME_ENGINE.addEntity(new Radio(1200, 1300, "Assets/Audio/Vox/Zombies/zombie_00.mp3", this))
     }
 }
 
@@ -2280,7 +2283,7 @@ class PaPBuildablePart extends MapInteract {
 class BGMPlayer {
     constructor(eePartsPosList = null, map) {
         this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.925, 1, 0, false)
-        this.musAud = new Sound("Assets/Audio/Vox/Zombies/zombie_00.mp3", 1, 0, 0, false) //TODO
+        this.musAud = new Sound("Assets/Audio/Background/Call of Duty_ Zombies Theme (Damned)  EPIC VERSION.mp3", 1, 0, 0, false) //TODO
 
         this.duckTimer = 0
         this.duckTimerMax = 0
@@ -2340,7 +2343,7 @@ class BGMEEPart extends MapInteract {
         Object.assign(this, {posX, posY})
         this.active = true
 
-        this.anim = new Animator("Assets/Images/Map/115.png", 0,0,500, 500, 1, 1, 0.2)
+        this.anim = new Animator("Assets/Images/Map/115.png", 0,0,272, 200, 1, 1, 0.2)
 
         this.bb = new BoundingBox(0,0,1,1)
         this.bb_interact = new BoundingBox(posX * map.scale, posY * map.scale, 60, 50)
@@ -2373,6 +2376,46 @@ class BGMEEPart extends MapInteract {
         }
     }
 
+
+    draw() {
+        this.anim.drawFrame(this.bb_interact.x, this.bb_interact.y)
+        this.bb_interact.drawBoundingBox("green")
+    }
+}
+
+class Radio extends MapInteract {
+    constructor(posX, posY, audPath, map) {
+        super()
+        this.active = true
+        this.bb = new BoundingBox(0,0,1,1)
+        this.bb_interact = new BoundingBox(posX * map.scale, posY * map.scale, 60, 50)
+        this.bb.updateSides()
+        this.bb_interact.updateSides()
+
+        this.anim = new Animator("Assets/Images/Map/Radio.png", 0 ,0, 160, 110, 1 ,1,0.6)
+
+        let center = this.bb_interact.getCenteredPos()
+        this.aud = new WorldSound(audPath, MIXER_RADIO_VOL, center[0], center[1], 3500, false, 0, false, true)
+    }
+
+    use() {
+        if (this.active) {
+            this.active = false
+            this.aud.resetAndPlay()
+        }
+    }
+
+    hudText() {
+
+    }
+
+    update() {
+        if (this.active) {
+            this.aud.update()
+        } else if (this.aud != null && this.aud.aud.ended) {
+            this.aud.soundDeleteGarbageCollect()
+        }
+    }
 
     draw() {
         this.anim.drawFrame(this.bb_interact.x, this.bb_interact.y)
