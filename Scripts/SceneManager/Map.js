@@ -517,7 +517,7 @@ class WorldMap {
         this.roundManager.start()
 
         ////////////BGM////////////
-        this.bgmPlayer = new BGMPlayer([[1200, 1200]], this)
+        this.bgmPlayer = new BGMPlayer([[1200, 1200], [1300, 1200]], this)
         GAME_ENGINE.addEntity(this.bgmPlayer)
         this.bgmPlayer.playAmb()
     }
@@ -2288,7 +2288,7 @@ class BGMPlayer {
         if (eePartsPosList != null) {
             this.eePartsLeft = eePartsPosList.length
             for (let i = 0; i < eePartsPosList.length; i++) {
-                GAME_ENGINE.addEntity(new BGMEEPart(eePartsPosList[0][0], eePartsPosList[0][1], map))
+                GAME_ENGINE.addEntity(new BGMEEPart(eePartsPosList[i][0], eePartsPosList[i][1], map))
             }
         }
     }
@@ -2340,10 +2340,10 @@ class BGMEEPart extends MapInteract {
         Object.assign(this, {posX, posY})
         this.active = true
 
-        this.anim = new Animator("Assets/Images/Items/Bullet.png", 0,0,200, 200)
+        this.anim = new Animator("Assets/Images/Map/115.png", 0,0,500, 500, 1, 1, 0.2)
 
         this.bb = new BoundingBox(0,0,1,1)
-        this.bb_interact = new BoundingBox(posX * map.scale, posY * map.scale, 50, 50)
+        this.bb_interact = new BoundingBox(posX * map.scale, posY * map.scale, 60, 50)
         this.bb.updateSides()
         this.bb_interact.updateSides()
 
