@@ -323,7 +323,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(671,1977,53,53, this)) //Orange Car
         GAME_ENGINE.addEntity(new MapBB(643,1962,47,62, this)) //Orange Car
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(589,1957,54,51, this)) //Orange Car
-        GAME_ENGINE.addEntity(new MapBB(586,1840,10,118, this)) //Fence left bottom most
+        GAME_ENGINE.addEntity(new MapBB(586,1840,10,118, this, true)) //Fence left bottom most
 
         ////////////Room: Bottom Left////////////
         //Barriers
