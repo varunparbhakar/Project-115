@@ -184,7 +184,9 @@ class Zombie extends GameObject {
             let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
             if (intersectionDepth < 0) {
                 if (this.attack_currentCooldown == ZOMBIE_ATTACK_COOLDOWN) {
-                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife.mp3", 0.2)) //TODO swing sound
+                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife.mp3", 0.1)) //TODO swing sound
+                    this.voxSetupNewSrcHitReaction()
+                    this.aud.resetAndPlay()
                     this.animator.finishedAnimation = false
                     this.animator.elaspedTime = 0
                 }
@@ -205,9 +207,6 @@ class Zombie extends GameObject {
 
                     let hitSnd = ["Assets/Audio/Zombie/Hit/swipe_00.mp3", "Assets/Audio/Zombie/Hit/swipe_01.mp3", "Assets/Audio/Zombie/Hit/swipe_04.mp3"]
                     GAME_ENGINE.addEntity(new WorldSound(hitSnd[randomInt(hitSnd.length)], 0.5, this.posX, this.posY, 1500))
-
-                    this.voxSetupNewSrcHitReaction()
-                    this.aud.resetAndPlay()
                 }
             }
             //Movement Zombie
@@ -435,13 +434,13 @@ class Zombie extends GameObject {
         if (this.voxTimer > 0) {
             this.voxTimer -= GAME_ENGINE.clockTick
         } else {
-            this.voxSetupNewSrc()
+            this.voxSetupNewSrcNormal()
             this.aud.resetAndPlay()
             this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
         }
     }
 
-    voxSetupNewSrc() { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
+    voxSetupNewSrcNormal() { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
         this.aud.aud.pause()
         try {
             if (this.speed <= ZOMBIE_SPEEDS[2]) {
