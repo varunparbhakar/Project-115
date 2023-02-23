@@ -152,7 +152,7 @@ class WorldMap {
         //MapLayers
         let asset_BackOn = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_BackOn.png")
         let anim_BackOn = new Animator(asset_BackOn, 0, 0, asset_BackOn.width, asset_BackOn.height, 1, 1, this.scale)
-        let asset_BackOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_BackOn.png")
+        let asset_BackOff = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_BackOff.png")
         let anim_BackOff = new Animator(asset_BackOff, 0, 0, asset_BackOff.width, asset_BackOff.height, 1, 1, this.scale)
         GAME_ENGINE.addEntity(new MapLayer_BackgroundPower(anim_BackOn, anim_BackOff)) //Background
 
