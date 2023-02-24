@@ -182,7 +182,7 @@ class Zombie extends GameObject {
             let entity = GAME_ENGINE.ent_Player
             //Swing
             let intersectionDepth = this.bc_Attack.collide(entity.playerCollision_Vulnerable_C)
-            if (intersectionDepth < 0) {
+            if (intersectionDepth < 0 && (this.movementState === 0 || this.movementState === 2)) {
                 if (this.attack_currentCooldown == ZOMBIE_ATTACK_COOLDOWN) {
                     GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife.mp3", 0.1)) //TODO swing sound
                     this.voxSetupNewSrcHitReaction()
@@ -437,6 +437,7 @@ class Zombie extends GameObject {
             this.voxSetupNewSrcNormal()
             this.aud.resetAndPlay()
             this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
+            this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
         }
     }
 
@@ -472,7 +473,7 @@ class Zombie extends GameObject {
 class RaycastZombies {
     constructor(pairedZombie) {
         Object.assign(this, {pairedZombie})
-        this.size = 10
+        this.size = 20
         this.posX = pairedZombie.posX
         this.posY = pairedZombie.posY
         this.bb = new BoundingBox(this.posX - (this.size/2), this.posY - (this.size/2), this.size, this.size)
@@ -522,8 +523,9 @@ class RaycastZombies {
 
     draw() {
         //NOTHING
-        //TODO remove debug
-        // this.bb.drawBoundingBox("yellow")
+        if (GAME_ENGINE.options.drawDebug) {
+            this.bb.drawBoundingBox("yellow")
+        }
     }
 }
 
