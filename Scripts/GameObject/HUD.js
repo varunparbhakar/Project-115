@@ -10,6 +10,7 @@ class HUD {
         this.topLeftPerks = new HUDPerks()
         this.topRightPerks = new HUDPowerUp()
         this.fullscreenRedHurt = new HUDHurt()
+        this.fullscreenLava = new HUDLava()
         this.fullscreenFlash = new HUDFlash()
         this.topMiddleDebug = new HUDDebug()
         this.topRightFPS = new HUDFps()
@@ -24,6 +25,7 @@ class HUD {
         // this.bottomRightGrenades.update()
         // this.bottomStamina.update()
         this.fullscreenRedHurt.update()
+        this.fullscreenLava.update()
         this.fullscreenFlash.update()
         // this.topRightPerks.update()
         this.topMiddleDebug.update()
@@ -32,6 +34,7 @@ class HUD {
 
     draw() {
         if (GAME_ENGINE.ent_Player == null) return
+        this.fullscreenLava.draw()
         this.fullscreenRedHurt.draw()
         this.fullscreenFlash.draw()
         this.bottomLeftGuns.draw()
@@ -368,6 +371,35 @@ class HUDFlash {
             GAME_ENGINE.ctx.fillStyle = this.color
             GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / this.flashDecayMax);
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.restore()
+        }
+    }
+}
+
+class HUDLava extends HUDFlash {
+    constructor() {
+        super()
+        this.color = "orange"
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Bloody_Screen.png") //TODO change
+        //Audio
+    }
+
+    flash(sec, alpha=0.1) {
+        this.flashDecay = sec
+        this.flashDecayMax = sec / alpha
+    }
+
+    draw() {
+        if (this.flashDecay > 0) {
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = this.color
+            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / this.flashDecayMax);
+            GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.drawImage(
+                this.asset,
+                0,0,
+                GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height
+            )
             GAME_ENGINE.ctx.restore()
         }
     }
