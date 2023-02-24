@@ -15,6 +15,7 @@ class GameEngine {
         this.ent_MapForeground = []
         this.ent_HUD = []
         this.ent_Etc = []
+        this.ent_FE = []
         this.ent_Sound = []
 
         // Information on the input
@@ -220,15 +221,6 @@ class GameEngine {
         });
     }
 
-    /*
-    this.ent_MapBackground = null
-    3 this.ent_MapObjects = []
-    1 this.ent_Projectiles = []
-    2 this.ent_Zombies = []
-    this.ent_Player = null
-    this.ent_MapForeground = null
-    this.ent_HUD = []
-     */
     addEntity(entity) {
         if (entity instanceof Projectile) {
             this.ent_Projectiles.push(entity)
@@ -258,6 +250,8 @@ class GameEngine {
             this.ent_HUD.push(entity)
         } else if (entity instanceof WorldSound || entity instanceof BGMPlayer) {
             this.ent_Sound.push(entity)
+        } else if (entity instanceof FrontEnd) {
+            this.ent_FE.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
             this.ent_Etc.push(entity)
@@ -266,7 +260,10 @@ class GameEngine {
 
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        // this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        // this.ctx.save()
+        // this.ctx.fillStyle = "black"
+        // this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        // this.ctx.restore()
 
         this.draw1(this.ent_MapBackground)
         this.draw1(this.ent_MapObjects)
@@ -297,6 +294,7 @@ class GameEngine {
             this.globalVolume = document.getElementById("volume").value * 0.25
         }
 
+        this.update1(this.ent_FE)
         if (!this.options.paused) {
             this.update1(this.ent_MapBackground)
             this.update1(this.ent_MapObjects)
@@ -353,6 +351,7 @@ class GameEngine {
         this.clearWorld1(clearSceneManager, this.ent_Zombies)
         this.clearWorld1(clearSceneManager, this.ent_MapForeground)
         this.clearWorld1(clearSceneManager, this.ent_HUD)
+        this.clearWorld1(clearSceneManager, this.ent_FE)
         this.clearWorld1(clearSceneManager, this.ent_Etc)
     }
 
@@ -361,6 +360,7 @@ class GameEngine {
             if (entities == null) return
             entities.removeFromWorld = true
         } else { //list
+            if (entities.length === 0) {return}
             for (let i = 0; i < entities.length; i++) {
                 if (entities[i] instanceof SceneManager && !clearSceneManager) {
                     return
@@ -368,7 +368,7 @@ class GameEngine {
                     entities[i].aud.pause()
                     entities[i].soundDeleteGarbageCollect()
                 }
-                entities.removeFromWorld[i] = true
+                entities[i].removeFromWorld = true
             }
         }
     }
