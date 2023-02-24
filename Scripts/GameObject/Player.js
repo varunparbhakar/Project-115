@@ -453,7 +453,7 @@ class Player extends GameObject {
         let hasKnifed = false
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (entity instanceof Zombie && !hasKnifed) {
-                if (knifeBC.collide(entity.bc_Movement) < 0) {
+                if (knifeBC.collide(entity.bc_Movement) < 0 && (entity.movementState === 0 || entity.movementState === 2)) {
                     GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife_hit.mp3", 0.35))
                     entity.takeDamage(PLAYER_KNIFE_DMG, ZOMBIE_DMG_KNIFE)
                     hasKnifed = true
