@@ -31,6 +31,7 @@ class GameEngine {
             noclip: false,
             drawDebug: false,
             drawSpawnProx: false,
+            paused: false,
         };
 
         this.globalVolume = 1
@@ -95,7 +96,7 @@ class GameEngine {
         // this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
 
         //Player input block; all player inputs go here...
-        //Keys
+        //Keys https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/keyCode
         this.ctx.canvas.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
@@ -159,6 +160,9 @@ class GameEngine {
                     this.ctx.canvas.width = 2560
                     this.ctx.canvas.height = 1440
                     this.ctx.imageSmoothingEnabled = false
+                    break
+                case "Escape":
+                    this.options.paused = !this.options.paused
                     break
             }
         }, false);
@@ -252,7 +256,7 @@ class GameEngine {
             this.ent_Etc.push(entity)
         } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut || entity instanceof MuzzleFlash) {
             this.ent_HUD.push(entity)
-        } else if (entity instanceof WorldSound) {
+        } else if (entity instanceof WorldSound || entity instanceof BGMPlayer) {
             this.ent_Sound.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
@@ -289,14 +293,20 @@ class GameEngine {
 
     update() {
         this.globalVolume = document.getElementById("volume").value
-        this.update1(this.ent_MapBackground)
-        this.update1(this.ent_MapObjects)
-        this.update1(this.ent_Projectiles)
-        this.update1(this.ent_Player)
-        this.update1(this.ent_Zombies)
-        this.update1(this.ent_MapForeground)
-        this.update1(this.ent_HUD)
-        this.update1(this.ent_Etc)
+        if (this.options.paused) {
+            this.globalVolume = document.getElementById("volume").value * 0.25
+        }
+
+        if (!this.options.paused) {
+            this.update1(this.ent_MapBackground)
+            this.update1(this.ent_MapObjects)
+            this.update1(this.ent_Projectiles)
+            this.update1(this.ent_Player)
+            this.update1(this.ent_Zombies)
+            this.update1(this.ent_MapForeground)
+            this.update1(this.ent_HUD)
+            this.update1(this.ent_Etc)
+        }
         this.update1(this.ent_Sound)
     }
 
@@ -336,23 +346,28 @@ class GameEngine {
     }
 
     clearWorld(clearSceneManager=false) {
-        this.clearWorld(this.ent_MapBackground)
-        this.clearWorld(this.ent_MapObjects)
-        this.clearWorld(this.ent_Projectiles)
-        this.clearWorld(this.ent_Player)
-        this.clearWorld(this.ent_Zombies)
-        this.clearWorld(this.ent_MapForeground)
-        this.clearWorld(this.ent_HUD)
-        this.clearWorld(this.ent_Etc)
+        this.clearWorld1(clearSceneManager, this.ent_MapBackground)
+        this.clearWorld1(clearSceneManager, this.ent_MapObjects)
+        this.clearWorld1(clearSceneManager, this.ent_Projectiles)
+        this.clearWorld1(clearSceneManager, this.ent_Player)
+        this.clearWorld1(clearSceneManager, this.ent_Zombies)
+        this.clearWorld1(clearSceneManager, this.ent_MapForeground)
+        this.clearWorld1(clearSceneManager, this.ent_HUD)
+        this.clearWorld1(clearSceneManager, this.ent_Etc)
     }
 
-    clearWorld(clearSceneManager, entities) {
+    clearWorld1(clearSceneManager, entities) {
         if (!Array.isArray(entities)) {//Singular
             if (entities == null) return
             entities.removeFromWorld = true
         } else { //list
             for (let i = 0; i < entities.length; i++) {
-                if (entities[0] instanceof SceneManager && !clearSceneManager) return
+                if (entities[i] instanceof SceneManager && !clearSceneManager) {
+                    return
+                } else if (entities[i] instanceof WorldSound) {
+                    entities[i].aud.pause()
+                    entities[i].soundDeleteGarbageCollect()
+                }
                 entities.removeFromWorld[i] = true
             }
         }

@@ -574,7 +574,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new PerkMachine_DoubleTap(909, 674, 32, 47, this))
 
         ////////////MysteryBox///////////
-        GAME_ENGINE.addEntity(new MysteryBox([[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]], randomInt(4) + 1, this)) //[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]
+        GAME_ENGINE.addEntity(new MysteryBox([[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1130, 1814]], randomInt(4) + 1, this)) //[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]
 
         ///////////PaP///////////
         // GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
@@ -2153,7 +2153,9 @@ class RoundManager {
         this.inRound = false
         this.curr_roundsUntilNextDog--
         console.log("ROUND ENDED")
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundEnd1.mp3"))
+        if (GAME_ENGINE.camera.map.bgmPlayer.musAud.aud.paused) {
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundEnd1.mp3"))
+        }
     }
 
     nextRound() {
@@ -2182,7 +2184,9 @@ class RoundManager {
         console.log("ROUND " + this.curr_Round)
         console.log("Z count: " + this.curr_ZombiesLeft)
         console.log("Z hp: " + this.curr_ZombiesHealth)
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundStart1.mp3"))
+        if (GAME_ENGINE.camera.map.bgmPlayer.musAud.aud.paused) {
+            GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundStart1.mp3"))
+        }
     }
 
     startDogRound() {
@@ -2378,8 +2382,10 @@ class PaPBuildablePart extends MapInteract {
 
 class BGMPlayer {
     constructor(eePartsPosList = null, map) {
-        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.925, 1, 0, false)
-        this.musAud = new Sound("Assets/Audio/Background/Call of Duty_ Zombies Theme (Damned)  EPIC VERSION.mp3", 1, 0, 0, false) //TODO
+        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.91, 1, 0, false)
+        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", 0.6, 0, 0, false) //TODO
+        GAME_ENGINE.addEntity(this.ambAud)
+        GAME_ENGINE.addEntity(this.musAud)
 
         this.duckTimer = 0
         this.duckTimerMax = 0
@@ -2419,8 +2425,6 @@ class BGMPlayer {
             this.duckTimer -= GAME_ENGINE.clockTick
             this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume)
         }
-        this.ambAud.update()
-        this.musAud.update()
     }
 
     draw() {
@@ -2450,6 +2454,7 @@ class BGMEEPart extends MapInteract {
 
         let center = this.bb_interact.getCenteredPos()
         this.aud = new WorldSound("Assets/Audio/EE Music/meteor_loop.mp3", 0.25, center[0], center[1], 1500, true, 0, true, false)
+        GAME_ENGINE.addEntity(this.aud)
     }
 
     use() {
@@ -2470,7 +2475,6 @@ class BGMEEPart extends MapInteract {
     update() {
         if (this.active) {
             this.aud.resumePlay()
-            this.aud.update()
         }
     }
 

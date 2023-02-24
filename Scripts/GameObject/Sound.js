@@ -156,7 +156,6 @@ class WorldSound {
         this.setPan(this.getDistanceToPlayerXY())
         if (this.aud.ended && this.autoDelete) {
             this.soundDeleteGarbageCollect()
-            this.removeFromWorld = true;
         }
     }
 
@@ -172,7 +171,7 @@ class WorldSound {
     }
 
     soundDeleteGarbageCollect() {
-        if (this.audCtx != null) {
+        if (this.audCtx != null && this.audCtx.state != "closed") {
             try {
                 this.audCtx.close()
             } catch (Error) {
@@ -183,6 +182,7 @@ class WorldSound {
         }
         this.aud.srcObject = null
         this.aud.remove()
+        this.removeFromWorld = true
     }
 }
 
@@ -195,7 +195,6 @@ class Sound extends WorldSound {
         this.setVolume(this.volume)
         if (this.aud.ended) {
             this.soundDeleteGarbageCollect()
-            this.removeFromWorld = true;
         }
     }
 }

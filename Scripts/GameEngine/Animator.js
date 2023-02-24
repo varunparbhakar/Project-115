@@ -15,7 +15,7 @@ class Animator { //TODO add priority
     };
 
     drawFrame(posX, posY, opacity=1) {
-        this.elaspedTime += GAME_ENGINE.clockTick
+        if (!GAME_ENGINE.options.paused) {this.elaspedTime += GAME_ENGINE.clockTick}
         if(this.elaspedTime > this.totalTime) {
             this.elaspedTime = 0;
         }
@@ -67,7 +67,7 @@ class AnimatorRotate {
 
     drawFrame(object_posX, object_posY, angle) {
         //Spritesheet scroll
-        this.elaspedTime += GAME_ENGINE.clockTick
+        if (!GAME_ENGINE.options.paused) {this.elaspedTime += GAME_ENGINE.clockTick}
         if(this.elaspedTime > this.totalTime) {
             this.finishedAnimation = true
             this.elaspedTime = 0;
