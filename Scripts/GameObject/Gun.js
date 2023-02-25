@@ -441,6 +441,9 @@ class Gun {
         let unitV = getUnitVector(posX, posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
         let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
         GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle, specialFlash, w, h))
+
+        //smoke
+        GAME_ENGINE.addEntity(new GunSmokeParticle(pos[0], pos[1]))
     }
     getMuzzle_Angle(gun){
         switch (gun) {
@@ -488,12 +491,9 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
 
     shoot1(posX, posY, angle) {
         GAME_ENGINE.camera.startShake(this.screenShakeLength, this.screenShakeIntensity)
-        let gunOffset = this.getMuzzle_Offset(this.animationType)
-        let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
-        let unitV = getUnitVector(posX, posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
-        let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
 
-        GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle))
+        this.spawnMuzzleFlash(posX, posY, angle)
+
         GAME_ENGINE.addEntity(new Sound(this.shootSndPath, MIXER_GUNSHOT_VOL))
         for (let i = 0; i < this.shotgunSpreadShots; i++) {
             this.shoot2(posX, posY, angle)
