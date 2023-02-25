@@ -36,7 +36,7 @@ class Particle extends FX {
 class BloodDecal extends Decal {
     constructor(posX, posY) {
         super(
-            new Animator("Assets/Images/Items/blood01.png", 0,0,100,100,1,1, (Math.random() * 0.5) + 1,false,false),
+            new Animator("Assets/Images/Items/blood0" + randomInt(3) +  ".png", 0,0,100,100,1,1, (Math.random() * 1.5) + 1,false,false),
             posX, posY,
             15
         );
@@ -50,7 +50,7 @@ class BloodDecal extends Decal {
 class ExplosionFlashParticle extends Particle {
     constructor(posX, posY, scale=15) {
         super(
-            new Animator("Assets/Images/Items/blood01.png", 0,0,100,100,1,1, scale,false,false),
+            new Animator("Assets/Images/Items/blood01.png", 0,0,100,100,1,1, scale,false,false), //TODO better tex
             posX, posY,
             0.5
         );
