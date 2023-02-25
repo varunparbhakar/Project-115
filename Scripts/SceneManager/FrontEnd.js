@@ -148,7 +148,32 @@ class PauseMenu extends MainMenu {
     }
     draw() {
         if (GAME_ENGINE.options.paused) {
-            super.draw()
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = "black"
+            GAME_ENGINE.ctx.globalAlpha = 0.5
+            GAME_ENGINE.ctx.fillRect(0, 0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.strokeStyle = "white"
+            GAME_ENGINE.ctx.strokeRect(0, 0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.restore()
+
+            GAME_ENGINE.ctx.save()
+            GAME_ENGINE.ctx.fillStyle = "white"
+            GAME_ENGINE.ctx.font = 'bold 100px arial'
+            GAME_ENGINE.ctx.textAlign = "left"
+            GAME_ENGINE.ctx.shadowColor = "black"
+            GAME_ENGINE.ctx.shadowBlur = 5
+            GAME_ENGINE.ctx.shadowOffsetX = 5;
+            GAME_ENGINE.ctx.shadowOffsetY = 5;
+            GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y)
+            GAME_ENGINE.ctx.restore()
+
+            for (let i = 0; i < this.buttons.length; i++) {
+                this.buttons[i].draw()
+            }
+
+            this.bottomDesc.draw()
+
+            this.cursor.drawBoundingBox("red")
         }
     }
 }
