@@ -483,6 +483,7 @@ class Player extends GameObject {
 
     earnPoints(points) {
         this.points += (this.powerup_hasDoublePointsTimer > 0 ? points * 2 : points)
+        GAME_ENGINE.camera.map.roundManager.reportPoints(points)
     }
 
     losePoints(points) {

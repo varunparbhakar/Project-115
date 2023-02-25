@@ -2132,6 +2132,9 @@ class RoundManager {
         this.inRound = false
         this.curr_ZombiesSpawned = 0
         this.barrierBudget = 40
+
+        this.scoreboard_points = 0
+        this.scoreboard_kills = 0
     }
 
     /**
@@ -2211,6 +2214,7 @@ class RoundManager {
      */
     reportKill() {
         this.curr_ZombiesSpawned--
+        this.scoreboard_kills++
         if (this.curr_ZombiesSpawned <= 0 && this.curr_ZombiesLeft <= 0) {
             this.roundEnd()
         }
@@ -2304,6 +2308,10 @@ class RoundManager {
             this.barrierBudget -= 10
             return 10
         }
+    }
+
+    reportPoints(points) {
+        this.scoreboard_points += points
     }
 }
 
