@@ -185,13 +185,13 @@ class WorldSound {
 }
 
 class Sound extends WorldSound {
-    constructor(path, volume=1, autorepeat=false, startime=0, playNow=true) {
-        super(path, volume, 0,0,0, autorepeat, startime, playNow)
+    constructor(path, volume=1, autorepeat=false, startime=0, playNow=true, autoDelete = true) {
+        super(path, volume, 0,0,0, autorepeat, startime, playNow, autoDelete)
     }
 
     update() {
         this.setVolume(this.volume)
-        if (this.aud.ended) {
+        if (this.aud.ended && this.autoDelete) {
             this.soundDeleteGarbageCollect()
         }
     }
