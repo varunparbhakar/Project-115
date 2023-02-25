@@ -40,8 +40,6 @@ class BoundingBox {
             this.height);
 
 
-
-
         // GAME_ENGINE.ctx.fillStyle = "white";
         // GAME_ENGINE.ctx.fillRect(this.x - GAME_ENGINE.camera.x, this.y - GAME_ENGINE.camera.y, this.width, this.height);
         GAME_ENGINE.ctx.restore();

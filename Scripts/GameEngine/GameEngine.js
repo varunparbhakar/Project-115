@@ -36,7 +36,10 @@ class GameEngine {
         };
 
         this.globalVolume = 1
-        this.camera = null; //Will be SceneManager
+        let dummy = new Object()
+        dummy.posX = 0
+        dummy.posY = 0
+        this.camera = dummy; //Will be SceneManager
         this.dontUpdatePlayerThisTick = false
     };
 
