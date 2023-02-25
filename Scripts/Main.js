@@ -79,7 +79,7 @@ ASSET_MANAGER.downloadAll(() => {
 	GAME_ENGINE.options.debugging = false;
 
 	//Load Objects
-	GAME_ENGINE.addEntity(new SceneManager());
+	GAME_ENGINE.addEntity(new DoneLoadingScreen());
 
 	GAME_ENGINE.init(ctx);
 	GAME_ENGINE.start();

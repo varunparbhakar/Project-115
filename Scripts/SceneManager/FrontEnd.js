@@ -13,7 +13,7 @@ class DoneLoadingScreen extends FrontEnd {
     update() {
         if (GAME_ENGINE.left_click) { //has to be delayed
             this.removeFromWorld = true
-            GAME_ENGINE.dontRenderForTicks = 100
+            GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new SceneManager());
         }
     }
@@ -28,7 +28,7 @@ class DoneLoadingScreen extends FrontEnd {
         	this.asset, //what
         	0, 0, //starting at
         	232, 340, //to
-            GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2,
+            GAME_ENGINE.ctx.canvas.width/2 - 232/2 + 250, GAME_ENGINE.ctx.canvas.height/2 - 340/2,
         	232, 340
         )
 
@@ -39,8 +39,8 @@ class DoneLoadingScreen extends FrontEnd {
         GAME_ENGINE.ctx.shadowBlur = 10
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText("Loading Completed", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
-        GAME_ENGINE.ctx.fillText("Click the screen to continue...", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2 + 45)
+        GAME_ENGINE.ctx.fillText("Loading Completed", GAME_ENGINE.ctx.canvas.width/2 - 250, GAME_ENGINE.ctx.canvas.height/2)
+        GAME_ENGINE.ctx.fillText("Click the screen to continue...", GAME_ENGINE.ctx.canvas.width/2 - 250, GAME_ENGINE.ctx.canvas.height/2 + 45)
         GAME_ENGINE.ctx.restore()
     }
 }

@@ -37,6 +37,7 @@ class GameEngine {
 
         this.globalVolume = 1
         this.camera = null; //Will be SceneManager
+        this.dontUpdatePlayerThisTick = false
     };
 
     init(ctx) {
@@ -273,6 +274,7 @@ class GameEngine {
         this.draw1(this.ent_MapForeground)
         this.draw1(this.ent_HUD)
         this.draw1(this.ent_Etc)
+        this.draw1(this.ent_FE)
         this.draw1(this.ent_Sound)
     }
 
@@ -299,7 +301,11 @@ class GameEngine {
             this.update1(this.ent_MapBackground)
             this.update1(this.ent_MapObjects)
             this.update1(this.ent_Projectiles)
-            this.update1(this.ent_Player)
+            if (!this.dontUpdatePlayerThisTick) { //TODO idk why this is the case for the first frame when loading level
+                this.update1(this.ent_Player)
+            } else {
+                this.dontUpdatePlayerThisTick = false
+            }
             this.update1(this.ent_Zombies)
             this.update1(this.ent_MapForeground)
             this.update1(this.ent_HUD)
