@@ -12,6 +12,9 @@ class AssetManager {
     };
 
     isDone() {
+        let bar = document.getElementById("myBar")
+        bar.style.width = (this.successCount + this.errorCount / (this.downloadQueue.length)) + "%"
+
         return this.downloadQueue.length === this.successCount + this.errorCount;
     };
 

@@ -65,8 +65,6 @@ var lines = [
 "Assets/Images/Map/Door.png", ]
 
 for (let i = 0; i < lines.length; i++) {
-	let bar = document.getElementById("myBar")
-	bar.style.width = (i / (lines.length-1)) + "%"
 	ASSET_MANAGER.queueDownload(lines[i])
 }
 
