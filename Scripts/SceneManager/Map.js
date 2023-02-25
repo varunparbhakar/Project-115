@@ -333,6 +333,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new LavaBB(1093, 1247, 33, 68, this))
         GAME_ENGINE.addEntity(new LavaBB(1125, 1274, 52, 41, this))
         GAME_ENGINE.addEntity(new LavaBB(1148, 1284, 40, 54, this))
+        GAME_ENGINE.addEntity(new LavaBB(1153, 1117, 62, 37, this))
 
         GAME_ENGINE.addEntity(new LavaBB(961, 1395, 46, 57, this))
         GAME_ENGINE.addEntity(new LavaBB(890, 1252, 40, 95, this))
