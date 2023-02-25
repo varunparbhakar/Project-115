@@ -7,9 +7,10 @@ const MIXER_CASH_ACCEPT = 0.2
 const MIXER_POWERUP = 0.4
 const MIXER_ZOMBIE_VOX = 0.45
 const ZOMBIE_VOX_RADIUS = 3000
-const MIXER_FOOTSTEP_VOL = 0.155
+const MIXER_FOOTSTEP_VOL = 0.165
 const MIXER_MAXIMUM_PAN_DISTANCE = 1000 //passing this px, it will go pan
 const MIXER_RADIO_VOL = 0.75
+const MIXER_LAVA_BURN = 0.15
 
 class WorldSound {
     constructor(path, volume=1,

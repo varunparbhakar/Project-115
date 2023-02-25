@@ -391,7 +391,7 @@ class HUDLava extends HUDFlash {
         this.color = "orange"
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Bloody_Screen.png") //TODO change
         //Audio
-        this.lavaAud = new Sound("Assets/Audio/SFX/Footstep/on_fire.mp3", 0.25, false, 0, false, false)
+        this.lavaAud = new Sound("Assets/Audio/SFX/Footstep/on_fire.mp3", MIXER_LAVA_BURN, false, 0, false, false)
         GAME_ENGINE.addEntity(this.lavaAud)
     }
 
