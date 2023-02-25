@@ -1388,6 +1388,10 @@ class Glow {
     draw() {
         this.animator.drawFrame(this.posX, this.posY)
     }
+
+    changeAlpha(alpha) {
+        this.animator.setupTintedCtx(this.animator.scale, this.animator.color, alpha)
+    }
 }
 
 POWERSWITCH_INTERACT_SIZE = 4

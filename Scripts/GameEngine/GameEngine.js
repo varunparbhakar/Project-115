@@ -231,6 +231,8 @@ class GameEngine {
             this.ent_Projectiles.push(entity)
         } else if (entity instanceof Zombie) {
             this.ent_Zombies.push(entity)
+        } else if (entity instanceof Decal) {
+            this.ent_Decals.push(entity)
         } else if (
             entity instanceof MapBB ||
             entity instanceof MapBBPlayerOnly ||
@@ -257,8 +259,6 @@ class GameEngine {
             this.ent_Sound.push(entity)
         } else if (entity instanceof FrontEnd) {
             this.ent_FE.push(entity)
-        } else if (entity instanceof Decal) {
-            this.ent_Decals.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
             this.ent_Etc.push(entity)

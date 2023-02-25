@@ -220,6 +220,9 @@ class Explosive extends Projectile {
 
     explode() {
         if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange"))} //DebugBC
+        //particle
+        GAME_ENGINE.addEntity(new ExplosionFlashParticle(this.posX, this.posY))
+
         GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 5000))
         GAME_ENGINE.camera.startShake(0.1, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
@@ -249,7 +252,7 @@ class ExplosiveQuickRevive extends Explosive {
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
-                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, this.damage, ZOMBIE_DMG_NOPOINTS))
+                GAME_ENGINE.addEntity(new RaycastExplosiveZombie(entity, this.posX, this.posY, ZOMBIE_ATTACK_DAMAGE * 0.8, ZOMBIE_DMG_NOPOINTS))
                 // entity.takeDamageExplosive(this.damage, [this.posXOriginal, this.posYOriginal])
             }
         })
@@ -322,6 +325,8 @@ class Grenade extends Projectile {
 
     explode() { //TODO inheritance (eww)
         if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, GRANADE_RADIUS, 1, "orange"))} //DebugBC
+        //particle
+        GAME_ENGINE.addEntity(new ExplosionFlashParticle(this.posX, this.posY))
 
         GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 7000))
         GAME_ENGINE.camera.startShake(0.1, 5)
@@ -333,7 +338,7 @@ class Grenade extends Projectile {
             }
         })
         if (bc.collide(GAME_ENGINE.ent_Player.playerCollision_Vulnerable_C) < 0) {
-            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE))
+            GAME_ENGINE.addEntity(new RaycastExplosivePlayer(GAME_ENGINE.ent_Player, this.posX, this.posY, GRANADE_DAMAGE/10))
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Explode/tinitus.mp3", 0.9))
             // GAME_ENGINE.ent_Player.takeDamage(GRANADE_DAMAGE)
             GAME_ENGINE.camera.startShake(5, 20)
@@ -405,7 +410,7 @@ class RaycastExplosive {
     }
 }
 
-EXPLOSIVE_PLAYER_DMG_REDUCTION = 10 //factor
+// EXPLOSIVE_PLAYER_DMG_REDUCTION = 10 //factor
 class RaycastExplosivePlayer extends RaycastExplosive {
     constructor(pairedEntity, startPosX, startPosY, damage) {
         super(pairedEntity, startPosX, startPosY, damage)
@@ -414,7 +419,7 @@ class RaycastExplosivePlayer extends RaycastExplosive {
     makeTakeDamage() {
         GAME_ENGINE.camera.startShake(5, 25)
         //TODO play tinnitus sound or something
-        this.pairedEntity.takeDamage(this.damage/EXPLOSIVE_PLAYER_DMG_REDUCTION)
+        this.pairedEntity.takeDamage(this.damage)
     }
 }
 
