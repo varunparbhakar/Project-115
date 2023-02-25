@@ -362,6 +362,7 @@ class GameEngine {
         this.clearWorld1(clearSceneManager, this.ent_HUD)
         this.clearWorld1(clearSceneManager, this.ent_FE)
         this.clearWorld1(clearSceneManager, this.ent_Etc)
+        this.clearWorld1(clearSceneManager, this.ent_Sound)
     }
 
     clearWorld1(clearSceneManager, entities) {
@@ -374,8 +375,12 @@ class GameEngine {
                 if (entities[i] instanceof SceneManager && !clearSceneManager) {
                     return
                 } else if (entities[i] instanceof WorldSound) {
-                    entities[i].aud.pause()
                     entities[i].soundDeleteGarbageCollect()
+                }
+                try {
+                    entities[i].destroyAudio()
+                } catch (e) {
+
                 }
                 entities[i].removeFromWorld = true
             }

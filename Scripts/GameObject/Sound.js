@@ -171,11 +171,9 @@ class WorldSound {
     }
 
     soundDeleteGarbageCollect() {
-        if (this.audCtx != null && this.audCtx.state != "closed") {
-            try {
+        if (this.audCtx != null) {
+            if (this.audCtx.state != "closed") {
                 this.audCtx.close()
-            } catch (Error) {
-                //TODO suppress
             }
             this.panner.disconnect()
             this.track.disconnect()

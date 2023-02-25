@@ -52,6 +52,7 @@ class SceneManager {
             case "level1":
                 this.map = new WorldMap(0,0, "level2")
                 this.player = this.map.player
+                GAME_ENGINE.addEntity(new PauseMenu())
                 break;
         }
     }

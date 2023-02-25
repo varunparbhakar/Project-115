@@ -17,38 +17,47 @@ class HUD {
     }
 
     update() {
-        if (GAME_ENGINE.ent_Player == null) return
-        this.bottomLeftGuns.update()
-        this.bottomRightRound.update()
-        this.bottomRightPoints.update()
-        // this.bottomMiddleInteract.update()
-        // this.bottomRightGrenades.update()
-        // this.bottomStamina.update()
-        this.fullscreenRedHurt.update()
-        this.fullscreenLava.update()
-        this.fullscreenFlash.update()
-        // this.topRightPerks.update()
-        this.topMiddleDebug.update()
-        this.topRightFPS.update()
+        try {
+            if (GAME_ENGINE.ent_Player == null) return
+            this.bottomLeftGuns.update()
+            this.bottomRightRound.update()
+            this.bottomRightPoints.update()
+            // this.bottomMiddleInteract.update()
+            // this.bottomRightGrenades.update()
+            // this.bottomStamina.update()
+            this.fullscreenRedHurt.update()
+            this.fullscreenLava.update()
+            this.fullscreenFlash.update()
+            // this.topRightPerks.update()
+            this.topMiddleDebug.update()
+            this.topRightFPS.update()
+        } catch (Error) {
+
+        }
+
     }
 
     draw() {
         if (GAME_ENGINE.ent_Player == null) return
-        this.fullscreenLava.draw()
-        this.fullscreenRedHurt.draw()
-        this.fullscreenFlash.draw()
-        this.bottomLeftGuns.draw()
-        this.bottomRightPoints.draw()
-        this.bottomRightRound.draw()
-        this.bottomMiddleInteract.draw()
-        this.topStamina.draw()
-        this.bottomStamina.draw()
-        this.topLeftPerks.draw()
-        this.bottomRightGrenades.draw()
-        this.topRightPerks.draw()
-        this.topRightFPS.draw()
-        if (GAME_ENGINE.options.drawDebug) {
-            this.topMiddleDebug.draw()
+        try {
+            this.fullscreenLava.draw()
+            this.fullscreenRedHurt.draw()
+            this.fullscreenFlash.draw()
+            this.bottomLeftGuns.draw()
+            this.bottomRightPoints.draw()
+            this.bottomRightRound.draw()
+            this.bottomMiddleInteract.draw()
+            this.topStamina.draw()
+            this.bottomStamina.draw()
+            this.topLeftPerks.draw()
+            this.bottomRightGrenades.draw()
+            this.topRightPerks.draw()
+            this.topRightFPS.draw()
+            if (GAME_ENGINE.options.drawDebug) {
+                this.topMiddleDebug.draw()
+            }
+        } catch (Error) {
+
         }
     }
 }

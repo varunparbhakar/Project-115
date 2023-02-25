@@ -1565,6 +1565,10 @@ class PerkMachine extends MapInteract {
         this.glow = new Glow(center[0], center[1], 10, this.glowColor, 0.25)
         GAME_ENGINE.addEntity(this.glow)
     }
+
+    destroyAudio() {
+        this.aud.soundDeleteGarbageCollect()
+    }
 }
 
 class PerkMachine_Jug extends PerkMachine {
@@ -2056,6 +2060,10 @@ class PackAPunch extends MapInteract {
                 this.state++
         }
     }
+
+    destroyAudio() {
+        this.aud.soundDeleteGarbageCollect()
+    }
 }
 
 //https://project-lazarus.fandom.com/wiki/Rounds they be using real formulas
@@ -2438,6 +2446,11 @@ class BGMPlayer {
             this.musAud.resetAndPlay()
         }
     }
+
+    destroyAudio() {
+        this.ambAud.soundDeleteGarbageCollect()
+        this.musAud.soundDeleteGarbageCollect()
+    }
 }
 
 class BGMEEPart extends MapInteract {
@@ -2484,6 +2497,10 @@ class BGMEEPart extends MapInteract {
         this.anim.drawFrame(this.bb_interact.x, this.bb_interact.y)
         this.bb_interact.drawBoundingBox("green")
     }
+
+    destroyAudio() {
+        this.aud.soundDeleteGarbageCollect()
+    }
 }
 
 class Radio extends MapInteract {
@@ -2523,5 +2540,9 @@ class Radio extends MapInteract {
     draw() {
         this.anim.drawFrame(this.bb_interact.x, this.bb_interact.y)
         this.bb_interact.drawBoundingBox("green")
+    }
+
+    destroyAudio() {
+        this.aud.soundDeleteGarbageCollect()
     }
 }

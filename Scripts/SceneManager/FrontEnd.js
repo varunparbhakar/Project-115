@@ -48,18 +48,22 @@ const FE_X = 50
 const FE_Y = 200
 const FE_Y_BUTTON = FE_Y + 150
 class MainMenu extends FrontEnd {
-    constructor() {
+    constructor(
+        buttons=[
+            new PlayButton(),
+            new Button(FE_Y_BUTTON + 100, "Options", "Configure options of gameplay."),
+            new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
+        ],
+        title = "Ye Zombie"
+    ) {
         super();
+        this.title = title
         this.cursor = new BoundingBox(0,0, 1,1)
         this.cursor.updateSides()
         this.lastLeftClick = GAME_ENGINE.left_click
 
         //buttons
-        this.buttons = [
-            new PlayButton(),
-            new Button(FE_Y_BUTTON + 100, "Options", "Configure options of gameplay."),
-            new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
-        ]
+        this.buttons = buttons
 
         //submenu
         this.submenu = null
@@ -73,8 +77,13 @@ class MainMenu extends FrontEnd {
 
     update() {
         //cursor
-        this.cursor.x = GAME_ENGINE.mouse.x
-        this.cursor.y = GAME_ENGINE.mouse.y
+        try {
+            this.cursor.x = GAME_ENGINE.mouse.x
+            this.cursor.y = GAME_ENGINE.mouse.y
+        } catch (e) {
+            this.cursor.x = 0
+            this.cursor.y = 0
+        }
         this.cursor.updateSides()
 
         for (let i = 0; i < this.buttons.length; i++) {
@@ -106,7 +115,7 @@ class MainMenu extends FrontEnd {
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText("Ye Zombies", FE_X, FE_Y)
+        GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y)
         GAME_ENGINE.ctx.restore()
 
         for (let i = 0; i < this.buttons.length; i++) {
@@ -120,6 +129,27 @@ class MainMenu extends FrontEnd {
 
     tryClick() {
         return this.lastLeftClick == false && GAME_ENGINE.left_click
+    }
+}
+
+class PauseMenu extends MainMenu {
+    constructor() {
+        super(        [
+                new RestartButton(),
+                new ExitButton()
+            ],
+            "Paused");
+    }
+
+    update() {
+        if (GAME_ENGINE.options.paused) {
+            super.update()
+        }
+    }
+    draw() {
+        if (GAME_ENGINE.options.paused) {
+            super.draw()
+        }
     }
 }
 
@@ -175,6 +205,31 @@ class PlayButton extends Button {
     use() {
         GAME_ENGINE.dontUpdatePlayerThisTick = true
         GAME_ENGINE.addEntity(new SceneManager())
+        GAME_ENGINE.options.paused = false
+    }
+}
+
+class RestartButton extends Button {
+    constructor() {
+        super(FE_Y_BUTTON, "Restart", "Current not working due to sound :( you have to hard refresh.");
+    }
+
+    use() { //TODO fix sound
+        // GAME_ENGINE.clearWorld(true)
+        // GAME_ENGINE.dontUpdatePlayerThisTick = true
+        // GAME_ENGINE.addEntity(new SceneManager())
+        // GAME_ENGINE.options.paused = false
+    }
+}
+class ExitButton extends Button {
+    constructor() {
+        super(FE_Y_BUTTON + 100, "End Game", "Current not working due to sound :( you have to hard refresh.");
+    }
+
+    use() { //TODO fix sound
+        // GAME_ENGINE.clearWorld(true)
+        // GAME_ENGINE.addEntity(new MainMenu())
+        // GAME_ENGINE.options.paused = false
     }
 }
 
