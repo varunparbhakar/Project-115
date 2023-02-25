@@ -65,11 +65,15 @@ var lines = [
 "Assets/Images/Map/Door.png", ]
 
 for (let i = 0; i < lines.length; i++) {
+	let bar = document.getElementById("myBar")
+	bar.style.width = (i / (lines.length-1)) + "%"
 	ASSET_MANAGER.queueDownload(lines[i])
 }
 
-
 ASSET_MANAGER.downloadAll(() => {
+	var bar = document.getElementById("myBar");
+	bar.hidden = true
+
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
 	ctx.imageSmoothingEnabled = false;

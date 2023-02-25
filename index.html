@@ -36,11 +36,32 @@
         font-family: 'TallyMark';
         src: url('Assets/Font/Tally Mark.ttf');
     }
+
+    #myProgress {
+        width: 100%;
+        background-color: grey;
+    }
+    #myBar {
+        width: 0%;
+        height: 30px;
+        background-color: green;
+    }
 </style>
 <head>
     <meta charset="utf-8">
     <title>Game Project Title Goes Here</title>
-  
+</head>
+<body>
+    <h1>Ye Zombies</h1>
+    <div id="myProgress"> <!--https://www.w3schools.com/howto/howto_js_progressbar.asp-->
+        <div id="myBar"></div>
+    </div>
+    <canvas id="gameWorld" width="2560" height="1440" style="background: white; border: 2px solid black" tabindex="0" autofocus></canvas>
+<!--    <canvas id="gameWorld" width="1920" height="1080" style="background: white; border: 2px solid black" tabindex="0" autofocus></canvas>-->
+    <p>Volume:<input type="range" id="volume" min="0" max="1" value="1" step="0.05"></p>
+    <p>[For Edge Users]: You can hide Edge's double click menu for this site in that same menu, stopping it from showing.</p>
+    <p>MouseLeft: Shoot<br>MouseRight: Melee<br>WASD: Move<br>LShift: Sprint<br>F: Interact<br>Q: Switch Weapons<br>E: Throw Grenade</p>
+
     <script type="text/javascript" src="Scripts/GameEngine/AssetManager.js"></script>
     <script type="text/javascript" src="Scripts/GameEngine/Animator.js"></script>
     <script type="text/javascript" src="Scripts/GameEngine/Timer.js"></script>
@@ -68,13 +89,5 @@
     <script type="text/javascript" src="Scripts/GameObject/Brick.js"></script>
 
     <script type="text/javascript" src="Scripts/Main.js"></script>
-</head>
-<body>
-    <h1>Ye Zombies</h1>
-    <canvas id="gameWorld" width="2560" height="1440" style="background: white; border: 2px solid black" tabindex="0" autofocus></canvas>
-<!--    <canvas id="gameWorld" width="1920" height="1080" style="background: white; border: 2px solid black" tabindex="0" autofocus></canvas>-->
-    <p>Volume:<input type="range" id="volume" min="0" max="1" value="1" step="0.05"></p>
-    <p>[For Edge Users]: You can hide Edge's double click menu for this site in that same menu, stopping it from showing.</p>
-    <p>MouseLeft: Shoot<br>MouseRight: Melee<br>WASD: Move<br>LShift: Sprint<br>F: Interact<br>Q: Switch Weapons<br>E: Throw Grenade</p>
 </body>
 </html>
