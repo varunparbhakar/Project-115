@@ -29,6 +29,7 @@ var lines = [
 "Assets/Images/Characters/Zombies/Zombies 2.png",
 "Assets/Images/Characters/Zombies/Zombies.png",
 "Assets/Images/Items/Bloody_Screen.png",
+	"Assets/Images/Items/Fire_Screen.png",
 "Assets/Images/Items/Bullet.png",
 "Assets/Images/Items/Glow.png",
 "Assets/Images/Items/Grenade.png",

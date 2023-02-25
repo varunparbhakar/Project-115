@@ -131,6 +131,7 @@ class Bullet extends Projectile {
                 let intersectionDepth = this.bc.collide(entity.bc_Movement)
                 if (intersectionDepth < 0) {
                     entity.takeDamage(this.damage, ZOMBIE_DMG_SHOT)
+                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Guns/hitmarker.mp3",1))
                     this.removeFromWorld = true
                 }
             }
@@ -165,6 +166,7 @@ class BulletPierce extends Projectile {
             if (entity instanceof Zombie) {
                 let intersectionDepth = this.bc.collide(entity.bc_Movement)
                 if (intersectionDepth < 0 && !this.isPiercing) {
+                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Guns/hitmarker.mp3",1))
                     entity.takeDamage(this.damage, ZOMBIE_DMG_SHOT)
                     this.current_Pierced++
                     this.isPiercing = true

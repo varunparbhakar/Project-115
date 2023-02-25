@@ -389,13 +389,13 @@ class HUDLava extends HUDFlash {
     constructor() {
         super()
         this.color = "orange"
-        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Bloody_Screen.png") //TODO change
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Fire_Screen.png") //TODO change
         //Audio
         this.lavaAud = new Sound("Assets/Audio/SFX/Footstep/on_fire.mp3", MIXER_LAVA_BURN, false, 0, false, false)
         GAME_ENGINE.addEntity(this.lavaAud)
     }
 
-    flash(sec, alpha=0.1) {
+    flash(sec = 1, alpha=0.25) {
         this.flashDecay = sec
         this.flashDecayMax = sec / alpha
         this.lavaAud.resumePlay()
@@ -403,16 +403,21 @@ class HUDLava extends HUDFlash {
 
     draw() {
         if (this.flashDecay > 0) {
+            let alpha = this.flashDecay / this.flashDecayMax
+            console.log(alpha)
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = this.color
-            GAME_ENGINE.ctx.globalAlpha = (this.flashDecay / this.flashDecayMax);
+            GAME_ENGINE.ctx.globalAlpha = alpha/3;
             GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+            GAME_ENGINE.ctx.globalAlpha = alpha;
             GAME_ENGINE.ctx.drawImage(
                 this.asset,
                 0,0,
                 GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height
             )
             GAME_ENGINE.ctx.restore()
+
+            this.lavaAud.volume = (this.flashDecay / 1) * MIXER_LAVA_BURN
         }
     }
 }

@@ -407,7 +407,7 @@ class Player extends GameObject {
         } else {
             this.takeDamage(1)
         }
-        GAME_ENGINE.camera.map.hud.fullscreenLava.flash(1, 0.1)
+        GAME_ENGINE.camera.map.hud.fullscreenLava.flash()
     }
 
     healHandler() {
