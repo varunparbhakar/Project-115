@@ -85,7 +85,7 @@ class Zombie extends GameObject {
 
         //vox
         this.voxTimer = randomInt(ZOMBIE_VOX_TIMER)
-        this.aud = new WorldSound("Assets/Audio/silence.mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, false)
+        this.aud = new WorldSound("Assets/Audio/silence.mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, true)
     }
 
     saveLastBB() {
@@ -442,22 +442,22 @@ class Zombie extends GameObject {
     }
 
     voxSetupNewSrcNormal() { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
-        if (this.aud.aud.paused) {
-            if (this.speed <= ZOMBIE_SPEEDS[2]) {
-                let formattedNumber = randomInt(12).toLocaleString('en-US', {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false
-                })
-                this.aud.aud.src = "Assets/Audio/Vox/Zombies/Calm_Zombie_" + formattedNumber + ".mp3"
-            } else {
-                let formattedNumber = randomInt(2).toLocaleString('en-US', {
-                    minimumIntegerDigits: 2,
-                    useGrouping: false
-                })
-                this.aud.aud.src = "Assets/Audio/Vox/Zombies/Zombie_Aggressive_" + formattedNumber + ".mp3" //TODO not calm
-            }
+        this.aud.soundDeleteGarbageCollect()
+        if (this.speed <= ZOMBIE_SPEEDS[2]) {
+            let formattedNumber = randomInt(12).toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false
+            })
+            this.aud = new WorldSound("Assets/Audio/Vox/Zombies/Calm_Zombie_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, true)
+        } else {
+            let formattedNumber = randomInt(2).toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false
+            })
+            this.aud = new WorldSound("Assets/Audio/Vox/Zombies/Zombie_Aggressive_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, true)
         }
     }
+
 
     voxSetupNewSrcHitReaction() { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
         if (this.aud.aud.paused) {
@@ -465,7 +465,7 @@ class Zombie extends GameObject {
                 minimumIntegerDigits: 2,
                 useGrouping: false
             })
-            this.aud.aud.src = "Assets/Audio/Vox/Zombies/Zombie_Hit_Reaction_" + formattedNumber + ".mp3"
+            this.aud = new WorldSound("Assets/Audio/Vox/Zombies/Zombie_Hit_Reaction_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, true)
         }
     }
 }

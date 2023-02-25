@@ -172,6 +172,11 @@ class WorldSound {
     }
 
     soundDeleteGarbageCollect() {
+        try {
+            this.aud.pause()
+        } catch (e) {
+
+        }
         if (this.audCtx != null) {
             if (this.audCtx.state != "closed") {
                 this.audCtx.close()
