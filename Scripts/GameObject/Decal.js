@@ -143,3 +143,29 @@ class GunSmokeParticle extends Particle {
         this.draw1(alpha)
     }
 }
+
+class FogParticle extends Particle {
+    constructor(posX, posY, scale=75) {
+        super(
+            new Animator("Assets/Images/Items/Smoke.png", 0,0,100,100,1,1, scale * (Math.random() + 0.5),false,false),
+            posX, posY,
+            30
+        );
+        this.velX = (Math.random() - 0.5) * 1
+        this.velY = (Math.random() - 0.5) * 1
+    }
+
+    update() {
+        super.update()
+        this.posX += this.velX
+        this.posY += this.velY
+
+        // this.velX = this.velX > 0 ? this.velX - GAME_ENGINE.clockTick / 3 : this.velX + GAME_ENGINE.clockTick / 3
+        // this.velY = this.velY > 0 ? this.velY - GAME_ENGINE.clockTick / 3 : this.velY + GAME_ENGINE.clockTick / 3
+    }
+
+    draw() {
+        let alpha = Math.max((this.decayTime / 10), 0)
+        this.draw1(alpha)
+    }
+}
