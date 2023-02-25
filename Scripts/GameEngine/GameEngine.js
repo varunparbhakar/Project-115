@@ -8,6 +8,7 @@ class GameEngine {
 
         // Everything that will be updated and drawn each frame (bottom is last to render)
         this.ent_MapBackground = null
+        this.ent_Decals = []
         this.ent_MapObjects = []
         this.ent_Projectiles = []
         this.ent_Player = null
@@ -256,6 +257,8 @@ class GameEngine {
             this.ent_Sound.push(entity)
         } else if (entity instanceof FrontEnd) {
             this.ent_FE.push(entity)
+        } else if (entity instanceof Decal) {
+            this.ent_Decals.push(entity)
         } else {
             console.log(entity.constructor.name + " was added wrong!")
             this.ent_Etc.push(entity)
@@ -270,6 +273,7 @@ class GameEngine {
         // this.ctx.restore()
 
         this.draw1(this.ent_MapBackground)
+        this.draw1(this.ent_Decals)
         this.draw1(this.ent_MapObjects)
         this.draw1(this.ent_Projectiles)
         this.draw1(this.ent_Player)
@@ -302,6 +306,7 @@ class GameEngine {
         this.update1(this.ent_FE)
         if (!this.options.paused) {
             this.update1(this.ent_MapBackground)
+            this.update1(this.ent_Decals)
             this.update1(this.ent_MapObjects)
             this.update1(this.ent_Projectiles)
             if (!this.dontUpdatePlayerThisTick) { //TODO idk why this is the case for the first frame when loading level

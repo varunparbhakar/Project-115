@@ -367,6 +367,8 @@ class Zombie extends GameObject {
         if (this.removeFromWorld) return //already dead, don't give points (for shotguns)
         // console.log(damage, "from", this.hp)
         this.hp -= (GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer > 0 ? this.hp : damage)
+        //Decal
+        GAME_ENGINE.addEntity(new BloodDecal(this.posX, this.posY))
         if (this.hp <= 0) { //if died
             switch (type) {
                 case ZOMBIE_DMG_SHOT:
