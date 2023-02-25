@@ -404,7 +404,6 @@ class HUDLava extends HUDFlash {
     draw() {
         if (this.flashDecay > 0) {
             let alpha = this.flashDecay / this.flashDecayMax
-            console.log(alpha)
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = this.color
             GAME_ENGINE.ctx.globalAlpha = alpha/3;

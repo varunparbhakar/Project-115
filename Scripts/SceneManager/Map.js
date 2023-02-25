@@ -1121,7 +1121,7 @@ class WallBuyTrigger {
         this.bb_interact.updateSides()
         this.hasIntractedCooldown = 0 //prevent spam
 
-        this.gunNamePap = CREATE_GUN_FROM_NAME(this.gunName, 1).name //TODO Use to check PAP
+        this.gunNamePap = CREATE_GUN_FROM_NAME(this.gunName, 1).name
     }
 
     update() {
@@ -1135,27 +1135,50 @@ class WallBuyTrigger {
     }
 
     use() {
-        //TODO Check PAP
-        if (GAME_ENGINE.ent_Player.points >= this.cost && this.hasIntractedCooldown <= 0) { //has money & check spam
-            let acceptResponse = GAME_ENGINE.ent_Player.acceptNewGun(CREATE_GUN_FROM_NAME(this.gunName, false))
+        //check if have gun
+        let guninv = GAME_ENGINE.ent_Player.gunInventory
+        //0=normal, 1=ammo, 2=pap ammo
+        let gunOffer = this.state !== 2 ? CREATE_GUN_FROM_NAME(this.gunName, false) : CREATE_GUN_FROM_NAME(this.gunNamePap, true)
+        if (GAME_ENGINE.ent_Player.points >= this.costCurrent && this.hasIntractedCooldown <= 0) { //has money & check spam
+            let acceptResponse = GAME_ENGINE.ent_Player.acceptNewGun(gunOffer)
             if (acceptResponse === 0) { //bought gun
-                GAME_ENGINE.ent_Player.losePoints(this.cost)
                 GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/weapon.mp3", 0.5))
-            } else if (acceptResponse === 1) { //bought ammo
-                GAME_ENGINE.ent_Player.losePoints(this.cost/2)
+                GAME_ENGINE.ent_Player.losePoints(this.costCurrent)
+            } else if (acceptResponse === 1) { //bought gun
+                GAME_ENGINE.ent_Player.losePoints(this.costCurrent)
             }
-            this.hasIntractedCooldown = 3
+            this.hasIntractedCooldown = 1
         }
     }
 
     hudText() {
-        let text = "F to Purchase " + this.gunName + " for " + this.cost
-        //check if already in inventory
-        for (let i = 0; i < GAME_ENGINE.ent_Player.gunInventory.length; i++) {
-            if (GAME_ENGINE.ent_Player.gunInventory[i].name === this.gunName) {
-                text = "F to purchase ammo for " + this.cost/2
+        //check if have gun
+        let guninv = GAME_ENGINE.ent_Player.gunInventory
+        //0=normal, 1=ammo, 2=pap ammo
+        this.state = 0
+        this.costCurrent  = this.cost
+        for (let i = 0; i < guninv.length; i++) {
+            if (guninv[i].name === this.gunName) {
+                this.costCurrent = this.cost/2 //ammo
+                this.state = 1
+            } else if (guninv[i].name === this.gunNamePap) {
+                this.costCurrent = 4500 //pap ammo
+                this.state = 2
             }
-            //TODO else if Check PAP
+        }
+
+        let text = null
+        switch (this.state) {
+            case 0:
+                text = "F to purchase " + this.gunName + " for " + this.costCurrent
+                break
+            case 1:
+                text = "F to purchase ammo for " + this.costCurrent
+                break
+            case 2:
+                text = "F to purchase PaP ammo for " + this.costCurrent
+                break
+
         }
         GAME_ENGINE.camera.map.hud.bottomMiddleInteract.displayText(text)
     }
@@ -1904,7 +1927,7 @@ class PackAPunch extends MapInteract {
          * @type {number}
          */
         this.state = 5
-        this.stateCooldown = 4
+        this.stateCooldown = 1.5
 
         this.animatorPaP = new Animator(ASSET_MANAGER.getAsset(PAP_IMG_PATH), 0,0, 221, 194, 1, 1, this.scale/3)
         this.animatorPaPLight = new Animator(ASSET_MANAGER.getAsset(PAPLIGHT_IMG_PATH), 0,0, 221, 194, 1, 1, this.scale/3)

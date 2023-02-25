@@ -1084,7 +1084,7 @@ class Gun_Thomspon extends Gun {
             0.09, //recoil increase per fire
             0.6, //recoil decrease rate
             2000, //bullets speedTerminal
-            0.1,0.5,
+            0.125,0.5,
             GUN_AR //animation type
         );
     }
