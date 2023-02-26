@@ -522,7 +522,7 @@ class WorldMap {
 
         let door_Swamp1 = new Door(964, 938, 115, 61, 1000, spawners_Swamp, this)
         GAME_ENGINE.addEntity(door_Swamp1)
-        let door_Swamp2 = new Door(859, 1122, 32, 91, 1000, spawners_Swamp, this)
+        let door_Swamp2 = new Door(708, 1119, 183, 70, 1000, spawners_Swamp, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Bloody School Bus.png"), 0,0, 649, 463, 1,1, 1.5), 674, 1060, this))
         GAME_ENGINE.addEntity(door_Swamp2)
 
         let door_Double1 = new Door(939, 549, 10, 89, 2000, [spawners_Swamp, spawners_DoubleTap], this)
@@ -2476,7 +2476,8 @@ class BGMPlayer {
     update() {
         if (this.duckTimer > 0) {
             this.duckTimer -= GAME_ENGINE.clockTick
-            this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume)
+            this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume) * document.getElementById("volume").value
+
         }
     }
 
@@ -2566,6 +2567,7 @@ class Radio extends MapInteract {
         if (this.active) {
             this.active = false
             this.aud.resetAndPlay()
+
         }
     }
 
