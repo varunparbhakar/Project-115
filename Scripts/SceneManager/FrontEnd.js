@@ -158,7 +158,9 @@ class PauseMenu extends MainMenu {
             GAME_ENGINE.ctx.strokeRect(0, 0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
             GAME_ENGINE.ctx.restore()
 
+
             GAME_ENGINE.ctx.save()
+            //title
             GAME_ENGINE.ctx.fillStyle = "white"
             GAME_ENGINE.ctx.font = 'bold 100px arial'
             GAME_ENGINE.ctx.textAlign = "left"
@@ -167,6 +169,31 @@ class PauseMenu extends MainMenu {
             GAME_ENGINE.ctx.shadowOffsetX = 5;
             GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y)
+            //Stats
+            let statsOffsetX = 1000
+            GAME_ENGINE.ctx.textAlign = "left"
+            GAME_ENGINE.ctx.fillText("Stats", FE_X + statsOffsetX, FE_Y)
+
+            //Kills
+            GAME_ENGINE.ctx.fillStyle = "white"
+            GAME_ENGINE.ctx.font = 'bold 50px arial'
+            GAME_ENGINE.ctx.textAlign = "left"
+            GAME_ENGINE.ctx.shadowColor = "black"
+            GAME_ENGINE.ctx.shadowBlur = 5
+            GAME_ENGINE.ctx.shadowOffsetX = 5;
+            GAME_ENGINE.ctx.shadowOffsetY = 5;
+            GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_kills, FE_X + statsOffsetX, FE_Y + 70)
+
+            //Points
+            GAME_ENGINE.ctx.fillStyle = "white"
+            GAME_ENGINE.ctx.font = 'bold 50px arial'
+            GAME_ENGINE.ctx.textAlign = "left"
+            GAME_ENGINE.ctx.shadowColor = "black"
+            GAME_ENGINE.ctx.shadowBlur = 5
+            GAME_ENGINE.ctx.shadowOffsetX = 5;
+            GAME_ENGINE.ctx.shadowOffsetY = 5;
+            GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, FE_X + statsOffsetX, FE_Y + 70 + 60)
+
             GAME_ENGINE.ctx.restore()
 
             for (let i = 0; i < this.buttons.length; i++) {
@@ -354,5 +381,45 @@ class DescriptionBottom extends FrontEnd {
 
     hudText(text) {
         this.text = text
+    }
+}
+
+class DieScreen extends FrontEnd {
+    constructor(statsDelay=2) {
+        super();
+        this.statsDelay = statsDelay
+        this.roundDiedOn = GAME_ENGINE.camera.map.roundManager.curr_Round
+    }
+
+    draw() {
+        let width = GAME_ENGINE.ctx.canvas.width
+        let height = GAME_ENGINE.ctx.canvas.height
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 100px arial'
+        GAME_ENGINE.ctx.fillStyle = this.hover ? "yellow" : "white"
+        this.hover = false
+        GAME_ENGINE.ctx.textAlign = "center"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 5
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText("GAME OVER", width/2, height/2 - 10)
+
+        GAME_ENGINE.ctx.font = 'bold 60px arial'
+        GAME_ENGINE.ctx.fillText("You Survived " + this.roundDiedOn + " Rounds", width/2, height/2 + 50)
+
+        if (this.statsDelay <= 0) {
+            GAME_ENGINE.ctx.font = 'bold 40px arial'
+            GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 150)
+            GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 190)
+        }
+
+        GAME_ENGINE.ctx.restore()
+    }
+
+    update() {
+        if (this.statsDelay > 0) {
+            this.statsDelay -= GAME_ENGINE.clockTick
+        }
     }
 }

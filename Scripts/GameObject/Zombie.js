@@ -116,6 +116,8 @@ class Zombie extends GameObject {
     }
 
     update() {
+        if (!GAME_ENGINE.ent_Player.alive) {return} //dont care anymore if player is dead
+
         this.movementHandler()
         this.angle = this.rotateHandler();
 

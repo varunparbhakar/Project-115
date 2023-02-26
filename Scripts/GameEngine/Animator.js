@@ -65,7 +65,7 @@ class AnimatorRotate {
         this.canvas = null
     }
 
-    drawFrame(object_posX, object_posY, angle) {
+    drawFrame(object_posX, object_posY, angle, opacity=1) {
         //Spritesheet scroll
         if (!GAME_ENGINE.options.paused) {this.elaspedTime += GAME_ENGINE.clockTick}
         if(this.elaspedTime > this.totalTime) {
@@ -106,11 +106,14 @@ class AnimatorRotate {
             this.canvas = tempCanvas
         }
 
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.globalAlpha = opacity
         GAME_ENGINE.ctx.drawImage(
             this.canvas, //what to draw
             object_posX - (this.canvas.width/2) - GAME_ENGINE.camera.posX, //where X
             object_posY - (this.canvas.height/2) - GAME_ENGINE.camera.posY, //where Y
         )
+        GAME_ENGINE.ctx.restore()
     }
 
     currentFrame() {

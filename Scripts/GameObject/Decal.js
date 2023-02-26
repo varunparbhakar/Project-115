@@ -33,6 +33,8 @@ class Particle extends FX {
     }
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class BloodDecal extends Decal {
     constructor(posX, posY) {
         super(
@@ -166,6 +168,30 @@ class FogParticle extends Particle {
 
     draw() {
         let alpha = Math.max((this.decayTime / 10), 0)
+        this.draw1(alpha)
+    }
+}
+
+class CorpseDecal extends Decal {
+    constructor(posX, posY, scale=3) {
+        super(
+            new Animator("Assets/Images/Items/explosionBlacken.png", 0,0,100,100,1,1, scale,false,false),
+            posX, posY,
+            30
+        );
+    }
+
+    update() {
+        super.update()
+        this.posX += this.velX
+        this.posY += this.velY
+
+        this.velX = this.velX > 0 ? this.velX - GAME_ENGINE.clockTick : this.velX + GAME_ENGINE.clockTick
+        this.velY = this.velY > 0 ? this.velY - GAME_ENGINE.clockTick : this.velY + GAME_ENGINE.clockTick
+    }
+
+    draw() {
+        let alpha = Math.max(this.decayTime / 5, 0)
         this.draw1(alpha)
     }
 }
