@@ -165,8 +165,8 @@ class WorldMap {
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
         GAME_ENGINE.addEntity(new MapBB(683, 491, 270, 10, this, true)) //Top Fence
-        GAME_ENGINE.addEntity(new MapBB(1019, 483, 104, 19, this)) //Top Rock
-        GAME_ENGINE.addEntity(new MapBB(1196, 492, 102, 9, this)) //Top Fence Right
+        GAME_ENGINE.addEntity(new MapBB(1009, 483, 114, 19, this)) //Top Rock
+        GAME_ENGINE.addEntity(new MapBB(1181, 492, 117, 9, this, true)) //Top Fence Right
         GAME_ENGINE.addEntity(new MapBB(1212, 492, 54, 199, this)) //Top Fence Right Big
         GAME_ENGINE.addEntity(new MapBB(686,493,10,258, this)) //Top Fence left big fence
         GAME_ENGINE.addEntity(new MapBB(801,685,34,7, this, true)) //Small fence knob
