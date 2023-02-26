@@ -2439,7 +2439,7 @@ class PaPBuildablePart extends MapInteract {
 class BGMPlayer {
     constructor(eePartsPosList = null, map) {
         this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.91, 1, 0, false)
-        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", 0.6, 0, 0, false) //TODO
+        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", 0.8, 0, 0, false) //TODO
         GAME_ENGINE.addEntity(this.ambAud)
         GAME_ENGINE.addEntity(this.musAud)
 
@@ -2479,8 +2479,8 @@ class BGMPlayer {
     update() {
         if (this.duckTimer > 0) {
             this.duckTimer -= GAME_ENGINE.clockTick
-            this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume) * document.getElementById("volume").value
-
+            // this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume) * document.getElementById("volume").value
+            this.ambAud.setVolume((1 - (this.duckTimer / 5)) * this.ambAud.volume) * document.getElementById("volume").value
         }
     }
 
@@ -2492,6 +2492,7 @@ class BGMPlayer {
         this.eePartsLeft--
         if (this.eePartsLeft <= 0) {
             this.musAud.resetAndPlay()
+            this.duckAmbForSec(this.musAud.aud.duration)
         }
     }
 

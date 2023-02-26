@@ -169,30 +169,27 @@ class PauseMenu extends MainMenu {
             GAME_ENGINE.ctx.shadowOffsetX = 5;
             GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y)
+
             //Stats
             let statsOffsetX = 1000
             GAME_ENGINE.ctx.textAlign = "left"
             GAME_ENGINE.ctx.fillText("Stats", FE_X + statsOffsetX, FE_Y)
 
-            //Kills
-            GAME_ENGINE.ctx.fillStyle = "white"
+            //Kills & Points
             GAME_ENGINE.ctx.font = 'bold 50px arial'
-            GAME_ENGINE.ctx.textAlign = "left"
-            GAME_ENGINE.ctx.shadowColor = "black"
-            GAME_ENGINE.ctx.shadowBlur = 5
-            GAME_ENGINE.ctx.shadowOffsetX = 5;
-            GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_kills, FE_X + statsOffsetX, FE_Y + 70)
-
-            //Points
-            GAME_ENGINE.ctx.fillStyle = "white"
-            GAME_ENGINE.ctx.font = 'bold 50px arial'
-            GAME_ENGINE.ctx.textAlign = "left"
-            GAME_ENGINE.ctx.shadowColor = "black"
-            GAME_ENGINE.ctx.shadowBlur = 5
-            GAME_ENGINE.ctx.shadowOffsetX = 5;
-            GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, FE_X + statsOffsetX, FE_Y + 70 + 60)
+
+            //Controls
+            GAME_ENGINE.ctx.font = 'bold 100px arial'
+            GAME_ENGINE.ctx.fillText("Controls", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150)
+            GAME_ENGINE.ctx.font = 'bold 50px arial'
+            GAME_ENGINE.ctx.fillText("WASD - Move", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70)
+            GAME_ENGINE.ctx.fillText("MouseL - Shoot", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + 60)
+            GAME_ENGINE.ctx.fillText("MouseR - Knife", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*2))
+            GAME_ENGINE.ctx.fillText("R - Reload", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70+ (60*3))
+            GAME_ENGINE.ctx.fillText("Q - Switch Weapons", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*4))
+            GAME_ENGINE.ctx.fillText("E - Throw Grenade", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*5))
 
             GAME_ENGINE.ctx.restore()
 
@@ -326,26 +323,26 @@ class PlayButton extends Button {
 
 class RestartButton extends Button {
     constructor() {
-        super(FE_Y_BUTTON, "Restart", "Current not working due to sound :( you have to hard refresh.");
+        super(FE_Y_BUTTON, "Restart", "Restart current game. (WARNING: This feature break game sound atm)");
     }
 
     use() { //TODO fix sound
-        // GAME_ENGINE.clearWorld(true)
-        // GAME_ENGINE.dontUpdatePlayerThisTick = true
-        // GAME_ENGINE.addEntity(new SceneManager())
-        // GAME_ENGINE.options.paused = false
+        GAME_ENGINE.clearWorld(true)
+        GAME_ENGINE.dontUpdatePlayerThisTick = true
+        GAME_ENGINE.addEntity(new SceneManager())
+        GAME_ENGINE.options.paused = false
     }
 }
 
 class ExitButton extends Button {
     constructor() {
-        super(FE_Y_BUTTON + 100, "End Game", "Current not working due to sound :( you have to hard refresh.");
+        super(FE_Y_BUTTON + 100, "End Game", "Returns to main menu. (WARNING: This feature break game sound atm)");
     }
 
     use() { //TODO fix sound
-        // GAME_ENGINE.clearWorld(true)
-        // GAME_ENGINE.addEntity(new MainMenu())
-        // GAME_ENGINE.options.paused = false
+        GAME_ENGINE.clearWorld(true)
+        GAME_ENGINE.addEntity(new MainMenu())
+        GAME_ENGINE.options.paused = false
     }
 }
 
