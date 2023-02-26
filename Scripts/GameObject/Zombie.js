@@ -369,7 +369,7 @@ class Zombie extends GameObject {
         if (this.removeFromWorld) return //already dead, don't give points (for shotguns)
         // console.log(damage, "from", this.hp)
         this.hp -= (GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer > 0 ? this.hp : damage)
-        //Decal
+        //Decals
         GAME_ENGINE.addEntity(new BloodDecal(this.posX, this.posY))
         if (this.hp <= 0) { //if died
             switch (type) {
@@ -387,6 +387,7 @@ class Zombie extends GameObject {
             }
             this.trySpawnPowerUp()
             GAME_ENGINE.camera.map.roundManager.reportKill()
+            GAME_ENGINE.addEntity(new CorpseDecal(this.posX, this.posY, this.angle))
             this.aud.soundDeleteGarbageCollect()
             this.removeFromWorld = true
         } else { //else non lethal hit

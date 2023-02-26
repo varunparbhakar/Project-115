@@ -173,12 +173,15 @@ class AnimatorRotateOnce {
         this.savedCanvas = tempCanvas
     }
 
-    drawFrame(posX, posY) {
+    drawFrame(posX, posY, opacity=1) {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.globalAlpha = opacity
         GAME_ENGINE.ctx.drawImage(
             this.savedCanvas, //what to draw
             posX - GAME_ENGINE.camera.posX, //where X
             posY - GAME_ENGINE.camera.posY, //where Y
         )
+        GAME_ENGINE.ctx.restore()
         let temp = this.width
     }
 
