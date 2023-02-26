@@ -500,34 +500,34 @@ class WorldMap {
         let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampLeft1, spawner_SwampLeft2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
         ////////////Doors////////////
-        let door_Jug1 = new Door(1268, 1132, 56, 8, 1000, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Door.png"), 0,0, 228, 114), 1268, 1128, this))
+        let door_Jug1 = new Door(1268, 1132, 56, 8, 1000, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 1264, 1125, this))
         GAME_ENGINE.addEntity(door_Jug1)
-        let door_Jug2 = new Door(1621, 1128, 54, 11, 1000, spawners_Jug, this)
+        let door_Jug2 = new Door(1621, 1128, 54, 11, 1000, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 1616, 1126, this))
         GAME_ENGINE.addEntity(door_Jug2)
 
-        let door_Mus1 = new Door(1299, 1420, 56, 10, 1000, spawners_Mus, this)
+        let door_Mus1 = new Door(1299, 1420, 56, 10, 1000, spawners_Mus, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 1295, 1414, this))
         GAME_ENGINE.addEntity(door_Mus1)
-        let door_Mus2 = new Door(1291, 1812, 10, 56, 1000, [spawners_Mus, spawners_BL], this)
+        let door_Mus2 = new Door(1291, 1812, 10, 56, 1000, [spawners_Mus, spawners_BL], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Vertical Single Door.png"), 0,0, 75, 228,1,1,1.2), 1285, 1808, this))
         GAME_ENGINE.addEntity(door_Mus2)
 
         let door_BL1 = new Door(884, 1631, 147, 56, 1000, spawners_BL, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Tree.png"), 0,0, 360, 360,1,1,1.5), 884, 1631, this))
         GAME_ENGINE.addEntity(door_BL1)
 
-        let door_Bar1 = new Door(635, 1258, 41, 12, 1000, [spawners_Swamp, spawners_Bar], this)
+        let door_Bar1 = new Door(635, 1258, 41, 12, 1000, [spawners_Swamp, spawners_Bar], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 623, 1254, this))
         GAME_ENGINE.addEntity(door_Bar1)
-        let door_Bar2 = new Door(874, 1371, 11, 73, 2500, spawners_Bar, this)
+        let door_Bar2 = new Door(874, 1371, 11, 73, 2500, spawners_Bar, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Vertical Double Doors.png"), 0,0, 91, 441,1,1,1), 870, 1360, this))
         GAME_ENGINE.addEntity(door_Bar2)
-        let door_Bar3 = new Door(756, 1676, 57, 15, 1000, [spawners_BL, spawners_Bar], this)
+        let door_Bar3 = new Door(756, 1676, 57, 15, 1000, [spawners_BL, spawners_Bar], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 751, 1669, this))
         GAME_ENGINE.addEntity(door_Bar3)
 
-        let door_Swamp1 = new Door(964, 938, 115, 61, 1000, spawners_Swamp, this)
+        let door_Swamp1 = new Door(964, 938, 80, 61, 1000, spawners_Swamp, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Meterorite.png"), 0,0, 820, 800, 1,1, 1), 889, 870, this))
         GAME_ENGINE.addEntity(door_Swamp1)
         let door_Swamp2 = new Door(708, 1119, 183, 70, 1000, spawners_Swamp, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Bloody School Bus.png"), 0,0, 649, 463, 1,1, 1.5), 674, 1060, this))
         GAME_ENGINE.addEntity(door_Swamp2)
 
-        let door_Double1 = new Door(939, 549, 10, 89, 2000, [spawners_Swamp, spawners_DoubleTap], this)
+        let door_Double1 = new Door(939, 549, 10, 89, 2000, [spawners_Swamp, spawners_DoubleTap], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Vertical Double Doors.png"), 0,0, 91, 441,1,1,1), 934, 546, this))
         GAME_ENGINE.addEntity(door_Double1)
-        let door_Double2 = new Door(820, 748, 56, 9, 2000, [spawners_Swamp, spawners_DoubleTap], this)
+        let door_Double2 = new Door(820, 748, 56, 9, 2000, [spawners_Swamp, spawners_DoubleTap], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 816, 742, this))
         GAME_ENGINE.addEntity(door_Double2)
 
         ////////////Wall Buys///////////
@@ -963,7 +963,7 @@ class Door extends MapInteract {
         this.isLocked = true //TODO remove if not needed
 
         if (mapInteractAnimator == null) {
-            this.animator = new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Door.png"), 0,0, 228, 114), this.bb.x, this.bb.y, null)
+            this.animator = new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75), this.bb.x, this.bb.y, null)
         } else {
             this.animator = mapInteractAnimator
         }

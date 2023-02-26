@@ -68,6 +68,12 @@ var lines = [
 "Assets/Images/Map/Door.png",
 "Assets/Images/Map/Bloody School Bus.png",
 "Assets/Images/Map/Tree.png",
+	"Assets/Images/Map/Meterorite.png",
+	"Assets/Images/Map/Horizontal Single Door.png",
+	"Assets/Images/Map/Horizontal Double Doors.png",
+	"Assets/Images/Map/Vertical Double Doors.png",
+	"Assets/Images/Map/Vertical Single Door.png",
+
 ]
 
 for (let i = 0; i < lines.length; i++) {
