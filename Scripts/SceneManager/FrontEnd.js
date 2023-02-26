@@ -51,7 +51,7 @@ class MainMenu extends FrontEnd {
     constructor(
         buttons=[
             new PlayButton(),
-            new Button(FE_Y_BUTTON + 100, "Options", "Configure options of gameplay."),
+            new OptionsButton(),
             new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
         ],
         title = "Ye Zombie"
@@ -66,7 +66,7 @@ class MainMenu extends FrontEnd {
         this.buttons = buttons
 
         //submenu
-        this.submenu = null
+        this.submenu = new OptionsMenu()
 
         //bottom
         this.bottomDesc = new DescriptionBottom()
@@ -122,6 +122,8 @@ class MainMenu extends FrontEnd {
             this.buttons[i].draw()
         }
 
+        this.submenu.draw();
+    
         this.bottomDesc.draw()
 
         this.cursor.drawBoundingBox("red")
@@ -178,7 +180,46 @@ class PauseMenu extends MainMenu {
     }
 }
 
-class SubMenu extends FrontEnd {
+/**
+ *  -Aspect Ratio (adjuster buttons 16:9, 21:9)
+    -Zombie concurrent amount (int slider or adjuster buttons [24, 32, 48 ,56, 64])
+    -always run zombie (bool button)
+    -no spawn delay (bool button)
+    -starting money (int slider or adjuster buttons [500, 1000, 1500, 2000, 2500, etc.])
+    -starting round (int slider or adjuster buttons [1 to 250 by 1])
+    -Cheats (bool button)
+ */
+class OptionsMenu extends FrontEnd {
+    draw() {
+        let t = new Panel(800, 200, "test")
+        t.draw()
+
+        new AspectRationButton().draw()
+        
+    }
+}
+
+class Panel extends FrontEnd {
+    constructor(posX, posY, title) {
+        super();
+        Object.assign(this, {posX, posY, title})
+
+        this.width = 700;
+        this.height = 800
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = this.hover ? "yellow" : "white"
+        GAME_ENGINE.ctx.fillStyle = "green";
+        GAME_ENGINE.ctx.fillRect(this.posX, this.posY, this.width, this.height);
+        GAME_ENGINE.ctx.restore()
+    }
+
 
 }
 
@@ -222,6 +263,28 @@ class Button extends FrontEnd {
     }
 }
 
+class AspectRationButton extends Button {
+    constructor() {
+        super(400, "AspectRationButton", "Configure options of gameplay.", 600);
+    }
+
+    use() {
+        console.log("YO")
+        console.log("Y2O")
+    }
+}
+
+class OptionsButton extends Button {
+    constructor() {
+        super(FE_Y_BUTTON + 100, "Options", "Configure options of gameplay.");
+    }
+
+    use() {
+        console.log("YO")
+        console.log("Y2O")
+    }
+}
+
 class PlayButton extends Button {
     constructor() {
         super(FE_Y_BUTTON, "Play", "Choose the map and play.");
@@ -246,6 +309,7 @@ class RestartButton extends Button {
         // GAME_ENGINE.options.paused = false
     }
 }
+
 class ExitButton extends Button {
     constructor() {
         super(FE_Y_BUTTON + 100, "End Game", "Current not working due to sound :( you have to hard refresh.");
