@@ -510,7 +510,7 @@ class WorldMap {
         let door_Mus2 = new Door(1291, 1812, 10, 56, 1000, [spawners_Mus, spawners_BL], this)
         GAME_ENGINE.addEntity(door_Mus2)
 
-        let door_BL1 = new Door(884, 1631, 147, 56, 1000, spawners_BL, this)
+        let door_BL1 = new Door(884, 1631, 147, 56, 1000, spawners_BL, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Tree.png"), 0,0, 360, 360,1,1,1.5), 884, 1631, this))
         GAME_ENGINE.addEntity(door_BL1)
 
         let door_Bar1 = new Door(635, 1258, 41, 12, 1000, [spawners_Swamp, spawners_Bar], this)
