@@ -203,3 +203,33 @@ class CorpseDecal extends Decal {
         this.anim.drawFrame(this.posX, this.posY, this.angle, alpha)
     }
 }
+
+class Lightning extends Particle {
+    constructor(posX, posY, scale=15) {
+        super(
+            new Animator("Assets/Images/Items/Smoke.png", 0,0,100,100,1,1, scale * (Math.random() + 0.5),false,false),
+            posX, posY,
+            (Math.random() + 1) * 0.25
+        );
+        this.velX = (Math.random() - 0.5) * 0.5
+        this.velY = (Math.random() - 0.5) * 0.5
+        this.glow = new Glow(posX, posY, scale, rgb(210, 210, 255), 1)
+    }
+
+    update() {
+        super.update()
+        this.posX += this.velX
+        this.posY += this.velY
+
+        this.velX = this.velX > 0 ? this.velX - GAME_ENGINE.clockTick / 3 : this.velX + GAME_ENGINE.clockTick / 3
+        this.velY = this.velY > 0 ? this.velY - GAME_ENGINE.clockTick / 3 : this.velY + GAME_ENGINE.clockTick / 3
+    }
+
+    draw() {
+        let alpha = Math.max((this.decayTime / 3), 0)
+        // this.draw1(alpha)
+
+        this.glow.changeAlpha(alpha)
+        this.glow.draw()
+    }
+}

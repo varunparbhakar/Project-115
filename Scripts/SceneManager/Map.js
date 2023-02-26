@@ -1000,6 +1000,9 @@ class Door extends MapInteract {
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/lightning_l.mp3", 0.5, center[0], center[1], 3000))
             this.isLocked = false //TODO remove if not needed
             this.removeFromWorld = true
+            for (let i = 0; i < 20; i++) {
+                GAME_ENGINE.addEntity(new Lightning(center[0] + ((Math.random() - 0.5) * this.bb.width/2), center[1] + ((Math.random() - 0.5) * this.bb.height/2)))
+            }
         }
     }
 
