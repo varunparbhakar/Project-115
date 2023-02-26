@@ -1,6 +1,7 @@
 //TODO make into object to be configured
 // const MIXER_MASTER = document.getElementById("volume").value
-const MIXER_MUSIC_VOL = 1
+const MIXER_MUSIC_VOL = 0.8
+const MIXER_AMB_VOL = 0.91
 const MIXER_GUNSHOT_VOL = 0.9
 const MIXER_GUNRELOAD_VOL = 0.2
 const MIXER_CASH_ACCEPT = 0.2

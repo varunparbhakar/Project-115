@@ -228,7 +228,11 @@ class GameEngine {
     }
 
     addEntity(entity) {
-        if (entity instanceof Projectile) {
+        if (
+            entity instanceof Projectile ||
+            entity instanceof RaycastZombies ||
+            entity instanceof RaycastExplosivePlayer
+        ) {
             this.ent_Projectiles.push(entity)
         } else if (entity instanceof Zombie) {
             this.ent_Zombies.push(entity)

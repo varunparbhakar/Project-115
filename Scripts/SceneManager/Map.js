@@ -2438,8 +2438,8 @@ class PaPBuildablePart extends MapInteract {
 
 class BGMPlayer {
     constructor(eePartsPosList = null, map) {
-        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.91, 1, 0, false)
-        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", 0.8, 0, 0, false) //TODO
+        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", MIXER_AMB_VOL, 1, 0, false)
+        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", MIXER_MUSIC_VOL, 0, 0, false) //TODO
         GAME_ENGINE.addEntity(this.ambAud)
         GAME_ENGINE.addEntity(this.musAud)
 

@@ -382,10 +382,18 @@ class DescriptionBottom extends FrontEnd {
 }
 
 class DieScreen extends FrontEnd {
-    constructor(statsDelay=2) {
+    constructor() {
         super();
-        this.statsDelay = statsDelay
+        this.timer = 0
         this.roundDiedOn = GAME_ENGINE.camera.map.roundManager.curr_Round
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/dieScreen1.mp3", MIXER_MUSIC_VOL))
+
+        this.atSwitch = () => {
+            GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3, "black")
+            GAME_ENGINE.camera.resetShake()
+
+            this.atSwitch = null
+        }
     }
 
     draw() {
@@ -405,18 +413,58 @@ class DieScreen extends FrontEnd {
         GAME_ENGINE.ctx.font = 'bold 60px arial'
         GAME_ENGINE.ctx.fillText("You Survived " + this.roundDiedOn + " Rounds", width/2, height/2 + 50)
 
-        if (this.statsDelay <= 0) {
+        if (this.timer > 1.35) {
+            if (this.atSwitch != null) {this.atSwitch()}
+            GAME_ENGINE.camera.isTrackingPlayer = false
             GAME_ENGINE.ctx.font = 'bold 40px arial'
             GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 150)
             GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 190)
+
+            let songTime = 26.426
+            GAME_ENGINE.camera.posX = (500 + ((this.timer / songTime) * 300)) * GAME_ENGINE.camera.map.scale
+            GAME_ENGINE.camera.posY = (300 + ((this.timer / songTime) * 1000)) * GAME_ENGINE.camera.map.scale
+
+            if (this.timer > songTime) {
+                GAME_ENGINE.clearWorld(true)
+                GAME_ENGINE.addEntity(new DieReturnScreen())
+            }
         }
 
         GAME_ENGINE.ctx.restore()
     }
 
     update() {
-        if (this.statsDelay > 0) {
-            this.statsDelay -= GAME_ENGINE.clockTick
+        this.timer += GAME_ENGINE.clockTick
+    }
+}
+
+class DieReturnScreen extends FrontEnd {
+    constructor() {
+        super()
+    }
+
+    update() {
+        if (GAME_ENGINE.left_click) { //has to be delayed
+            this.removeFromWorld = true
+            GAME_ENGINE.addEntity(new MainMenu());
         }
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = "black"
+        GAME_ENGINE.ctx.globalAlpha = 1
+        GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+
+        GAME_ENGINE.ctx.font = 'bold 50px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.textAlign = "center"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 10
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText("At the moment, restarting the map breaks all audio. You might need to hard refresh.", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
+        GAME_ENGINE.ctx.fillText("Otherwise, click the screen to return to main menu...", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2 + 45)
+        GAME_ENGINE.ctx.restore()
     }
 }

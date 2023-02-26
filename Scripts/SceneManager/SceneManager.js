@@ -12,6 +12,7 @@ class SceneManager {
         this.posY = 0;
         this.shake_current = 0
         this.shake_intensity = 0
+        this.isTrackingPlayer = true
 
         //Map
         this.changeLevel("level1") //TODO TITLE
@@ -21,10 +22,12 @@ class SceneManager {
      * Moves Camera to midpoint between Player World Pos & Mouse World Pos
      */
     update() {
-        if (this.player == null) return
-        //Moved Up and Left by (GAME_ENGINE.ctx.canvas.[width/height] / 2) for centering
-        this.posX = ((this.player.posX + GAME_ENGINE.getMouseWorldPosX()) / 2) - (GAME_ENGINE.ctx.canvas.width / 2)
-        this.posY = ((this.player.posY + GAME_ENGINE.getMouseWorldPosY()) / 2) - (GAME_ENGINE.ctx.canvas.height / 2)
+        if (this.isTrackingPlayer) {
+            if (this.player == null) return
+            //Moved Up and Left by (GAME_ENGINE.ctx.canvas.[width/height] / 2) for centering
+            this.posX = ((this.player.posX + GAME_ENGINE.getMouseWorldPosX()) / 2) - (GAME_ENGINE.ctx.canvas.width / 2)
+            this.posY = ((this.player.posY + GAME_ENGINE.getMouseWorldPosY()) / 2) - (GAME_ENGINE.ctx.canvas.height / 2)
+        }
         //shakeHandler
         if (this.shake_current > 0) {
             this.posX += ((Math.random() * 2) - 1) * this.shake_intensity * (this.shake_current/this.shake_max)
@@ -61,5 +64,9 @@ class SceneManager {
         this.shake_current += length
         this.shake_max = Math.max(this.shake_max, length)
         this.shake_intensity = Math.max(this.shake_intensity, intensity)
+    }
+
+    resetShake() {
+        this.shake_current = 0
     }
 }

@@ -322,6 +322,8 @@ class HUDHurt {
     }
 
     draw() {
+        if (!GAME_ENGINE.ent_Player.alive) {return}
+
         if (this.flashDecay > 0) {
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = "red"
