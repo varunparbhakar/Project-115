@@ -398,8 +398,8 @@ class Gun {
     }
 
     getSpreadAngle(angle) {
-        return angle;
-        // return angle + this.currentRecoil * (Math.random() * 2 - 1)
+        // return angle;
+        return angle + this.currentRecoil * (Math.random() * 2 - 1)
     }
 
     reload() {
