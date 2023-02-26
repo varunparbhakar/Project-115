@@ -378,22 +378,23 @@ class Gun {
 
     shoot2(posX, posY, angle) { //shooy the bullet
 
-        this.sizeXX = 40
-        this.sizeYY = 45
-        this.bulletXOffset = this.sizeXX * Math.cos(angle) - this.sizeYY * Math.sin(angle)
-        this.bulletYOffset = this.sizeXX * Math.sin(angle) + this.sizeYY * Math.cos(angle)
+        // this.sizeXX = 40
+        // this.sizeYY = 45
+        // this.bulletXOffset = this.sizeXX * Math.cos(angle) - this.sizeYY * Math.sin(angle)
+        // this.bulletYOffset = this.sizeXX * Math.sin(angle) + this.sizeYY * Math.cos(angle)
+        //
+        // this.bulletXOffset = 0
+        // this.bulletYOffset = 0
+        //
+        // let bulletX = posX + this.bulletXOffset
+        // let bulletY = posY + this.bulletYOffset
+        //
+        // let angDiff = Math.atan2( (GAME_ENGINE.getMouseWorldPosY() - bulletY), (GAME_ENGINE.getMouseWorldPosX() - bulletX))
+        //
+        // console.log(angDiff + " " + bulletY + " " + bulletX)
 
-        this.bulletXOffset = 0
-        this.bulletYOffset = 0
-
-        let bulletX = posX + this.bulletXOffset
-        let bulletY = posY + this.bulletYOffset 
-
-        let angDiff = Math.atan2( (GAME_ENGINE.getMouseWorldPosY() - bulletY), (GAME_ENGINE.getMouseWorldPosX() - bulletX)) 
-
-        console.log(angDiff + " " + bulletY + " " + bulletX)
-
-        GAME_ENGINE.addEntity(new Bullet(bulletX, bulletY, this.getSpreadAngle(angDiff), this.damage, this.bulletSpeed))
+        // GAME_ENGINE.addEntity(new Bullet(bulletX, bulletY, this.getSpreadAngle(angDiff), this.damage, this.bulletSpeed))
+        GAME_ENGINE.addEntity(new Bullet(posX, posY, this.getSpreadAngle(angle), this.damage, this.bulletSpeed))
     }
 
     getSpreadAngle(angle) {
