@@ -13,6 +13,7 @@ class GameEngine {
         this.ent_Projectiles = []
         this.ent_Player = null
         this.ent_Zombies = []
+        this.ent_Particles = []
         this.ent_MapForeground = []
         this.ent_HUD = []
         this.ent_Etc = []
@@ -233,6 +234,8 @@ class GameEngine {
             this.ent_Zombies.push(entity)
         } else if (entity instanceof Decal) {
             this.ent_Decals.push(entity)
+        } else if (entity instanceof Particle) {
+            this.ent_Particles.push(entity)
         } else if (
             entity instanceof MapBB ||
             entity instanceof MapBBPlayerOnly ||
@@ -278,6 +281,7 @@ class GameEngine {
         this.draw1(this.ent_Projectiles)
         this.draw1(this.ent_Player)
         this.draw1(this.ent_Zombies)
+        this.draw1(this.ent_Particles)
         this.draw1(this.ent_MapForeground)
         this.draw1(this.ent_HUD)
         this.draw1(this.ent_Etc)
@@ -315,6 +319,7 @@ class GameEngine {
                 this.dontUpdatePlayerThisTick = false
             }
             this.update1(this.ent_Zombies)
+            this.update1(this.ent_Particles)
             this.update1(this.ent_MapForeground)
             this.update1(this.ent_HUD)
             this.update1(this.ent_Etc)
@@ -363,6 +368,7 @@ class GameEngine {
         this.clearWorld1(clearSceneManager, this.ent_Projectiles)
         this.clearWorld1(clearSceneManager, this.ent_Player)
         this.clearWorld1(clearSceneManager, this.ent_Zombies)
+        this.clearWorld1(clearSceneManager, this.ent_Particles)
         this.clearWorld1(clearSceneManager, this.ent_MapForeground)
         this.clearWorld1(clearSceneManager, this.ent_HUD)
         this.clearWorld1(clearSceneManager, this.ent_FE)
