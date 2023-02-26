@@ -2182,6 +2182,9 @@ class RoundManager {
         console.log("ROUND 1")
         console.log("Z count: " + this.curr_ZombiesLeft)
         console.log("Z hp: " + this.curr_ZombiesHealth)
+
+        //TODO game start mus
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundStart1.mp3"))
     }
 
     /**
