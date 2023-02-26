@@ -68,7 +68,8 @@ var lines = [
 	"Assets/Images/Items/blood02.png",
 	"Assets/Images/Items/Smoke.png",
 	"Assets/Images/Items/explosionBlacken.png",
-"Assets/Images/Map/Door.png", ]
+"Assets/Images/Map/Door.png",
+"Assets/Images/Map/Bloody School Bus.png", ]
 
 for (let i = 0; i < lines.length; i++) {
 	ASSET_MANAGER.queueDownload(lines[i])

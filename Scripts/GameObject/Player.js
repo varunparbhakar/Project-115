@@ -106,6 +106,9 @@ class Player extends GameObject {
     };
 
     update() {
+
+
+
         if (!this.alive) {return} //dead, dont update
 
         //Mouse
