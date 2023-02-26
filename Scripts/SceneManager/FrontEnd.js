@@ -156,7 +156,9 @@ class PauseMenu extends MainMenu {
             GAME_ENGINE.ctx.strokeRect(0, 0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
             GAME_ENGINE.ctx.restore()
 
+
             GAME_ENGINE.ctx.save()
+            //title
             GAME_ENGINE.ctx.fillStyle = "white"
             GAME_ENGINE.ctx.font = 'bold 100px arial'
             GAME_ENGINE.ctx.textAlign = "left"
@@ -165,6 +167,31 @@ class PauseMenu extends MainMenu {
             GAME_ENGINE.ctx.shadowOffsetX = 5;
             GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y)
+            //Stats
+            let statsOffsetX = 1000
+            GAME_ENGINE.ctx.textAlign = "left"
+            GAME_ENGINE.ctx.fillText("Stats", FE_X + statsOffsetX, FE_Y)
+
+            //Kills
+            GAME_ENGINE.ctx.fillStyle = "white"
+            GAME_ENGINE.ctx.font = 'bold 50px arial'
+            GAME_ENGINE.ctx.textAlign = "left"
+            GAME_ENGINE.ctx.shadowColor = "black"
+            GAME_ENGINE.ctx.shadowBlur = 5
+            GAME_ENGINE.ctx.shadowOffsetX = 5;
+            GAME_ENGINE.ctx.shadowOffsetY = 5;
+            GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_kills, FE_X + statsOffsetX, FE_Y + 70)
+
+            //Points
+            GAME_ENGINE.ctx.fillStyle = "white"
+            GAME_ENGINE.ctx.font = 'bold 50px arial'
+            GAME_ENGINE.ctx.textAlign = "left"
+            GAME_ENGINE.ctx.shadowColor = "black"
+            GAME_ENGINE.ctx.shadowBlur = 5
+            GAME_ENGINE.ctx.shadowOffsetX = 5;
+            GAME_ENGINE.ctx.shadowOffsetY = 5;
+            GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, FE_X + statsOffsetX, FE_Y + 70 + 60)
+
             GAME_ENGINE.ctx.restore()
 
             for (let i = 0; i < this.buttons.length; i++) {
