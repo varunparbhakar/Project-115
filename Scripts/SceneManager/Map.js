@@ -626,7 +626,7 @@ class MapLayer_Power extends MapLayer {
 
     onPower() {
         this.animator = this.animatorPowerOn
-        console.log(this.animator.spritesheetas)
+        console.log(this.animator.spritesheet)
     }
 }
 
