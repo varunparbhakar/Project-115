@@ -2336,6 +2336,12 @@ class RoundManager {
     reportPoints(points) {
         this.scoreboard_points += points
     }
+
+    reportPlayerDeath() {
+        GAME_ENGINE.addEntity(new DieScreen);
+        //music
+        //camera panning
+    }
 }
 
 PAP_BUILDABLE_TEX_PATH_LIST = ["Assets/Images/Map/Pack_A_Punch_part_1.png", "Assets/Images/Map/Pack_A_Punch_part_2.png", "Assets/Images/Map/Pack_A_Punch_part_3.png", "Assets/Images/Map/Pack_A_Punch_part_4.png"]

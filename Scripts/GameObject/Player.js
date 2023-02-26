@@ -375,7 +375,7 @@ class Player extends GameObject {
         //death?
         if (this.hp <= 0 && !this.perk_hasQuickRev) { //real death
             this.alive = false
-            //TODO make death screen
+            GAME_ENGINE.camera.map.roundManager.reportPlayerDeath()
         } else if (this.hp <= 0 && this.perk_hasQuickRev) { //Quick Revive, cause an explosion and get back
             //clear perks
             this.perk_hasQuickRev = false
@@ -405,7 +405,7 @@ class Player extends GameObject {
         if (this.hp >= 0) {
             this.hp -= GAME_ENGINE.clockTick * 0.25
         } else {
-            this.takeDamage(1)
+            this.takeDamage(1) //kill player
         }
         GAME_ENGINE.camera.map.hud.fullscreenLava.flash()
     }
