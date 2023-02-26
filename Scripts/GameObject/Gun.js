@@ -802,7 +802,7 @@ class Gun_M1911 extends Gun {
         super(
             "M1911",
             30, //dmg
-            800, //mag size
+            8, //mag size
             80, //total ammo
             0.15, //fire cooldown
             1.6, //reload time

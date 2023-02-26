@@ -356,10 +356,10 @@ class HUDHurt {
 }
 
 class HUDFlash {
-    constructor() {
-        this.flashDecay = 0
-        this.flashDecayMax = 0
-        this.color = "white"
+    constructor(startFadeBlack = 5) {
+        this.flashDecay = 3
+        this.flashDecayMax = 3
+        this.color = "black"
     }
 
     update() {
