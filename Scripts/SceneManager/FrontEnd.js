@@ -48,31 +48,30 @@ const FE_X = 50
 const FE_Y = 200
 const FE_Y_BUTTON = FE_Y + 150
 class MainMenu extends FrontEnd {
-    constructor(
-        buttons=[
-            new PlayButton(),
-            new OptionsButton(),
-            new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
-        ],
-        title = "Ye Zombie"
-    ) {
+    constructor() {
         super();
-        this.title = title
+
+
         this.cursor = new BoundingBox(0,0, 1,1)
         this.cursor.updateSides()
         this.lastLeftClick = GAME_ENGINE.left_click
 
-        //buttons
-        this.buttons = buttons
-
         //bottom
         this.bottomDesc = new DescriptionBottom()
 
-
-        //submenu
-        this.submenu = new OptionsMenu(this.cursor, this.bottomDesc)
         //BGM
 
+        let optionsButton = new OptionsButton()
+        optionsButton.use = () => {
+            if(this.submenu != undefined) this.submenu = undefined
+            else this.submenu = new OptionsMenu(this.cursor, this.bottomDesc, false)
+        }
+        this.buttons=[
+            new PlayButton(),
+            optionsButton,
+            new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
+        ]
+        this.title = "Ye Zombie"
     }
 
     update() {
@@ -86,7 +85,7 @@ class MainMenu extends FrontEnd {
         }
         this.cursor.updateSides()
 
-        this.submenu.update();
+        if(this.submenu != undefined) this.submenu.update();
 
 
         for (let i = 0; i < this.buttons.length; i++) {
@@ -124,9 +123,10 @@ class MainMenu extends FrontEnd {
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw()
         }
-
-        this.submenu.draw();
     
+        if(this.submenu != undefined) this.submenu.draw();
+
+
         this.bottomDesc.draw()
 
         this.cursor.drawBoundingBox("red")
@@ -218,10 +218,9 @@ class PauseMenu extends MainMenu {
 class OptionsMenu extends FrontEnd {
     constructor(cursor, bottomDesc) {
         super();
-
         this.bottomDesc = bottomDesc
         this.cursor = cursor
-
+        
         this.labelText = [
             "Aspect Ratio:", 
             "Zombie concurrent amount:", 
@@ -253,7 +252,7 @@ class OptionsMenu extends FrontEnd {
 
 
         let index = 1;
-        let zombieAmountValue = 24;
+        let zombieAmountValue = GAME_ENGINE.options.mainMenu_options_zombieAmount;
         let zombieAmountPlus = new GeneralButton("+", "Increase zombie amount", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
         let zombieAmount = new GeneralButton(zombieAmountValue, zombieAmountValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
         let zombieAmountMinus = new GeneralButton("-", "Decrease zombie amount", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(zombieAmountValue) + 25, 260 + (index * 150));
@@ -291,7 +290,8 @@ class OptionsMenu extends FrontEnd {
         let alwaysRunT = new GeneralButton("True", "Zombies will always run", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
         let alwaysRunF = new GeneralButton("False", "Zombies wont always run", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
 
-        alwaysRunF.setSelected(true)
+        alwaysRunT.setSelected(GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun)
+        alwaysRunF.setSelected(!GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun)
         alwaysRunT.use = function(a) {
              
             alwaysRunT.setSelected(true)
@@ -313,7 +313,8 @@ class OptionsMenu extends FrontEnd {
         let spawnDelayT = new GeneralButton("True", "Zombies will spawn delayed", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
         let spawnDelayF = new GeneralButton("False", "Zombies wont spawn delayed", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
 
-        spawnDelayF.setSelected(true)
+        spawnDelayT.setSelected(GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay)
+        spawnDelayF.setSelected(!GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay)
         spawnDelayT.use = function(a) {
              
             spawnDelayT.setSelected(true)
@@ -332,7 +333,7 @@ class OptionsMenu extends FrontEnd {
 
 
         index++
-        let startingMoneyValue = 500;
+        let startingMoneyValue = GAME_ENGINE.options.mainMenu_options_startingMoney;
         let startingMoneyPlus = new GeneralButton("+", "Increase starting money amount", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
         let startingMoney = new GeneralButton(startingMoneyValue, startingMoneyValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
         let startingMoneyMinus = new GeneralButton("-", "Increase starting money amount", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingMoneyValue) + 25, 260 + (index * 150));
@@ -366,7 +367,7 @@ class OptionsMenu extends FrontEnd {
 
 
         index++
-        let startingRoundValue = 1;
+        let startingRoundValue = GAME_ENGINE.options.mainMenu_options_zombiesStartingRound;
         let startingRoundPlus = new GeneralButton("+", "Increase starting round", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
         let startingRound = new GeneralButton(startingRoundValue, startingRoundValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
         let startingRoundMinus = new GeneralButton("-", "Decrease starting round", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingRoundValue) + 25, 260 + (index * 150));
@@ -404,7 +405,8 @@ class OptionsMenu extends FrontEnd {
         let cheatsT = new GeneralButton("True", "Cheats enabled", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
         let cheatsF = new GeneralButton("False", "Cheats disabled", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
 
-
+        cheatsT.setSelected(GAME_ENGINE.options.mainMenu_options_cheats)
+        cheatsF.setSelected(!GAME_ENGINE.options.mainMenu_options_cheats)
         cheatsT.use = function(a) {
              
             cheatsT.setSelected(true)
@@ -447,7 +449,7 @@ class OptionsMenu extends FrontEnd {
             cheatsF
         ]
 
-        
+        this.backGroundPanel = new Panel(800, 180, 1400, 1050)
     }
 
     getTextSize(text) {
@@ -470,7 +472,7 @@ class OptionsMenu extends FrontEnd {
     }
 
     draw() {
-        new Panel(800, 180, 1400, 1050).draw()
+        this.backGroundPanel.draw()
 
         for (let i = 0; i < this.labels.length; i++) {
             this.labels[i].draw()
@@ -480,7 +482,6 @@ class OptionsMenu extends FrontEnd {
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw()
         }
-
     }
 
     tryClick() {
