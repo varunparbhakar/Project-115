@@ -48,31 +48,30 @@ const FE_X = 50
 const FE_Y = 200
 const FE_Y_BUTTON = FE_Y + 150
 class MainMenu extends FrontEnd {
-    constructor(
-        buttons=[
-            new PlayButton(),
-            new OptionsButton(),
-            new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
-        ],
-        title = "Ye Zombie"
-    ) {
+    constructor() {
         super();
-        this.title = title
+
+
         this.cursor = new BoundingBox(0,0, 1,1)
         this.cursor.updateSides()
         this.lastLeftClick = GAME_ENGINE.left_click
-
-        //buttons
-        this.buttons = buttons
-
-        //submenu
-        this.submenu = new OptionsMenu()
 
         //bottom
         this.bottomDesc = new DescriptionBottom()
 
         //BGM
 
+        let optionsButton = new OptionsButton()
+        optionsButton.use = () => {
+            if(this.submenu != undefined) this.submenu = undefined
+            else this.submenu = new OptionsMenu(this.cursor, this.bottomDesc, false)
+        }
+        this.buttons=[
+            new PlayButton(),
+            optionsButton,
+            new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
+        ]
+        this.title = "Ye Zombie"
     }
 
     update() {
@@ -85,6 +84,9 @@ class MainMenu extends FrontEnd {
             this.cursor.y = 0
         }
         this.cursor.updateSides()
+
+        if(this.submenu != undefined) this.submenu.update();
+
 
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].update()
@@ -121,9 +123,10 @@ class MainMenu extends FrontEnd {
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw()
         }
-
-        this.submenu.draw();
     
+        if(this.submenu != undefined) this.submenu.draw();
+
+
         this.bottomDesc.draw()
 
         this.cursor.drawBoundingBox("red")
@@ -213,31 +216,290 @@ class PauseMenu extends MainMenu {
     -Cheats (bool button)
  */
 class OptionsMenu extends FrontEnd {
-    draw() {
-        let t = new Panel(800, 200, "test")
-        t.draw()
-
-        new AspectRationButton().draw()
-        
-    }
-}
-
-class Panel extends FrontEnd {
-    constructor(posX, posY, title) {
+    constructor(cursor, bottomDesc) {
         super();
-        Object.assign(this, {posX, posY, title})
+        this.bottomDesc = bottomDesc
+        this.cursor = cursor
+        
+        this.labelText = [
+            "Aspect Ratio:", 
+            "Zombie concurrent amount:", 
+            "Always run zombie:", 
+            "No spawn delay:",
+            "Starting money:",
+            "Starting round:",
+            "Cheats:"
+        ]
+        this.labels = []
 
-        this.width = 700;
-        this.height = 800
+        for(let i = 0; i < this.labelText.length; i++){
+            this.labels.push(new Label(850, 260 + (i * 150), this.labelText[i]))
+        }
+
+        let aspect169 = new GeneralButton("16/9", "Set aspect ratio to 16/9", 1280, 260);
+        aspect169.use = function(a) {
+            console.log("b1")
+            aspect169.setSelected(true)
+            aspect219.setSelected(false)
+        }
+
+        let aspect219 = new GeneralButton("21/9", "Set aspect ratio to 21/9", 1450, 260);
+        aspect219.use = function(a) {
+             
+            aspect169.setSelected(false)
+            aspect219.setSelected(true)
+        }
+
+
+        let index = 1;
+        let zombieAmountValue = GAME_ENGINE.options.mainMenu_options_zombieAmount;
+        let zombieAmountPlus = new GeneralButton("+", "Increase zombie amount", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let zombieAmount = new GeneralButton(zombieAmountValue, zombieAmountValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
+        let zombieAmountMinus = new GeneralButton("-", "Decrease zombie amount", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(zombieAmountValue) + 25, 260 + (index * 150));
+
+
+        zombieAmountPlus.use = function() {
+            GAME_ENGINE.ctx.font = 'bold 60px arial'
+            let a = GAME_ENGINE.ctx.measureText(zombieAmountValue).width
+            zombieAmountValue += 1
+            if(zombieAmountValue < 0) zombieAmountValue = 0;
+            let b = GAME_ENGINE.ctx.measureText(zombieAmountValue).width
+
+            GAME_ENGINE.options.mainMenu_options_zombieAmount = zombieAmountValue;
+
+
+            zombieAmount.setTitle(zombieAmountValue)
+
+            zombieAmountMinus.setX(b-a)
+        }
+
+        zombieAmountMinus.use = function() {
+            GAME_ENGINE.ctx.font = 'bold 60px arial'
+            let a = GAME_ENGINE.ctx.measureText(zombieAmountValue).width
+            zombieAmountValue -= 1
+            if(zombieAmountValue < 0) zombieAmountValue = 0;
+            let b = GAME_ENGINE.ctx.measureText(zombieAmountValue).width
+            GAME_ENGINE.options.mainMenu_options_zombieAmount = zombieAmountValue;
+
+            zombieAmount.setTitle(zombieAmountValue)
+
+            zombieAmountMinus.setX(b-a)
+        }
+
+        index++
+        let alwaysRunT = new GeneralButton("True", "Zombies will always run", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let alwaysRunF = new GeneralButton("False", "Zombies wont always run", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
+
+        alwaysRunT.setSelected(GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun)
+        alwaysRunF.setSelected(!GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun)
+        alwaysRunT.use = function(a) {
+             
+            alwaysRunT.setSelected(true)
+            alwaysRunF.setSelected(false)
+
+            GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun = true;
+
+        }
+
+        alwaysRunF.use = function(a) {
+             
+            alwaysRunT.setSelected(false)
+            alwaysRunF.setSelected(true)
+
+            GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun = false;
+        }
+
+        index++
+        let spawnDelayT = new GeneralButton("True", "Zombies will spawn delayed", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let spawnDelayF = new GeneralButton("False", "Zombies wont spawn delayed", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
+
+        spawnDelayT.setSelected(GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay)
+        spawnDelayF.setSelected(!GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay)
+        spawnDelayT.use = function(a) {
+             
+            spawnDelayT.setSelected(true)
+            spawnDelayF.setSelected(false)
+
+            GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay = true;
+        }
+
+        spawnDelayF.use = function(a) {
+             
+            spawnDelayT.setSelected(false)
+            spawnDelayF.setSelected(true)
+
+            GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay = false;
+        }
+
+
+        index++
+        let startingMoneyValue = GAME_ENGINE.options.mainMenu_options_startingMoney;
+        let startingMoneyPlus = new GeneralButton("+", "Increase starting money amount", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let startingMoney = new GeneralButton(startingMoneyValue, startingMoneyValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
+        let startingMoneyMinus = new GeneralButton("-", "Increase starting money amount", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingMoneyValue) + 25, 260 + (index * 150));
+
+
+        startingMoneyPlus.use = function() {
+            GAME_ENGINE.ctx.font = 'bold 60px arial'
+            let a = GAME_ENGINE.ctx.measureText(startingMoneyValue).width
+            startingMoneyValue += 500
+            if(startingMoneyValue < 0) startingMoneyValue = 0;
+            let b = GAME_ENGINE.ctx.measureText(startingMoneyValue).width
+
+            GAME_ENGINE.options.mainMenu_options_startingMoney = startingMoneyValue;
+            
+            startingMoney.setTitle(startingMoneyValue)
+            startingMoneyMinus.setX(b-a)
+        }
+
+        startingMoneyMinus.use = function() {
+            GAME_ENGINE.ctx.font = 'bold 60px arial'
+            let a = GAME_ENGINE.ctx.measureText(startingMoneyValue).width
+            startingMoneyValue -= 500
+            if(startingMoneyValue < 0) startingMoneyValue = 0;
+            let b = GAME_ENGINE.ctx.measureText(startingMoneyValue).width
+
+            GAME_ENGINE.options.mainMenu_options_startingMoney = startingMoneyValue;
+
+            startingMoney.setTitle(startingMoneyValue)
+            startingMoneyMinus.setX(b-a)
+        }
+
+
+        index++
+        let startingRoundValue = GAME_ENGINE.options.mainMenu_options_zombiesStartingRound;
+        let startingRoundPlus = new GeneralButton("+", "Increase starting round", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let startingRound = new GeneralButton(startingRoundValue, startingRoundValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
+        let startingRoundMinus = new GeneralButton("-", "Decrease starting round", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingRoundValue) + 25, 260 + (index * 150));
+
+
+        startingRoundPlus.use = function() {
+            GAME_ENGINE.ctx.font = 'bold 60px arial'
+            let a = GAME_ENGINE.ctx.measureText(startingRoundValue).width
+            startingRoundValue += 1
+            if(startingRoundValue == 0) startingRoundValue = 1;
+            let b = GAME_ENGINE.ctx.measureText(startingRoundValue).width
+
+
+            GAME_ENGINE.options.mainMenu_options_zombiesStartingRound = startingRoundValue;
+
+            startingRound.setTitle(startingRoundValue)
+            startingRoundMinus.setX(b-a)
+        }
+
+        startingRoundMinus.use = function() {
+            GAME_ENGINE.ctx.font = 'bold 60px arial'
+            let a = GAME_ENGINE.ctx.measureText(startingRoundValue).width
+            startingRoundValue -= 1
+            if(startingRoundValue < 0) startingRoundValue = 0;
+            let b = GAME_ENGINE.ctx.measureText(startingRoundValue).width
+
+            GAME_ENGINE.options.mainMenu_options_zombiesStartingRound = startingRoundValue;
+
+            startingRound.setTitle(startingRoundValue)
+            startingRoundMinus.setX(b-a)
+        }
+
+
+        index++
+        let cheatsT = new GeneralButton("True", "Cheats enabled", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let cheatsF = new GeneralButton("False", "Cheats disabled", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
+
+        cheatsT.setSelected(GAME_ENGINE.options.mainMenu_options_cheats)
+        cheatsF.setSelected(!GAME_ENGINE.options.mainMenu_options_cheats)
+        cheatsT.use = function(a) {
+             
+            cheatsT.setSelected(true)
+            cheatsF.setSelected(false)
+            
+            GAME_ENGINE.options.mainMenu_options_cheats = true;
+        }
+
+        cheatsF.use = function(a) {
+             
+            cheatsT.setSelected(false)
+            cheatsF.setSelected(true)
+            
+            GAME_ENGINE.options.mainMenu_options_cheats = false;
+        }
+        
+        this.buttons=[
+            aspect169,
+            aspect219,
+
+            zombieAmountPlus,
+            zombieAmount,
+            zombieAmountMinus,
+
+            alwaysRunT,
+            alwaysRunF,
+
+            spawnDelayT,
+            spawnDelayF,
+
+            startingMoneyPlus,
+            startingMoney,
+            startingMoneyMinus,
+
+            startingRoundPlus,
+            startingRound,
+            startingRoundMinus,
+
+            cheatsT,
+            cheatsF
+        ]
+
+        this.backGroundPanel = new Panel(800, 180, 1400, 1050)
+    }
+
+    getTextSize(text) {
+        GAME_ENGINE.ctx.font = 'bold 60px arial'
+        return  GAME_ENGINE.ctx.measureText(text).width
     }
 
     update() {
 
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].update()
+            if (this.cursor.collide(this.buttons[i].bb)) {
+                this.buttons[i].hover1(this.bottomDesc)
+                if (this.tryClick()) {
+                    this.buttons[i].use()
+                }
+            }
+        }
+        this.lastLeftClick = GAME_ENGINE.left_click
+    }
+
+    draw() {
+        this.backGroundPanel.draw()
+
+        for (let i = 0; i < this.labels.length; i++) {
+            this.labels[i].draw()
+        }
+
+        //background
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].draw()
+        }
+    }
+
+    tryClick() {
+        return this.lastLeftClick == false && GAME_ENGINE.left_click
+    }
+}
+
+class Panel extends FrontEnd {
+    constructor(posX, posY, width, height) {
+        super();
+        Object.assign(this, {posX, posY})
+
+        this.width = width;
+        this.height = height
     }
 
     draw() {
         GAME_ENGINE.ctx.save()
-        GAME_ENGINE.ctx.fillStyle = this.hover ? "yellow" : "white"
         GAME_ENGINE.ctx.fillStyle = "green";
         GAME_ENGINE.ctx.fillRect(this.posX, this.posY, this.width, this.height);
         GAME_ENGINE.ctx.restore()
@@ -273,6 +535,7 @@ class Button extends FrontEnd {
         GAME_ENGINE.ctx.fillText(this.text, this.posX, this.posY)
         GAME_ENGINE.ctx.restore()
 
+        
         this.bb.drawBoundingBox()
     }
 
@@ -286,16 +549,98 @@ class Button extends FrontEnd {
     }
 }
 
-class AspectRationButton extends Button {
-    constructor() {
-        super(400, "AspectRationButton", "Configure options of gameplay.", 600);
+class Label extends FrontEnd {
+    constructor(posX, posY, text) {
+        super();
+        Object.assign(this, {posX, posY, text})
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 60px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+
+        GAME_ENGINE.ctx.textAlign = "left"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 5
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText(this.text, this.posX, this.posY)
+        GAME_ENGINE.ctx.restore()
+
+    }
+
+}
+
+class GeneralButton extends FrontEnd {
+    constructor(title, hud, x, y, hoverIsOn = true, selected = false) {
+        super();
+        Object.assign(this, {title, hud, x, y, hoverIsOn, selected})
+        
+        this.bb = new BoundingBox(x, y - 50, 600, 60)
+        this.hover = false
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 60px arial'
+        GAME_ENGINE.ctx.fillStyle = this.selected ? "red" : this.hover && this.hoverIsOn ? "yellow" : "white"
+        GAME_ENGINE.ctx.textAlign = "left"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 5
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText(this.title, this.x, this.y)
+
+        const textWidth = GAME_ENGINE.ctx.measureText(this.title).width;
+        const textHeight = 60;
+
+        const x = this.x - 5;
+        const y = this.y - 60;
+        const width = textWidth + 15;
+        const height = textHeight + 15;
+        
+        GAME_ENGINE.ctx.strokeStyle = this.selected ? "red" : this.hover && this.hoverIsOn ? "yellow" : "white"
+        GAME_ENGINE.ctx.lineWidth = 3;
+        GAME_ENGINE.ctx.strokeRect(x, y, width, height);
+        this.hover = false
+
+        GAME_ENGINE.ctx.restore()
+
+        this.bb = new BoundingBox(x, y, width, height)
+        this.bb.drawBoundingBox()
     }
 
     use() {
-        console.log("YO")
-        console.log("Y2O")
     }
+
+    setTitle(title) {
+        this.title = title;
+    }
+
+    setX(x) {
+        this.x += x;
+    }
+
+    setSelected(bool) {
+        this.selected = bool;
+    }
+
+    hover1(bottomDesc) {
+        this.hover = true
+        bottomDesc.hudText(this.hud)
+    }
+
 }
+
 
 class OptionsButton extends Button {
     constructor() {
