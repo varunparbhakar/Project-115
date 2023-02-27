@@ -662,7 +662,6 @@ class PlayButton extends Button {
     }
 
     use() {
-        console.log(JSON.stringify(GAME_ENGINE.options))
         GAME_ENGINE.dontUpdatePlayerThisTick = true
         GAME_ENGINE.addEntity(new SceneManager())
         GAME_ENGINE.options.paused = false
