@@ -1525,7 +1525,10 @@ class PerkMachine extends MapInteract {
         this.cost = cost
         let center = this.bb.getCenteredPos()
         this.aud = new WorldSound(pathSndJingle, volume, center[0], center[1], 1700, false, 0, false)
+        GAME_ENGINE.addEntity(this.aud)
         this.stingerTime = stingerTime
+        this.audHum = new WorldSound("Assets/Audio/PerkJingles/hum_loop.mp3", 1, center[0],center[1], 500, true, 0, false, false)
+        GAME_ENGINE.addEntity(this.audHum)
         // this.jingleTimer = 0
         this.resetJingleTime()
         this.glow = null
@@ -1547,8 +1550,6 @@ class PerkMachine extends MapInteract {
 
     update() {
         if (!GAME_ENGINE.camera.map.powerSwitch.power) {return}
-
-        this.aud.update()
 
         if (this.jingleTimer > 0) {
             this.jingleTimer -= GAME_ENGINE.clockTick
@@ -1594,6 +1595,7 @@ class PerkMachine extends MapInteract {
         let center = this.bb.getCenteredPos()
         this.glow = new Glow(center[0], center[1], 10, this.glowColor, 0.25)
         GAME_ENGINE.addEntity(this.glow)
+        this.audHum.resumePlay()
     }
 
     destroyAudio() {
