@@ -140,40 +140,50 @@ class GameEngine {
                     this.key_switchGuns = true;
                     break;
                 case "KeyP":
-                    this.options.drawDebug = (this.options.drawDebug ? false : true)
-                    console.log("Draw Debug:", this.options.drawDebug)
+                    if (GAME_ENGINE.options.mainMenu_options_cheats) {
+                        this.options.drawDebug = (this.options.drawDebug ? false : true)
+                        console.log("Draw Debug:", this.options.drawDebug)
+                    }
                     break
                 case "KeyO":
-                    this.options.noclip = (this.options.noclip ? false : true)
-                    console.log("No Clip:", this.options.noclip)
+                    if (GAME_ENGINE.options.mainMenu_options_cheats) {
+                        this.options.noclip = (this.options.noclip ? false : true)
+                        console.log("No Clip:", this.options.noclip)
+                    }
                     break
                 case "KeyI":
-                    this.options.god = (this.options.god ? false : true)
-                    console.log("God:", this.options.god)
+                    if (GAME_ENGINE.options.mainMenu_options_cheats) {
+                        this.options.god = (this.options.god ? false : true)
+                        console.log("God:", this.options.god)
+                    }
                     break
                 case "KeyU":
-                    this.options.drawSpawnProx = (this.options.drawSpawnProx ? false : true)
-                    console.log("Draw Spawner Proximity:", this.options.drawSpawnProx)
+                    if (GAME_ENGINE.options.mainMenu_options_cheats) {
+                        this.options.drawSpawnProx = (this.options.drawSpawnProx ? false : true)
+                        console.log("Draw Spawner Proximity:", this.options.drawSpawnProx)
+                    }
                     break
                 case "KeyL":
-                    this.ent_Player.points = 100000
-                    console.log("Player Money")
+                    if (GAME_ENGINE.options.mainMenu_options_cheats) {
+                        this.ent_Player.points = 100000
+                        console.log("Player Money")
+                    }
                     break
-                case "KeyB":
-                    this.ctx.canvas.width = 1080
-                    this.ctx.canvas.height = 1080
-                    this.ctx.imageSmoothingEnabled = false
-                    break
-                case "KeyN":
-                    this.ctx.canvas.width = 1920
-                    this.ctx.canvas.height = 1080
-                    this.ctx.imageSmoothingEnabled = false
-                    break
-                case "KeyM":
-                    this.ctx.canvas.width = 2560
-                    this.ctx.canvas.height = 1440
-                    this.ctx.imageSmoothingEnabled = false
-                    break
+                // case "KeyB":
+                //     this.ctx.canvas.width = 1080
+                //     this.ctx.canvas.height = 1080
+                //     this.ctx.imageSmoothingEnabled = false
+                //     break
+                // case "KeyN":
+                //     this.ctx.canvas.width = 1920
+                //     this.ctx.canvas.height = 1080
+                //     this.ctx.imageSmoothingEnabled = false
+                //     break
+                // case "KeyM":
+                //     this.ctx.canvas.width = 2560
+                //     this.ctx.canvas.height = 1440
+                //     this.ctx.imageSmoothingEnabled = false
+                //     break
                 case "Escape":
                     if (this.ent_Player != null && this.ent_Player.alive) {
                         this.options.paused = !this.options.paused

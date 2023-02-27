@@ -73,6 +73,9 @@ class MainMenu extends FrontEnd {
             new Button(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing streaming delay (size = TODO MB)."),
         ]
         this.title = "Ye Zombie"
+
+        //background
+        this.backgroundImg = ASSET_MANAGER.getAsset("Assets/Images/Items/title.png")
     }
 
     update() {
@@ -103,12 +106,11 @@ class MainMenu extends FrontEnd {
 
     draw() {
         //background
-        GAME_ENGINE.ctx.save()
-        GAME_ENGINE.ctx.fillStyle = "black"
-        GAME_ENGINE.ctx.fillRect(0, 0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
-        GAME_ENGINE.ctx.strokeStyle = "white"
-        GAME_ENGINE.ctx.strokeRect(0, 0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
-        GAME_ENGINE.ctx.restore()
+        GAME_ENGINE.ctx.drawImage(
+            this.backgroundImg,
+            0,0,
+            GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height
+        )
 
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = "white"
@@ -217,12 +219,20 @@ class PauseMenu extends FrontEnd { //TODO inheritance
             GAME_ENGINE.ctx.font = 'bold 100px arial'
             GAME_ENGINE.ctx.fillText("Controls", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150)
             GAME_ENGINE.ctx.font = 'bold 50px arial'
-            GAME_ENGINE.ctx.fillText("WASD - Move", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70)
+            GAME_ENGINE.ctx.fillText("WASD - Move", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70) //TODO do arithmetic
             GAME_ENGINE.ctx.fillText("MouseL - Shoot", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + 60)
             GAME_ENGINE.ctx.fillText("MouseR - Knife", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*2))
             GAME_ENGINE.ctx.fillText("R - Reload", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70+ (60*3))
             GAME_ENGINE.ctx.fillText("Q - Switch Weapons", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*4))
             GAME_ENGINE.ctx.fillText("E - Throw Grenade", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*5))
+
+            if (GAME_ENGINE.options.mainMenu_options_cheats) {
+                GAME_ENGINE.ctx.fillText("P - Draw Collision", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70)
+                GAME_ENGINE.ctx.fillText("O - No Clip", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70 + 60)
+                GAME_ENGINE.ctx.fillText("I - God", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70+ (60*2))
+                GAME_ENGINE.ctx.fillText("U - Draw Spawners Radius", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70+ (60*3))
+                GAME_ENGINE.ctx.fillText("L - Insta Points", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70+ (60*4))
+            }
 
             GAME_ENGINE.ctx.restore()
 
@@ -261,7 +271,7 @@ class OptionsMenu extends FrontEnd {
             "Zombie concurrent amount:", 
             "Always run zombie:", 
             "No spawn delay:",
-            "Starting money:",
+            "Starting points:",
             "Starting round:",
             "Cheats:"
         ]
@@ -271,26 +281,31 @@ class OptionsMenu extends FrontEnd {
             this.labels.push(new Label(850, 260 + (i * 150), this.labelText[i]))
         }
 
-        let aspect169 = new GeneralButton("16/9", "Set aspect ratio to 16/9", 1280, 260);
+        let aspect169 = new GeneralButton("16:9", "Set resolution to 2560x1440.", 1280, 260);
         aspect169.use = function(a) {
             console.log("b1")
             aspect169.setSelected(true)
             aspect219.setSelected(false)
+            GAME_ENGINE.ctx.canvas.width = 2560
+            GAME_ENGINE.ctx.canvas.height = 1440
+            GAME_ENGINE.ctx.imageSmoothingEnabled = false
         }
 
-        let aspect219 = new GeneralButton("21/9", "Set aspect ratio to 21/9", 1450, 260);
+        let aspect219 = new GeneralButton("21:9", "Set resolution to 3440x1440.", 1450, 260);
         aspect219.use = function(a) {
-             
             aspect169.setSelected(false)
             aspect219.setSelected(true)
+            GAME_ENGINE.ctx.canvas.width = 3440
+            GAME_ENGINE.ctx.canvas.height = 1440
+            GAME_ENGINE.ctx.imageSmoothingEnabled = false
         }
 
 
         let index = 1;
         let zombieAmountValue = GAME_ENGINE.options.mainMenu_options_zombieAmount;
-        let zombieAmountPlus = new GeneralButton("+", "Increase zombie amount", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
-        let zombieAmount = new GeneralButton(zombieAmountValue, zombieAmountValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
-        let zombieAmountMinus = new GeneralButton("-", "Decrease zombie amount", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(zombieAmountValue) + 25, 260 + (index * 150));
+        let zombieAmountPlus = new GeneralButton("+", "Increase concurrent Zombie amount. (DEFAULT: 24)", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let zombieAmount = new GeneralButton(zombieAmountValue, "(DEFAULT: 24)", 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
+        let zombieAmountMinus = new GeneralButton("-", "Decrease concurrent Zombie amount. (DEFAULT: 24)", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(zombieAmountValue) + 25, 260 + (index * 150));
 
 
         zombieAmountPlus.use = function() {
@@ -322,8 +337,8 @@ class OptionsMenu extends FrontEnd {
         }
 
         index++
-        let alwaysRunT = new GeneralButton("True", "Zombies will always run", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
-        let alwaysRunF = new GeneralButton("False", "Zombies wont always run", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
+        let alwaysRunT = new GeneralButton("True", "Zombies will always spawn at fastest speed. (DEFAULT: False)", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let alwaysRunF = new GeneralButton("False", "Zombies speed is increased at higher rounds. (DEFAULT: False)", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
 
         alwaysRunT.setSelected(GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun)
         alwaysRunF.setSelected(!GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun)
@@ -345,8 +360,8 @@ class OptionsMenu extends FrontEnd {
         }
 
         index++
-        let spawnDelayT = new GeneralButton("True", "Zombies will spawn delayed", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
-        let spawnDelayF = new GeneralButton("False", "Zombies wont spawn delayed", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
+        let spawnDelayT = new GeneralButton("True", "Zombies will spawn as fast as possible. (DEFAULT: False)", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let spawnDelayF = new GeneralButton("False", "Zombies will increasing spawn faster at higher rounds. (DEFAULT: False)", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
 
         spawnDelayT.setSelected(GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay)
         spawnDelayF.setSelected(!GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay)
@@ -369,9 +384,9 @@ class OptionsMenu extends FrontEnd {
 
         index++
         let startingMoneyValue = GAME_ENGINE.options.mainMenu_options_startingMoney;
-        let startingMoneyPlus = new GeneralButton("+", "Increase starting money amount", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
-        let startingMoney = new GeneralButton(startingMoneyValue, startingMoneyValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
-        let startingMoneyMinus = new GeneralButton("-", "Increase starting money amount", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingMoneyValue) + 25, 260 + (index * 150));
+        let startingMoneyPlus = new GeneralButton("+", "Increase starting points (DEFAULT: 500)", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let startingMoney = new GeneralButton(startingMoneyValue, "(DEFAULT: 500)", 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
+        let startingMoneyMinus = new GeneralButton("-", "Increase starting points (DEFAULT: 500)", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingMoneyValue) + 25, 260 + (index * 150));
 
 
         startingMoneyPlus.use = function() {
@@ -403,9 +418,9 @@ class OptionsMenu extends FrontEnd {
 
         index++
         let startingRoundValue = GAME_ENGINE.options.mainMenu_options_zombiesStartingRound;
-        let startingRoundPlus = new GeneralButton("+", "Increase starting round", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
-        let startingRound = new GeneralButton(startingRoundValue, startingRoundValue, 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
-        let startingRoundMinus = new GeneralButton("-", "Decrease starting round", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingRoundValue) + 25, 260 + (index * 150));
+        let startingRoundPlus = new GeneralButton("+", "Increase starting round. (DEFAULT: 1)", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let startingRound = new GeneralButton(startingRoundValue, "(DEFAULT: 1)", 850 + this.getTextSize(this.labelText[index]) + 80, 260 + (index * 150), false);
+        let startingRoundMinus = new GeneralButton("-", "Decrease starting round. (DEFAULT: 1)", 850 + this.getTextSize(this.labelText[index]) + 80 + this.getTextSize(startingRoundValue) + 25, 260 + (index * 150));
 
 
         startingRoundPlus.use = function() {
@@ -437,8 +452,8 @@ class OptionsMenu extends FrontEnd {
 
 
         index++
-        let cheatsT = new GeneralButton("True", "Cheats enabled", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
-        let cheatsF = new GeneralButton("False", "Cheats disabled", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
+        let cheatsT = new GeneralButton("True", "Cheats enabled, check pause menu ingame for controls. (DEFAULT: False)", 850 + this.getTextSize(this.labelText[index]) + 20, 260 + (index * 150));
+        let cheatsF = new GeneralButton("False", "Cheats disabled (DEFAULT: False)", 850 + this.getTextSize(this.labelText[index]) + this.getTextSize("True") + 60, 260 + (index * 150));
 
         cheatsT.setSelected(GAME_ENGINE.options.mainMenu_options_cheats)
         cheatsF.setSelected(!GAME_ENGINE.options.mainMenu_options_cheats)
@@ -535,7 +550,8 @@ class Panel extends FrontEnd {
 
     draw() {
         GAME_ENGINE.ctx.save()
-        GAME_ENGINE.ctx.fillStyle = "green";
+        GAME_ENGINE.ctx.fillStyle = "black";
+        GAME_ENGINE.ctx.globalAlpha = 0.5
         GAME_ENGINE.ctx.fillRect(this.posX, this.posY, this.width, this.height);
         GAME_ENGINE.ctx.restore()
     }
@@ -720,6 +736,8 @@ class ExitButton extends Button {
 
     use() {
         GAME_ENGINE.ent_Player.takeDamage(GAME_ENGINE.ent_Player.hp)
+        // GAME_ENGINE.clearWorld(true)
+        // GAME_ENGINE.addEntity(new ReturnScreen())
         GAME_ENGINE.options.paused = false
     }
 }
@@ -766,6 +784,7 @@ class DieScreen extends FrontEnd {
         this.roundDiedOn = GAME_ENGINE.camera.map.roundManager.curr_Round
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/dieScreen1.mp3", MIXER_MUSIC_VOL))
         GAME_ENGINE.camera.map.bgmPlayer.duckAmbForSec(100)
+        GAME_ENGINE.camera.map.bgmPlayer.musAud.aud.pause()
 
         this.atSwitch = () => {
             GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3, "black")
@@ -821,7 +840,7 @@ class ReturnScreen extends FrontEnd {
     constructor() {
         super()
         GAME_ENGINE.clearWorld(true)
-        this.timer = 1
+        this.timer = 0.5
         this.removeFromWorld = false
     }
 
@@ -847,7 +866,7 @@ class ReturnScreen extends FrontEnd {
         GAME_ENGINE.ctx.shadowBlur = 10
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText("Unloading Sounds", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
+        GAME_ENGINE.ctx.fillText("", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
         GAME_ENGINE.ctx.restore()
     }
 

@@ -73,6 +73,7 @@ var lines = [
 	"Assets/Images/Map/Horizontal Double Doors.png",
 	"Assets/Images/Map/Vertical Double Doors.png",
 	"Assets/Images/Map/Vertical Single Door.png",
+	"Assets/Images/Items/title.png",
 
 ]
 

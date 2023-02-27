@@ -696,6 +696,12 @@ class Gun_T_Burst extends Gun {
         //reload cooldown
         if (this.currentReloadTime > 0) {
             this.currentReloadTime -= GAME_ENGINE.clockTick
+        } else if (this.currentReloadTime <= 0 && this.isReloading) {
+            //put ammo in mag
+            let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
+            this.currentMagazineAmmo += withdraw
+            this.currentTotalAmmo -= withdraw
+            this.isReloading = false
         } else {
             this.isSwitching = false
         }

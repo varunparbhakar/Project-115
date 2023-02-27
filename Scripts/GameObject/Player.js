@@ -71,7 +71,7 @@ class Player extends GameObject {
         this.sprintStamina = PLAYER_STAMINA_MAX;
         this.sprintRest = false;
         //Points
-        this.points = 500 //500
+        this.points = GAME_ENGINE.options.mainMenu_options_startingMoney //500
         //Knife
         this.knifeCooldownUntilAttack = 0
         this.isKnifing = false

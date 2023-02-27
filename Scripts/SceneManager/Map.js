@@ -2136,25 +2136,7 @@ class RoundManager {
          * List to choose where to spawn Zombie next. When new spawners ready, append to this list.
          */
         this.listOfEnabledSpawns = listOfEnabledSpawns
-        this.max_Zombies = 24
-        this.timedGameplay = false
-        this.alwaysRun = false
-        this.noRoundDelay = false
-        /**
-         * Secs to transition to next round, breather. Decreases next round
-         * @type {number}
-         */
-        this.thisRound_betweenRoundDelay = 10 //10
-        /**
-         * Rate to spawn zombie this round (sec). Will decrease next round
-         * @type {number}
-         */
-        this.thisRound_ZombiesSpawnDelay = 2 //2
-        /**
-         * The amount of zombies this round. Will increase in next round
-         * @type {number}
-         */
-        this.curr_ZombiesLeft = ROUND_COUNT[0] //6
+        this.max_Zombies = GAME_ENGINE.options.mainMenu_options_zombieAmount
         this.inRound = false
         this.curr_ZombiesSpawned = 0
         this.barrierBudget = 40
@@ -2167,14 +2149,32 @@ class RoundManager {
      * Begin calculator
      */
     start() {
-        this.curr_Round = 1
+        this.curr_Round = GAME_ENGINE.options.mainMenu_options_zombiesStartingRound
 
         // this.curr_ZombiesLeft = ROUND_COUNT[0]
         this.curr_ZombiesHealth = 50 + (100*this.curr_Round) //150
 
-        // this.thisRound_ZombiesSpawnDelay = Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1)
+        /**
+         * Rate to spawn zombie this round (sec). Will decrease next round
+         * @type {number}
+         */
+        this.thisRound_ZombiesSpawnDelay = (GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay ? 0.1 : Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1))
         this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
+
+        /**
+         * Secs to transition to next round, breather. Decreases next round
+         * @type {number}
+         */
+        this.thisRound_betweenRoundDelay = 10 //10 //TODO round based
         this.curr_betweenRoundDelay = this.thisRound_betweenRoundDelay
+
+        /**
+         * The amount of zombies this round. Will increase in next round
+         * @type {number}
+         */
+        this.curr_ZombiesLeft = this.curr_Round < 20 ?
+            ROUND_COUNT[this.curr_Round - 1] :
+            Math.ceil(Math.min([0.09 * (this.curr_Round * this.curr_Round) - 0.0029 * this.curr_Round + 23.958]))
 
         this.barrierBudget = Math.min(40 + (50 * (this.curr_Round - 1)), 490)
 
@@ -2214,9 +2214,9 @@ class RoundManager {
             50 + (100*this.curr_Round) :
             950 * Math.pow(1.1, this.curr_Round-9)
 
-        this.thisRound_ZombiesSpawnDelay = Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1)
+        this.thisRound_ZombiesSpawnDelay = (GAME_ENGINE.options.mainMenu_options_zombiesSpawnDelay ? 0.1 : Math.max(2 * Math.pow(0.95, this.curr_Round-1), 0.1))
         this.curr_ZombiesSpawnDelay = this.thisRound_ZombiesSpawnDelay
-        this.thisRound_betweenRoundDelay = Math.max(this.thisRound_betweenRoundDelay * 0.9, 5)
+        // this.thisRound_betweenRoundDelay = Math.max(this.thisRound_betweenRoundDelay * 0.9, 5) //TODO round based calculation
         this.curr_betweenRoundDelay = this.thisRound_betweenRoundDelay
 
         this.barrierBudget = Math.min(40 + (50 * (this.curr_Round - 1)), 490)
@@ -2308,6 +2308,9 @@ class RoundManager {
     }
 
     getSpawnSpeedForCurrRound() {
+        if (GAME_ENGINE.options.mainMenu_options_zombiesAlwaysRun) {
+            return ZOMBIE_SPEEDS.length - 1 //max speed
+        }
         if (this.curr_Round < ROUND_SPEED.length) {
             return ROUND_SPEED[this.curr_Round - 1][randomInt(ROUND_SPEED[this.curr_Round - 1].length)]
         }
@@ -2571,7 +2574,6 @@ class Radio extends MapInteract {
         if (this.active) {
             this.active = false
             this.aud.resetAndPlay()
-
         }
     }
 
