@@ -35,6 +35,12 @@ class GameEngine {
             drawDebug: false,
             drawSpawnProx: false,
             paused: false,
+            mainMenu_options_zombieAmount : 24,
+            mainMenu_options_zombiesAlwaysRun : false,
+            mainMenu_options_zombiesSpawnDelay : false,
+            mainMenu_options_startingMoney: 500,
+            mainMenu_options_zombiesStartingRound: 1,
+            mainMenu_options_cheats: false,
         };
 
         this.globalVolume = 1
