@@ -231,8 +231,8 @@ class Player extends GameObject {
 
         this.animationRuntime -= GAME_ENGINE.clockTick
 
-        //Heal Cooldown Timer
         this.healHandler()
+
         //Power Ups Timers
         this.powerUpHandler()
 
@@ -306,12 +306,42 @@ class Player extends GameObject {
         if(this.aud == null) {
             switch (situation){
                 case ("No_ammo"):
-                    if(Math.random() < 0.15) {
+                    if(Math.random() < 0.01) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
                         })
-                        this.aud = new Sound("Assets/Audio/Vox/Player/No Ammo/No Ammo " + formattedNumber + ".mp3", this.playerVolume)
+                        this.aud = new Sound("Assets/Audio/Vox/Player/No Ammo/no_ammo_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                    }
+                    break;
+                case ("zombie_hit"):
+                    if(Math.random() < 0.009) {
+                        let formattedNumber = randomInt(3).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Took Damage From Zoom/low_health_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                    }
+                    break;
+                case ("lava_damage"):
+                    if(Math.random() < 0.003) {
+                        let formattedNumber = randomInt(4).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Lava Damage/lava_damage_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                    }
+                    break;
+                case ("shooting_zombie"):
+                    if(Math.random() < 0.003) {
+                        let formattedNumber = randomInt(4).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Killing Zombie/killing_zombie_" + formattedNumber + ".mp3", this.playerVolume)
                         GAME_ENGINE.addEntity(this.aud)
                     }
                     break;
@@ -403,6 +433,7 @@ class Player extends GameObject {
         if (GAME_ENGINE.options.god) {return}
         //if dead
         if (!this.alive) {return}
+        this.audioHandler("zombie_hit")
         //dmg
         this.hp -= damage
         GAME_ENGINE.camera.map.hud.fullscreenRedHurt.flash()
@@ -436,6 +467,7 @@ class Player extends GameObject {
 
     takeLavaDamage() {
         this.heal_currentCooldown = PLAYER_HEAL_COOLDOWN;
+        this.audioHandler("lava_damage")
         if (this.hp >= 0) {
             this.hp -= GAME_ENGINE.clockTick * 0.25
         } else {

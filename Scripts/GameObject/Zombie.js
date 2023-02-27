@@ -379,6 +379,7 @@ class Zombie extends GameObject {
             switch (type) {
                 case ZOMBIE_DMG_SHOT:
                     GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_LETHAL)
+                    GAME_ENGINE.ent_Player.audioHandler("shooting_zombie")
                     break
                 case ZOMBIE_DMG_KNIFE:
                     GAME_ENGINE.ent_Player.earnPoints(ZOMBIE_POINTS_LETHAL_KNIFE)
