@@ -173,12 +173,15 @@ class FogParticle extends Particle {
 }
 
 class CorpseDecal extends Decal {
-    constructor(posX, posY, scale=3) {
+    constructor(posX, posY, angle, scale=3) {
         super(
-            new Animator("Assets/Images/Items/explosionBlacken.png", 0,0,100,100,1,1, scale,false,false),
+            new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Corpse0.png"), 0,0,318,318,1,1,1),
             posX, posY,
             30
         );
+        this.angle = angle + ZOMBIE_ANGLE_OFFSET + getDegreesToRadians((Math.random() - 0.5) * 15)
+        this.velX = (Math.random() - 0.5) * 2
+        this.velY = (Math.random() - 0.5) * 2
     }
 
     update() {
@@ -186,12 +189,47 @@ class CorpseDecal extends Decal {
         this.posX += this.velX
         this.posY += this.velY
 
-        this.velX = this.velX > 0 ? this.velX - GAME_ENGINE.clockTick : this.velX + GAME_ENGINE.clockTick
-        this.velY = this.velY > 0 ? this.velY - GAME_ENGINE.clockTick : this.velY + GAME_ENGINE.clockTick
+        this.velX = this.velX > 0 ? this.velX - GAME_ENGINE.clockTick * 5 : this.velX + GAME_ENGINE.clockTick * 5
+        this.velY = this.velY > 0 ? this.velY - GAME_ENGINE.clockTick * 5 : this.velY + GAME_ENGINE.clockTick * 5
     }
 
     draw() {
         let alpha = Math.max(this.decayTime / 5, 0)
         this.draw1(alpha)
+    }
+
+    draw1(alpha=1) {
+        //centered
+        this.anim.drawFrame(this.posX, this.posY, this.angle, alpha)
+    }
+}
+
+class Lightning extends Particle {
+    constructor(posX, posY, scale=15) {
+        super(
+            new Animator("Assets/Images/Items/Smoke.png", 0,0,100,100,1,1, scale * (Math.random() + 0.5),false,false),
+            posX, posY,
+            (Math.random() + 1) * 0.25
+        );
+        this.velX = (Math.random() - 0.5) * 0.5
+        this.velY = (Math.random() - 0.5) * 0.5
+        this.glow = new Glow(posX, posY, scale, rgb(210, 210, 255), 1)
+    }
+
+    update() {
+        super.update()
+        this.posX += this.velX
+        this.posY += this.velY
+
+        this.velX = this.velX > 0 ? this.velX - GAME_ENGINE.clockTick / 3 : this.velX + GAME_ENGINE.clockTick / 3
+        this.velY = this.velY > 0 ? this.velY - GAME_ENGINE.clockTick / 3 : this.velY + GAME_ENGINE.clockTick / 3
+    }
+
+    draw() {
+        let alpha = Math.max((this.decayTime / 3), 0)
+        // this.draw1(alpha)
+
+        this.glow.changeAlpha(alpha)
+        this.glow.draw()
     }
 }

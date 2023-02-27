@@ -140,7 +140,6 @@ class MainMenu extends FrontEnd {
 class PauseMenu extends MainMenu {
     constructor() {
         super(        [
-                new RestartButton(),
                 new ExitButton()
             ],
             "Paused");
@@ -172,30 +171,27 @@ class PauseMenu extends MainMenu {
             GAME_ENGINE.ctx.shadowOffsetX = 5;
             GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y)
+
             //Stats
             let statsOffsetX = 1000
             GAME_ENGINE.ctx.textAlign = "left"
             GAME_ENGINE.ctx.fillText("Stats", FE_X + statsOffsetX, FE_Y)
 
-            //Kills
-            GAME_ENGINE.ctx.fillStyle = "white"
+            //Kills & Points
             GAME_ENGINE.ctx.font = 'bold 50px arial'
-            GAME_ENGINE.ctx.textAlign = "left"
-            GAME_ENGINE.ctx.shadowColor = "black"
-            GAME_ENGINE.ctx.shadowBlur = 5
-            GAME_ENGINE.ctx.shadowOffsetX = 5;
-            GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_kills, FE_X + statsOffsetX, FE_Y + 70)
-
-            //Points
-            GAME_ENGINE.ctx.fillStyle = "white"
-            GAME_ENGINE.ctx.font = 'bold 50px arial'
-            GAME_ENGINE.ctx.textAlign = "left"
-            GAME_ENGINE.ctx.shadowColor = "black"
-            GAME_ENGINE.ctx.shadowBlur = 5
-            GAME_ENGINE.ctx.shadowOffsetX = 5;
-            GAME_ENGINE.ctx.shadowOffsetY = 5;
             GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, FE_X + statsOffsetX, FE_Y + 70 + 60)
+
+            //Controls
+            GAME_ENGINE.ctx.font = 'bold 100px arial'
+            GAME_ENGINE.ctx.fillText("Controls", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150)
+            GAME_ENGINE.ctx.font = 'bold 50px arial'
+            GAME_ENGINE.ctx.fillText("WASD - Move", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70)
+            GAME_ENGINE.ctx.fillText("MouseL - Shoot", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + 60)
+            GAME_ENGINE.ctx.fillText("MouseR - Knife", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*2))
+            GAME_ENGINE.ctx.fillText("R - Reload", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70+ (60*3))
+            GAME_ENGINE.ctx.fillText("Q - Switch Weapons", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*4))
+            GAME_ENGINE.ctx.fillText("E - Throw Grenade", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70 + (60*5))
 
             GAME_ENGINE.ctx.restore()
 
@@ -668,28 +664,27 @@ class PlayButton extends Button {
     }
 }
 
-class RestartButton extends Button {
-    constructor() {
-        super(FE_Y_BUTTON, "Restart", "Current not working due to sound :( you have to hard refresh.");
-    }
-
-    use() { //TODO fix sound
-        // GAME_ENGINE.clearWorld(true)
-        // GAME_ENGINE.dontUpdatePlayerThisTick = true
-        // GAME_ENGINE.addEntity(new SceneManager())
-        // GAME_ENGINE.options.paused = false
-    }
-}
+// class RestartButton extends Button {
+//     constructor() {
+//         super(FE_Y_BUTTON, "Restart", "Restart current game. (WARNING: This feature break game sound atm)");
+//     }
+//
+//     use() {
+//         GAME_ENGINE.clearWorld(true)
+//         GAME_ENGINE.dontUpdatePlayerThisTick = true
+//         GAME_ENGINE.addEntity(new RestartScreen())
+//         GAME_ENGINE.options.paused = false
+//     }
+// }
 
 class ExitButton extends Button {
     constructor() {
-        super(FE_Y_BUTTON + 100, "End Game", "Current not working due to sound :( you have to hard refresh.");
+        super(FE_Y_BUTTON, "End Game", "Return to main menu.");
     }
 
-    use() { //TODO fix sound
-        // GAME_ENGINE.clearWorld(true)
-        // GAME_ENGINE.addEntity(new MainMenu())
-        // GAME_ENGINE.options.paused = false
+    use() {
+        GAME_ENGINE.ent_Player.takeDamage(GAME_ENGINE.ent_Player.hp)
+        GAME_ENGINE.options.paused = false
     }
 }
 
@@ -729,10 +724,19 @@ class DescriptionBottom extends FrontEnd {
 }
 
 class DieScreen extends FrontEnd {
-    constructor(statsDelay=2) {
+    constructor() {
         super();
-        this.statsDelay = statsDelay
+        this.timer = 0
         this.roundDiedOn = GAME_ENGINE.camera.map.roundManager.curr_Round
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/dieScreen1.mp3", MIXER_MUSIC_VOL))
+        GAME_ENGINE.camera.map.bgmPlayer.duckAmbForSec(100)
+
+        this.atSwitch = () => {
+            GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3, "black")
+            GAME_ENGINE.camera.resetShake()
+
+            this.atSwitch = null
+        }
     }
 
     draw() {
@@ -752,18 +756,71 @@ class DieScreen extends FrontEnd {
         GAME_ENGINE.ctx.font = 'bold 60px arial'
         GAME_ENGINE.ctx.fillText("You Survived " + this.roundDiedOn + " Rounds", width/2, height/2 + 50)
 
-        if (this.statsDelay <= 0) {
+        if (this.timer > 1.35) {
+            if (this.atSwitch != null) {this.atSwitch()}
+            GAME_ENGINE.camera.isTrackingPlayer = false
             GAME_ENGINE.ctx.font = 'bold 40px arial'
-            GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 150)
+            GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_kills, width/2, height/2 + 150)
             GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 190)
+
+            let songTime = 26.426
+            GAME_ENGINE.camera.posX = (500 + ((this.timer / songTime) * 300)) * GAME_ENGINE.camera.map.scale
+            GAME_ENGINE.camera.posY = (300 + ((this.timer / songTime) * 1000)) * GAME_ENGINE.camera.map.scale
+
+            if (this.timer > songTime) {
+                GAME_ENGINE.clearWorld(true)
+                GAME_ENGINE.addEntity(new ReturnScreen())
+            }
         }
 
         GAME_ENGINE.ctx.restore()
     }
 
     update() {
-        if (this.statsDelay > 0) {
-            this.statsDelay -= GAME_ENGINE.clockTick
+        this.timer += GAME_ENGINE.clockTick
+    }
+}
+
+class ReturnScreen extends FrontEnd {
+    constructor() {
+        super()
+        this.timer = 5
+        this.removeFromWorld = false
+    }
+
+    update() {
+        if (this.timer > 0) {
+            this.timer -= GAME_ENGINE.clockTick
+        } else {
+            this.removeFromWorld = true
+            this.onTimerComplete()
         }
+    }
+
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = "black"
+        GAME_ENGINE.ctx.globalAlpha = 1
+        GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
+
+        GAME_ENGINE.ctx.font = 'bold 50px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.textAlign = "center"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 10
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText("Unloading Sounds: " + Math.ceil(this.timer), GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
+        GAME_ENGINE.ctx.restore()
+    }
+
+    onTimerComplete() {
+        GAME_ENGINE.addEntity(new MainMenu());
+    }
+}
+
+class RestartScreen extends ReturnScreen {
+    onTimerComplete() {
+        GAME_ENGINE.addEntity(new SceneManager());
     }
 }

@@ -341,6 +341,12 @@ class Gun {
         //reload cooldown
         if (this.currentReloadTime > 0) {
             this.currentReloadTime -= GAME_ENGINE.clockTick
+        } else if (this.currentReloadTime <= 0 && this.isReloading) {
+            //put ammo in mag
+            let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
+            this.currentMagazineAmmo += withdraw
+            this.currentTotalAmmo -= withdraw
+            this.isReloading = false
         } else {
             this.isSwitching = false
         }
@@ -358,7 +364,10 @@ class Gun {
         this.currentFireCooldown = this.getFireCooldown() //set cooldown
 
         //Check Ammo
-        if (this.currentMagazineAmmo === 0) return false //no ammo
+        if (this.currentMagazineAmmo === 0){
+
+            return false //no ammo
+        }
         this.currentMagazineAmmo -= 1 //fire ammo
 
         //Shoot
@@ -398,8 +407,8 @@ class Gun {
     }
 
     getSpreadAngle(angle) {
-        return angle;
-        // return angle + this.currentRecoil * (Math.random() * 2 - 1)
+        // return angle;
+        return angle + this.currentRecoil * (Math.random() * 2 - 1)
     }
 
     reload() {
@@ -412,16 +421,18 @@ class Gun {
             return false
         }
 
+        if (this.currentReloadTime > 0) {
+            return
+        }
+
         //otherwise, reset stats
+        this.isReloading = true
         this.currentReloadTime = this.getReloadCooldown()
         this.currentRecoil = 0
         this.currentFireCooldown = 0
 
-        let withdraw = Math.min(this.magazineSize - this.currentMagazineAmmo, this.currentTotalAmmo)
-        this.currentMagazineAmmo += withdraw
-        this.currentTotalAmmo -= withdraw
-        // if (this.currentTotalAmmo < 0) this.currentTotalAmmo = 0
         GAME_ENGINE.addEntity(new Sound(this.reloadSndPath, MIXER_GUNRELOAD_VOL))
+
         return true
     }
 
@@ -451,6 +462,7 @@ class Gun {
         this.currentReloadTime = this.reloadTime * 0.35
         this.currentRecoil = 0
         this.currentFireCooldown = 0
+        this.isReloading = false
     }
 
     spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
@@ -577,7 +589,7 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
     shoot(posX, posY, angle) {
         this.isShellReloading = false
 
-        super.shoot(posX, posY, angle)
+        return super.shoot(posX, posY, angle)
     }
 
     reload() {
@@ -799,10 +811,11 @@ const MOVEMENT_PENALTY_HEAVY = 0.825 //LMG, Launchers
 //Pistols
 class Gun_M1911 extends Gun {
     constructor() {
+
         super(
             "M1911",
             30, //dmg
-            800, //mag size
+            8, //mag size
             80, //total ammo
             0.15, //fire cooldown
             1.6, //reload time

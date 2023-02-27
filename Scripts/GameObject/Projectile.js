@@ -224,9 +224,8 @@ class Explosive extends Projectile {
         if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange"))} //DebugBC
         //particle
         GAME_ENGINE.addEntity(new ExplosionFlashParticle(this.posX, this.posY))
-
         GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 5000))
-        GAME_ENGINE.camera.startShake(0.1, 5)
+        GAME_ENGINE.camera.startShake(0.25, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
@@ -250,7 +249,7 @@ class ExplosiveQuickRevive extends Explosive {
 
     explode() {
         if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange"))} //debug
-        GAME_ENGINE.camera.startShake(0.1, 5)
+        GAME_ENGINE.camera.startShake(0.25, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {
@@ -331,7 +330,7 @@ class Grenade extends Projectile {
         GAME_ENGINE.addEntity(new ExplosionFlashParticle(this.posX, this.posY))
 
         GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 7000))
-        GAME_ENGINE.camera.startShake(0.1, 5)
+        GAME_ENGINE.camera.startShake(0.25, 5)
         let bc = new BoundingCircle(this.posX, this.posY, GRANADE_RADIUS)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
             if (bc.collide(entity.bc_Movement) < 0) {

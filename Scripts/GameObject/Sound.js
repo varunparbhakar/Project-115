@@ -1,6 +1,7 @@
 //TODO make into object to be configured
 // const MIXER_MASTER = document.getElementById("volume").value
-const MIXER_MUSIC_VOL = 1
+const MIXER_MUSIC_VOL = 0.8
+const MIXER_AMB_VOL = 0.91
 const MIXER_GUNSHOT_VOL = 0.9
 const MIXER_GUNRELOAD_VOL = 0.2
 const MIXER_CASH_ACCEPT = 0.2
@@ -42,7 +43,7 @@ class WorldSound {
             })
         }
 
-        this.volume = this.setVolume(volume) //for getDistance to player
+        this.volume = Math.min(Math.max(0, volume), 1) //for getDistance to player
         this.aud.volume = this.volume
         this.aud.currentTime = this.startTime
 
@@ -115,6 +116,9 @@ class WorldSound {
             this.resetAndPlay()
         }
     }
+    hasEnded(){
+        return this.aud.ended
+    }
 
     getVolume() {
         return this.aud.volume * GAME_ENGINE.globalVolume
@@ -126,7 +130,7 @@ class WorldSound {
             this.aud.volume = 0 //* GAME_ENGINE.options.globalVolume
         } else if (vol > 1) {
             // console.log("Error: Volume" + vol)
-            this.aud.volume = 1 * GAME_ENGINE.globalVolume
+            this.aud.volume = GAME_ENGINE.globalVolume
         } else {
             this.aud.volume = vol * GAME_ENGINE.globalVolume
         }

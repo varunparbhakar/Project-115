@@ -165,8 +165,8 @@ class WorldMap {
         ////////////Top Left Near Double Tap/////////
         GAME_ENGINE.addEntity(new MapBBPlayerOnly(683, 491, 136, 262, this)) //A1 //TODO Player only
         GAME_ENGINE.addEntity(new MapBB(683, 491, 270, 10, this, true)) //Top Fence
-        GAME_ENGINE.addEntity(new MapBB(1019, 483, 104, 19, this)) //Top Rock
-        GAME_ENGINE.addEntity(new MapBB(1196, 492, 102, 9, this)) //Top Fence Right
+        GAME_ENGINE.addEntity(new MapBB(1009, 483, 114, 19, this)) //Top Rock
+        GAME_ENGINE.addEntity(new MapBB(1181, 492, 117, 9, this, true)) //Top Fence Right
         GAME_ENGINE.addEntity(new MapBB(1212, 492, 54, 199, this)) //Top Fence Right Big
         GAME_ENGINE.addEntity(new MapBB(686,493,10,258, this)) //Top Fence left big fence
         GAME_ENGINE.addEntity(new MapBB(801,685,34,7, this, true)) //Small fence knob
@@ -500,34 +500,34 @@ class WorldMap {
         let spawners_Swamp = [spawner_SwampTopLeft1, spawner_SwampTopLeft2, spawner_SwampTopRight1, spawner_SwampTopRight2, spawner_SwampLeft1, spawner_SwampLeft2, spawner_SwampTreesLeft, spawner_SwampTreesRight, spawner_SwampBottomLeft]
 
         ////////////Doors////////////
-        let door_Jug1 = new Door(1268, 1132, 56, 8, 1000, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Door.png"), 0,0, 228, 114), 1268, 1128, this))
+        let door_Jug1 = new Door(1268, 1132, 56, 8, 1000, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 1264, 1125, this))
         GAME_ENGINE.addEntity(door_Jug1)
-        let door_Jug2 = new Door(1621, 1128, 54, 11, 1000, spawners_Jug, this)
+        let door_Jug2 = new Door(1621, 1128, 54, 11, 1000, spawners_Jug, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 1616, 1126, this))
         GAME_ENGINE.addEntity(door_Jug2)
 
-        let door_Mus1 = new Door(1299, 1420, 56, 10, 1000, spawners_Mus, this)
+        let door_Mus1 = new Door(1299, 1420, 56, 10, 1000, spawners_Mus, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 1295, 1414, this))
         GAME_ENGINE.addEntity(door_Mus1)
-        let door_Mus2 = new Door(1291, 1812, 10, 56, 1000, [spawners_Mus, spawners_BL], this)
+        let door_Mus2 = new Door(1291, 1812, 10, 56, 1000, [spawners_Mus, spawners_BL], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Vertical Single Door.png"), 0,0, 75, 228,1,1,1.2), 1285, 1808, this))
         GAME_ENGINE.addEntity(door_Mus2)
 
-        let door_BL1 = new Door(884, 1631, 147, 56, 1000, spawners_BL, this)
+        let door_BL1 = new Door(884, 1631, 147, 56, 1000, spawners_BL, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Tree.png"), 0,0, 360, 360,1,1,1.5), 884, 1631, this))
         GAME_ENGINE.addEntity(door_BL1)
 
-        let door_Bar1 = new Door(635, 1258, 41, 12, 1000, [spawners_Swamp, spawners_Bar], this)
+        let door_Bar1 = new Door(635, 1258, 41, 12, 1000, [spawners_Swamp, spawners_Bar], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 623, 1254, this))
         GAME_ENGINE.addEntity(door_Bar1)
-        let door_Bar2 = new Door(874, 1371, 11, 73, 2500, spawners_Bar, this)
+        let door_Bar2 = new Door(874, 1371, 11, 73, 2500, spawners_Bar, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Vertical Double Doors.png"), 0,0, 91, 441,1,1,1), 870, 1360, this))
         GAME_ENGINE.addEntity(door_Bar2)
-        let door_Bar3 = new Door(756, 1676, 57, 15, 1000, [spawners_BL, spawners_Bar], this)
+        let door_Bar3 = new Door(756, 1676, 57, 15, 1000, [spawners_BL, spawners_Bar], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 751, 1669, this))
         GAME_ENGINE.addEntity(door_Bar3)
 
-        let door_Swamp1 = new Door(964, 938, 115, 61, 1000, spawners_Swamp, this)
+        let door_Swamp1 = new Door(964, 938, 80, 61, 1000, spawners_Swamp, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Meterorite.png"), 0,0, 820, 800, 1,1, 1), 889, 870, this))
         GAME_ENGINE.addEntity(door_Swamp1)
-        let door_Swamp2 = new Door(859, 1122, 32, 91, 1000, spawners_Swamp, this)
+        let door_Swamp2 = new Door(708, 1119, 183, 70, 1000, spawners_Swamp, this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Bloody School Bus.png"), 0,0, 649, 463, 1,1, 1.5), 674, 1060, this))
         GAME_ENGINE.addEntity(door_Swamp2)
 
-        let door_Double1 = new Door(939, 549, 10, 89, 2000, [spawners_Swamp, spawners_DoubleTap], this)
+        let door_Double1 = new Door(939, 549, 10, 89, 2000, [spawners_Swamp, spawners_DoubleTap], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Vertical Double Doors.png"), 0,0, 91, 441,1,1,1), 934, 546, this))
         GAME_ENGINE.addEntity(door_Double1)
-        let door_Double2 = new Door(820, 748, 56, 9, 2000, [spawners_Swamp, spawners_DoubleTap], this)
+        let door_Double2 = new Door(820, 748, 56, 9, 2000, [spawners_Swamp, spawners_DoubleTap], this, new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75,1,1,1.2), 816, 742, this))
         GAME_ENGINE.addEntity(door_Double2)
 
         ////////////Wall Buys///////////
@@ -626,7 +626,7 @@ class MapLayer_Power extends MapLayer {
 
     onPower() {
         this.animator = this.animatorPowerOn
-        console.log(this.animator.spritesheetas)
+        console.log(this.animator.spritesheet)
     }
 }
 
@@ -963,7 +963,7 @@ class Door extends MapInteract {
         this.isLocked = true //TODO remove if not needed
 
         if (mapInteractAnimator == null) {
-            this.animator = new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Door.png"), 0,0, 228, 114), this.bb.x, this.bb.y, null)
+            this.animator = new MapInteractAnimator(new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Horizontal Single Door.png"), 0,0, 228, 75), this.bb.x, this.bb.y, null)
         } else {
             this.animator = mapInteractAnimator
         }
@@ -1000,6 +1000,9 @@ class Door extends MapInteract {
             GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Interact/lightning_l.mp3", 0.5, center[0], center[1], 3000))
             this.isLocked = false //TODO remove if not needed
             this.removeFromWorld = true
+            for (let i = 0; i < 20; i++) {
+                GAME_ENGINE.addEntity(new Lightning(center[0] + ((Math.random() - 0.5) * this.bb.width/2), center[1] + ((Math.random() - 0.5) * this.bb.height/2)))
+            }
         }
     }
 
@@ -2182,6 +2185,9 @@ class RoundManager {
         console.log("ROUND 1")
         console.log("Z count: " + this.curr_ZombiesLeft)
         console.log("Z hp: " + this.curr_ZombiesHealth)
+
+        //TODO game start mus
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/roundStart1.mp3"))
     }
 
     /**
@@ -2432,8 +2438,8 @@ class PaPBuildablePart extends MapInteract {
 
 class BGMPlayer {
     constructor(eePartsPosList = null, map) {
-        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", 0.91, 1, 0, false)
-        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", 0.6, 0, 0, false) //TODO
+        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", MIXER_AMB_VOL, 1, 0, false)
+        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", MIXER_MUSIC_VOL, 0, 0, false) //TODO
         GAME_ENGINE.addEntity(this.ambAud)
         GAME_ENGINE.addEntity(this.musAud)
 
@@ -2473,7 +2479,8 @@ class BGMPlayer {
     update() {
         if (this.duckTimer > 0) {
             this.duckTimer -= GAME_ENGINE.clockTick
-            this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume)
+            // this.ambAud.setVolume((1 - (this.duckTimer / this.duckTimerMax)) * this.ambAud.volume) * document.getElementById("volume").value
+            this.ambAud.setVolume((1 - (this.duckTimer / 5)) * this.ambAud.volume) * document.getElementById("volume").value
         }
     }
 
@@ -2485,6 +2492,7 @@ class BGMPlayer {
         this.eePartsLeft--
         if (this.eePartsLeft <= 0) {
             this.musAud.resetAndPlay()
+            this.duckAmbForSec(this.musAud.aud.duration)
         }
     }
 
@@ -2563,6 +2571,7 @@ class Radio extends MapInteract {
         if (this.active) {
             this.active = false
             this.aud.resetAndPlay()
+
         }
     }
 

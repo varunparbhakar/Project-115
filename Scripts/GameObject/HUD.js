@@ -322,6 +322,8 @@ class HUDHurt {
     }
 
     draw() {
+        if (!GAME_ENGINE.ent_Player.alive) {return}
+
         if (this.flashDecay > 0) {
             GAME_ENGINE.ctx.save()
             GAME_ENGINE.ctx.fillStyle = "red"
@@ -356,10 +358,10 @@ class HUDHurt {
 }
 
 class HUDFlash {
-    constructor() {
-        this.flashDecay = 0
-        this.flashDecayMax = 0
-        this.color = "white"
+    constructor(startFadeBlack = 5) {
+        this.flashDecay = 3
+        this.flashDecayMax = 3
+        this.color = "black"
     }
 
     update() {
@@ -388,6 +390,7 @@ class HUDFlash {
 class HUDLava extends HUDFlash {
     constructor() {
         super()
+        this.flashDecay = 0
         this.color = "orange"
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Fire_Screen.png") //TODO change
         //Audio
@@ -583,7 +586,7 @@ class HUDHealth {
     }
 
     draw() {
-        let hp = GAME_ENGINE.ent_Player.hp
+        let hp = Math.max(GAME_ENGINE.ent_Player.hp, 0)
         let maxHP = (GAME_ENGINE.ent_Player.perk_hasJug ? PLAYER_HP_JUGG_MAX : PLAYER_HP_MAX)
         let hpPercent = hp/maxHP
         if (hpPercent >= 1) {return}
