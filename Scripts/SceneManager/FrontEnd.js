@@ -51,7 +51,6 @@ class MainMenu extends FrontEnd {
     constructor() {
         super();
 
-
         this.cursor = new BoundingBox(0,0, 1,1)
         this.cursor.updateSides()
         this.lastLeftClick = GAME_ENGINE.left_click
@@ -59,7 +58,9 @@ class MainMenu extends FrontEnd {
         //bottom
         this.bottomDesc = new DescriptionBottom()
 
-        //BGM
+        // BGM
+        this.mus = new Sound("Assets/Audio/BGM/mainMenu1.mp3", MIXER_MUSIC_VOL, true, 0, true, true)
+        GAME_ENGINE.addEntity(this.mus)
 
         let optionsButton = new OptionsButton()
         optionsButton.use = () => {
@@ -126,7 +127,6 @@ class MainMenu extends FrontEnd {
     
         if(this.submenu != undefined) this.submenu.draw();
 
-
         this.bottomDesc.draw()
 
         this.cursor.drawBoundingBox("red")
@@ -137,17 +137,48 @@ class MainMenu extends FrontEnd {
     }
 }
 
-class PauseMenu extends MainMenu {
+class PauseMenu extends FrontEnd { //TODO inheritance
     constructor() {
-        super(        [
-                new ExitButton()
+        super([
+
             ],
             "Paused");
+
+        this.cursor = new BoundingBox(0,0, 1,1)
+        this.cursor.updateSides()
+        this.lastLeftClick = GAME_ENGINE.left_click
+
+        //bottom
+        this.bottomDesc = new DescriptionBottom()
+
+        this.buttons=[
+            new ExitButton()
+        ]
+        this.title = "Paused"
     }
 
     update() {
         if (GAME_ENGINE.options.paused) {
-            super.update()
+            //cursor
+            try {
+                this.cursor.x = GAME_ENGINE.mouse.x
+                this.cursor.y = GAME_ENGINE.mouse.y
+            } catch (e) {
+                this.cursor.x = 0
+                this.cursor.y = 0
+            }
+            this.cursor.updateSides()
+
+            for (let i = 0; i < this.buttons.length; i++) {
+                this.buttons[i].update()
+                if (this.cursor.collide(this.buttons[i].bb)) {
+                    this.buttons[i].hover1(this.bottomDesc)
+                    if (this.tryClick()) {
+                        this.buttons[i].use()
+                    }
+                }
+            }
+            this.lastLeftClick = GAME_ENGINE.left_click
         }
     }
     draw() {
@@ -203,6 +234,10 @@ class PauseMenu extends MainMenu {
 
             this.cursor.drawBoundingBox("red")
         }
+    }
+
+    tryClick() {
+        return this.lastLeftClick == false && GAME_ENGINE.left_click
     }
 }
 
@@ -660,7 +695,7 @@ class PlayButton extends Button {
 
     use() {
         GAME_ENGINE.dontUpdatePlayerThisTick = true
-        GAME_ENGINE.addEntity(new SceneManager())
+        GAME_ENGINE.addEntity(new RestartScreen())
         GAME_ENGINE.options.paused = false
     }
 }
@@ -785,7 +820,8 @@ class DieScreen extends FrontEnd {
 class ReturnScreen extends FrontEnd {
     constructor() {
         super()
-        this.timer = 5
+        GAME_ENGINE.clearWorld(true)
+        this.timer = 1
         this.removeFromWorld = false
     }
 
@@ -811,7 +847,7 @@ class ReturnScreen extends FrontEnd {
         GAME_ENGINE.ctx.shadowBlur = 10
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText("Unloading Sounds: " + Math.ceil(this.timer), GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
+        GAME_ENGINE.ctx.fillText("Unloading Sounds", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
         GAME_ENGINE.ctx.restore()
     }
 

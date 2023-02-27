@@ -27,15 +27,14 @@ class WorldSound {
         this.startTime = startTime;
         this.autoDelete = autoDelete
 
-        this.aud = new Audio();
+        this.aud = new Audio(path);
+        // this.aud.src = path;
+        // this.aud.load();
 
         this.aud.addEventListener("ended", () => {
             this.aud.pause();
             // this.aud.currentTime = 0;
         });
-
-        this.aud.src = path;
-        this.aud.load();
 
         if (autorepeat) {
             this.aud.addEventListener("ended",  () => {
