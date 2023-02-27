@@ -58,6 +58,7 @@ class SceneManager {
                 GAME_ENGINE.addEntity(new PauseMenu())
                 break;
         }
+        GAME_ENGINE.unpressKeys()
     }
 
     startShake(length, intensity) {

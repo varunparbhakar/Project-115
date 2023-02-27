@@ -372,6 +372,8 @@ class Player extends GameObject {
     takeDamage(damage) {
         //if god mode
         if (GAME_ENGINE.options.god) {return}
+        //if dead
+        if (!this.alive) {return}
         //dmg
         this.hp -= damage
         GAME_ENGINE.camera.map.hud.fullscreenRedHurt.flash()

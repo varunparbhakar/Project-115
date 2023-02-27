@@ -390,6 +390,7 @@ class HUDFlash {
 class HUDLava extends HUDFlash {
     constructor() {
         super()
+        this.flashDecay = 0
         this.color = "orange"
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Fire_Screen.png") //TODO change
         //Audio
@@ -585,7 +586,7 @@ class HUDHealth {
     }
 
     draw() {
-        let hp = GAME_ENGINE.ent_Player.hp
+        let hp = Math.max(GAME_ENGINE.ent_Player.hp, 0)
         let maxHP = (GAME_ENGINE.ent_Player.perk_hasJug ? PLAYER_HP_JUGG_MAX : PLAYER_HP_MAX)
         let hpPercent = hp/maxHP
         if (hpPercent >= 1) {return}

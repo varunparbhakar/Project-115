@@ -137,7 +137,6 @@ class MainMenu extends FrontEnd {
 class PauseMenu extends MainMenu {
     constructor() {
         super(        [
-                new RestartButton(),
                 new ExitButton()
             ],
             "Paused");
@@ -321,27 +320,26 @@ class PlayButton extends Button {
     }
 }
 
-class RestartButton extends Button {
-    constructor() {
-        super(FE_Y_BUTTON, "Restart", "Restart current game. (WARNING: This feature break game sound atm)");
-    }
-
-    use() { //TODO fix sound
-        GAME_ENGINE.clearWorld(true)
-        GAME_ENGINE.dontUpdatePlayerThisTick = true
-        GAME_ENGINE.addEntity(new SceneManager())
-        GAME_ENGINE.options.paused = false
-    }
-}
+// class RestartButton extends Button {
+//     constructor() {
+//         super(FE_Y_BUTTON, "Restart", "Restart current game. (WARNING: This feature break game sound atm)");
+//     }
+//
+//     use() {
+//         GAME_ENGINE.clearWorld(true)
+//         GAME_ENGINE.dontUpdatePlayerThisTick = true
+//         GAME_ENGINE.addEntity(new RestartScreen())
+//         GAME_ENGINE.options.paused = false
+//     }
+// }
 
 class ExitButton extends Button {
     constructor() {
-        super(FE_Y_BUTTON + 100, "End Game", "Returns to main menu. (WARNING: This feature break game sound atm)");
+        super(FE_Y_BUTTON, "End Game", "Return to main menu.");
     }
 
-    use() { //TODO fix sound
-        GAME_ENGINE.clearWorld(true)
-        GAME_ENGINE.addEntity(new MainMenu())
+    use() {
+        GAME_ENGINE.ent_Player.takeDamage(GAME_ENGINE.ent_Player.hp)
         GAME_ENGINE.options.paused = false
     }
 }
@@ -387,6 +385,7 @@ class DieScreen extends FrontEnd {
         this.timer = 0
         this.roundDiedOn = GAME_ENGINE.camera.map.roundManager.curr_Round
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/dieScreen1.mp3", MIXER_MUSIC_VOL))
+        GAME_ENGINE.camera.map.bgmPlayer.duckAmbForSec(100)
 
         this.atSwitch = () => {
             GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3, "black")
@@ -417,7 +416,7 @@ class DieScreen extends FrontEnd {
             if (this.atSwitch != null) {this.atSwitch()}
             GAME_ENGINE.camera.isTrackingPlayer = false
             GAME_ENGINE.ctx.font = 'bold 40px arial'
-            GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 150)
+            GAME_ENGINE.ctx.fillText("Total Kills: " + GAME_ENGINE.camera.map.roundManager.scoreboard_kills, width/2, height/2 + 150)
             GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, width/2, height/2 + 190)
 
             let songTime = 26.426
@@ -426,7 +425,7 @@ class DieScreen extends FrontEnd {
 
             if (this.timer > songTime) {
                 GAME_ENGINE.clearWorld(true)
-                GAME_ENGINE.addEntity(new DieReturnScreen())
+                GAME_ENGINE.addEntity(new ReturnScreen())
             }
         }
 
@@ -438,15 +437,19 @@ class DieScreen extends FrontEnd {
     }
 }
 
-class DieReturnScreen extends FrontEnd {
+class ReturnScreen extends FrontEnd {
     constructor() {
         super()
+        this.timer = 5
+        this.removeFromWorld = false
     }
 
     update() {
-        if (GAME_ENGINE.left_click) { //has to be delayed
+        if (this.timer > 0) {
+            this.timer -= GAME_ENGINE.clockTick
+        } else {
             this.removeFromWorld = true
-            GAME_ENGINE.addEntity(new MainMenu());
+            this.onTimerComplete()
         }
     }
 
@@ -463,8 +466,17 @@ class DieReturnScreen extends FrontEnd {
         GAME_ENGINE.ctx.shadowBlur = 10
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText("At the moment, restarting the map breaks all audio. You might need to hard refresh.", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
-        GAME_ENGINE.ctx.fillText("Otherwise, click the screen to return to main menu...", GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2 + 45)
+        GAME_ENGINE.ctx.fillText("Unloading Sounds: " + Math.ceil(this.timer), GAME_ENGINE.ctx.canvas.width/2, GAME_ENGINE.ctx.canvas.height/2)
         GAME_ENGINE.ctx.restore()
+    }
+
+    onTimerComplete() {
+        GAME_ENGINE.addEntity(new MainMenu());
+    }
+}
+
+class RestartScreen extends ReturnScreen {
+    onTimerComplete() {
+        GAME_ENGINE.addEntity(new SceneManager());
     }
 }

@@ -43,7 +43,7 @@ class WorldSound {
             })
         }
 
-        this.volume = this.setVolume(volume) //for getDistance to player
+        this.volume = Math.min(Math.max(0, volume), 1) //for getDistance to player
         this.aud.volume = this.volume
         this.aud.currentTime = this.startTime
 

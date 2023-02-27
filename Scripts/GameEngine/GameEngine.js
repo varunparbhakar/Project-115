@@ -169,7 +169,9 @@ class GameEngine {
                     this.ctx.imageSmoothingEnabled = false
                     break
                 case "Escape":
-                    this.options.paused = !this.options.paused
+                    if (this.ent_Player != null && this.ent_Player.alive) {
+                        this.options.paused = !this.options.paused
+                    }
                     break
             }
         }, false);
@@ -416,6 +418,18 @@ class GameEngine {
     getMouseWorldPosY() {
         if (GAME_ENGINE.mouse == null) return(0);
         return this.mouse.y + this.camera.posY
+    }
+
+    unpressKeys() {
+        this.key_left = false;
+        this.key_down = false;
+        this.key_right = false;
+        this.key_up = false;
+        this.key_run = false;
+        this.key_reload = false;
+        this.key_use = false;
+        this.key_grenade = false;
+        this.key_switchGuns = false;
     }
 
 };
