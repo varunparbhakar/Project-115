@@ -7,7 +7,9 @@ const ZOMBIE_ANGLE_OFFSET = -1.6;
 const ZOMBIE_SPEEDS = [PLAYER_WALKING_SPEED*0.3, PLAYER_WALKING_SPEED*0.6, PLAYER_WALKING_SPEED*0.95, PLAYER_RUNNING_SPEED*0.60, PLAYER_RUNNING_SPEED*0.775];
 
 const ZOMBIE_ATTACK_DAMAGE = 50
-const ZOMBIE_ATTACK_COOLDOWN = 0.6
+const ZOMBIE_ATTACK_COOLDOWN = 0.4
+const ZOMBIE_ATTACK_FRAME_DUR = 0.0666666666
+const ZOMBIE_ATTACK_BARRIER_FRAME_DUR = 0.1
 const ZOMBIE_ATTACK_THRESHOLD = 5 //the depth of Zombies Attack BC colliding with Player's Hurt BC
 
 const ZOMBIE_BB_DIMENSION = 25
@@ -51,7 +53,7 @@ class Zombie extends GameObject {
         //TODO better constructor
         this.state = 0
         this.animation_Walking = new AnimatorRotate(this.asset, 0,0, ZOMBIE_IMAGE_WIDTH, ZOMBIE_IMAGE_HEIGHT,17,0.14, ZOMBIE_IMAGE_SCALE, 0.68)
-        this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,0.1,1,0.68)
+        this.animation_Attacking = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Animations/Attacking/AttackingSpriteSheet.png"), 0,0, ZOMBIE_IMAGE_WIDTH,ZOMBIE_IMAGE_HEIGHT,9,ZOMBIE_ATTACK_FRAME_DUR,1,0.68)
         this.animator = this.animation_Walking
 
         //movement
@@ -193,6 +195,7 @@ class Zombie extends GameObject {
                     this.animator.elaspedTime = 0
                 }
                 this.changeAnimation(1) //swing
+                this.animator.frameDuration = ZOMBIE_ATTACK_FRAME_DUR
                 this.attack_currentCooldown -= GAME_ENGINE.clockTick
             } else {
                 this.attack_currentCooldown = ZOMBIE_ATTACK_COOLDOWN
@@ -232,6 +235,7 @@ class Zombie extends GameObject {
                     if (entity.hp > 0 && this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
                         entity.takeDamage()
                         this.changeAnimation(1) //swing
+                        this.animator.frameDuration = ZOMBIE_ATTACK_BARRIER_FRAME_DUR
                         this.checkBBandPushOut(this.bb, this.lastbb, entity.bb)
                     }
                 } else if (this.bb.collide(entity.bb_interact)) { //hit barrier only if still pathing
