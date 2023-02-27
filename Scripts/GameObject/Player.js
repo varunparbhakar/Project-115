@@ -316,7 +316,7 @@ class Player extends GameObject {
                     }
                     break;
                 case ("zombie_hit"):
-                    if(Math.random() < 0.03) {
+                    if(Math.random() < 0.1) {
                         let formattedNumber = randomInt(3).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
@@ -326,7 +326,7 @@ class Player extends GameObject {
                     }
                     break;
                 case ("lava_damage"):
-                    if(Math.random() < 0.002) {
+                    if(Math.random() < 0.0001) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
@@ -336,7 +336,7 @@ class Player extends GameObject {
                     }
                     break;
                 case ("shooting_zombie"):
-                    if(Math.random() < 0.0001) {
+                    if(Math.random() < 0.008) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
