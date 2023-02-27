@@ -364,7 +364,10 @@ class Gun {
         this.currentFireCooldown = this.getFireCooldown() //set cooldown
 
         //Check Ammo
-        if (this.currentMagazineAmmo === 0) return false //no ammo
+        if (this.currentMagazineAmmo === 0){
+
+            return false //no ammo
+        }
         this.currentMagazineAmmo -= 1 //fire ammo
 
         //Shoot
@@ -808,6 +811,7 @@ const MOVEMENT_PENALTY_HEAVY = 0.825 //LMG, Launchers
 //Pistols
 class Gun_M1911 extends Gun {
     constructor() {
+
         super(
             "M1911",
             30, //dmg

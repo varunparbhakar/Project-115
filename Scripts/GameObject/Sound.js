@@ -116,6 +116,9 @@ class WorldSound {
             this.resetAndPlay()
         }
     }
+    hasEnded(){
+        return this.aud.ended
+    }
 
     getVolume() {
         return this.aud.volume * GAME_ENGINE.globalVolume

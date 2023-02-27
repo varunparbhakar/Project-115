@@ -58,7 +58,7 @@ class Player extends GameObject {
 
         //Guns
         let startM1911 = new Gun_M1911()
-        startM1911.currentTotalAmmo = 32
+        startM1911.currentTotalAmmo = 2
         this.gunInventory = [startM1911, new Gun_Empty()]; //[startM1911, new Gun_Empty()]
         this.currentGunIndex = 0;
 
@@ -79,6 +79,10 @@ class Player extends GameObject {
         this.grenades = 2
         //Footstep snd
         this.footStepTimer = PLAYER_FOOTSTEP_WALK
+
+        //Voice Line
+        this.aud = null
+        this.playerVolume = 1
 
         //Perks
         this.perk_hasJug = false
@@ -107,7 +111,10 @@ class Player extends GameObject {
 
     update() {
 
-
+        //Checking if the player can talk
+        if(this.aud != null && this.aud.hasEnded()) {
+            this.aud = null
+        }
 
         if (!this.alive) {return} //dead, dont update
 
@@ -165,6 +172,10 @@ class Player extends GameObject {
 
         //Shoot
         if (GAME_ENGINE.left_click && this.state !== ANIMATION_Grenade && this.state != ANIMATION_Melee) {
+            if(this.gunInventory[this.currentGunIndex].currentTotalAmmo == 0 && this.gunInventory[this.currentGunIndex].currentMagazineAmmo == 0 ) {
+                console.log("TRYING TO PLAY AUDIO")
+                this.audioHandler("No_ammo")
+            }
             if (this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)) {
                 this.changeAnimation(ANIMATION_Shooting, this.gunInventory[this.currentGunIndex].maxFireCooldown)
             }
@@ -291,7 +302,25 @@ class Player extends GameObject {
 
         return (Math.atan2(dy, dx));
     }
+    audioHandler(situation) {
+        if(this.aud == null) {
+            switch (situation){
+                case ("No_ammo"):
+                    if(Math.random() < 0.15) {
+                        let formattedNumber = randomInt(4).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/No Ammo/No Ammo " + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                    }
+                    break;
+            }
+        }
 
+
+
+    }
     draw() {
         if (!this.alive) {return} //dead, dont draw
         this.animator.drawFrame(this.posX, this.posY, this.angle + PLAYER_IMAGE_ROTATION_OFFSET)
