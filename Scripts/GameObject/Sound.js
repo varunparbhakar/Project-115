@@ -123,6 +123,7 @@ class WorldSound {
         return this.aud.volume * GAME_ENGINE.globalVolume
     }
 
+
     setVolume(vol) {
         if (vol < 0) {
             // console.log("Error: Volume" + vol)
