@@ -232,6 +232,7 @@ class WorldMap {
         // GAME_ENGINE.addEntity(new MapBB(1261,1057,9,84, this)) //Juggernaut Room Boundry
         GAME_ENGINE.addEntity(new MapBB(1357,1100,9,40, this)) //Juggernaut Room Boundry
         GAME_ENGINE.addEntity(new MapBB(1324,1134,41,9, this)) //Juggernaut Room Boundry
+        GAME_ENGINE.addEntity(new MapBB(1649, 834, 21, 28, this, true)) //Jug top left box
 
         GAME_ENGINE.addEntity(new MapBB(1676,1131,76,11, this, true)) //Right Side of Jugg near the lava
         GAME_ENGINE.addEntity(new MapBB(1741,1131,7,90, this, true)) //Right side of jugg up to the barrier
@@ -595,7 +596,7 @@ class WorldMap {
         this.roundManager.start()
 
         ////////////BGM////////////
-        this.bgmPlayer = new BGMPlayer([[1200, 1200], [1300, 1200]], this)
+        this.bgmPlayer = new BGMPlayer([[1648, 841], [872, 499], [1454, 1445]], this)
         GAME_ENGINE.addEntity(this.bgmPlayer)
         this.bgmPlayer.playAmb()
 
@@ -2570,7 +2571,7 @@ class BGMEEPart extends MapInteract {
 
 
     draw() {
-        this.anim.drawFrame(this.bb_interact.x, this.bb_interact.y)
+        this.anim.drawFrame(this.bb_interact.x + 5, this.bb_interact.y + 5)
         this.bb_interact.drawBoundingBox("green")
     }
 
