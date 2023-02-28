@@ -575,7 +575,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new PerkMachine_DoubleTap(909, 674, 32, 47, this))
 
         ////////////MysteryBox///////////
-        GAME_ENGINE.addEntity(new MysteryBox([[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1130, 1814]], randomInt(4) + 1, this)) //[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]
+        GAME_ENGINE.addEntity(new MysteryBox([[698, 1357], [1034, 501], [1441, 887], [1226, 1428], [1128, 1812]], randomInt(4) + 1, this)) //[709, 1364], [1034, 503], [1431, 881], [1226, 1428], [1160, 1815]
 
         ///////////PaP///////////
         // GAME_ENGINE.addEntity(new PackAPunch(1073, 1142, this))
