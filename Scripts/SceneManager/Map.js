@@ -1542,6 +1542,7 @@ class PerkMachine extends MapInteract {
         if (GAME_ENGINE.ent_Player.points >= this.cost) {
             if (this.givePerk()) {
                 GAME_ENGINE.ent_Player.losePoints(this.cost)
+                GAME_ENGINE.ent_Player.audioHandler("got_a_perk")
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].equip()
                 this.aud.jumpToAndPlay(this.stingerTime)
                 this.resetJingleTime()
@@ -1618,6 +1619,7 @@ class PerkMachine_Jug extends PerkMachine {
         //try to give the perk if not have
         if (!GAME_ENGINE.ent_Player.perk_hasJug) {
             GAME_ENGINE.ent_Player.perk_hasJug = true
+            GAME_ENGINE.ent_Player.audioHandler("jug")
             return true
         }
         return false
@@ -1637,6 +1639,7 @@ class PerkMachine_Speed extends PerkMachine {
         //try to give the perk if not have
         if (!GAME_ENGINE.ent_Player.perk_hasSpeedCola) {
             GAME_ENGINE.ent_Player.perk_hasSpeedCola = true
+            GAME_ENGINE.ent_Player.audioHandler("speed")
             return true
         }
         return false
@@ -1655,6 +1658,7 @@ class PerkMachine_DoubleTap extends PerkMachine {
     givePerk() {
         //try to give the perk if not have
         if (!GAME_ENGINE.ent_Player.perk_hasDoubleTap) {
+            GAME_ENGINE.ent_Player.audioHandler("doubleTap")
             GAME_ENGINE.ent_Player.perk_hasDoubleTap = true
             return true
         }
@@ -1675,6 +1679,7 @@ class PerkMachine_StaminUp extends PerkMachine {
         //try to give the perk if not have
         if (!GAME_ENGINE.ent_Player.perk_hasStaminUp) {
             GAME_ENGINE.ent_Player.perk_hasStaminUp = true
+            GAME_ENGINE.ent_Player.audioHandler("staminaUp")
             return true
         }
         return false
@@ -1709,6 +1714,7 @@ class PerkMachine_QRevive extends PerkMachine { //TODO bad inheritance, super mu
             if (this.givePerk()) {
                 GAME_ENGINE.ent_Player.losePoints(this.cost)
                 GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].equip()
+                GAME_ENGINE.ent_Player.audioHandler("quickRevive")
                 this.aud.jumpToAndPlay(this.stingerTime)
                 this.resetJingleTime()
                 GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3", 0.5))
@@ -1820,6 +1826,7 @@ class PowerUp_InstaKill extends PowerUp {
 
     givePowerUp() {
         GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer = 30 //secs
+        GAME_ENGINE.ent_Player.audioHandler("instaKill")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill.mp3", MIXER_POWERUP * 0.5))
     }
 }
@@ -1831,6 +1838,7 @@ class PowerUp_DoublePoints extends PowerUp {
 
     givePowerUp() {
         GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer = 30 //secs
+        GAME_ENGINE.ent_Player.audioHandler("doublePoints")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints.mp3", MIXER_POWERUP * 0.5))
     }
 }
@@ -1846,6 +1854,7 @@ class PowerUp_MaxAmmo extends PowerUp {
             gun.currentTotalAmmo = gun.totalAmmo
         })
         GAME_ENGINE.ent_Player.grenades = 4
+        GAME_ENGINE.ent_Player.audioHandler("maxAmmo")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/maxammo.mp3", MIXER_POWERUP))
     }
 }
@@ -1862,6 +1871,7 @@ class PowerUp_Nuke extends PowerUp {
         GAME_ENGINE.ent_Player.earnPoints(400)
         GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3)
         GAME_ENGINE.camera.map.roundManager.curr_ZombiesSpawnDelay = 10
+        GAME_ENGINE.ent_Player.audioHandler("nuke")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke.mp3", MIXER_POWERUP))
     }
 }
@@ -1872,6 +1882,7 @@ class PowerUp_Carpenter extends PowerUp {
     }
 
     givePowerUp() {
+        GAME_ENGINE.ent_Player.audioHandler("carpenter")
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof Barrier) {
                 entity.hp = BARRIER_MAX_HP
@@ -2090,6 +2101,7 @@ class PackAPunch extends MapInteract {
                 break
             case 4: //offering
                 GAME_ENGINE.ent_Player.acceptNewGun(this.currGun)
+                GAME_ENGINE.ent_Player.audioHandler("pap")
                 this.stateCooldown = PAP_STATECD_5
                 this.state++
         }

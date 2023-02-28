@@ -21,6 +21,7 @@ const PLAYER_BC_RADIUS = 75;
 const PLAYER_VULNERABLE_RADIUS_SCALE = 1.5;
 
 const PLAYER_HP_MAX = 100;
+
 const PLAYER_HEAL_POINTS = 100; //will heal this amount in 1 sec
 const PLAYER_HEAL_COOLDOWN = 5;
 
@@ -34,6 +35,10 @@ const PLAYER_KNIFE_DMG = 150;
 
 const PLAYER_FOOTSTEP_WALK = 0.45
 const PLAYER_FOOTSTEP_RUN = 0.26
+
+
+//Player Vox
+const PLAYER_VOICE_COOLDOWN_MAX = 25
 
 class Player extends GameObject {
     constructor(posX, posY) {
@@ -83,6 +88,7 @@ class Player extends GameObject {
         //Voice Line
         this.aud = null
         this.playerVolume = 1
+        this.voiceLineCooldown = 0
 
         //Perks
         this.perk_hasJug = false
@@ -115,6 +121,7 @@ class Player extends GameObject {
         if(this.aud != null && this.aud.hasEnded()) {
             this.aud = null
         }
+        this.voiceLineCooldown -= GAME_ENGINE.clockTick;
 
         if (!this.alive) {return} //dead, dont update
 
@@ -307,46 +314,149 @@ class Player extends GameObject {
         return (Math.atan2(dy, dx));
     }
     audioHandler(situation) {
-        if(this.aud == null) {
+        if(this.aud == null && this.voiceLineCooldown <= 0) {
             switch (situation){
                 case ("No_ammo"):
-                    if(Math.random() < 0.01) {
+                    if(Math.random() < 0.1) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
                         })
                         this.aud = new Sound("Assets/Audio/Vox/Player/No Ammo/no_ammo_" + formattedNumber + ".mp3", this.playerVolume)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                         GAME_ENGINE.addEntity(this.aud)
                     }
                     break;
                 case ("zombie_hit"):
-                    if(Math.random() < 0.1) {
+                    if(Math.random() < 0.4) {
                         let formattedNumber = randomInt(3).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
                         })
                         this.aud = new Sound("Assets/Audio/Vox/Player/Took Damage From Zoom/low_health_" + formattedNumber + ".mp3", this.playerVolume)
                         GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                     }
                     break;
                 case ("lava_damage"):
-                    if(Math.random() < 0.0001) {
+                    if(Math.random() < 0.05) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
                         })
                         this.aud = new Sound("Assets/Audio/Vox/Player/Lava Damage/lava_damage_" + formattedNumber + ".mp3", this.playerVolume)
                         GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                     }
                     break;
                 case ("shooting_zombie"):
-                    if(Math.random() < 0.008) {
+                    if(Math.random() < 0.1) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
                         })
                         this.aud = new Sound("Assets/Audio/Vox/Player/Killing Zombie/killing_zombie_" + formattedNumber + ".mp3", this.playerVolume)
                         GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+
+                //Perks
+                case ("got_a_perk"):
+                    if(Math.random() < 0.4) {
+                        let formattedNumber = randomInt(3).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Got a perk/perk_vox_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("speed"):
+                    if(Math.random() < 0.1) {
+
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Got a perk/speedCola.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("jug"):
+                    if(Math.random() < 0.1) {
+
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Got a perk/jug.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("quickRevive"):
+                    if(Math.random() < 0.1) {
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Got a perk/quickRevive.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("doubleTap"):
+                    if(Math.random() < 0.1) {
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Got a perk/doubleTap.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("staminaUp"):
+                    if(Math.random() < 0.1) {
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Got a perk/stamina.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+
+                //Power Ups
+                case ("instaKill"):
+                    if(Math.random() < 0.1) {
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Power Up/instak.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("doublePoints"):
+                    if(Math.random() < 0.1) {
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Power Up/doubleP.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("maxAmmo"):
+                if(Math.random() < 0.1) {
+                    this.aud = new Sound("Assets/Audio/Vox/Player/Power Up/maxAmmmo.mp3", this.playerVolume)
+                    GAME_ENGINE.addEntity(this.aud)
+                    this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                }
+                break;
+                case ("nuke"):
+                    if(Math.random() < 0.1) {
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Power Up/nukeEm.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("carpenter"):
+                    if(Math.random() < 0.1) {
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Power Up/hammerThing.mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+
+                case ("pap"):
+                    if(Math.random() < 0.4) {
+                        let formattedNumber = randomInt(3).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/Pack A punch/pack_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                     }
                     break;
             }
