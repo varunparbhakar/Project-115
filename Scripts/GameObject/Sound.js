@@ -115,6 +115,7 @@ class WorldSound {
             this.resetAndPlay()
         }
     }
+
     hasEnded(){
         return this.aud.ended
     }
@@ -159,8 +160,11 @@ class WorldSound {
     update() {
         this.setVolume(this.getVolumeToPlayer() * this.volume)
         this.setPan(this.getDistanceToPlayerXY())
-        if (this.aud.ended && this.autoDelete) {
-            this.soundDeleteGarbageCollect()
+        if (this.aud.ended) {
+            this.aud.onsuspend
+            if (this.autoDelete) {
+                this.soundDeleteGarbageCollect()
+            }
         }
     }
 
@@ -214,10 +218,14 @@ class Sound extends WorldSound {
 
     update() {
         this.setVolume(this.volume)
-        if (this.aud.ended && this.autoDelete) {
-            this.soundDeleteGarbageCollect()
+        if (this.aud.ended) {
+            this.aud.onsuspend
+            if (this.autoDelete) {
+                this.soundDeleteGarbageCollect()
+            }
         }
     }
+
 }
 
 class MysteryBoxSound extends WorldSound {
@@ -232,13 +240,8 @@ class MysteryBoxSound extends WorldSound {
 //     }
 // }
 
-class SoundTest extends WorldSound {
-    constructor() {
-        super("Assets/Audio/SFX/Guns/Ray Gun.mp3", 1, GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, 2000)
-    }
-}
-
-const soundDeleteGarbageCollect = (sound) => {
-    sound.srcObject = null
-    sound.aud.remove()
-}
+// class SoundTest extends WorldSound {
+//     constructor() {
+//         super("Assets/Audio/SFX/Guns/Ray Gun.mp3", 1, GAME_ENGINE.ent_Player.posX, GAME_ENGINE.ent_Player.posY, 2000)
+//     }
+// }
