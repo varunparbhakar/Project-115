@@ -181,14 +181,27 @@ class WorldSound {
 
         }
         if (this.audCtx != null) {
-            if (this.audCtx.state != "closed") {
-                this.audCtx.close()
+            try {
+                if (this.audCtx.state != "closed") {
+                    this.audCtx.close()
+                }
+            } catch (e) {
+
             }
+
             this.panner.disconnect()
             this.track.disconnect()
         }
-        this.aud.srcObject = null
-        this.aud.remove()
+        try {
+            this.aud.srcObject = null
+        } catch (e) {
+
+        }
+        try {
+            this.aud.remove()
+        } catch (e) {
+
+        }
         this.removeFromWorld = true
     }
 }
