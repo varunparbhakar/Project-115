@@ -176,8 +176,12 @@ class Player extends GameObject {
                 console.log("TRYING TO PLAY AUDIO")
                 this.audioHandler("No_ammo")
             }
-            if (this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)) {
+            let shootResult = this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)
+            if (shootResult) {
                 this.changeAnimation(ANIMATION_Shooting, this.gunInventory[this.currentGunIndex].maxFireCooldown)
+            }
+            if (!shootResult && this.gunInventory[this.currentGunIndex].currentMagazineAmmo === 0 && GAME_ENGINE.last_left_click === false) { //try reload if no ammo
+                this.gunInventory[this.currentGunIndex].reload()
             }
         }
         //Reload

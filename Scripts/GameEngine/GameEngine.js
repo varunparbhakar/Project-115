@@ -331,10 +331,6 @@ class GameEngine {
             this.globalVolume = document.getElementById("volume").value * 0.25
         }
 
-        //key last
-        this.last_left_click = this.left_click;
-        this.last_right_click = this.right_click;
-
         this.update1(this.ent_FE)
         if (!this.options.paused) {
             this.update1(this.ent_MapBackground)
@@ -353,6 +349,10 @@ class GameEngine {
             this.update1(this.ent_Etc)
         }
         this.update1(this.ent_Sound)
+
+        //key last
+        this.last_left_click = this.left_click;
+        this.last_right_click = this.right_click;
     }
 
     update1(entities) {
