@@ -1309,6 +1309,7 @@ class MysteryBox extends MapInteract {
                     } else {
                         let center = this.bb.getCenteredPos()
                         GAME_ENGINE.addEntity(new Sound("Assets/Audio/MysteryBox/child.mp3", 0.45))
+                        GAME_ENGINE.ent_Player.points += 950 //to avoid counting as earned
                         this.state = 4
                         this.curr_GunOffer = null
                     }
