@@ -2176,6 +2176,9 @@ class RoundManager {
     start() {
         this.curr_Round = GAME_ENGINE.options.mainMenu_options_zombiesStartingRound
 
+        //Assassins Creed tour mode be like
+        if (GAME_ENGINE.options.mainMenu_options_zombiesStartingRound === 0) {return}
+
         // this.curr_ZombiesLeft = ROUND_COUNT[0]
         this.curr_ZombiesHealth = 50 + (100*this.curr_Round) //150
 
