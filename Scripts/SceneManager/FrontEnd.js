@@ -883,7 +883,7 @@ class RestartScreen extends ReturnScreen {
 
 class DownloadAllSoundButton extends Button {
     constructor(bottomDesc) {
-        super(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing on demand download delay.")
+        super(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing on demand download delay. (This might be futile if your browser doesn't cache it.)")
         this.done = false
         this.bottomDesc = bottomDesc
     }
