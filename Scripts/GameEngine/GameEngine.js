@@ -250,7 +250,8 @@ class GameEngine {
         if (
             entity instanceof Projectile ||
             entity instanceof RaycastZombies ||
-            entity instanceof RaycastExplosivePlayer
+            entity instanceof RaycastExplosivePlayer ||
+            entity instanceof RaycastExplosiveZombie
         ) {
             this.ent_Projectiles.push(entity)
         } else if (entity instanceof Zombie) {
@@ -268,7 +269,8 @@ class GameEngine {
             entity instanceof WallBuyImage ||
             entity instanceof MapInteract ||
             entity instanceof SpawnerGroundDigParticle ||
-            entity instanceof LavaBB
+            entity instanceof LavaBB ||
+            entity instanceof PowerUp
         ) {
             this.ent_MapObjects.push(entity)
         } else if (entity instanceof MapLayer_Background || entity instanceof MapLayer_BackgroundPower) {
