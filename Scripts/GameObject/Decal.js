@@ -233,3 +233,28 @@ class Lightning extends Particle {
         this.glow.draw()
     }
 }
+
+class TitleSunFlicker extends Particle {
+    constructor(posX, posY, scale=1) {
+        super(
+            new Animator("Assets/Images/Items/Smoke.png", 0,0,100,100,1,1, 1,false,false),
+            posX, posY,
+            -1
+        );
+        this.glow = new Glow(posX, posY, scale * (Math.random() + 0.5), rgb(255, 255, 230), 1)
+        this.time = 0 + randomInt(100)
+    }
+
+    update() {
+        // super.update()
+        this.time += (GAME_ENGINE.clockTick * (Math.random() / 10 + 1))
+    }
+
+    draw() {
+        let alpha = (Math.sin(this.time) + 1) / 2
+        // this.draw1(alpha)
+
+        this.glow.changeAlpha(alpha * 0.2)
+        this.glow.draw()
+    }
+}

@@ -76,9 +76,25 @@ class MainMenu extends FrontEnd {
 
         //background
         this.backgroundImg = ASSET_MANAGER.getAsset("Assets/Images/Items/title.png")
+
+        //sfx
+        let width = GAME_ENGINE.ctx.canvas.width
+        let height = GAME_ENGINE.ctx.canvas.height
+        this.fx = [
+            new TitleSunFlicker(width - 100, 300, 1),
+            new TitleSunFlicker(width - 550, 424, 10),
+            new TitleSunFlicker(width - 200, 500, 5),
+            new TitleSunFlicker(width - 1542, 564, 8),
+            new TitleSunFlicker(width - 2200, 100, 3),
+            new TitleSunFlicker(width - 2200, 1000, 13),
+        ]
     }
 
     update() {
+        //fx
+        for (let i = 0; i < this.fx.length; i++) {
+            this.fx[i].update()
+        }
         //cursor
         try {
             this.cursor.x = GAME_ENGINE.mouse.x
@@ -90,7 +106,6 @@ class MainMenu extends FrontEnd {
         this.cursor.updateSides()
 
         if(this.submenu != undefined) this.submenu.update();
-
 
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].update()
@@ -111,6 +126,11 @@ class MainMenu extends FrontEnd {
             0,0,
             GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height
         )
+
+        //fx
+        for (let i = 0; i < this.fx.length; i++) {
+            this.fx[i].draw()
+        }
 
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = "white"
