@@ -1090,6 +1090,7 @@ class SpawnerGroundDigParticle {
         this.scale = 0.4
         this.delayTimer = 5
         this.animator = new Animator(ASSET_MANAGER.getAsset("Assets/Images/Map/Zombie Dirt Spawning SpriteSheet.png"), 0,0,600,600, 7,1,this.scale) //TODO
+        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/Zombie/dirt" + randomInt(2) + ".mp3", 0.6, this.posX, this.posY, 1000))
     }
 
     update() {
