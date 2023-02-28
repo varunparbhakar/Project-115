@@ -25,7 +25,8 @@ class GameEngine {
         this.mouse = null;
         this.wheel = null;
         // this.keys = {}; //TRASH
-        this.single_click = false;
+        this.last_left_click = false;
+        this.last_right_click = false;
 
         // Options and the Details
         this.options = options || {
@@ -324,10 +325,15 @@ class GameEngine {
     }
 
     update() {
+        //volume
         this.globalVolume = document.getElementById("volume").value
         if (this.options.paused) {
             this.globalVolume = document.getElementById("volume").value * 0.25
         }
+
+        //key last
+        this.last_left_click = this.left_click;
+        this.last_right_click = this.right_click;
 
         this.update1(this.ent_FE)
         if (!this.options.paused) {
