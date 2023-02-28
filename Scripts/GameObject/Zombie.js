@@ -190,7 +190,6 @@ class Zombie extends GameObject {
                 if (this.attack_currentCooldown == ZOMBIE_ATTACK_COOLDOWN) {
                     GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Knife/knife.mp3", 0.1)) //TODO swing sound
                     this.voxSetupNewSrcHitReaction()
-                    this.aud.resetAndPlay()
                     this.animator.finishedAnimation = false
                     this.animator.elaspedTime = 0
                 }
@@ -445,13 +444,13 @@ class Zombie extends GameObject {
             this.voxTimer -= GAME_ENGINE.clockTick
         } else {
             this.voxSetupNewSrcNormal()
-            this.aud.resetAndPlay()
             this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
             this.voxTimer = ZOMBIE_VOX_TIMER + randomInt(ZOMBIE_VOX_TIMER_RANDOM)
         }
     }
 
     voxSetupNewSrcNormal() { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
+        if (!this.aud.aud.paused) {return}
         this.aud.soundDeleteGarbageCollect()
         if (this.speed <= ZOMBIE_SPEEDS[2]) {
             let formattedNumber = randomInt(12).toLocaleString('en-US', {
@@ -459,12 +458,14 @@ class Zombie extends GameObject {
                 useGrouping: false
             })
             this.aud = new WorldSound("Assets/Audio/Vox/Zombies/Calm_Zombie_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, true)
+            this.aud.resumePlay()
         } else {
             let formattedNumber = randomInt(2).toLocaleString('en-US', {
                 minimumIntegerDigits: 2,
                 useGrouping: false
             })
             this.aud = new WorldSound("Assets/Audio/Vox/Zombies/Zombie_Aggressive_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, true)
+            this.aud.resumePlay()
         }
     }
 
@@ -476,6 +477,7 @@ class Zombie extends GameObject {
                 useGrouping: false
             })
             this.aud = new WorldSound("Assets/Audio/Vox/Zombies/Zombie_Hit_Reaction_" + formattedNumber + ".mp3", MIXER_ZOMBIE_VOX, 0,0, ZOMBIE_VOX_RADIUS, false, 0,true, true)
+            this.aud.resumePlay()
         }
     }
 }
