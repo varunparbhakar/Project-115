@@ -1305,7 +1305,7 @@ class MysteryBox extends MapInteract {
                                 let finalGun = MYSTERYBOX_LOOT_TABLE[randomInt(MYSTERYBOX_LOOT_TABLE.length)]
                                 this.curr_GunTexture = GUN_TEXTURE_MAP.map.get(finalGun)
                                 this.curr_GunOffer = CREATE_GUN_FROM_NAME(finalGun, false)
-                            } while ((nameOfGunsInInventory.includes(this.curr_GunOffer.name) ))
+                            } while (nameOfGunsInInventory.includes(this.curr_GunOffer.name))
                         }
                     } else {
                         let center = this.bb.getCenteredPos()
@@ -1386,6 +1386,9 @@ class MysteryBox extends MapInteract {
             case 2: //offer pickup
                 this.state = 3
                 this.stateCooldownTimer = MYSTERYBOX_SPAM_PREVENT_TIME
+                if (this.curr_GunOffer.name === "Ray Gun") {
+                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/mus_raygun_stinger.mp3", 0.65))
+                }
                 GAME_ENGINE.ent_Player.acceptNewGun(this.curr_GunOffer)
                 break
         }
