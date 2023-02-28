@@ -18,11 +18,12 @@ function getAllFiles(dirPath, arrayOfFiles) {
 }
 
 // var files = getAllFiles('./Assets/Images').concat(getAllFiles('./Assets/Audio'));
-var files = getAllFiles('./Assets/Images')
+// var files = getAllFiles('./Assets/Images')
+var files = getAllFiles('./Assets/Audio')
 
 var filtered = files.filter(file => !file.includes('DS_Store') && !file.includes('.avif'))
 
-fs.writeFile('./Scripts/allAssets.txt', filtered.map((item) => '"' + item + '",').join('\n'), err => {
+fs.writeFile('./Assets/allAssetsAudio.txt', filtered.map((item) => '"' + item + '",').join('\n'), err => {
   if (err) {
     console.error(err);
     return;
