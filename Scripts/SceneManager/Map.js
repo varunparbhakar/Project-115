@@ -601,7 +601,7 @@ class WorldMap {
         this.bgmPlayer.playAmb()
 
         ////////////Radios///////////
-        GAME_ENGINE.addEntity(new Radio(1200, 1300, "Assets/Audio/Vox/Zombies/zombie_00.mp3", this))
+        // GAME_ENGINE.addEntity(new Radio(1200, 1300, "Assets/Audio/Vox/Zombies/zombie_00.mp3", this))
     }
 }
 
