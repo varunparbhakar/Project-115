@@ -912,7 +912,7 @@ class DownloadAllAudioOperation extends FrontEnd {
     update() {
         if (this.timer > 0) {
             this.timer -= GAME_ENGINE.clockTick
-        } else if (this.aud != null || this.aud.aud.readyState === 4) {
+        } else if (this.aud.aud.readyState === 4) {
             if (this.i < ASSETS_AUDIO_LIST.length) {
                 try {
                     this.aud.soundDeleteGarbageCollect()
