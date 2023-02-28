@@ -283,7 +283,6 @@ class OptionsMenu extends FrontEnd {
 
         let aspect169 = new GeneralButton("16:9", "Set resolution to 2560x1440.", 1280, 260);
         aspect169.use = function(a) {
-            console.log("b1")
             aspect169.setSelected(true)
             aspect219.setSelected(false)
             GAME_ENGINE.ctx.canvas.width = 2560
