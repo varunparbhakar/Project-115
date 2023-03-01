@@ -188,7 +188,9 @@ class Player extends GameObject {
                 this.changeAnimation(ANIMATION_Shooting, this.gunInventory[this.currentGunIndex].maxFireCooldown)
             }
             if (!shootResult && this.gunInventory[this.currentGunIndex].currentMagazineAmmo === 0 && GAME_ENGINE.last_left_click === false) { //try reload if no ammo
-                this.gunInventory[this.currentGunIndex].reload()
+                if (this.gunInventory[this.currentGunIndex].reload()) {
+                    this.changeAnimation(ANIMATION_Reloading, this.gunInventory[this.currentGunIndex].getReloadCooldown())
+                }
             }
         }
         //Reload
