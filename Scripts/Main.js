@@ -1,5 +1,6 @@
 const GAME_ENGINE = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
+document.getElementById("gameWorld").hidden = true
 
 
 var lines = [
@@ -87,6 +88,9 @@ ASSET_MANAGER.downloadAll(() => {
 	bar.hidden = true
 
 	const canvas = document.getElementById("gameWorld");
+	canvas.hidden = false
+	canvas.width = 2560
+	canvas.height = 1440
 	const ctx = canvas.getContext("2d");
 	ctx.imageSmoothingEnabled = false;
 	ctx.imageSmoothingQuality = "low";
