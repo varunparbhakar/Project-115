@@ -72,7 +72,7 @@ class MainMenu extends FrontEnd {
             optionsButton,
             new DownloadAllSoundButton(this.bottomDesc)
         ]
-        this.title = "Project 115"
+        // this.title = "Project 115"
 
         //background
         this.backgroundImg = ASSET_MANAGER.getAsset("Assets/Images/Items/title.png")
@@ -140,7 +140,9 @@ class MainMenu extends FrontEnd {
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y+25)
+        GAME_ENGINE.ctx.fillText("Project", FE_X, FE_Y+25)
+        GAME_ENGINE.ctx.fillStyle = "red"
+        GAME_ENGINE.ctx.fillText("115", FE_X+370, FE_Y+25)
         GAME_ENGINE.ctx.restore()
 
         for (let i = 0; i < this.buttons.length; i++) {
