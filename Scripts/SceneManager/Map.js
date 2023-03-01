@@ -835,11 +835,13 @@ class Barrier {
         let center = this.bb.getCenteredPos()
         this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.2, center[0], center[1], 700, false, 0, false)
         this.hoverSound2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, center[0], center[1], 1000, false, 0, false)
+        GAME_ENGINE.addEntity(this.hoverSound1)
+        GAME_ENGINE.addEntity(this.hoverSound2)
     }
 
     update() {
-        this.hoverSound1.update()
-        this.hoverSound2.update()
+        // this.hoverSound1.update()
+        // this.hoverSound2.update()
     }
 
     draw() {
@@ -1771,6 +1773,7 @@ class PowerUp {
 
         GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PowerUp/spawn.mp3", 0.1, this.posX, this.posY, 2000)) //already centered
         this.loopSound = new WorldSound("Assets/Audio/PowerUp/loop.mp3", 0.05, this.posX, this.posY, 2000, true) //already centered
+        GAME_ENGINE.addEntity(this.loopSound)
 
         this.glow = new Glow(posX, posY, 2, "green", 0.5)
     }
@@ -1964,6 +1967,7 @@ class PackAPunch extends MapInteract {
 
         let center = this.bb.getCenteredPos()
         this.aud = new WorldSound("Assets/Audio/PerkJingles/PaP/mus_packapunch_jingle.mp3", 0.325, center[0], center[1], 2000, false, 0, false)
+        GAME_ENGINE.addEntity(this.aud)
         //this.jingleTimer
         this.resetJingleTimer()
     }
@@ -2596,6 +2600,7 @@ class Radio extends MapInteract {
 
         let center = this.bb_interact.getCenteredPos()
         this.aud = new WorldSound(audPath, MIXER_RADIO_VOL, center[0], center[1], 3500, false, 0, false, true)
+        GAME_ENGINE.addEntity(this.aud)
     }
 
     use() {
