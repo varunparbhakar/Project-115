@@ -146,6 +146,29 @@ class GunSmokeParticle extends Particle {
     }
 }
 
+class RayGunSmokeParticle extends Particle {
+    constructor(posX, posY, scale=2) {
+        super(
+            new Animator("Assets/Images/Items/Smoke_RayGun.png", 0,0,100,100,1,1, scale * (Math.random() + 0.5),false,false),
+            posX, posY,
+            (Math.random() + 1) * 0.5
+        );
+        this.velX = (Math.random() - 0.5) * 0.2
+        this.velY = (Math.random() - 0.5) * 0.2
+    }
+
+    update() {
+        super.update()
+        this.posX += this.velX
+        this.posY += this.velY
+    }
+
+    draw() {
+        let alpha = Math.max((this.decayTime / 3), 0)
+        this.draw1(alpha)
+    }
+}
+
 class FogParticle extends Particle {
     constructor(posX, posY, scale=75) {
         super(
@@ -254,7 +277,7 @@ class TitleSunFlicker extends Particle {
         let alpha = (Math.sin(this.time) + 1) / 2
         // this.draw1(alpha)
 
-        this.glow.changeAlpha(alpha * 0.2)
+        this.glow.changeAlpha(alpha * 0.3)
         this.glow.draw()
     }
 }

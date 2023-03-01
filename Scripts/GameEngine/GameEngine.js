@@ -258,7 +258,7 @@ class GameEngine {
             this.ent_Zombies.push(entity)
         } else if (entity instanceof Decal) {
             this.ent_Decals.push(entity)
-        } else if (entity instanceof Particle) {
+        } else if (entity instanceof Particle || entity instanceof MuzzleFlash) {
             this.ent_Particles.push(entity)
         } else if (
             entity instanceof MapBB ||
@@ -281,7 +281,7 @@ class GameEngine {
             this.ent_Player = entity
         } else if (entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
             this.ent_Etc.push(entity)
-        } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut || entity instanceof MuzzleFlash) {
+        } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut) {
             this.ent_HUD.push(entity)
         } else if (entity instanceof WorldSound || entity instanceof BGMPlayer) {
             this.ent_Sound.push(entity)

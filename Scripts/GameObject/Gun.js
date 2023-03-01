@@ -2195,6 +2195,10 @@ class Gun_RayGun extends Gun_T_Explode { //Pistol
     //     this.spawnMuzzleFlash(posXOriginal, posYOriginal, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
     // }
 
+    shoot2(posX, posY, angle) {
+        GAME_ENGINE.addEntity(new RayGunBullet(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, this.splashRadius))
+    }
+
     spawnMuzzleFlash(posX, posY, angle, specialFlash = "Assets/Images/Items/Muzzle_Flash_RayGun.png", w = 0, h = 0) {
         super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);
     }
@@ -2224,6 +2228,10 @@ class Gun_RayGun_PaP extends Gun_T_Explode { //Pistol
     //     this.currentRecoil += this.recoilIncreasePerClick;
     //     this.spawnMuzzleFlash(posXOriginal, posYOriginal, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800,800)
     // }
+
+    shoot2(posX, posY, angle) {
+        GAME_ENGINE.addEntity(new RayGunBullet(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, this.splashRadius))
+    }
 
     spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
         super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);

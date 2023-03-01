@@ -189,8 +189,8 @@ class BulletPierce extends Projectile {
 }
 
 class Explosive extends Projectile {
-    constructor(posX, posY, angle, damage, bulletspeed, radius) {
-        super(posX,posY,"Assets/Images/Items/Bullet.png", 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
+    constructor(posX, posY, angle, damage, bulletspeed, radius, texPath="Assets/Images/Items/Bullet.png") {
+        super(posX,posY,texPath, 0,0, BULLET_IMAGE_WIDTH, BULLET_IMAGE_HEIGHT,1, 1, angle, bulletspeed, BULLET_DESPAWN_TIME);
         this.damage = damage
         this.radius = radius
     }
@@ -220,11 +220,13 @@ class Explosive extends Projectile {
         })
     }
 
-    explode() {
+    explode(explodeFX=true) {
         if (GAME_ENGINE.options.drawDebug) {GAME_ENGINE.addEntity(new DebugBC(this.posX, this.posY, this.radius, 1, "orange"))} //DebugBC
         //particle
-        GAME_ENGINE.addEntity(new ExplosionFlashParticle(this.posX, this.posY))
-        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 5000))
+        if (explodeFX) {
+            GAME_ENGINE.addEntity(new ExplosionFlashParticle(this.posX, this.posY))
+            GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Explode/explode_0" + randomInt(3) + ".mp3", 1, this.posX, this.posY, 5000))
+        }
         GAME_ENGINE.camera.startShake(0.25, 5)
         let bc = new BoundingCircle(this.posX, this.posY, this.radius)
         GAME_ENGINE.ent_Zombies.forEach((entity) => {
@@ -239,6 +241,18 @@ class Explosive extends Projectile {
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Explode/tinitus.mp3", 0.15))
             // GAME_ENGINE.ent_Player.takeDamage(this.damage)
         }
+    }
+}
+
+class RayGunBullet extends Explosive {
+    constructor(posX, posY, angle, damage, bulletspeed, radius) {
+        super(posX, posY, angle, damage, bulletspeed, radius, "Assets/Images/Items/Bullet_RayGun.png")
+    }
+
+    explode() {
+        super.explode(false);
+        GAME_ENGINE.addEntity(new RayGunSmokeParticle(this.posX, this.posY))
+        GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/SFX/Guns/RayGun/wpn_ray_exp.mp3", 0.6, this.posX, this.posY, 4000))
     }
 }
 
@@ -420,7 +434,7 @@ class RaycastExplosivePlayer extends RaycastExplosive {
     makeTakeDamage() {
         GAME_ENGINE.camera.startShake(5, 25)
         //TODO play tinnitus sound or something
-        this.pairedEntity.takeDamage(this.damage)
+        this.pairedEntity.takeDamage(PLAYER_HP_MAX / 2)
     }
 }
 
@@ -434,14 +448,6 @@ class RaycastExplosiveZombie extends RaycastExplosive {
         this.pairedEntity.takeDamage(this.damage, this.dmgType)
     }
 }
-
-// class Decal {
-//     constructor(spritesheet, xStart=0, yStart=0, width, height, frameCount=1, frameDuration=1, scale=1, angle=0, decayTime=1) {
-//         this.animator = new AnimatorRotateOnce(spritesheet, xStart, yStart, width, height, angle, frameCount, scale, 1)
-//
-//         }
-//     }
-// }
 
 class MuzzleFlash {
     constructor(posX, posY, angle, specialFlashPath = "", width = 0, height = 0) {
