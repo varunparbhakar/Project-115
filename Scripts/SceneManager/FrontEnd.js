@@ -72,7 +72,7 @@ class MainMenu extends FrontEnd {
             optionsButton,
             new DownloadAllSoundButton(this.bottomDesc)
         ]
-        this.title = "Ye Zombie"
+        this.title = "Project 115"
 
         //background
         this.backgroundImg = ASSET_MANAGER.getAsset("Assets/Images/Items/title.png")
@@ -134,13 +134,13 @@ class MainMenu extends FrontEnd {
 
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = "white"
-        GAME_ENGINE.ctx.font = 'bold 100px arial'
+        GAME_ENGINE.ctx.font = 'bold 150px Agency FB'
         GAME_ENGINE.ctx.textAlign = "left"
         GAME_ENGINE.ctx.shadowColor = "black"
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y)
+        GAME_ENGINE.ctx.fillText(this.title, FE_X, FE_Y+25)
         GAME_ENGINE.ctx.restore()
 
         for (let i = 0; i < this.buttons.length; i++) {
@@ -217,7 +217,7 @@ class PauseMenu extends FrontEnd { //TODO inheritance
             GAME_ENGINE.ctx.save()
             //title
             GAME_ENGINE.ctx.fillStyle = "white"
-            GAME_ENGINE.ctx.font = 'bold 100px arial'
+            GAME_ENGINE.ctx.font = 'bold 100px Agency FB'
             GAME_ENGINE.ctx.textAlign = "left"
             GAME_ENGINE.ctx.shadowColor = "black"
             GAME_ENGINE.ctx.shadowBlur = 5
@@ -236,7 +236,7 @@ class PauseMenu extends FrontEnd { //TODO inheritance
             GAME_ENGINE.ctx.fillText("Points Earned: " + GAME_ENGINE.camera.map.roundManager.scoreboard_points, FE_X + statsOffsetX, FE_Y + 70 + 60)
 
             //Controls
-            GAME_ENGINE.ctx.font = 'bold 100px arial'
+            GAME_ENGINE.ctx.font = 'bold 100px Agency FB'
             GAME_ENGINE.ctx.fillText("Controls", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150)
             GAME_ENGINE.ctx.font = 'bold 50px arial'
             GAME_ENGINE.ctx.fillText("WASD - Move", FE_X + statsOffsetX, FE_Y + 70 + 60 + 150 + 70) //TODO do arithmetic
@@ -817,9 +817,8 @@ class DieScreen extends FrontEnd {
         let width = GAME_ENGINE.ctx.canvas.width
         let height = GAME_ENGINE.ctx.canvas.height
         GAME_ENGINE.ctx.save()
-        GAME_ENGINE.ctx.font = 'bold 100px arial'
-        GAME_ENGINE.ctx.fillStyle = this.hover ? "yellow" : "white"
-        this.hover = false
+        GAME_ENGINE.ctx.font = 'bold 200px Agency FB'
+        GAME_ENGINE.ctx.fillStyle = "white"
         GAME_ENGINE.ctx.textAlign = "center"
         GAME_ENGINE.ctx.shadowColor = "black"
         GAME_ENGINE.ctx.shadowBlur = 5
