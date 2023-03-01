@@ -28,6 +28,7 @@ class WorldSound {
         this.autoDelete = autoDelete
 
         this.aud = new Audio(path);
+        this.aud.preload = "auto"
         // this.aud.src = path;
         // this.aud.load();
 
