@@ -84,8 +84,8 @@ for (let i = 0; i < lines.length; i++) {
 }
 
 ASSET_MANAGER.downloadAll(() => {
-	var bar = document.getElementById("myBar");
-	bar.hidden = true
+	document.getElementById("myBar").hidden = true
+	document.getElementById("logoLoading").style.display = "none"
 
 	const canvas = document.getElementById("gameWorld");
 	canvas.hidden = false
