@@ -64,7 +64,7 @@ class Player extends GameObject {
         //Guns
         let startM1911 = new Gun_M1911()
         startM1911.currentTotalAmmo = 32 //32
-        this.gunInventory = [startM1911, new Gun_Empty()]; //[startM1911, new Gun_Empty()]
+        this.gunInventory = [startM1911, new Gun_RayGun()]; //[startM1911, new Gun_Empty()]
         this.currentGunIndex = 0;
 
         //HP
@@ -116,13 +116,6 @@ class Player extends GameObject {
     };
 
     update() {
-
-        //Checking if the player can talk
-        if(this.aud != null && this.aud.hasEnded()) {
-            this.aud = null
-        }
-        this.voiceLineCooldown -= GAME_ENGINE.clockTick;
-
         if (!this.alive) {return} //dead, dont update
 
         //Mouse
@@ -248,6 +241,12 @@ class Player extends GameObject {
 
         //Power Ups Timers
         this.powerUpHandler()
+
+        //Checking if the player can talk
+        if(this.aud != null && this.aud.hasEnded()) {
+            this.aud = null
+        }
+        this.voiceLineCooldown -= GAME_ENGINE.clockTick;
 
         //BB
         this.saveLastBB()
