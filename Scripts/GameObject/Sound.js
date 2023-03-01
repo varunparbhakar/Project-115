@@ -31,10 +31,10 @@ class WorldSound {
         // this.aud.src = path;
         // this.aud.load();
 
-        this.aud.addEventListener("ended", () => {
-            this.aud.pause();
-            // this.aud.currentTime = 0;
-        });
+        // this.aud.addEventListener("ended", () => { //ABSOLUTELY RETARDED CODE
+        //     this.aud.pause();
+        //     // this.aud.currentTime = 0;
+        // });
 
         if (autorepeat) {
             this.aud.addEventListener("ended",  () => {
@@ -86,7 +86,7 @@ class WorldSound {
         this.audCtx.resume()
 
         if (playNow) {
-            this.aud.play()
+            this.aud.play();
         }
     }
 
