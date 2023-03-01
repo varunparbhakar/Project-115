@@ -316,6 +316,7 @@ class Player extends GameObject {
         return (Math.atan2(dy, dx));
     }
     audioHandler(situation) {
+        if (!GAME_ENGINE.ent_Player.alive) {return} //already dead
         if(this.aud == null && this.voiceLineCooldown <= 0) {
             switch (situation){
                 case ("No_ammo"):
