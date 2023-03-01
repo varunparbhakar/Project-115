@@ -341,7 +341,7 @@ class Player extends GameObject {
                     }
                     break;
                 case ("lava_damage"):
-                    if(Math.random() < 0.05) {
+                    if(Math.random() < 0.09 * GAME_ENGINE.clockTick) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
