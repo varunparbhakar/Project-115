@@ -1478,8 +1478,8 @@ class PowerSwitch extends MapInteract {
 
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power.mp3", 0.6))
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
-            GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/powerOn.mp3", 1))
-            GAME_ENGINE.camera.map.bgmPlayer.duckAmbForSec(20)
+            // GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/powerOn.mp3", 1))
+            // GAME_ENGINE.camera.map.bgmPlayer.duckAmbForSec(20)
 
             GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(1)
 
