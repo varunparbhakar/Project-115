@@ -83,7 +83,7 @@ class WorldSound {
             .connect(this.panner)
             .connect(this.audCtx.destination)
 
-        this.audCtx.resume()
+        // this.audCtx.resume()
 
         if (playNow) {
             this.aud.play();
