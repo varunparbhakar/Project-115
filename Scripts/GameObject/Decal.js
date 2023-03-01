@@ -277,7 +277,7 @@ class TitleSunFlicker extends Particle {
         let alpha = (Math.sin(this.time) + 1) / 2
         // this.draw1(alpha)
 
-        this.glow.changeAlpha(alpha * 0.3)
+        this.glow.changeAlpha(alpha * 0.26)
         this.glow.draw()
     }
 }
