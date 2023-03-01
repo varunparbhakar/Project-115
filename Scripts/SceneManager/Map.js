@@ -1840,6 +1840,7 @@ class PowerUp_InstaKill extends PowerUp {
         GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer = 30 //secs
         GAME_ENGINE.ent_Player.audioHandler("instaKill")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill.mp3", MIXER_POWERUP * 0.5))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill_vox.mp3", MIXER_POWERUP))
     }
 }
 
@@ -1852,6 +1853,7 @@ class PowerUp_DoublePoints extends PowerUp {
         GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer = 30 //secs
         GAME_ENGINE.ent_Player.audioHandler("doublePoints")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints.mp3", MIXER_POWERUP * 0.5))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints_vox.mp3", MIXER_POWERUP))
     }
 }
 
@@ -1868,6 +1870,7 @@ class PowerUp_MaxAmmo extends PowerUp {
         GAME_ENGINE.ent_Player.grenades = 4
         GAME_ENGINE.ent_Player.audioHandler("maxAmmo")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/maxammo.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/maxammo_vox.mp3", MIXER_POWERUP))
     }
 }
 
@@ -1885,6 +1888,7 @@ class PowerUp_Nuke extends PowerUp {
         GAME_ENGINE.camera.map.roundManager.curr_ZombiesSpawnDelay = 10
         GAME_ENGINE.ent_Player.audioHandler("nuke")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke_vox.mp3", MIXER_POWERUP))
     }
 }
 
@@ -1901,6 +1905,7 @@ class PowerUp_Carpenter extends PowerUp {
             }
         })
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/carpenter.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/carpenter_vox.mp3", MIXER_POWERUP))
     }
 }
 
