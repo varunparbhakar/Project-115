@@ -295,10 +295,10 @@ class GameEngine {
 
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        // this.ctx.save()
-        // this.ctx.fillStyle = "black"
-        // this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        // this.ctx.restore()
+        this.ctx.save()
+        this.ctx.fillStyle = "black"
+        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.ctx.restore()
 
         this.draw1(this.ent_MapBackground)
         this.draw1(this.ent_Decals)
