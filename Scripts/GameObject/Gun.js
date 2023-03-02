@@ -408,7 +408,8 @@ class Gun {
 
     getSpreadAngle(angle) {
         // return angle;
-        return angle + this.currentRecoil * (Math.random() * 2 - 1)
+        // return angle + Math.max(Math.min(this.currentRecoil * (Math.random() * 2 - 1), 0.01), -.01)
+        return angle + Math.max(Math.min(this.currentRecoil * (Math.random() * 2 - 1), 0.785398), -0.785398) //clamped at 45*
     }
 
     reload() {
@@ -536,7 +537,7 @@ class Gun_T_Shotgun extends Gun { //ABSTRACT
     }
 
     getSpreadAngle(angle) {
-        return angle + ((this.shotgunSpread + this.currentRecoil) * (Math.random() * 2 - 1))
+        return angle + Math.max(Math.min((this.shotgunSpread + this.currentRecoil) * (Math.random() * 2 - 1), 0.785398), -0.785398) //clamped at 45*
     }
 }
 
@@ -2267,7 +2268,7 @@ class Gun_NoiseMaker extends Gun {
             0.0000000000000001, //fire cooldown
             0.1, //reload time
             1, //movement penalty
-            0, //recoil increase per fire
+            1, //recoil increase per fire
             1, //recoil decrease rate
             2000, //bullets speedTerminal
             0,0,
