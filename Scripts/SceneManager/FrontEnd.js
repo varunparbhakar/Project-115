@@ -8,6 +8,8 @@ class DoneLoadingScreen extends FrontEnd {
     constructor() {
         super()
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Items/Just_Cartoon_Teddy.png")
+        //background
+        this.backgroundImg = ASSET_MANAGER.getAsset("Assets/Images/Items/title.png")
     }
 
     update() {
@@ -18,11 +20,19 @@ class DoneLoadingScreen extends FrontEnd {
     }
 
     draw() {
+        //background
+        GAME_ENGINE.ctx.drawImage(
+            this.backgroundImg,
+            0,0,
+            GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height
+        )
+
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = "black"
-        GAME_ENGINE.ctx.globalAlpha = 1
+        GAME_ENGINE.ctx.globalAlpha = 0.5
         GAME_ENGINE.ctx.fillRect(0,0, GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height)
 
+        GAME_ENGINE.ctx.globalAlpha = 1
         GAME_ENGINE.ctx.drawImage(
         	this.asset, //what
         	0, 0, //starting at
