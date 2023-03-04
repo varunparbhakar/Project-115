@@ -86,7 +86,8 @@ class MainMenu extends FrontEnd {
             new PlayButton(),
             optionsButton,
             controlsButton,
-            new DownloadAllSoundButton(this.bottomDesc)
+            new FullscreenButton(FE_Y_BUTTON + 300, this.bottomDesc),
+            new DownloadAllSoundButton(FE_Y_BUTTON + 500, this.bottomDesc)
         ]
         // this.title = "Project 115"
 
@@ -95,7 +96,7 @@ class MainMenu extends FrontEnd {
 
         //sfx
         let width = GAME_ENGINE.ctx.canvas.width
-        let height = GAME_ENGINE.ctx.canvas.height
+        // let height = GAME_ENGINE.ctx.canvas.height
         this.fx = [
             new TitleSunFlicker(width - 100, 300, 1),
             new TitleSunFlicker(width - 550, 424, 10),
@@ -192,7 +193,9 @@ class PauseMenu extends FrontEnd { //TODO inheritance
         this.bottomDesc = new DescriptionBottom()
 
         this.buttons=[
-            new ExitButton()
+            new ResumeButton(FE_Y_BUTTON),
+            new ExitButton(FE_Y_BUTTON + 100),
+            new FullscreenButton(FE_Y_BUTTON + 200)
         ]
         this.title = "Paused"
     }
@@ -305,7 +308,7 @@ class OptionsMenu extends FrontEnd {
         this.cursor = cursor
         
         this.labelText = [
-            "Aspect Ratio:", 
+            "Aspect Ratio (Windowed):",
             "Zombie concurrent amount:", 
             "Always run zombie:", 
             "No spawn delay:",
@@ -319,7 +322,7 @@ class OptionsMenu extends FrontEnd {
             this.labels.push(new Label(850, 260 + (i * 150), this.labelText[i]))
         }
 
-        let aspect169 = new GeneralButton("16:9", "Set resolution to 2560x1440.", 1280, 260);
+        let aspect169 = new GeneralButton("16:9", "Set resolution to 2560x1440.", 1620, 260);
         aspect169.use = function(a) {
             aspect169.setSelected(true)
             aspect219.setSelected(false)
@@ -327,14 +330,18 @@ class OptionsMenu extends FrontEnd {
             GAME_ENGINE.ctx.canvas.height = 1440
             GAME_ENGINE.ctx.imageSmoothingEnabled = false
         }
-
-        let aspect219 = new GeneralButton("21:9", "Set resolution to 3440x1440.", 1450, 260);
+        let aspect219 = new GeneralButton("21:9", "Set resolution to 3440x1440.", 1790, 260);
         aspect219.use = function(a) {
             aspect169.setSelected(false)
             aspect219.setSelected(true)
             GAME_ENGINE.ctx.canvas.width = 3440
             GAME_ENGINE.ctx.canvas.height = 1440
             GAME_ENGINE.ctx.imageSmoothingEnabled = false
+        }
+        if (GAME_ENGINE.options.mainMenu_options_aspectRatio === "169") {
+            aspect169.use()
+        } else {
+            aspect219.use()
         }
 
 
@@ -779,7 +786,7 @@ class OptionsButton extends Button {
 
 class ControlsButton extends Button {
     constructor() {
-        super(FE_Y_BUTTON + 175, "Show Controls", "Show the controls to the game.");
+        super(FE_Y_BUTTON + 200, "Show Controls", "Show the controls to the game.");
     }
 
     use() {
@@ -799,6 +806,40 @@ class PlayButton extends Button {
     }
 }
 
+class FullscreenButton extends Button {
+    constructor(posY) {
+        super(posY, "Fullscreen Toggle", "Make the canvas fit your browser window. (zooming in & out will change FOV, use with discretion)");
+    }
+
+    use() {
+        if (!GAME_ENGINE.options.fullscreen) {
+            GAME_ENGINE.options.fullscreen = true
+            GAME_ENGINE.ctx.canvas.requestFullscreen()
+        } else {
+            GAME_ENGINE.options.fullscreen = false
+            if (GAME_ENGINE.options.mainMenu_options_aspectRatio === "169") {
+                GAME_ENGINE.ctx.canvas.width = 2560
+                GAME_ENGINE.ctx.canvas.height = 1440
+            } else {
+                GAME_ENGINE.ctx.canvas.width = 3440
+                GAME_ENGINE.ctx.canvas.height = 1440
+            }
+            document.exitFullscreen()
+        }
+        GAME_ENGINE.ctx.imageSmoothingEnabled = false
+    }
+}
+
+class ResumeButton extends Button {
+    constructor(posY) {
+        super(posY, "Resume", "Return to the game.");
+    }
+
+    use() {
+        GAME_ENGINE.options.paused = false
+    }
+}
+
 // class RestartButton extends Button {
 //     constructor() {
 //         super(FE_Y_BUTTON, "Restart", "Restart current game. (WARNING: This feature break game sound atm)");
@@ -813,8 +854,8 @@ class PlayButton extends Button {
 // }
 
 class ExitButton extends Button {
-    constructor() {
-        super(FE_Y_BUTTON, "End Game", "Return to main menu.");
+    constructor(posY) {
+        super(posY, "End Game", "Return to main menu.");
     }
 
     use() {
@@ -964,8 +1005,8 @@ class RestartScreen extends ReturnScreen {
 }
 
 class DownloadAllSoundButton extends Button {
-    constructor(bottomDesc) {
-        super(FE_Y_BUTTON + 300, "Download All Audio", "Download all sounds now, removing on demand download delay. (This might be futile if your browser doesn't cache it.)")
+    constructor(posY, bottomDesc) {
+        super(posY, "Download All Audio", "Download all sounds now, removing on demand download delay. (This might be futile if your browser doesn't cache it.)")
         this.done = false
         this.bottomDesc = bottomDesc
     }

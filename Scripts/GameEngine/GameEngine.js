@@ -42,6 +42,8 @@ class GameEngine {
             mainMenu_options_startingMoney: 500,
             mainMenu_options_zombiesStartingRound: 1,
             mainMenu_options_cheats: false,
+            mainMenu_options_aspectRatio: "169", //"219"
+            fullscreen: false,
         };
 
         this.globalVolume = 1
@@ -327,6 +329,16 @@ class GameEngine {
     }
 
     update() {
+        //fullscreen
+        if (GAME_ENGINE.options.fullscreen) { //https://stackoverflow.com/questions/26745292/canvas-toggle-filling-whole-page-removing-scrollbar
+            this.ctx.canvas.className = "fullscreen"
+            document.body.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+            this.ctx.canvas.width = window.innerWidth
+            this.ctx.canvas.height = window.innerHeight
+            this.ctx.imageSmoothingEnabled = false
+        }
+
         //volume
         this.globalVolume = document.getElementById("volume").value
         if (this.options.paused) {
