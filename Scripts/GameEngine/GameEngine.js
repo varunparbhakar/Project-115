@@ -145,24 +145,36 @@ class GameEngine {
                 case "KeyP":
                     if (GAME_ENGINE.options.mainMenu_options_cheats) {
                         this.options.drawDebug = (this.options.drawDebug ? false : true)
+                        if (GAME_ENGINE.camera.map.hud != null) {
+                            GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("Draw Debug: " + this.options.drawDebug)
+                        }
                         console.log("Draw Debug:", this.options.drawDebug)
                     }
                     break
                 case "KeyO":
                     if (GAME_ENGINE.options.mainMenu_options_cheats) {
                         this.options.noclip = (this.options.noclip ? false : true)
+                        if (GAME_ENGINE.camera.map.hud != null) {
+                            GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("No Clip: " + this.options.noclip)
+                        }
                         console.log("No Clip:", this.options.noclip)
                     }
                     break
                 case "KeyI":
                     if (GAME_ENGINE.options.mainMenu_options_cheats) {
                         this.options.god = (this.options.god ? false : true)
+                        if (GAME_ENGINE.camera.map.hud != null) {
+                            GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("God: " + this.options.god)
+                        }
                         console.log("God:", this.options.god)
                     }
                     break
                 case "KeyU":
                     if (GAME_ENGINE.options.mainMenu_options_cheats) {
                         this.options.drawSpawnProx = (this.options.drawSpawnProx ? false : true)
+                        if (GAME_ENGINE.camera.map.hud != null) {
+                            GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("Draw Spawner Proximity: " + this.options.drawSpawnProx)
+                        }
                         console.log("Draw Spawner Proximity:", this.options.drawSpawnProx)
                     }
                     break
@@ -283,7 +295,7 @@ class GameEngine {
             this.ent_Player = entity
         } else if (entity instanceof SceneManager || entity instanceof RoundManager || entity instanceof RaycastZombies) {
             this.ent_Etc.push(entity)
-        } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut) {
+        } else if (entity instanceof HUD || entity instanceof HUDPointsFlyOut || entity instanceof HUDPowerUpText) {
             this.ent_HUD.push(entity)
         } else if (entity instanceof WorldSound || entity instanceof BGMPlayer) {
             this.ent_Sound.push(entity)

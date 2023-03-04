@@ -1846,10 +1846,11 @@ class PowerUp_InstaKill extends PowerUp {
     }
 
     givePowerUp() {
+        GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("Instakill!")
         GAME_ENGINE.ent_Player.powerup_hasInstaKillTimer = 30 //secs
         GAME_ENGINE.ent_Player.audioHandler("instaKill")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill.mp3", MIXER_POWERUP * 0.5))
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill_vox.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/instakill_vox.mp3", MIXER_POWERUP * 1.5))
     }
 }
 
@@ -1859,10 +1860,11 @@ class PowerUp_DoublePoints extends PowerUp {
     }
 
     givePowerUp() {
+        GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("Double Points!")
         GAME_ENGINE.ent_Player.powerup_hasDoublePointsTimer = 30 //secs
         GAME_ENGINE.ent_Player.audioHandler("doublePoints")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints.mp3", MIXER_POWERUP * 0.5))
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints_vox.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/doublepoints_vox.mp3", MIXER_POWERUP * 1.5))
     }
 }
 
@@ -1872,6 +1874,7 @@ class PowerUp_MaxAmmo extends PowerUp {
     }
 
     givePowerUp() {
+        GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("Max Ammo!")
         GAME_ENGINE.ent_Player.gunInventory.forEach((gun) => {
             if (gun === 0) return
             gun.currentTotalAmmo = gun.totalAmmo
@@ -1879,7 +1882,7 @@ class PowerUp_MaxAmmo extends PowerUp {
         GAME_ENGINE.ent_Player.grenades = 4
         GAME_ENGINE.ent_Player.audioHandler("maxAmmo")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/maxammo.mp3", MIXER_POWERUP))
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/maxammo_vox.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/maxammo_vox.mp3", MIXER_POWERUP * 1.5))
     }
 }
 
@@ -1889,6 +1892,7 @@ class PowerUp_Nuke extends PowerUp {
     }
 
     givePowerUp() {
+        GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("Nuke!")
         GAME_ENGINE.ent_Zombies.forEach((zombie) => {
             zombie.takeDamage(zombie.hp, ZOMBIE_DMG_NOPOINTS)
         })
@@ -1897,7 +1901,7 @@ class PowerUp_Nuke extends PowerUp {
         GAME_ENGINE.camera.map.roundManager.curr_ZombiesSpawnDelay = 10
         GAME_ENGINE.ent_Player.audioHandler("nuke")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke.mp3", MIXER_POWERUP))
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke_vox.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke_vox.mp3", MIXER_POWERUP * 1.5))
     }
 }
 
@@ -1907,6 +1911,7 @@ class PowerUp_Carpenter extends PowerUp {
     }
 
     givePowerUp() {
+        GAME_ENGINE.camera.map.hud.topRightPowerUps.spawn("Carpenter!")
         GAME_ENGINE.ent_Player.audioHandler("carpenter")
         GAME_ENGINE.ent_MapObjects.forEach((entity) => {
             if (entity instanceof Barrier) {
@@ -1914,7 +1919,7 @@ class PowerUp_Carpenter extends PowerUp {
             }
         })
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/carpenter.mp3", MIXER_POWERUP))
-        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/carpenter_vox.mp3", MIXER_POWERUP))
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/carpenter_vox.mp3", MIXER_POWERUP * 1.5))
     }
 }
 

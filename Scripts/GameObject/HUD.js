@@ -8,7 +8,7 @@ class HUD {
         this.topStamina = new HUDStamina()
         this.bottomStamina = new HUDHealth()
         this.topLeftPerks = new HUDPerks()
-        this.topRightPerks = new HUDPowerUp()
+        this.topRightPowerUps = new HUDPowerUp()
         this.fullscreenRedHurt = new HUDHurt()
         this.fullscreenLava = new HUDLava()
         this.fullscreenFlash = new HUDFlash()
@@ -28,7 +28,7 @@ class HUD {
             this.fullscreenRedHurt.update()
             this.fullscreenLava.update()
             this.fullscreenFlash.update()
-            // this.topRightPerks.update()
+            // this.topRightPowerUps.update()
             this.topMiddleDebug.update()
             this.topRightFPS.update()
         } catch (Error) {
@@ -50,7 +50,7 @@ class HUD {
             this.bottomStamina.draw()
             this.topLeftPerks.draw()
             this.bottomRightGrenades.draw()
-            this.topRightPerks.draw()
+            this.topRightPowerUps.draw()
             this.topRightFPS.draw()
             if (GAME_ENGINE.options.drawDebug) {
                 this.topMiddleDebug.draw()
@@ -278,6 +278,37 @@ class HUDInteract {
     displayText(text) {
         this.text = text
         this.isDisplaying = true
+    }
+}
+
+class HUDPowerUpText {
+    constructor(text) {
+        this.text = text
+        this.time = 2
+        this.posX = GAME_ENGINE.ctx.canvas.width/2
+        this.posY = GAME_ENGINE.ctx.canvas.height - 200
+    }
+    update() {
+        this.po
+        if (this.time > 0) {
+            this.time -= GAME_ENGINE.clockTick
+            this.posY -= 40 * GAME_ENGINE.clockTick
+        } else {
+            this.removeFromWorld = true
+        }
+    }
+    draw() {
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.globalAlpha = Math.max(this.time / 2, 0)
+        GAME_ENGINE.ctx.font = 'bold 35px arial'
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.textAlign = "center"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 10
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillText(this.text, this.posX, this.posY)
+        GAME_ENGINE.ctx.restore()
     }
 }
 
@@ -548,6 +579,10 @@ class HUDPowerUp {
             GAME_ENGINE.ctx.canvas.width - (22 * HUDPERKS_SCALE) - (22 * i * HUDPERKS_SCALE) - 5, 5,
             22 * HUDPERKS_SCALE, 24 * HUDPERKS_SCALE
         )
+    }
+
+    spawn(text) {
+        GAME_ENGINE.addEntity(new HUDPowerUpText(text))
     }
 }
 
