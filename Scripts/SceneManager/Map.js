@@ -188,7 +188,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(848,1084, 86,54, this)) //Middle Map, Bottom Middle Tree
         GAME_ENGINE.addEntity(new MapBB(1004, 1100, 9,90, this, true)) //Middle Map, Fencer near the pap
         GAME_ENGINE.addEntity(new MapBB(1004, 1100, 56,8, this, true)) //Middle Map, Fencer Top near PAp
-        GAME_ENGINE.addEntity(new MapBBPlayerOnly(560,1018,20,255, this)) //Middle Map, Left Map Boundry
+        GAME_ENGINE.addEntity(new MapBB(560,1018,20,255, this)) //Middle Map, Left Map Boundry
         GAME_ENGINE.addEntity(new MapBB(587,1033, 56,25, this)) //Middle Map, Left Boundry Coverage Tree
         GAME_ENGINE.addEntity(new MapBB(1083, 1133, 41,6, this, true)) //Middle Map, Fence Above Pap
 
