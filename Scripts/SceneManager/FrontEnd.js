@@ -74,12 +74,18 @@ class MainMenu extends FrontEnd {
 
         let optionsButton = new OptionsButton()
         optionsButton.use = () => {
-            if(this.submenu != undefined) this.submenu = undefined
-            else this.submenu = new OptionsMenu(this.cursor, this.bottomDesc, false)
+            if (this.submenu instanceof OptionsMenu) this.submenu = undefined
+            else this.submenu = new OptionsMenu(this.cursor, this.bottomDesc)
+        }
+        let controlsButton = new ControlsButton()
+        controlsButton.use = () => {
+            if (this.submenu instanceof ControlsMenu) this.submenu = undefined
+            else this.submenu = new ControlsMenu(this.cursor, this.bottomDesc)
         }
         this.buttons=[
             new PlayButton(),
             optionsButton,
+            controlsButton,
             new DownloadAllSoundButton(this.bottomDesc)
         ]
         // this.title = "Project 115"
@@ -586,8 +592,44 @@ class Panel extends FrontEnd {
         GAME_ENGINE.ctx.fillRect(this.posX, this.posY, this.width, this.height);
         GAME_ENGINE.ctx.restore()
     }
+}
 
+class ControlsMenu extends FrontEnd {
+    constructor() {
+        super()
+        this.panel = new Panel(0,0,100,100)
+    }
 
+    update(){}
+
+    draw() {
+        //Controls
+        let offset = 750
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = "black"
+        GAME_ENGINE.ctx.globalAlpha = 0.5
+        GAME_ENGINE.ctx.fillRect(FE_X + offset - 40, FE_Y + 40, 600, 560)
+        GAME_ENGINE.ctx.restore()
+
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.font = 'bold 100px Agency FB'
+        GAME_ENGINE.ctx.textAlign = "left"
+        GAME_ENGINE.ctx.shadowColor = "black"
+        GAME_ENGINE.ctx.shadowBlur = 5
+        GAME_ENGINE.ctx.shadowOffsetX = 5;
+        GAME_ENGINE.ctx.shadowOffsetY = 5;
+        GAME_ENGINE.ctx.fillStyle = "white"
+        GAME_ENGINE.ctx.fillText("Controls", FE_X + offset, FE_Y + 150)
+        GAME_ENGINE.ctx.font = 'bold 50px arial'
+        GAME_ENGINE.ctx.fillText("WASD - Move", FE_X + offset, FE_Y + 150 + 70) //TODO do arithmetic
+        GAME_ENGINE.ctx.fillText("MouseL - Shoot", FE_X + offset, FE_Y + 150 + 70 + 60)
+        GAME_ENGINE.ctx.fillText("MouseR - Knife", FE_X + offset, FE_Y  + 150 + 70 + (60*2))
+        GAME_ENGINE.ctx.fillText("R - Reload", FE_X + offset, FE_Y + 150 + 70+ (60*3))
+        GAME_ENGINE.ctx.fillText("Q - Switch Weapons", FE_X + offset, FE_Y + 150 + 70 + (60*4))
+        GAME_ENGINE.ctx.fillText("E - Throw Grenade", FE_X + offset, FE_Y + 150 + 70 + (60*5))
+        GAME_ENGINE.ctx.fillText("ESC - Pause", FE_X + offset, FE_Y + 150 + 70 + (60*6))
+        GAME_ENGINE.ctx.restore()
+    }
 }
 
 class Button extends FrontEnd {
@@ -732,6 +774,16 @@ class OptionsButton extends Button {
     use() {
         console.log("YO")
         console.log("Y2O")
+    }
+}
+
+class ControlsButton extends Button {
+    constructor() {
+        super(FE_Y_BUTTON + 175, "Show Controls", "Show the controls to the game.");
+    }
+
+    use() {
+        console.log("Controls Clicked")
     }
 }
 
