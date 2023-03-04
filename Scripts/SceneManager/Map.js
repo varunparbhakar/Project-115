@@ -584,8 +584,9 @@ class WorldMap {
 
         ////////////Player///////////
         this.player = new Player(this.playerSpawnX, this.playerSpawnY);
-        GAME_ENGINE.addEntity(this.player)
 
+        GAME_ENGINE.addEntity(this.player)
+        GAME_ENGINE.ent_Player.audioHandler("gameBegin")
         ////////////HUD///////////
         this.hud = new HUD();
         GAME_ENGINE.addEntity(this.hud)
@@ -2438,6 +2439,7 @@ class PaPBuildable extends MapInteract {
 
     createPaP() {
         GAME_ENGINE.addEntity(new PackAPunch(this.posXOriginal, this.posYOriginal, GAME_ENGINE.camera.map))
+        GAME_ENGINE.ent_Player.audioHandler("builtPap")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/zmb_build_completed.mp3", 0.7))
         this.removeFromWorld = true
     }
@@ -2461,6 +2463,7 @@ class PaPBuildablePart extends MapInteract {
 
     use() {
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/zmb_build_add.mp3", 0.7))
+        GAME_ENGINE.ent_Player.audioHandler("pickedUPPart")
         this.pairedPaPBuildable.pickupPart()
         this.removeFromWorld = true
     }

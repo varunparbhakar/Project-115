@@ -38,7 +38,7 @@ const PLAYER_FOOTSTEP_RUN = 0.26
 
 
 //Player Vox
-const PLAYER_VOICE_COOLDOWN_MAX = 25
+const PLAYER_VOICE_COOLDOWN_MAX = 5
 
 class Player extends GameObject {
     constructor(posX, posY) {
@@ -316,8 +316,20 @@ class Player extends GameObject {
     }
     audioHandler(situation) {
         if (!GAME_ENGINE.ent_Player.alive) {return} //already dead
+        console.log("CHECKING VOX CONDITION")
         if(this.aud == null && this.voiceLineCooldown <= 0) {
             switch (situation){
+                case ("gameBegin"):
+                    if(Math.random() < 1) {
+                        let formattedNumber = randomInt(4).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/turnOnPower/turn_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
                 case ("No_ammo"):
                     if(Math.random() < 0.1) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
@@ -341,7 +353,7 @@ class Player extends GameObject {
                     }
                     break;
                 case ("lava_damage"):
-                    if(Math.random() < 0.09 * GAME_ENGINE.clockTick) {
+                    if(Math.random() < 0.03 * GAME_ENGINE.clockTick) {
                         let formattedNumber = randomInt(4).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
@@ -461,7 +473,32 @@ class Player extends GameObject {
                         this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                     }
                     break;
+                case ("pickedUPPart"):
+                    if(Math.random() < 0.5) {
+                        let formattedNumber = randomInt(6).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/PapParts/part_Collect_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+                case ("builtPap"):
+                    if(Math.random() < 0.8) {
+                        let formattedNumber = randomInt(4).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/PapParts/papbuilt_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+
             }
+        } else {
+            console.log("DID NOT PASS THE VOICE LINE CONDITION")
         }
 
 

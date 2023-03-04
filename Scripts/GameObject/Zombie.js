@@ -453,7 +453,7 @@ class Zombie extends GameObject {
         if (!this.aud.aud.paused) {return}
         this.aud.soundDeleteGarbageCollect()
         if (this.speed <= ZOMBIE_SPEEDS[2]) {
-            let formattedNumber = randomInt(12).toLocaleString('en-US', {
+            let formattedNumber = randomInt(13).toLocaleString('en-US', {
                 minimumIntegerDigits: 2,
                 useGrouping: false
             })
@@ -461,7 +461,7 @@ class Zombie extends GameObject {
             GAME_ENGINE.addEntity(this.aud)
             this.aud.resumePlay()
         } else {
-            let formattedNumber = randomInt(2).toLocaleString('en-US', {
+            let formattedNumber = randomInt(10).toLocaleString('en-US', {
                 minimumIntegerDigits: 2,
                 useGrouping: false
             })
@@ -475,7 +475,7 @@ class Zombie extends GameObject {
     voxSetupNewSrcHitReaction() { //https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers
         if (!this.aud.aud.paused) {return}
         if (this.aud.aud.paused) {
-            let formattedNumber = randomInt(13).toLocaleString('en-US', {
+            let formattedNumber = randomInt(18).toLocaleString('en-US', {
                 minimumIntegerDigits: 2,
                 useGrouping: false
             })
