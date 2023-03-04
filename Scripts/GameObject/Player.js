@@ -495,6 +495,17 @@ class Player extends GameObject {
                         this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                     }
                     break;
+                case ("powerOn"):
+                    if(Math.random() < 1) {
+                        let formattedNumber = randomInt(1).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/turnOnPower/powerOn_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
 
             }
         } else {
