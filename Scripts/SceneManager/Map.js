@@ -1007,6 +1007,8 @@ class Door extends MapInteract {
             for (let i = 0; i < 20; i++) {
                 GAME_ENGINE.addEntity(new Lightning(center[0] + ((Math.random() - 0.5) * this.bb.width/2), center[1] + ((Math.random() - 0.5) * this.bb.height/2)))
             }
+        } else {
+            GAME_ENGINE.ent_Player.audioHandler("noMoney")
         }
     }
 
@@ -1156,6 +1158,8 @@ class WallBuyTrigger {
                 GAME_ENGINE.ent_Player.losePoints(this.costCurrent)
             }
             this.hasIntractedCooldown = 1
+        } else {
+            GAME_ENGINE.ent_Player.audioHandler("noMoney")
         }
     }
 
@@ -1382,6 +1386,7 @@ class MysteryBox extends MapInteract {
         switch (this.state) {
             case 0: //buy
                 if (GAME_ENGINE.ent_Player.points < MYSTERYBOX_COST) {
+                    GAME_ENGINE.ent_Player.audioHandler("noMoney")
                     return
                 }
                 GAME_ENGINE.ent_Player.losePoints(MYSTERYBOX_COST)
@@ -1479,6 +1484,7 @@ class PowerSwitch extends MapInteract {
 
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power.mp3", 0.6))
             GAME_ENGINE.addEntity(new Sound("Assets/Audio/Interact/power_on.mp3", 0.6))
+            GAME_ENGINE.ent_Player.audioHandler("powerOn")
             // GAME_ENGINE.addEntity(new Sound("Assets/Audio/BGM/powerOn.mp3", 1))
             // GAME_ENGINE.camera.map.bgmPlayer.duckAmbForSec(20)
 
@@ -1560,6 +1566,8 @@ class PerkMachine extends MapInteract {
                 this.resetJingleTime()
                 GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Perk Bottle Drink and throw.mp3", 0.5))
             }
+        } else {
+            GAME_ENGINE.ent_Player.audioHandler("noMoney")
         }
     }
 
@@ -2107,7 +2115,10 @@ class PackAPunch extends MapInteract {
         if (!GAME_ENGINE.camera.map.powerSwitch.power) {return}
         switch(this.state) {
             case 0: //waiting
-                if (GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP || GAME_ENGINE.ent_Player.points < PAP_COST) {return}
+                if (GAME_ENGINE.ent_Player.gunInventory[GAME_ENGINE.ent_Player.currentGunIndex].isPaP || GAME_ENGINE.ent_Player.points < PAP_COST) {
+                    GAME_ENGINE.ent_Player.audioHandler("noMoney")
+                    return
+                }
                 let center = this.bb.getCenteredPos()
                 GAME_ENGINE.addEntity(new WorldSound("Assets/Audio/PerkJingles/PaP/PaP_use.mp3", 1, center[0], center[1], 1500))
                 GAME_ENGINE.ent_Player.losePoints(PAP_COST)

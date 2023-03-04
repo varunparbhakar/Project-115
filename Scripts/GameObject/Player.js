@@ -38,7 +38,7 @@ const PLAYER_FOOTSTEP_RUN = 0.26
 
 
 //Player Vox
-const PLAYER_VOICE_COOLDOWN_MAX = 5
+const PLAYER_VOICE_COOLDOWN_MAX = 25
 
 class Player extends GameObject {
     constructor(posX, posY) {
@@ -497,15 +497,27 @@ class Player extends GameObject {
                     break;
                 case ("powerOn"):
                     if(Math.random() < 1) {
-                        let formattedNumber = randomInt(1).toLocaleString('en-US', {
+                        let formattedNumber = randomInt(3).toLocaleString('en-US', {
                             minimumIntegerDigits: 2,
                             useGrouping: false
                         })
-                        this.aud = new Sound("Assets/Audio/Vox/Player/turnOnPower/powerOn_" + formattedNumber + ".mp3", this.playerVolume)
+                        this.aud = new Sound("Assets/Audio/Vox/Player/turnOnPower/power_On_" + formattedNumber + ".mp3", this.playerVolume)
                         GAME_ENGINE.addEntity(this.aud)
                         this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                     }
                     break;
+                case ("noMoney"):
+                    if(Math.random() < 0.4) {
+                        let formattedNumber = randomInt(4).toLocaleString('en-US', {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                        })
+                        this.aud = new Sound("Assets/Audio/Vox/Player/NoMoney/no_Money_" + formattedNumber + ".mp3", this.playerVolume)
+                        GAME_ENGINE.addEntity(this.aud)
+                        this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
+                    }
+                    break;
+
 
             }
         } else {
