@@ -607,7 +607,9 @@ class WorldMap {
         this.bgmPlayer.playAmb()
 
         ////////////Radios///////////
-        // GAME_ENGINE.addEntity(new Radio(1200, 1300, "Assets/Audio/Vox/Zombies/zombie_00.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(1200, 1300, "Assets/Audio/Interact/Radios/r_00.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(1200, 1400, "Assets/Audio/Interact/Radios/r_01.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(1200, 1500, "Assets/Audio/Interact/Radios/r_02.mp3", this))
     }
 }
 
@@ -2638,11 +2640,11 @@ class Radio extends MapInteract {
         super()
         this.active = true
         this.bb = new BoundingBox(0,0,1,1)
-        this.bb_interact = new BoundingBox(posX * map.scale, posY * map.scale, 60, 50)
+        this.bb_interact = new BoundingBox(posX * map.scale, posY * map.scale, 96 + 10, 66 + 10)
         this.bb.updateSides()
         this.bb_interact.updateSides()
 
-        this.anim = new Animator("Assets/Images/Map/Radio.png", 0 ,0, 160, 110, 1 ,1,0.6)
+        this.anim = new Animator("Assets/Images/Map/Radio.png", 0 ,0, 160, 110, 1,1,0.6)
 
         let center = this.bb_interact.getCenteredPos()
         this.aud = new WorldSound(audPath, MIXER_RADIO_VOL, center[0], center[1], 3500, false, 0, false, true)
@@ -2669,7 +2671,7 @@ class Radio extends MapInteract {
     }
 
     draw() {
-        this.anim.drawFrame(this.bb_interact.x, this.bb_interact.y)
+        this.anim.drawFrame(this.bb_interact.x + 5, this.bb_interact.y + 5)
         this.bb_interact.drawBoundingBox("green")
     }
 
