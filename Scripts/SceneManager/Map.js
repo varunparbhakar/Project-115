@@ -622,7 +622,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new Radio(862, 501, "Assets/Audio/Interact/Radios/radio_02.mp3", this))
 
         ////////////Jumpscare////////
-        GAME_ENGINE.addEntity(new JumpScare(1391, 297, 1, 1, this))
+        GAME_ENGINE.addEntity(new JumpScare(1391, 302, 1, 1, this))
     }
 
     level_zm_vargamble() {
@@ -2791,7 +2791,7 @@ class JumpScare {
         this.bb = new BoundingBox(posX * map.scale,posY * map.scale,width * map.scale,height * map.scale)
         this.bb.updateSides()
         this.waiting = true
-        this.timer = 1
+        this.timer = 3
         this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_CJumpScare.jpg")
     }
 
@@ -2801,7 +2801,7 @@ class JumpScare {
                 if (entity instanceof Projectile) {
                     if (this.bb.collide(entity.bb)) {
                         this.waiting = false
-                        GAME_ENGINE.addEntity(new Sound("Assets/Audio/EE Music/Fnaf 1 Full Jumpscare Sound (192kbit_Opus).ogg", 0.9))
+                        GAME_ENGINE.addEntity(new Sound("Assets/Audio/EE Music/Fnaf 1 Full Jumpscare Sound (192kbit_Opus).ogg", 1))
                     }
                 }
             })
@@ -2820,7 +2820,7 @@ class JumpScare {
         if (this.waiting) {return}
 
         GAME_ENGINE.ctx.save()
-        GAME_ENGINE.ctx.globalAlpha = Math.max(this.timer / 1, 0)
+        GAME_ENGINE.ctx.globalAlpha = Math.max(this.timer / 3, 0)
         GAME_ENGINE.ctx.drawImage(
             this.asset,
             0,0,
