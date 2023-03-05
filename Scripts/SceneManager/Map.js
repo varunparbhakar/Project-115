@@ -635,7 +635,7 @@ class WorldMap {
 
         //BBs
         GAME_ENGINE.addEntity(new MapBB(362, 557, 50, 135, this))
-        GAME_ENGINE.addEntity(new MapBB(635, 560, 43, 43, this))
+        GAME_ENGINE.addEntity(new MapBB(635, 560, 43, 132, this))
 
         GAME_ENGINE.addEntity(new MapBB(249, 162, 12, 244, this))
         GAME_ENGINE.addEntity(new MapBB(249, 459, 12, 246, this))
@@ -648,6 +648,10 @@ class WorldMap {
 
         GAME_ENGINE.addEntity(new MapBB(249, 162, 247, 11, this))
         GAME_ENGINE.addEntity(new MapBB(547, 162, 243, 11, this))
+
+        GAME_ENGINE.addEntity(new MapBB(473, 388, 9, 84, this))
+        GAME_ENGINE.addEntity(new MapBB(473, 388, 101, 8, this))
+        GAME_ENGINE.addEntity(new MapBB(567, 388, 7, 83, this))
 
         GAME_ENGINE.addEntity(new LavaBB(446, 223, 163, 114, this))
         GAME_ENGINE.addEntity(new LavaBB(331, 378, 105, 105, this))
@@ -686,7 +690,7 @@ class WorldMap {
         GAME_ENGINE.addEntity(new WallBuyImage(621, 599, "W", "M14", 2.5, this))
 
         ////////////Mystery Box////////////
-        let mysterybox = new MysteryBox([[494, 411]], 0, this)
+        let mysterybox = new MysteryBox([[485, 411]], 0, this)
         GAME_ENGINE.addEntity(mysterybox)
         ////////////PaP////////////
         let pap = new PackAPunch(491, 262, this)

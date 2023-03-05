@@ -52,7 +52,6 @@ var lines = [
 "Assets/Images/Map/Levels/DLC1_ForeOn.png",
 	"Assets/Images/Map/Levels/DLC1_CJumpScare.jpg",
 	"Assets/Images/Map/Levels/Map1.png",
-	"Assets/Images/Map/Levels/Map1_old.png",
 	"Assets/Images/Map/Levels/Map1_roof.png",
 	"Assets/Images/Map/Levels/Map1_shadow.png",
 	"Assets/Images/Map/Levels/zm_vargamble.png",

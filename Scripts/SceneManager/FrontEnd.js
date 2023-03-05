@@ -649,19 +649,19 @@ class MapSelMenu extends FrontEnd {
         this.cursor = cursor
 
         let offset = 750
-        let uwtButton = new GeneralButtonMap("UWTown", "A reimagining of BO2 Town. How long can you survive from the Gigatron?", FE_X + offset, FE_Y + 150, ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_ForeOff.png"), 1)
+        let uwtButton = new GeneralButtonMap("UWTown", "A reimagining of BO2 Town. How long can you survive from the Gigatron?", FE_X + offset, FE_Y + 150, ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_BackOff.png"), 0.3)
         uwtButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen())
             GAME_ENGINE.options.paused = false
         }
-        let protoButton = new GeneralButtonMap("Prototype", "Our prototype level. It has the box, perks, & PaP, but expect missing textures.", FE_X + offset, FE_Y + 300, ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/Map1.png"), 1)
+        let protoButton = new GeneralButtonMap("Prototype", "Our prototype level. It has the box, perks, & PaP, but expect missing textures.", FE_X + offset, FE_Y + 250, ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/Map1.png"), 0.6)
         protoButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen("proto"))
             GAME_ENGINE.options.paused = false
         }
-        let vargambleButton = new GeneralButtonHidden("zm_vargamble", "Woah there, you found a hidden secret! this my bo3 first zombies map, enjoy!!1!", FE_X + offset, FE_Y + 400)
+        let vargambleButton = new GeneralButtonHidden("zm_vargamble", "Woah there, you found a hidden secret! this my bo3 first zombies map, enjoy!!1!", FE_X + offset, FE_Y + 600)
         vargambleButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen("zm_vargamble"))
@@ -693,7 +693,7 @@ class MapSelMenu extends FrontEnd {
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.fillStyle = "black"
         GAME_ENGINE.ctx.globalAlpha = 0.5
-        GAME_ENGINE.ctx.fillRect(FE_X + offset - 40, FE_Y + 40, 600, 560)
+        GAME_ENGINE.ctx.fillRect(FE_X + offset - 40, FE_Y + 40, 600, 260)
         GAME_ENGINE.ctx.restore()
 
         //buttons
@@ -848,11 +848,20 @@ class GeneralButtonMap extends GeneralButton {
     constructor(title, hud, x, y, asset, scale, hoverIsOn = true, selected = false) {
         super(title, hud, x, y, hoverIsOn, selected)
         this.anim = new Animator(asset, 0, 0, asset.width, asset.height, 1, 1, scale)
+        this.drawPreview = false
+    }
+
+    draw() {
+        super.draw();
+        if (this.drawPreview) {
+            this.anim.drawFrame(FE_X + 1400,  FE_Y)
+            this.drawPreview = false
+        }
     }
 
     hover1(bottomDesc) {
         super.hover1(bottomDesc);
-        this.anim.drawFrame(FE_X + 500, FE_Y)
+        this.drawPreview = true
     }
 }
 
@@ -1095,7 +1104,7 @@ class RestartScreen extends ReturnScreen {
 
 class DownloadAllSoundButton extends Button {
     constructor(posY, bottomDesc) {
-        super(posY, "Download All Audio", "Download all sounds now, removing on demand download delay. (Known bug: The 1st couple of rounds will have bugged audio as they async load in.)")
+        super(posY, "Download All Audio", "Download all sounds now, removing on demand download delay.")
         this.done = false
         this.bottomDesc = bottomDesc
     }
