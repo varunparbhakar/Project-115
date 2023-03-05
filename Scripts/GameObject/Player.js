@@ -53,7 +53,7 @@ class Player extends GameObject {
         //setupAnimation
         var ld = new LoadAnimations();
         this.animationMatrix = ld.getAnimations()
-        console.log(this.animationMatrix.length)
+        // console.log(this.animationMatrix.length)
         this.state = 0
 
         this.animator = new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Heroes/Animations/Idle/Pistol/idle.png"),
@@ -173,7 +173,7 @@ class Player extends GameObject {
         //Shoot
         if (GAME_ENGINE.left_click && this.state !== ANIMATION_Grenade && this.state != ANIMATION_Melee) {
             if(this.gunInventory[this.currentGunIndex].currentTotalAmmo == 0 && this.gunInventory[this.currentGunIndex].currentMagazineAmmo == 0 ) {
-                console.log("TRYING TO PLAY AUDIO")
+                // console.log("TRYING TO PLAY AUDIO")
                 this.audioHandler("No_ammo")
             }
             let shootResult = this.gunInventory[this.currentGunIndex].shoot(this.posX, this.posY, this.angle)
@@ -316,7 +316,7 @@ class Player extends GameObject {
     }
     audioHandler(situation) {
         if (!GAME_ENGINE.ent_Player.alive) {return} //already dead
-        console.log("CHECKING VOX CONDITION")
+        // console.log("CHECKING VOX CONDITION")
         if(this.aud == null && this.voiceLineCooldown <= 0) {
             switch (situation){
                 case ("gameBegin"):
@@ -517,12 +517,11 @@ class Player extends GameObject {
                         this.voiceLineCooldown = PLAYER_VOICE_COOLDOWN_MAX
                     }
                     break;
-
-
             }
-        } else {
-            console.log("DID NOT PASS THE VOICE LINE CONDITION")
         }
+        // else {
+        //    console.log("DID NOT PASS THE VOICE LINE CONDITION")
+        // }
 
 
 
