@@ -920,9 +920,9 @@ class ExitButton extends Button {
     }
 
     use() {
-        GAME_ENGINE.ent_Player.takeDamage(GAME_ENGINE.ent_Player.hp)
-        // GAME_ENGINE.clearWorld(true)
-        // GAME_ENGINE.addEntity(new ReturnScreen())
+        // GAME_ENGINE.ent_Player.takeDamage(GAME_ENGINE.ent_Player.hp)
+        GAME_ENGINE.clearWorld(true)
+        GAME_ENGINE.addEntity(new ReturnScreen())
         GAME_ENGINE.options.paused = false
     }
 }
@@ -1024,7 +1024,7 @@ class ReturnScreen extends FrontEnd {
     constructor() {
         super()
         GAME_ENGINE.clearWorld(true)
-        this.timer = 0.5
+        this.timer = 3
         this.removeFromWorld = false
     }
 
