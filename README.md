@@ -10,8 +10,10 @@ A 2D top down clone of Call of Duty Zombies in HTML & JavaScript featuring a rei
 - Yacine Bennour: Coding, Mapping, UX Designer <br>
 ### Other
 - Treyarch: CoD Zombies, WaW Gun Sounds, BO1 Gun Sounds, Perk Music
+  - https://steamcommunity.com/sharedfiles/filedetails/?id=948510972
+  - https://steamcommunity.com/sharedfiles/filedetails/?id=1832129908
 - Deepnight Games: RPG Map Maker 2 https://deepnight.net/tools/rpg-map/#:~:text=RPG%20Map%20is%20a%20tabletop,Forum
-- Im-Not-Crying: Gun pixel art https://www.deviantart.com/im-not-crying/art/Nazi-Zombies-Weapons-and-Power-Ups-346007584
-- Im-Not-Crying: Hud elements pixel art https://www.deviantart.com/im-not-crying/art/Nazi-Zombies-HUD-Elements-346013662
+- Im-Not-Crying: Gun pixel spritesheet https://www.deviantart.com/im-not-crying/art/Nazi-Zombies-Weapons-and-Power-Ups-346007584
+- Im-Not-Crying: Hud elements spritesheet https://www.deviantart.com/im-not-crying/art/Nazi-Zombies-HUD-Elements-346013662
 - rileygombart: Player spritesheets https://opengameart.org/content/animated-top-down-survivor-player
 - rileygombart: Zombie spritesheets https://opengameart.org/content/animated-top-down-zombie
