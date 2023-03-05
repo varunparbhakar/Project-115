@@ -82,8 +82,13 @@ class MainMenu extends FrontEnd {
             if (this.submenu instanceof ControlsMenu) this.submenu = undefined
             else this.submenu = new ControlsMenu(this.cursor, this.bottomDesc)
         }
+        let playButton = new PlayButton()
+        playButton.use = () => {
+            if (this.submenu instanceof MapSelMenu) this.submenu = undefined
+            else this.submenu = new MapSelMenu(this.cursor, this.bottomDesc)
+        }
         this.buttons=[
-            new PlayButton(),
+            playButton,
             optionsButton,
             controlsButton,
             new FullscreenButton(FE_Y_BUTTON + 300, this.bottomDesc),
@@ -181,7 +186,6 @@ class MainMenu extends FrontEnd {
 class PauseMenu extends FrontEnd { //TODO inheritance
     constructor() {
         super([
-
             ],
             "Paused");
 
@@ -329,6 +333,7 @@ class OptionsMenu extends FrontEnd {
             GAME_ENGINE.ctx.canvas.width = 2560
             GAME_ENGINE.ctx.canvas.height = 1440
             GAME_ENGINE.ctx.imageSmoothingEnabled = false
+            GAME_ENGINE.options.mainMenu_options_aspectRatio = "169"
         }
         let aspect219 = new GeneralButton("21:9", "Set resolution to 3440x1440.", 1790, 260);
         aspect219.use = function(a) {
@@ -337,6 +342,7 @@ class OptionsMenu extends FrontEnd {
             GAME_ENGINE.ctx.canvas.width = 3440
             GAME_ENGINE.ctx.canvas.height = 1440
             GAME_ENGINE.ctx.imageSmoothingEnabled = false
+            GAME_ENGINE.options.mainMenu_options_aspectRatio = "219"
         }
         if (GAME_ENGINE.options.mainMenu_options_aspectRatio === "169") {
             aspect169.use()
@@ -552,7 +558,6 @@ class OptionsMenu extends FrontEnd {
     }
 
     update() {
-
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].update()
             if (this.cursor.collide(this.buttons[i].bb)) {
@@ -572,7 +577,6 @@ class OptionsMenu extends FrontEnd {
             this.labels[i].draw()
         }
 
-        //background
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].draw()
         }
@@ -604,7 +608,6 @@ class Panel extends FrontEnd {
 class ControlsMenu extends FrontEnd {
     constructor() {
         super()
-        this.panel = new Panel(0,0,100,100)
     }
 
     update(){}
@@ -636,6 +639,57 @@ class ControlsMenu extends FrontEnd {
         GAME_ENGINE.ctx.fillText("E - Throw Grenade", FE_X + offset, FE_Y + 150 + 70 + (60*5))
         GAME_ENGINE.ctx.fillText("ESC - Pause", FE_X + offset, FE_Y + 150 + 70 + (60*6))
         GAME_ENGINE.ctx.restore()
+    }
+}
+
+class MapSelMenu extends FrontEnd {
+    constructor(cursor, bottomDesc) {
+        super()
+        this.bottomDesc = bottomDesc
+        this.cursor = cursor
+
+        let offset = 750
+        let uwtButton = new GeneralButton("UWTown", "A reimagining of BO2 Town.", FE_X + offset, FE_Y + 150)
+        uwtButton.use = () => {
+            GAME_ENGINE.dontUpdatePlayerThisTick = true
+            GAME_ENGINE.addEntity(new RestartScreen())
+            GAME_ENGINE.options.paused = false
+        }
+        this.buttons=[
+            uwtButton
+        ]
+    }
+
+    update() {
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].update()
+            if (this.cursor.collide(this.buttons[i].bb)) {
+                this.buttons[i].hover1(this.bottomDesc)
+                if (this.tryClick()) {
+                    this.buttons[i].use()
+                }
+            }
+        }
+        this.lastLeftClick = GAME_ENGINE.left_click
+    }
+
+    draw() {
+        //Controls
+        let offset = 750
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.fillStyle = "black"
+        GAME_ENGINE.ctx.globalAlpha = 0.5
+        GAME_ENGINE.ctx.fillRect(FE_X + offset - 40, FE_Y + 40, 600, 560)
+        GAME_ENGINE.ctx.restore()
+
+        //buttons
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].draw()
+        }
+    }
+
+    tryClick() {
+        return this.lastLeftClick == false && GAME_ENGINE.left_click
     }
 }
 
@@ -800,9 +854,9 @@ class PlayButton extends Button {
     }
 
     use() {
-        GAME_ENGINE.dontUpdatePlayerThisTick = true
-        GAME_ENGINE.addEntity(new RestartScreen())
-        GAME_ENGINE.options.paused = false
+        // GAME_ENGINE.dontUpdatePlayerThisTick = true
+        // GAME_ENGINE.addEntity(new RestartScreen())
+        // GAME_ENGINE.options.paused = false
     }
 }
 
