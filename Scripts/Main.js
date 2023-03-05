@@ -55,6 +55,7 @@ var lines = [
 	"Assets/Images/Map/Levels/Map1_old.png",
 	"Assets/Images/Map/Levels/Map1_roof.png",
 	"Assets/Images/Map/Levels/Map1_shadow.png",
+	"Assets/Images/Map/Levels/zm_vargamble.png",
 "Assets/Images/Map/Pack_A_Punch_part_1.png",
 "Assets/Images/Map/Pack_A_Punch_part_2.png",
 "Assets/Images/Map/Pack_A_Punch_part_3.png",

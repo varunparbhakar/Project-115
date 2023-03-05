@@ -19,6 +19,9 @@ class WorldMap {
             case "dlc1" :
                 this.level2()
                 break;
+            case "zm_vargamble" :
+                this.level_zm_vargamble()
+                break
         }
     }
 
@@ -614,6 +617,92 @@ class WorldMap {
 
         ////////////Jumpscare////////
         GAME_ENGINE.addEntity(new JumpScare(1391, 297, 1, 1, this))
+    }
+
+    level_zm_vargamble() {
+        this.scale = 4.25
+        this.playerSpawnX = 1200 * this.scale
+        this.playerSpawnY = 1244 * this.scale
+        let asset = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/zm_vargamble.png")
+        let anim = new Animator(asset, 0, 0, asset.width, asset.height, 1, 1, this.scale)
+        GAME_ENGINE.addEntity(new MapLayer_Background(anim)) //Background
+
+        //BBs
+        GAME_ENGINE.addEntity(new MapBB(362, 557, 50, 135, this))
+        GAME_ENGINE.addEntity(new MapBB(635, 560, 43, 43, this))
+
+        GAME_ENGINE.addEntity(new MapBB(249, 162, 12, 244, this))
+        GAME_ENGINE.addEntity(new MapBB(249, 459, 12, 246, this))
+
+        GAME_ENGINE.addEntity(new MapBB(249, 692, 246, 13, this))
+        GAME_ENGINE.addEntity(new MapBB(552, 692, 238, 13, this))
+
+        GAME_ENGINE.addEntity(new MapBB(780, 461, 10, 244, this))
+        GAME_ENGINE.addEntity(new MapBB(780, 162, 10, 248, this))
+
+        GAME_ENGINE.addEntity(new MapBB(249, 162, 247, 11, this))
+        GAME_ENGINE.addEntity(new MapBB(547, 162, 243, 11, this))
+
+        GAME_ENGINE.addEntity(new LavaBB(446, 223, 163, 114, this))
+        GAME_ENGINE.addEntity(new LavaBB(331, 378, 105, 105, this))
+        GAME_ENGINE.addEntity(new LavaBB(618, 378, 105, 106, this))
+
+        //Zones
+        //Spawn
+        let barrierS = new Barrier(496, 693, "N", this)
+        GAME_ENGINE.addEntity(barrierS)
+        let spawnerBarrierS = new SpawnerBarrier(520, 793, barrierS, true, this)
+        let spawnerSpawnDig1 = new SpawnerGroundDig(429, 670, true, this)
+        let spawnerSpawnDig2 = new SpawnerGroundDig(609, 669, true, this)
+        let spawnersSpawn = [spawnerSpawnDig1, spawnerSpawnDig2, spawnerBarrierS]
+        //Main
+        let barrierW = new Barrier(249, 405, "E", this)
+        let spawnerBarrierW = new SpawnerBarrier(76, 432, barrierW, false, this)
+        GAME_ENGINE.addEntity(barrierW)
+        let barrierN = new Barrier(495, 163, "S", this)
+        let spawnerBarrierN = new SpawnerBarrier(519, 76, barrierN, false, this)
+        GAME_ENGINE.addEntity(barrierN)
+        let barrierE = new Barrier(780, 409, "W", this)
+        let spawnerBarrierE = new SpawnerBarrier(908, 428, barrierE, false, this)
+        GAME_ENGINE.addEntity(barrierE)
+        let spawnersMain = [spawnerBarrierW, spawnerBarrierN, spawnerBarrierE]
+
+        //Doors
+        let door = new Door(411, 540, 225, 21, 2000, spawnersMain, this)
+        GAME_ENGINE.addEntity(door)
+
+        //Guns
+        GAME_ENGINE.addEntity(new WallBuyTrigger(411, 599, 14, 53, "Olympia", 500, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(411, 599, "E", "Olympia", 2.5, this))
+        GAME_ENGINE.addEntity(new WallBuyTrigger(621, 599, 14, 53, "M14", 500, this))
+        GAME_ENGINE.addEntity(new WallBuyImage(621, 599, "W", "M14", 2.5, this))
+
+        ////////////Mystery Box////////////
+        let mysterybox = new MysteryBox([[494, 411]], 0, this)
+        GAME_ENGINE.addEntity(mysterybox)
+        ////////////PaP////////////
+        let pap = new PackAPunch(491, 262, this)
+        GAME_ENGINE.addEntity(pap)
+        ////////////Power////////////
+        this.powerSwitch = new PowerSwitch(261, 634, "W", this) //20 by 25 px
+        GAME_ENGINE.addEntity(this.powerSwitch)
+        ////////////Perks////////////
+        let perkJug = new PerkMachine_Jug(678, 634, 102, 58, this)
+        GAME_ENGINE.addEntity(perkJug)
+        ////////////Player///////////
+        this.player = new Player(514 * this.scale,636 * this.scale);
+        GAME_ENGINE.addEntity(this.player)
+        ////////////HUD///////////
+        this.hud = new HUD();
+        GAME_ENGINE.addEntity(this.hud)
+        ////////////ROUND MANAGER////////////
+        this.roundManager = new RoundManager(spawnersSpawn)
+        GAME_ENGINE.addEntity(this.roundManager)
+        this.roundManager.start()
+        ////////////BGM////////////
+        this.bgmPlayer = new BGMPlayer([], this, "Assets/Audio/BGM/zm_vargamble_amb.mp3")
+        GAME_ENGINE.addEntity(this.bgmPlayer)
+        this.bgmPlayer.playAmb()
     }
 }
 
@@ -1405,7 +1494,7 @@ class MysteryBox extends MapInteract {
                 this.spinCooldownTimer = 0
                 this.state = 1
                 this.stateCooldownTimer = MYSTERYBOX_ROLL_TIME
-                this.curr_spinsUntilTeddy--
+                if (this.locationsPos.length > 1) {this.curr_spinsUntilTeddy--}
                 console.log(this.curr_spinsUntilTeddy)
                 break
             case 2: //offer pickup

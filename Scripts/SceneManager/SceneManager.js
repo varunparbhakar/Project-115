@@ -59,6 +59,11 @@ class SceneManager {
                 this.map = new WorldMap(0,0, "proto")
                 this.player = this.map.player
                 GAME_ENGINE.addEntity(new PauseMenu())
+                break
+            case "zm_vargamble":
+                this.map = new WorldMap(0,0, "zm_vargamble")
+                this.player = this.map.player
+                GAME_ENGINE.addEntity(new PauseMenu())
                 break;
         }
         GAME_ENGINE.unpressKeys()

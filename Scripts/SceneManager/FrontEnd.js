@@ -655,15 +655,22 @@ class MapSelMenu extends FrontEnd {
             GAME_ENGINE.addEntity(new RestartScreen())
             GAME_ENGINE.options.paused = false
         }
-        let protoButton = new GeneralButton("Prototype", "Our prototype level. It has the box, perks, & PaP, but expect missing textures.", FE_X + offset, FE_Y + 250)
+        let protoButton = new GeneralButton("Prototype", "Our prototype level. It has the box, perks, & PaP, but expect missing textures.", FE_X + offset, FE_Y + 300)
         protoButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen("proto"))
             GAME_ENGINE.options.paused = false
         }
+        let vargambleButton = new GeneralButton("zm_vargamble", "my first zombies map", FE_X + offset, FE_Y + 400)
+        vargambleButton.use = () => {
+            GAME_ENGINE.dontUpdatePlayerThisTick = true
+            GAME_ENGINE.addEntity(new RestartScreen("zm_vargamble"))
+            GAME_ENGINE.options.paused = false
+        }
         this.buttons=[
             uwtButton,
-            protoButton
+            protoButton,
+            vargambleButton
         ]
     }
 
@@ -1024,7 +1031,7 @@ class ReturnScreen extends FrontEnd {
     constructor() {
         super()
         GAME_ENGINE.clearWorld(true)
-        this.timer = 3
+        this.timer = 1
         this.removeFromWorld = false
     }
 
@@ -1072,7 +1079,7 @@ class RestartScreen extends ReturnScreen {
 
 class DownloadAllSoundButton extends Button {
     constructor(posY, bottomDesc) {
-        super(posY, "Download All Audio", "Download all sounds now, removing on demand download delay. (This might be futile if your browser doesn't cache it.)")
+        super(posY, "Download All Audio", "Download all sounds now, removing on demand download delay. (Known bug: The 1st couple of rounds will have bugged audio as they async load in.)")
         this.done = false
         this.bottomDesc = bottomDesc
     }
