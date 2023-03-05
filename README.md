@@ -17,3 +17,6 @@ A 2D top down clone of Call of Duty Zombies in HTML & JavaScript featuring a rei
 - Im-Not-Crying: Hud elements spritesheet https://www.deviantart.com/im-not-crying/art/Nazi-Zombies-HUD-Elements-346013662
 - rileygombart: Player spritesheets https://opengameart.org/content/animated-top-down-survivor-player
 - rileygombart: Zombie spritesheets https://opengameart.org/content/animated-top-down-zombie
+### Known Issues
+- For Edge Users, you can hide the double left click popup menu in that same menu.
+- Firefox runs extremely poorly with constant lag spikes. It might be how Audio objects are created for each sound. We don't have a fix.
