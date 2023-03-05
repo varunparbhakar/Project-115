@@ -608,9 +608,9 @@ class WorldMap {
         this.bgmPlayer.playAmb()
 
         ////////////Radios///////////
-        GAME_ENGINE.addEntity(new Radio(852, 1525, "Assets/Audio/Interact/Radios/r_00.mp3", this))
-        GAME_ENGINE.addEntity(new Radio(1553, 1752, "Assets/Audio/Interact/Radios/r_01.mp3", this))
-        GAME_ENGINE.addEntity(new Radio(862, 501, "Assets/Audio/Interact/Radios/r_02.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(852, 1525, "Assets/Audio/Interact/Radios/radio_00.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(1553, 1752, "Assets/Audio/Interact/Radios/radio_01.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(862, 501, "Assets/Audio/Interact/Radios/radio_02.mp3", this))
     }
 }
 
