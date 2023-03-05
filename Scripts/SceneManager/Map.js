@@ -417,8 +417,8 @@ class WorldMap {
         let spawner_BLOrange2 = new SpawnerDest(528, 2335, 623, 1932, false, this, 630)
         let spawner_BLBlue1 = new SpawnerDest(703, 2302, 775, 1943, false, this, 600)
         let spawner_BLBlue2 = new SpawnerDest(875, 2297, 993, 1980, false, this, 600)
-        let spawner_BLWhite1 = new SpawnerDest(1346, 2230, 16, 10, false, this, 520)
-        let spawners_BL = [spawner_BLBar, spawner_BLOrange1, spawner_BLOrange2, spawner_BLBlue1, spawner_BLBlue2, spawner_BLWhite1]
+        // let spawner_BLWhite1 = new SpawnerDest(1346, 2230, 16, 10, false, this, 520) //TODO Fix BB between Rock and Truck, else this is unusable
+        let spawners_BL = [spawner_BLBar, spawner_BLOrange1, spawner_BLOrange2, spawner_BLBlue1, spawner_BLBlue2]
 
         ////////////Room: Museum////////////
         //Barriers
