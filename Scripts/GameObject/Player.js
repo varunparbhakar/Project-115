@@ -624,14 +624,11 @@ class Player extends GameObject {
             this.perk_hasStaminUp = false
             this.perk_hasDoubleTap = false
             //explode
-            let explosive = new ExplosiveQuickRevive(this.posX, this.posY,this.angle, 10000000, 0, 5000)
-            GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3, rgb(154, 248, 248))
-            GAME_ENGINE.addEntity(explosive)
-            explosive.explode()
-            GAME_ENGINE.camera.startShake(5, 25)
-            explosive.removeFromWorld = true
+            let nuke = new PowerUp_QuickReviveNuke(0,0)
+            nuke.givePowerUp()
             //reset health
             this.heal_currentCooldown = 0
+            this.hp = PLAYER_HP_MAX / 2
         }
 
         //screenshake

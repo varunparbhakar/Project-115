@@ -1620,7 +1620,7 @@ class PerkMachine extends MapInteract {
     }
 
     resetJingleTime() {
-        this.jingleTimer = randomInt(120) + 120
+        this.jingleTimer = randomInt(240) + 120
     }
 
     onPower() {
@@ -1728,8 +1728,6 @@ class PerkMachine_QRevive extends PerkMachine { //TODO bad inheritance, super mu
     update() {
         if (this.usesLeft <= 0) {return}
 
-        this.aud.update()
-
         if (this.jingleTimer > 0) {
             this.jingleTimer -= GAME_ENGINE.clockTick
         } else {
@@ -1766,6 +1764,7 @@ class PerkMachine_QRevive extends PerkMachine { //TODO bad inheritance, super mu
         if (!GAME_ENGINE.ent_Player.perk_hasQuickRev && this.usesLeft > 0) {
             GAME_ENGINE.ent_Player.perk_hasQuickRev = true
             this.usesLeft--
+            this.perk = "Quick Revive (uses: " + this.usesLeft + ")"
             if (this.usesLeft <= 0) {
                 this.glow.removeFromWorld = true
             }
@@ -1911,6 +1910,22 @@ class PowerUp_Nuke extends PowerUp {
         GAME_ENGINE.ent_Player.audioHandler("nuke")
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke.mp3", MIXER_POWERUP))
         GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke_vox.mp3", MIXER_POWERUP * 1.5))
+    }
+}
+
+class PowerUp_QuickReviveNuke extends PowerUp {
+    constructor(posX, posY) {
+        super(posX, posY, 42, 170, 28, 16)
+    }
+
+    givePowerUp() {
+        GAME_ENGINE.ent_Zombies.forEach((zombie) => {
+            zombie.takeDamage(zombie.hp, ZOMBIE_DMG_NOPOINTS)
+        })
+        GAME_ENGINE.ent_Player.earnPoints(400)
+        GAME_ENGINE.camera.map.hud.fullscreenFlash.flash(3, rgb(154, 248, 248))
+        GAME_ENGINE.camera.map.roundManager.curr_ZombiesSpawnDelay = 10
+        GAME_ENGINE.addEntity(new Sound("Assets/Audio/PowerUp/nuke.mp3", MIXER_POWERUP))
     }
 }
 
