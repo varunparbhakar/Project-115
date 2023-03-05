@@ -611,6 +611,9 @@ class WorldMap {
         GAME_ENGINE.addEntity(new Radio(852, 1525, "Assets/Audio/Interact/Radios/radio_00.mp3", this))
         GAME_ENGINE.addEntity(new Radio(1553, 1752, "Assets/Audio/Interact/Radios/radio_01.mp3", this))
         GAME_ENGINE.addEntity(new Radio(862, 501, "Assets/Audio/Interact/Radios/radio_02.mp3", this))
+
+        ////////////Jumpscare////////
+        GAME_ENGINE.addEntity(new JumpScare(1391, 297, 1, 1, this))
     }
 }
 
@@ -2678,5 +2681,51 @@ class Radio extends MapInteract {
 
     destroyAudio() {
         this.aud.soundDeleteGarbageCollect()
+    }
+}
+
+class JumpScare {
+    constructor(posX, posY, width, height, map) {
+        this.bb = new BoundingBox(posX * map.scale,posY * map.scale,width * map.scale,height * map.scale)
+        this.bb.updateSides()
+        this.waiting = true
+        this.timer = 1
+        this.asset = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_CJumpScare.jpg")
+    }
+
+    update() {
+        if (this.waiting) {
+            GAME_ENGINE.ent_Projectiles.forEach((entity) => {
+                if (entity instanceof Projectile) {
+                    if (this.bb.collide(entity.bb)) {
+                        this.waiting = false
+                        GAME_ENGINE.addEntity(new Sound("Assets/Audio/EE Music/Fnaf 1 Full Jumpscare Sound (192kbit_Opus).ogg", 0.9))
+                    }
+                }
+            })
+        }
+
+        if (this.waiting === false) {
+            if (this.timer > 0) {
+                this.timer -= GAME_ENGINE.clockTick
+            } else {
+                this.removeFromWorld = true
+            }
+        }
+    }
+
+    draw() {
+        if (this.waiting) {return}
+
+        GAME_ENGINE.ctx.save()
+        GAME_ENGINE.ctx.globalAlpha = Math.max(this.timer / 1, 0)
+        GAME_ENGINE.ctx.drawImage(
+            this.asset,
+            0,0,
+            GAME_ENGINE.ctx.canvas.width, GAME_ENGINE.ctx.canvas.height
+        )
+        GAME_ENGINE.ctx.restore()
+
+        this.bb.drawBoundingBox()
     }
 }
