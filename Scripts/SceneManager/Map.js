@@ -251,7 +251,8 @@ class WorldMap {
         GAME_ENGINE.addEntity(new MapBB(604,1578,51,93, this)) //pool table
         GAME_ENGINE.addEntity(new MapBB(843,1483,31,10, this)) //right wall of bar
         GAME_ENGINE.addEntity(new MapBB(874,1444,11,232, this)) //right wall of bar
-        GAME_ENGINE.addEntity(new MapBB(850,1602,21,27, this, true)) //right bottom box of bar
+        GAME_ENGINE.addEntity(new MapBB(856,1602,19,61, this, true)) //chair
+        GAME_ENGINE.addEntity(new MapBB(856,1494,19,61, this, true)) //chair
         GAME_ENGINE.addEntity(new MapBB(875,1270,10,102, this)) //top right wall of bar
         GAME_ENGINE.addEntity(new MapBB(650,1313,169,11, this, true)) //top table of bar top chairs
         GAME_ENGINE.addEntity(new MapBB(650,1356,170,12, this, true)) //top table of bar bottom chairs
@@ -602,14 +603,14 @@ class WorldMap {
         this.roundManager.start()
 
         ////////////BGM////////////
-        this.bgmPlayer = new BGMPlayer([[1648, 841], [872, 499], [1454, 1445]], this)
+        this.bgmPlayer = new BGMPlayer([[1648, 841], [1091, 760], [1454, 1445]], this)
         GAME_ENGINE.addEntity(this.bgmPlayer)
         this.bgmPlayer.playAmb()
 
         ////////////Radios///////////
-        GAME_ENGINE.addEntity(new Radio(1200, 1300, "Assets/Audio/Interact/Radios/r_00.mp3", this))
-        GAME_ENGINE.addEntity(new Radio(1200, 1400, "Assets/Audio/Interact/Radios/r_01.mp3", this))
-        GAME_ENGINE.addEntity(new Radio(1200, 1500, "Assets/Audio/Interact/Radios/r_02.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(852, 1525, "Assets/Audio/Interact/Radios/r_00.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(1553, 1752, "Assets/Audio/Interact/Radios/r_01.mp3", this))
+        GAME_ENGINE.addEntity(new Radio(862, 501, "Assets/Audio/Interact/Radios/r_02.mp3", this))
     }
 }
 
