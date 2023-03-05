@@ -649,19 +649,19 @@ class MapSelMenu extends FrontEnd {
         this.cursor = cursor
 
         let offset = 750
-        let uwtButton = new GeneralButton("UWTown", "A reimagining of BO2 Town. How long can you survive from the Gigatron?", FE_X + offset, FE_Y + 150)
+        let uwtButton = new GeneralButtonMap("UWTown", "A reimagining of BO2 Town. How long can you survive from the Gigatron?", FE_X + offset, FE_Y + 150, ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/DLC1_ForeOff.png"), 1)
         uwtButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen())
             GAME_ENGINE.options.paused = false
         }
-        let protoButton = new GeneralButton("Prototype", "Our prototype level. It has the box, perks, & PaP, but expect missing textures.", FE_X + offset, FE_Y + 300)
+        let protoButton = new GeneralButtonMap("Prototype", "Our prototype level. It has the box, perks, & PaP, but expect missing textures.", FE_X + offset, FE_Y + 300, ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/Map1.png"), 1)
         protoButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen("proto"))
             GAME_ENGINE.options.paused = false
         }
-        let vargambleButton = new GeneralButton("zm_vargamble", "my first zombies map", FE_X + offset, FE_Y + 400)
+        let vargambleButton = new GeneralButtonHidden("zm_vargamble", "Woah there, you found a hidden secret! this my bo3 first zombies map, enjoy!!1!", FE_X + offset, FE_Y + 400)
         vargambleButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen("zm_vargamble"))
@@ -838,6 +838,22 @@ class GeneralButton extends FrontEnd {
         bottomDesc.hudText(this.hud)
     }
 
+}
+
+class GeneralButtonHidden extends GeneralButton {
+    draw() {}
+}
+
+class GeneralButtonMap extends GeneralButton {
+    constructor(title, hud, x, y, asset, scale, hoverIsOn = true, selected = false) {
+        super(title, hud, x, y, hoverIsOn, selected)
+        this.anim = new Animator(asset, 0, 0, asset.width, asset.height, 1, 1, scale)
+    }
+
+    hover1(bottomDesc) {
+        super.hover1(bottomDesc);
+        this.anim.drawFrame(FE_X + 500, FE_Y)
+    }
 }
 
 

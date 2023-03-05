@@ -1,3 +1,5 @@
+BARRIER_HOVERSND_1 = null
+BARRIER_HOVERSND_2 = null
 class WorldMap {
     /**
      *
@@ -12,6 +14,10 @@ class WorldMap {
     }
 
     loadLevel(level) {
+        BARRIER_HOVERSND_1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.2, 0, 0, 700, false, 0, false)
+        BARRIER_HOVERSND_2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, 0, 0, 1000, false, 0, false)
+        GAME_ENGINE.addEntity(BARRIER_HOVERSND_1)
+        GAME_ENGINE.addEntity(BARRIER_HOVERSND_2)
         switch (level) {
             case "proto" :
                 this.level1()
@@ -668,7 +674,9 @@ class WorldMap {
         let spawnersMain = [spawnerBarrierW, spawnerBarrierN, spawnerBarrierE]
 
         //Doors
-        let door = new Door(411, 540, 225, 21, 2000, spawnersMain, this)
+        asset = ASSET_MANAGER.getAsset("Assets/Images/Map/Levels/zm_vargamble_door.jpg")
+        anim = new MapInteractAnimator(new Animator(asset, 0,0, asset.width, asset.height, 1, 1, this.scale), 337, 336, this)
+        let door = new Door(411, 540, 225, 21, 2000, spawnersMain, this, anim)
         GAME_ENGINE.addEntity(door)
 
         //Guns
@@ -934,10 +942,6 @@ class Barrier {
         this.animator = new AnimatorRotate(this.asset, 0, 0, BARRIER_IMAGE_DIMENSIONS, BARRIER_IMAGE_DIMENSIONS, 6, 1, 1, 1) //TODO this is hard coded scale based on img size of 260
 
         let center = this.bb.getCenteredPos()
-        this.hoverSound1 = new WorldSound("Assets/Audio/Interact/Barrier/float_00.mp3", 0.2, center[0], center[1], 700, false, 0, false)
-        this.hoverSound2 = new WorldSound("Assets/Audio/Interact/Barrier/repair_00.mp3", 0.4, center[0], center[1], 1000, false, 0, false)
-        GAME_ENGINE.addEntity(this.hoverSound1)
-        GAME_ENGINE.addEntity(this.hoverSound2)
     }
 
     update() {
@@ -992,8 +996,13 @@ class Barrier {
         if (this.hp > BARRIER_MAX_HP) { //clamp
             this.hp = BARRIER_MAX_HP
         } else {
-            this.hoverSound1.tryPlayOnlyIfPaused()
-            this.hoverSound2.tryPlayOnlyIfPaused()
+            let center = this.bb.getCenteredPos()
+            BARRIER_HOVERSND_1.posX = center[0]
+            BARRIER_HOVERSND_1.posY = center[1]
+            BARRIER_HOVERSND_2.posX = center[0]
+            BARRIER_HOVERSND_2.posY = center[1]
+            BARRIER_HOVERSND_1.tryPlayOnlyIfPaused()
+            BARRIER_HOVERSND_2.tryPlayOnlyIfPaused()
         }
         if(Math.floor(this.oldBarrierHP) != Math.floor(this.hp)) {
             let center = this.bb.getCenteredPos()
