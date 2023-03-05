@@ -44,6 +44,7 @@ class GameEngine {
             mainMenu_options_cheats: false,
             mainMenu_options_aspectRatio: "169", //"219"
             fullscreen: false,
+            drawHud: true,
         };
 
         this.globalVolume = 1
@@ -184,21 +185,11 @@ class GameEngine {
                         console.log("Player Money")
                     }
                     break
-                // case "KeyB":
-                //     this.ctx.canvas.width = 1080
-                //     this.ctx.canvas.height = 1080
-                //     this.ctx.imageSmoothingEnabled = false
-                //     break
-                // case "KeyN":
-                //     this.ctx.canvas.width = 1920
-                //     this.ctx.canvas.height = 1080
-                //     this.ctx.imageSmoothingEnabled = false
-                //     break
-                // case "KeyM":
-                //     this.ctx.canvas.width = 2560
-                //     this.ctx.canvas.height = 1440
-                //     this.ctx.imageSmoothingEnabled = false
-                //     break
+                case "KeyM":
+                    if (GAME_ENGINE.options.mainMenu_options_cheats) {
+                        this.options.drawHud = !this.options.drawHud
+                    }
+                    break
                 case "Escape":
                     if (this.ent_Player != null && this.ent_Player.alive) {
                         this.options.paused = !this.options.paused

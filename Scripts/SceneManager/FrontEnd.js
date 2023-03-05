@@ -277,6 +277,7 @@ class PauseMenu extends FrontEnd { //TODO inheritance
                 GAME_ENGINE.ctx.fillText("I - God", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70+ (60*2))
                 GAME_ENGINE.ctx.fillText("U - Draw Spawners Radius", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70+ (60*3))
                 GAME_ENGINE.ctx.fillText("L - Insta Points", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70+ (60*4))
+                GAME_ENGINE.ctx.fillText("M - Toggle HUD", FE_X + statsOffsetX + 800, FE_Y + 70 + 60 + 150 + 70+ (60*5))
             }
 
             GAME_ENGINE.ctx.restore()

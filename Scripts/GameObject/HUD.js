@@ -37,7 +37,8 @@ class HUD {
     }
 
     draw() {
-        if (GAME_ENGINE.ent_Player == null || !GAME_ENGINE.ent_Player.alive) return
+        if (GAME_ENGINE.ent_Player == null || !GAME_ENGINE.ent_Player.alive) {return}
+        if (!GAME_ENGINE.options.drawHud) {return}
         try {
             this.fullscreenLava.draw()
             this.fullscreenRedHurt.draw()
