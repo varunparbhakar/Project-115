@@ -1163,7 +1163,7 @@ class WallBuyTrigger {
                 GAME_ENGINE.ent_Player.losePoints(this.costCurrent)
             }
             this.hasIntractedCooldown = 1
-        } else {
+        } else if (this.hasIntractedCooldown <= 0) {
             GAME_ENGINE.ent_Player.audioHandler("noMoney")
         }
     }
