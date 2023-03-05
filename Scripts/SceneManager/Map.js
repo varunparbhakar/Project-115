@@ -2403,6 +2403,7 @@ class RoundManager {
     reportPlayerDeath() {
         GAME_ENGINE.addEntity(new DieScreen);
         //music
+        GAME_ENGINE.camera.map.bgmPlayer.musAud.aud.pause()
         //camera panning
     }
 }
