@@ -649,14 +649,21 @@ class MapSelMenu extends FrontEnd {
         this.cursor = cursor
 
         let offset = 750
-        let uwtButton = new GeneralButton("UWTown", "A reimagining of BO2 Town.", FE_X + offset, FE_Y + 150)
+        let uwtButton = new GeneralButton("UWTown", "A reimagining of BO2 Town. How long can you survive from the Gigatron?", FE_X + offset, FE_Y + 150)
         uwtButton.use = () => {
             GAME_ENGINE.dontUpdatePlayerThisTick = true
             GAME_ENGINE.addEntity(new RestartScreen())
             GAME_ENGINE.options.paused = false
         }
+        let protoButton = new GeneralButton("Prototype", "Our prototype level. It has the box, perks, & PaP, but expect missing textures.", FE_X + offset, FE_Y + 250)
+        protoButton.use = () => {
+            GAME_ENGINE.dontUpdatePlayerThisTick = true
+            GAME_ENGINE.addEntity(new RestartScreen("proto"))
+            GAME_ENGINE.options.paused = false
+        }
         this.buttons=[
-            uwtButton
+            uwtButton,
+            protoButton
         ]
     }
 
@@ -1053,8 +1060,13 @@ class ReturnScreen extends FrontEnd {
 }
 
 class RestartScreen extends ReturnScreen {
+    constructor(levelString="dlc1") {
+        super();
+        this.levelString = levelString
+    }
+
     onTimerComplete() {
-        GAME_ENGINE.addEntity(new SceneManager());
+        GAME_ENGINE.addEntity(new SceneManager(this.levelString));
     }
 }
 

@@ -5,7 +5,7 @@ class SceneManager {
     //TODO Round Manager
     //TODO Scoreboard
 
-    constructor() {
+    constructor(levelString="dlc1") {
         //Camera
         GAME_ENGINE.camera = this;
         this.posX = 0;
@@ -15,7 +15,7 @@ class SceneManager {
         this.isTrackingPlayer = true
 
         //Map
-        this.changeLevel("level1") //TODO TITLE
+        this.changeLevel(levelString) //TODO TITLE
     }
 
     /**
@@ -50,10 +50,13 @@ class SceneManager {
     changeLevel(level) {
         GAME_ENGINE.clearWorld()
         switch (level) {
-            case "title":
+            case "dlc1":
+                this.map = new WorldMap(0,0, "dlc1")
+                this.player = this.map.player
+                GAME_ENGINE.addEntity(new PauseMenu())
                 break;
-            case "level1":
-                this.map = new WorldMap(0,0, "level2")
+            case "proto":
+                this.map = new WorldMap(0,0, "proto")
                 this.player = this.map.player
                 GAME_ENGINE.addEntity(new PauseMenu())
                 break;

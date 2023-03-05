@@ -4,7 +4,7 @@ class WorldMap {
      * @param posX from top left
      * @param posY from top left
      */
-    constructor(posX, posY, level=null) {
+    constructor(posX, posY, level="dlc1") {
         Object.assign(this, {posX, posY,})
         if (level != null) {
             this.loadLevel(level)
@@ -13,10 +13,10 @@ class WorldMap {
 
     loadLevel(level) {
         switch (level) {
-            case "level1" :
+            case "proto" :
                 this.level1()
                 break;
-            case "level2" :
+            case "dlc1" :
                 this.level2()
                 break;
         }
@@ -142,6 +142,11 @@ class WorldMap {
         this.roundManager = new RoundManager(room1Spawners)
         GAME_ENGINE.addEntity(this.roundManager)
         this.roundManager.start()
+
+        ////////////BGM////////////
+        this.bgmPlayer = new BGMPlayer([], this)
+        GAME_ENGINE.addEntity(this.bgmPlayer)
+        this.bgmPlayer.playAmb()
     }
 
     level2() {
@@ -1496,9 +1501,13 @@ class PowerSwitch extends MapInteract {
                     entity.onPower()
                 }
             })
-            GAME_ENGINE.ent_MapBackground.onPower()
+            try {
+                GAME_ENGINE.ent_MapBackground.onPower()
+            } catch (e) {
+
+            }
             GAME_ENGINE.ent_MapForeground.forEach((entity) => {
-                if (entity instanceof MapLayer_Power) {
+                if (entity instanceof MapLayer_ForegroundPower || entity instanceof MapLayer_BackgroundPower) {
                     entity.onPower()
                 }
             })
@@ -2317,7 +2326,6 @@ class RoundManager {
     }
 
     update() {
-        GAME_ENGINE.camera.map.bgmPlayer.resumeAmb()//TODO remove this call (after implementing title screen
         if (this.curr_Round === 0) return
         if (this.listOfEnabledSpawns.length === 0) return
         //Spawn Zombie
@@ -2497,9 +2505,11 @@ class PaPBuildablePart extends MapInteract {
 }
 
 class BGMPlayer {
-    constructor(eePartsPosList = null, map) {
-        this.ambAud = new Sound("Assets/Audio/BGM/amb1.mp3", MIXER_AMB_VOL, 1, 0, false)
-        this.musAud = new Sound("Assets/Audio/BGM/EESong.mp3", MIXER_MUSIC_VOL, 0, 0, false) //TODO
+    constructor(eePartsPosList = null, map,
+                ambPath="Assets/Audio/BGM/amb1.mp3",
+                musPath="Assets/Audio/BGM/EESong.mp3") {
+        this.ambAud = new Sound(ambPath, MIXER_AMB_VOL, 1, 0, false)
+        this.musAud = new Sound(musPath, MIXER_MUSIC_VOL, 0, 0, false) //TODO
         GAME_ENGINE.addEntity(this.ambAud)
         GAME_ENGINE.addEntity(this.musAud)
 
@@ -2525,10 +2535,6 @@ class BGMPlayer {
     stopAmb() {
         //TODO fade out
         this.ambAud.aud.pause()
-    }
-
-    playMusic() {
-
     }
 
     duckAmbForSec(sec) {
