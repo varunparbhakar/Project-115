@@ -1,4 +1,4 @@
-<img src="Assets/Images/Logo.png" alt="Project 115" width="300" height="200" style="display: block; margin: 0 auto"> <br>
+<img src="Assets/Images/Logo.png" alt="Project 115" width="300" height="150" style="display: block; margin: 0 auto"> <br>
 ## Play Now
 https://varunparbhakar.github.io/JavaScriptGame/
 ### About
