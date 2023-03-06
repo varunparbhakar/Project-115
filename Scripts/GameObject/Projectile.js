@@ -450,13 +450,13 @@ class RaycastExplosiveZombie extends RaycastExplosive {
 }
 
 class MuzzleFlash {
-    constructor(posX, posY, angle, specialFlashPath = "", width = 0, height = 0) {
+    constructor(posX, posY, angle, specialFlashPath = "") {
         Object.assign(this, {posX, posY, angle})
         this.decayTime = 0.05
         if(specialFlashPath == "") {
             this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset("Assets/Images/Items/Muzzle_Flash_Pistol.png"), 0, 0, 800, 800, angle-1.6, 1, 1, 1)
         } else {
-            this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(specialFlashPath), 0, 0, width, height, angle-1.6, 1, 1, 1)
+            this.animator = new AnimatorRotateOnce(ASSET_MANAGER.getAsset(specialFlashPath), 0, 0, 800, 800, angle-1.6, 1, 1, 1)
         }
 
         // //position randomness

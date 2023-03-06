@@ -33,6 +33,7 @@ var lines = [
 "Assets/Images/Items/Grenade.png",
 "Assets/Images/Items/Muzzle_Flash_Pistol.png",
 "Assets/Images/Items/Muzzle_Flash_RayGun.png",
+	"Assets/Images/Items/Muzzle_Flash_PaP.png",
 "Assets/Images/Items/guns.png",
 "Assets/Images/Items/guns_pap.png",
 "Assets/Images/Items/guns_wall.png",

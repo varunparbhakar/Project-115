@@ -466,12 +466,13 @@ class Gun {
         this.isReloading = false
     }
 
-    spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
+    spawnMuzzleFlash(posX, posY, angle, specialFlash = "") {
         let gunOffset = this.getMuzzle_Offset(this.animationType)
         let gunOffsetAngle = this.getMuzzle_Angle(this.animationType)
         let unitV = getUnitVector(posX, posY, GAME_ENGINE.getMouseWorldPosX(), GAME_ENGINE.getMouseWorldPosY())
         let pos = [posX + (unitV[0] * gunOffset), posY + (unitV[1] * gunOffset)]
-        GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle, specialFlash, w, h))
+
+        GAME_ENGINE.addEntity(new MuzzleFlash(pos[0], pos[1], angle + gunOffsetAngle, (this.isPaP ? "Assets/Images/Items/Muzzle_Flash_PaP.png" : specialFlash)))
 
         //smoke
         GAME_ENGINE.addEntity(new GunSmokeParticle(pos[0], pos[1]))
@@ -2200,8 +2201,8 @@ class Gun_RayGun extends Gun_T_Explode { //Pistol
         GAME_ENGINE.addEntity(new RayGunBullet(posX, posY, this.getSpreadAngle(angle), this.getDamage(), this.bulletSpeed, this.splashRadius))
     }
 
-    spawnMuzzleFlash(posX, posY, angle, specialFlash = "Assets/Images/Items/Muzzle_Flash_RayGun.png", w = 0, h = 0) {
-        super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);
+    spawnMuzzleFlash(posX, posY, angle, specialFlash = "Assets/Images/Items/Muzzle_Flash_RayGun.png") {
+        super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png");
     }
 }
 //Special
@@ -2235,7 +2236,7 @@ class Gun_RayGun_PaP extends Gun_T_Explode { //Pistol
     }
 
     spawnMuzzleFlash(posX, posY, angle, specialFlash = 0, w = 0, h = 0) {
-        super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png", 800, 800);
+        super.spawnMuzzleFlash(posX, posY, angle, "Assets/Images/Items/Muzzle_Flash_RayGun.png");
     }
 }
 
