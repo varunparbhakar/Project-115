@@ -98,7 +98,7 @@ class MainMenu extends FrontEnd {
             else this.submenu = new creditsPanel(this.cursor, this.bottomDesc)
         }
         
-        this.submenu = new creditsPanel(this.cursor, this.bottomDesc)
+        this.submenu = null
 
         this.buttons=[
             playButton,
