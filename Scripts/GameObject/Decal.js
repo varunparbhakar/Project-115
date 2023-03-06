@@ -40,7 +40,7 @@ class BloodDecal extends Decal {
         super(
             new Animator("Assets/Images/Items/blood0" + randomInt(3) +  ".png", 0,0,100,100,1,1, (Math.random() * 1.5) + 1,false,false),
             posX, posY,
-            15
+            10
         );
     }
 
@@ -200,7 +200,7 @@ class CorpseDecal extends Decal {
         super(
             new AnimatorRotate(ASSET_MANAGER.getAsset("Assets/Images/Characters/Zombies/Corpse0.png"), 0,0,318,318,1,1,1),
             posX, posY,
-            30
+            5
         );
         this.angle = angle + ZOMBIE_ANGLE_OFFSET + getDegreesToRadians((Math.random() - 0.5) * 15)
         this.velX = (Math.random() - 0.5) * 2
