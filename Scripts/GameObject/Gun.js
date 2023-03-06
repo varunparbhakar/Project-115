@@ -569,7 +569,12 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
         super.update()
 
         if (this.isShellReloading) {
-            if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) { //full or empty
+            if (this.cancelReload && this.currentReloadTime <= 0) {
+                this.currentMagazineAmmo++
+                this.currentTotalAmmo--
+                this.cancelReload = false
+                this.isShellReloading = false
+            } else if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) { //full or empty
                 this.isShellReloading = false
                 GAME_ENGINE.ent_Player.animator.finishedAnimation = true
                 this.currentReloadTime = 0
@@ -589,12 +594,16 @@ class Gun_T_ShotgunReloadShell extends Gun_T_Shotgun { //ABSTRACT
     }
 
     shoot(posX, posY, angle) {
-        this.isShellReloading = false
+        if (!GAME_ENGINE.last_left_click) {
+            this.cancelReload = true
+        }
 
         return super.shoot(posX, posY, angle)
     }
 
     reload() {
+        this.cancelReload = false
+
         if (this.currentMagazineAmmo === this.magazineSize || this.currentTotalAmmo <= 0) {
             return false
         }
