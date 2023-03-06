@@ -2,6 +2,11 @@ class FrontEnd {
     constructor() {
         //For ez GAME_ENGINE addEntity
     }
+
+    getTextSize(text) {
+        GAME_ENGINE.ctx.font = 'bold 60px arial'
+        return  GAME_ENGINE.ctx.measureText(text).width
+    }
 }
 
 class DoneLoadingScreen extends FrontEnd {
@@ -60,7 +65,6 @@ const FE_Y_BUTTON = FE_Y + 150
 class MainMenu extends FrontEnd {
     constructor() {
         super();
-
         this.cursor = new BoundingBox(0,0, 1,1)
         this.cursor.updateSides()
         this.lastLeftClick = GAME_ENGINE.left_click
@@ -87,12 +91,22 @@ class MainMenu extends FrontEnd {
             if (this.submenu instanceof MapSelMenu) this.submenu = undefined
             else this.submenu = new MapSelMenu(this.cursor, this.bottomDesc)
         }
+
+        let creditsButton = new Credits(FE_Y_BUTTON + 600, this.bottomDesc)
+        creditsButton.use = () => {
+            if (this.submenu instanceof creditsPanel) this.submenu = undefined
+            else this.submenu = new creditsPanel(this.cursor, this.bottomDesc)
+        }
+        
+        this.submenu = new creditsPanel(this.cursor, this.bottomDesc)
+
         this.buttons=[
             playButton,
             optionsButton,
             controlsButton,
             new FullscreenButton(FE_Y_BUTTON + 300, this.bottomDesc),
-            new DownloadAllSoundButton(FE_Y_BUTTON + 500, this.bottomDesc)
+            new DownloadAllSoundButton(FE_Y_BUTTON + 500, this.bottomDesc),
+            creditsButton,
         ]
         // this.title = "Project 115"
 
@@ -553,11 +567,6 @@ class OptionsMenu extends FrontEnd {
         this.backGroundPanel = new Panel(800, 180, 1400, 1050)
     }
 
-    getTextSize(text) {
-        GAME_ENGINE.ctx.font = 'bold 60px arial'
-        return  GAME_ENGINE.ctx.measureText(text).width
-    }
-
     update() {
         for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].update()
@@ -709,10 +718,13 @@ class MapSelMenu extends FrontEnd {
 }
 
 class Button extends FrontEnd {
-    constructor(posY, text, description, posX=FE_X) {
+    constructor(posY, text, description, posX=FE_X, underlined) {
         super();
         Object.assign(this, {posX, posY, text, description})
-        this.bb = new BoundingBox(posX, posY - 50, 600, 60)
+        this.underlined = underlined
+        this.split = this.text.split("\n");
+        this.width = this.getTextSize(this.split[0])
+        this.bb = new BoundingBox(posX, posY - 50, this.width, this.split.length*60)
         this.hover = false
     }
 
@@ -721,8 +733,8 @@ class Button extends FrontEnd {
     }
 
     draw() {
-        let width = GAME_ENGINE.ctx.canvas.width
-        let height = GAME_ENGINE.ctx.canvas.height
+        // let width = GAME_ENGINE.ctx.canvas.width
+        // let height = GAME_ENGINE.ctx.canvas.height
         GAME_ENGINE.ctx.save()
         GAME_ENGINE.ctx.font = 'bold 60px arial'
         GAME_ENGINE.ctx.fillStyle = this.hover ? "yellow" : "white"
@@ -732,12 +744,20 @@ class Button extends FrontEnd {
         GAME_ENGINE.ctx.shadowBlur = 5
         GAME_ENGINE.ctx.shadowOffsetX = 5;
         GAME_ENGINE.ctx.shadowOffsetY = 5;
-        GAME_ENGINE.ctx.fillText(this.text, this.posX, this.posY)
+
+        let height = 70
+        for(let i = 0; i < this.split.length; i++){
+            GAME_ENGINE.ctx.fillText(this.split[i].trimStart(), this.posX, (this.posY+(height*i)))
+            this.width = this.getTextSize(this.split[i])
+            if(this.underlined) GAME_ENGINE.ctx.fillRect(this.posX, (this.posY+(height*i)), this.width, 5);
+        }
+
         GAME_ENGINE.ctx.restore()
 
         
         this.bb.drawBoundingBox()
     }
+
 
     use() {
         console.log(this.text, "clicked")
@@ -1451,3 +1471,91 @@ const ASSETS_AUDIO_LIST = [
     "Assets/Audio/Zombie/Hit/swipe_01.mp3",
     "Assets/Audio/Zombie/Hit/swipe_04.mp3"
 ]
+
+class Credits extends Button {
+    constructor(posY, bottomDesc) {
+        super(posY, "Credits", "Display credits of the game.");
+    }
+
+    use() {
+        console.log("YO")
+        console.log("Y2O")
+    }
+}
+
+class RedirectToLinkButton extends Button {
+    constructor(posX, posY, title, desc, underlined) {
+        super(posY, title, desc, posX, underlined);
+    }
+
+    use() {
+        window.open("https://github.com/varunparbhakar/JavaScriptGame#other");
+
+    }
+}
+
+class creditsPanel extends FrontEnd {
+    constructor(cursor, bottomDesc) {
+        super();
+        this.bottomDesc = bottomDesc
+        this.cursor = cursor
+        
+        this.labelText = [
+            "Developed By:",
+            "- Team Blue 5",
+            "- Yacine B",
+            "- David H",
+            "- Varun P",
+
+            "Other credits:",
+            "Please visit our github to view all other folks \n that we'd like to thank!", 
+
+            "Thank you all for playing!", 
+        ]
+        this.labels = []
+        this.buttons = []
+
+        this.labels.push(new Label(850, 260 + (0), this.labelText[0]))
+        this.labels.push(new Label(850, 260 + (100), this.labelText[1]))
+        this.labels.push(new Label(850, 260 + (200), this.labelText[2]))
+        this.labels.push(new Label(850, 260 + (300), this.labelText[3]))
+        this.labels.push(new Label(850, 260 + (400), this.labelText[4]))
+
+        this.labels.push(new Label(850, 260 + (600), this.labelText[5]))
+        this.buttons.push(new RedirectToLinkButton(850, 260 + (700), this.labelText[6], "Visit our Github to view other folks we'd like to credit!", true))
+
+        this.labels.push(new Label(850, 260 + (920), this.labelText[7]))
+        
+        this.backGroundPanel = new Panel(800, 180, 1400, 1050)
+    }
+
+    update() {
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].update()
+            if (this.cursor.collide(this.buttons[i].bb)) {
+                this.buttons[i].hover1(this.bottomDesc)
+                if (this.tryClick()) {
+                    this.buttons[i].use()
+                }
+            }
+        }
+        this.lastLeftClick = GAME_ENGINE.left_click
+    }
+
+    draw() {
+        this.backGroundPanel.draw()
+
+        for (let i = 0; i < this.labels.length; i++) {
+            this.labels[i].draw()
+        }
+
+
+        for (let i = 0; i < this.buttons.length; i++) {
+            this.buttons[i].draw()
+        }
+    }
+
+    tryClick() {
+        return this.lastLeftClick == false && GAME_ENGINE.left_click
+    }
+}
