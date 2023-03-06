@@ -9,6 +9,7 @@ A 2D top down clone of Call of Duty Zombies in HTML & JavaScript featuring a rei
 - David Huynh: Coding, Music, Textures, Mapping, Voice Acting <br>
 - Yacine Bennour: Coding, Mapping, UX Designer <br>
 ### Other
+- Chris Marriott: Empty Javascript Game Engine https://github.com/algorithm0r/Empty--GameEngine
 - Treyarch: CoD Zombies, WaW Gun Sounds, BO1 Gun Sounds, Perk Music
   - https://steamcommunity.com/sharedfiles/filedetails/?id=948510972
   - https://steamcommunity.com/sharedfiles/filedetails/?id=1832129908
