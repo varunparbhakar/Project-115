@@ -131,7 +131,7 @@ class Bullet extends Projectile {
                 let intersectionDepth = this.bc.collide(entity.bc_Movement)
                 if (intersectionDepth < 0) {
                     entity.takeDamage(this.damage, ZOMBIE_DMG_SHOT)
-                    GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Guns/hitmarker.mp3",1))
+                    // GAME_ENGINE.addEntity(new Sound("Assets/Audio/SFX/Guns/hitmarker.mp3",1))
                     this.removeFromWorld = true
                 }
             }
