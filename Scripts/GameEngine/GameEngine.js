@@ -339,8 +339,12 @@ class GameEngine {
             document.body.style.overflow = 'hidden';
             this.ctx.canvas.width = window.innerWidth
             this.ctx.canvas.height = window.innerHeight
-            this.ctx.imageSmoothingEnabled = false
+        } else {
+            this.ctx.canvas.className = "window"
+            document.body.scrollTop = 0;
+            document.body.style.overflow = 'auto';
         }
+        this.ctx.imageSmoothingEnabled = false
 
         //volume
         this.globalVolume = document.getElementById("volume").value
