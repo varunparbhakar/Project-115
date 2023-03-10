@@ -2,7 +2,9 @@
 ## Play Now
 https://varunparbhakar.github.io/JavaScriptGame/
 ### About
-A 2D top down clone of Call of Duty Zombies in HTML & JavaScript featuring a reimagine of BO2 Town, WaW and BO1 guns, custom made music and scuffed voice acting.
+A 2D top down clone of Call of Duty Zombies in HTML & JavaScript featuring a reimagine of BO2 Town, WaW and BO1 guns, custom made music and scuffed voice acting. <br>
+### Trailer
+[![Trailer](https://i.ytimg.com/vi/tio99lsWwMc/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBQ3PfIrlQzoRN4-letMlw4Kz5hTg)](https://www.youtube.com/watch?v=tio99lsWwMc)
 ## Credits
 ### TCSS 491 A - Blue 5 
 - Varun Parbhakar: Coding, Textures, Mapping, Voice Acting<br>
