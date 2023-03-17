@@ -9,6 +9,7 @@ A 2D top down clone of Call of Duty Zombies in HTML & JavaScript featuring a rei
 ### TCSS 491 A - Blue 5 
 - Varun Parbhakar: Coding, Textures, Mapping, Voice Acting<br>
 - David Huynh: Coding, Music, Textures, Mapping, Voice Acting <br>
+  - OST: https://soundcloud.com/david-huynh-136271687/sets/project-115-ost
 - Yacine Bennour: Coding, Mapping, UX Designer <br>
 ### Other
 - Chris Marriott: Empty Javascript Game Engine https://github.com/algorithm0r/Empty--GameEngine
